@@ -8,6 +8,7 @@ auth.json
 *.key
 
 # Dependencias y archivos generados
+/.tools/
 vendor/
 node_modules/
 /sistema/public/build/

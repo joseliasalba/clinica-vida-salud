@@ -16,7 +16,7 @@ Proyecto universitario de Ingeniería de Requisitos / SI1: sistema web de gesti�
 - HTML y CSS; Blade como propuesta para las pantallas.
 - JavaScript para mejorar los formularios cuando sea necesario.
 
-Las versiones de PHP y Laravel se fijarán al preparar el entorno ejecutable de ambos integrantes. Los archivos de dependencias y sus lockfiles se incorporarán con la aplicación.
+Entorno elegido: PHP 8.4, Composer 2, Laravel 13, PostgreSQL 17 y Node.js 24. El script de preparación está disponible, pero su ejecución y la aplicación siguen pendientes por falta de acceso de red desde la terminal de trabajo. Los archivos de dependencias y sus lockfiles se incorporarán con la aplicación.
 
 ## Organización
 
@@ -27,6 +27,7 @@ Las versiones de PHP y Laravel se fijarán al preparar el entorno ejecutable de 
 | `docs/entorno.md` | Estado de herramientas y preparación local |
 | `CONTRIBUTING.md` | Flujo de trabajo para el equipo |
 | `.github/` | Plantillas de tareas y pull requests |
+| `scripts/` | Preparación y activación del entorno Windows |
 | `sistema/` | Ubicación prevista para Laravel; se creará con Composer |
 
 ## Alcance
