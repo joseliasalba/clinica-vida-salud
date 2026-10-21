@@ -1,0 +1,45 @@
+# Entorno y credenciales locales
+.env
+.env.*
+!.env.example
+!.env.*.example
+auth.json
+*.pem
+*.key
+
+# Dependencias y archivos generados
+vendor/
+node_modules/
+/sistema/public/build/
+/sistema/public/hot
+/sistema/public/storage
+/sistema/storage/*.key
+/sistema/storage/app/private/*
+!/sistema/storage/app/private/.gitignore
+/sistema/storage/framework/cache/*
+/sistema/storage/framework/sessions/*
+/sistema/storage/framework/views/*
+/sistema/storage/logs/*
+/sistema/bootstrap/cache/*.php
+
+# Pruebas y herramientas
+.phpunit.result.cache
+.phpunit.cache/
+.phpactor.json
+coverage/
+.idea/
+.vscode/
+
+# Datos locales y copias de seguridad
+*.log
+*.sqlite
+*.sqlite3
+*.dump
+*.backup
+*.bak
+*.mdj~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini

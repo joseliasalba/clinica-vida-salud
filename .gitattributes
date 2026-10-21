@@ -1,0 +1,14 @@
+* text=auto eol=lf
+*.md text eol=lf
+*.mdj text eol=lf
+*.php text eol=lf
+*.sql text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.docx binary
