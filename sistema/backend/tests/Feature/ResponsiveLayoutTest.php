@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Especialidad;
 use App\Models\Paciente;
 use App\Models\User;
 use DOMDocument;
@@ -23,7 +24,8 @@ class ResponsiveLayoutTest extends TestCase
         $this->loginManager();
         Paciente::factory()->create(['ci' => '001234AB', 'nombres' => 'María de los Ángeles', 'apellidos' => str_repeat('Apellido ', 12)]);
         User::factory()->create(['correo' => str_repeat('correo', 35).'@example.test']);
-        foreach (['/pacientes', '/usuarios', '/roles', '/permisos'] as $url) {
+        Especialidad::factory()->create(['nombre' => str_repeat('Especialidad ', 18), 'descripcion' => str_repeat('Descripción ', 20)]);
+        foreach (['/pacientes', '/usuarios', '/roles', '/permisos', '/especialidades'] as $url) {
             $response = $this->get($url)->assertOk();
             $xpath = $this->xpath($response->getContent());
             $this->assertSame(1, $xpath->query('//table[@role="table"]')->length, $url);

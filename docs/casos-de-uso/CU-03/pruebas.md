@@ -4,6 +4,8 @@
 
 Resultado del 22/10/2026: batería completa aprobada, **110 pruebas y 1301 aserciones**. Compilación Vite correcta. Migración aplicada al entorno local; portada, registro y CSS responden HTTP 200. Estos resultados incluyen la regresión de los módulos previos y no equivalen a revisión visual ni a entrega SMTP real.
 
+Integración posterior con `chore/entorno-desarrollo`, el mismo día: **124 pruebas y 1535 aserciones aprobadas**. Incluye las 14 pruebas de especialidades y el listado adaptado a los componentes móviles compartidos. Formato Pint y compilación Vite correctos; portada, registro y CSS responden HTTP 200. CU-07 sigue pausado y no se contabilizan sus borradores como funciones implementadas. La revisión visual de la integración y la entrega SMTP real siguen pendientes.
+
 Desde `sistema/backend`, con el PHP del proyecto:
 
 ```powershell

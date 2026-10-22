@@ -39,6 +39,7 @@
     .public-actions .button { flex: 1 1 14rem; }
     .public-section-heading { align-items: flex-start; flex-direction: column; }
     .registration-shell { margin-block-start: 8px; }
+    .specialty-state-change { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) { .button { transition: none; }.button:active { scale: 1; } }

@@ -1,6 +1,8 @@
 # Catálogo de casos de uso
 
-La numeración original queda confirmada por el usuario: CU-03 es autorregistro; CU-04, gestión de pacientes en recepción; CU-05, gestión de médicos y especialidades; CU-06, horarios; CU-07, disponibilidad y reserva; y CU-11, agenda médica. El caso «Gestionar médicos», rotulado CU-04 en la referencia de `chore`, corresponde a nuestro CU-05. El catálogo de especialidades también pertenece al CU-05 y no sustituye el autorregistro CU-03.
+## Numeración acordada
+
+El usuario confirmó el 22/10/2026 mantener la numeración original del proyecto. CU-03 corresponde al autorregistro de pacientes; CU-04, a la gestión de pacientes en recepción; CU-05, a médicos y especialidades; CU-06, a horarios; CU-07, a disponibilidad y reserva; y CU-11, a agenda médica. Esta decisión reemplaza el catálogo alternativo que se usó anteriormente en esta rama.
 
 Los códigos CU son propios del proyecto y no sustituyen los RF del enunciado. Cada caso tiene una carpeta directa `CU-XX/` con `especificacion.md`, `dependencias.md` y `pruebas.md`; se usa `PLANTILLA.md` para la especificación. Los ciclos se indican aquí, sin anidar casos dentro de otros casos ni de carpetas de entregas.
 
@@ -37,8 +39,9 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 | CU-02 | Auth | [Especificación](CU-02/especificacion.md) | [Trazabilidad](CU-02/dependencias.md) | [Pruebas](CU-02/pruebas.md) | Usuarios, roles y permisos implementados y probados; revisión visual pendiente |
 | CU-03 | Pacientes | [Especificación](CU-03/especificacion.md) | [Código y dependencias](CU-03/dependencias.md) | [Pruebas](CU-03/pruebas.md) | Portada pública y autorregistro implementados; revisión visual y SMTP real pendientes |
 | CU-04 | Pacientes | [Especificación](CU-04/especificacion.md) | [Código y dependencias](CU-04/dependencias.md) | [Pruebas](CU-04/pruebas.md) | Fichas administrativas implementadas y probadas; revisión visual pendiente |
+| CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Especialidades implementadas; gestión de médicos pendiente |
 
-Los casos no incluidos en la tabla de estado están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
+La rama integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación de listados móviles y el catálogo de especialidades del CU-05. La gestión de médicos sigue pendiente. CU-07 está pausado y no tiene flujo de reservas activo. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
 
 ## Convenciones
 

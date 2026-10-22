@@ -8,12 +8,18 @@ Proyecto universitario de Ingeniería de Requisitos / SI1: sistema web de gesti�
 - Modelo de clases propuesto: 24 clases, 32 asociaciones y un único diagrama de StarUML.
 - Catálogo inicial y plantilla para especificar casos de uso.
 - Aplicación Laravel 13 creada en `sistema/backend/`, conectada localmente a PostgreSQL 17.
-- Las 29 migraciones están ejecutadas, incluyendo el dominio clínico y la protección contra citas superpuestas.
+- Las migraciones incluyen el dominio clínico, la protección contra citas superpuestas y la verificación de correo. Se aplican con `php artisan migrate` en cada instalación.
 - Autenticación preparada sobre `usuarios`, cuatro roles y ocho permisos iniciales; horario `America/La_Paz`.
-- 57 pruebas aprobadas con 451 comprobaciones y PostgreSQL en el esquema aislado `clinica_testing`.
+- CU-05 — Gestionar médicos y especialidades: submódulo de especialidades implementado con listado, búsqueda, registro, edición y activación/desactivación. Entrada `/especialidades`, permiso existente `medicos.gestionar`. La gestión de médicos sigue pendiente.
+- CU-03 implementado: autorregistro con cuenta y ficha vinculada, rol paciente y verificación de correo. Portada pública en `/`, registro en `/registro` y panel privado en `/inicio`.
+- Menú lateral por permisos, botón de acceso persistente y listados adaptables compartidos, incluido Especialidades. Los datos institucionales de ejemplo se configuran en `sistema/backend/config/clinica.php`.
+- Integración verificada el 22/10/2026: **124 pruebas aprobadas y 1535 aserciones**, con PostgreSQL en el esquema aislado `clinica_testing`; formato Pint y compilación Vite correctos. Portada, registro y CSS responden HTTP 200 en localhost. Revisión visual de la integración y entrega SMTP real pendientes.
 - Acceso, cierre de sesión, recuperación y gestión de usuarios, roles y permisos implementados; revisión en navegador y entrega SMTP real pendientes. Los flujos clínicos posteriores siguen pendientes.
+- CU-07 continúa pausado: no hay reservas activas. Primero deben completarse médicos (CU-05) y horarios (CU-06).
 
 ## Tecnologías acordadas
+
+El usuario confirmó el 22/10/2026 continuar con Laravel existente. La numeración acordada mantiene CU-03 para autorregistro y CU-05 para médicos y especialidades. Ver [especificación, pruebas y diagramas del módulo](docs/casos-de-uso/CU-05/especificacion.md).
 
 - PHP con Laravel.
 - PostgreSQL.

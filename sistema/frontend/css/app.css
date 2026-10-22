@@ -5,6 +5,7 @@
 @import './shared/admin.css';
 @import './shared/tables.css';
 @import './pacientes/pacientes.css';
+@import './especialidades/especialidades.css';
 @import './inicio/inicio.css';
 @import './inicio/public.css';
 @import './shared/responsive.css';

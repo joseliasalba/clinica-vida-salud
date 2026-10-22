@@ -7,7 +7,8 @@ return [
             'icono' => 'personas',
             'opciones' => [
                 ['titulo' => 'Pacientes', 'icono' => 'personas', 'permiso' => 'pacientes.gestionar', 'ruta' => 'pacientes.index', 'activo' => 'pacientes.*'],
-                ['titulo' => 'Médicos y especialidades', 'icono' => 'salud', 'permiso' => 'medicos.gestionar', 'ruta' => null],
+                ['titulo' => 'Especialidades', 'icono' => 'salud', 'permiso' => 'medicos.gestionar', 'ruta' => 'especialidades.index', 'activo' => 'especialidades.*'],
+                ['titulo' => 'Médicos', 'icono' => 'persona', 'permiso' => 'medicos.gestionar', 'ruta' => null],
             ],
         ],
         [
