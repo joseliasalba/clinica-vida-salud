@@ -2,6 +2,10 @@
 
 **Estado:** Borrador
 
+**Módulo:** Pendiente. **Ciclo:** Pendiente según el catálogo.
+
+Guardar este archivo como `CU-XX/especificacion.md`. Acompañarlo con `dependencias.md` (requisito → código → prueba) y `pruebas.md` (resultados observados y pendientes). Distinguir requisitos **DEFINIDOS**, decisiones **PROPUESTAS** y aspectos **PENDIENTES**, indicando siempre su fuente.
+
 | Campo | Especificación |
 | --- | --- |
 | Objetivo | Pendiente |
@@ -39,7 +43,7 @@ Indicar entradas, salidas y clases del modelo involucradas.
 
 ## Evidencia de pruebas
 
-Pendiente de implementación y ejecución. No marcar como aprobado sin resultados observados.
+Registrar la evidencia en `pruebas.md` al crear la carpeta del CU. Incluir fecha, comando o procedimiento, resultado observado y límites. No marcar como aprobado sin resultados observados.
 
 ## Preguntas pendientes
 

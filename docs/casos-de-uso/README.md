@@ -1,6 +1,6 @@
 # Catálogo inicial de casos de uso
 
-Propuesta de organización para comenzar el análisis. Los códigos CU son nuevos y no sustituyen los RF del enunciado. Cada caso debe especificarse usando `PLANTILLA.md` antes de considerarse terminado.
+Los códigos CU son propios del proyecto y no sustituyen los RF del enunciado. Cada caso tiene una carpeta directa `CU-XX/` con `especificacion.md`, `dependencias.md` y `pruebas.md`; se usa `PLANTILLA.md` para la especificación. Los ciclos se indican aquí, sin anidar casos dentro de otros casos ni de carpetas de entregas.
 
 | Código | Caso de uso | Actor principal | Fuente | Ciclo propuesto |
 | --- | --- | --- | --- | --- |
@@ -26,7 +26,20 @@ La asignación por ciclo es propuesta, porque el plan detallado del ZIP no se ha
 
 Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso CU-07 debe incluir reservas simultáneas en sus criterios de aceptación.
 
-## Especificaciones en planificación
+## Documentación y estado
 
-- [CU-01 — Iniciar y cerrar sesión](CU-01.md): borrador de alcance, flujos, seguridad, aceptación y orden de implementación.
-- [CU-01.1 — Recuperar contraseña por correo](CU-01.1.md): extensión propuesta, con alcance académico pendiente de confirmar.
+| Caso | Módulo | Especificación | Dependencias y código | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- |
+| CU-01 | Auth | [Especificación](CU-01/especificacion.md) | [Trazabilidad](CU-01/dependencias.md) | [Pruebas](CU-01/pruebas.md) | Implementado con pruebas automáticas; revisión en navegador pendiente |
+| CU-01.1 | Auth | [Especificación](CU-01.1/especificacion.md) | [Trazabilidad](CU-01.1/dependencias.md) | [Pruebas](CU-01.1/pruebas.md) | Implementado con pruebas automáticas; SMTP real y revisión en navegador pendientes |
+| CU-02 | Auth | [Especificación](CU-02/especificacion.md) | [Trazabilidad](CU-02/dependencias.md) | [Pruebas](CU-02/pruebas.md) | Usuarios, roles y permisos implementados y probados; revisión visual pendiente |
+
+Los demás casos del catálogo están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
+
+## Convenciones
+
+- **DEFINIDO:** requisito con fuente identificada o decisión expresamente acordada; indicar cuál de las dos es.
+- **PROPUESTO:** decisión aún no acordada.
+- **PENDIENTE:** requisito por aclarar, código por implementar o verificación por realizar.
+
+La [guía de estructura](../estructura.md) explica dónde colocar controladores, validaciones, modelos, vistas, recursos y pruebas de cada módulo. Las verificaciones pendientes se registran en el documento de pruebas de cada caso, sin presentarlas como aprobadas.

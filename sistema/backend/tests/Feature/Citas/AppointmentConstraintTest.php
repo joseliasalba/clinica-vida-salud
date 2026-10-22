@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Citas;
 
 use App\Models\User;
 use Illuminate\Database\QueryException;

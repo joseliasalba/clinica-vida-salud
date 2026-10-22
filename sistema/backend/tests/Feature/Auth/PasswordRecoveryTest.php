@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Jobs\SendPasswordResetLink;
 use App\Models\User;
@@ -17,7 +17,7 @@ class PasswordRecoveryTest extends TestCase
 {
     use DatabaseTransactions;
 
-    private const NEW_PASSWORD = 'Mi frase tranquila para la clinica';
+    private const NEW_PASSWORD = 'Clave#28';
 
     public function test_recovery_queues_the_same_job_for_existing_unknown_and_inactive_accounts(): void
     {
@@ -115,7 +115,7 @@ class PasswordRecoveryTest extends TestCase
     public function test_admin_command_creates_an_account_without_default_credentials(): void
     {
         $this->artisan('clinica:crear-admin', ['--usuario' => 'admin-prueba', '--correo' => 'admin@example.test'])
-            ->expectsQuestion('Contraseña (15 a 128 caracteres)', self::NEW_PASSWORD)
+            ->expectsQuestion('Contraseña (8 a 128 caracteres)', self::NEW_PASSWORD)
             ->expectsQuestion('Confirma la contraseña', self::NEW_PASSWORD)
             ->assertSuccessful();
         $user = User::where('nombre_usuario', 'admin-prueba')->firstOrFail();

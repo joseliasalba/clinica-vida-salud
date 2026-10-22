@@ -1,10 +1,10 @@
 # Preparación del entorno
 
-## Estado comprobado — 21/10/2026
+## Estado comprobado — 22/10/2026
 
 Git 2.46.2 y Node.js 24.19.0 están disponibles. PostgreSQL 17.11 responde en `127.0.0.1:5432`. PHP 8.4.27 y Composer se prepararon en `.tools/`.
 
-Laravel 13 funciona en `sistema/backend/`, conectado como `clinica_app` a la base `clinica_vida_salud`. Se aplicaron las 29 migraciones y se cargaron cuatro roles y ocho permisos iniciales. Pasaron 13 pruebas con 40 comprobaciones sobre PostgreSQL. La aplicación y sus conexiones PostgreSQL usan `America/La_Paz`.
+Laravel 13 funciona en `sistema/backend/`, conectado como `clinica_app` a la base `clinica_vida_salud`. Se aplicaron las 29 migraciones y se cargaron cuatro roles y ocho permisos iniciales. Pasaron 33 pruebas con 223 comprobaciones sobre PostgreSQL. La aplicación y sus conexiones PostgreSQL usan `America/La_Paz`. La distribución de archivos está descrita en [estructura.md](estructura.md).
 
 ## Versiones elegidas
 
@@ -101,8 +101,8 @@ Los permisos iniciales están en `config/permisos.php`; los Gates comprueban usu
 
 ## Validación completada y pendiente
 
-- Completado: herramientas, compilación, conexión PostgreSQL, 29 migraciones, autenticación sobre `usuarios`, roles y permisos, horario Bolivia y 13 pruebas.
-- Pendiente: pantallas y flujos de los casos de uso, cuenta administradora inicial y pruebas adicionales de cada flujo, incluyendo concurrencia con conexiones simultáneas.
+- Completado: herramientas, compilación, conexión PostgreSQL, 29 migraciones, autenticación sobre `usuarios`, roles y permisos, horario Bolivia y 33 pruebas con 223 comprobaciones. Incluye login, logout y recuperación, además de consumo concurrente del token de restablecimiento con dos procesos.
+- Pendiente: revisión en navegador, entrega SMTP real, cuenta administradora inicial y pantallas y flujos clínicos posteriores. Las reservas simultáneas de citas requieren pruebas adicionales al implementar CU-07.
 - `sistema/backend/.env`, `.tools`, `vendor` y `node_modules` están excluidos de Git.
 
 ## Referencias oficiales

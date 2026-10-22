@@ -21,4 +21,6 @@ npm.cmd run dev
 
 También se pueden iniciar servidor, cola y Vite con `composer run dev` desde backend, tras activar el entorno. Para compilar: `npm.cmd run build` desde frontend. Para ejecutar las pruebas: `php artisan test` desde backend.
 
-La configuración local y las credenciales están en `.env`, excluido de Git. Consulta [la guía de entorno](../../docs/entorno.md).
+Las rutas de autenticación están en `routes/auth.php`, cargadas desde `routes/web.php`. Controladores y validaciones se agrupan en `app/Http/Controllers/Auth/` y `app/Http/Requests/Auth/`. Las pruebas se agrupan por función en `tests/Feature/Auth/` y `tests/Feature/Citas/`.
+
+La configuración local y las credenciales están en `.env`, excluido de Git. Consulta [la guía de entorno](../../docs/entorno.md), [la estructura del proyecto](../../docs/estructura.md) y [el catálogo de casos de uso](../../docs/casos-de-uso/README.md).

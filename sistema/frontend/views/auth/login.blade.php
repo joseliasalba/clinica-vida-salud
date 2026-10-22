@@ -3,7 +3,7 @@
 @section('form')
     <h2 id="form-title">Qué gusto verte.</h2>
     <p class="form-description">Ingresa a tu cuenta para continuar.</p>
-    @include('auth.messages')
+    <x-messages />
     <form method="POST" action="{{ route('login') }}" class="auth-form">
         @csrf
         <div class="field"><label for="identificador">Usuario o correo electrónico</label><input id="identificador" name="identificador" value="{{ old('identificador') }}" required maxlength="255" autocomplete="username" autofocus @error('identificador') aria-invalid="true" aria-describedby="form-errors" @enderror></div>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\ProtectSession;
+use Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
         $middleware->redirectUsersTo('/inicio');
+        $middleware->prependToPriorityList(AuthenticatesRequests::class, ProtectSession::class);
         $middleware->trustHosts(at: fn () => [parse_url(config('app.url', 'http://127.0.0.1:8000'), PHP_URL_HOST)], subdomains: false);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

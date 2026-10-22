@@ -4,8 +4,8 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
-require dirname(__DIR__, 2).'/vendor/autoload.php';
-$app = require dirname(__DIR__, 2).'/bootstrap/app.php';
+require dirname(__DIR__, 3).'/vendor/autoload.php';
+$app = require dirname(__DIR__, 3).'/bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
 if (! $app->environment('testing')) {
     throw new RuntimeException('Worker exclusivo de pruebas.');

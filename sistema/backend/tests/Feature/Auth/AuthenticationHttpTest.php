@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Database\Seeders\RolesPermisosSeeder;
@@ -92,7 +92,7 @@ class AuthenticationHttpTest extends TestCase
     {
         $this->seed(RolesPermisosSeeder::class);
         $user = User::factory()->create();
-        DB::table('usuario_rol')->insert(['usuario_id' => $user->id, 'rol_id' => DB::table('roles')->where('nombre', 'recepcion')->value('id'), 'activo' => true]);
+        DB::table('usuario_rol')->insert(['usuario_id' => $user->id, 'rol_id' => DB::table('roles')->where('nombre', 'recepcion')->value('id'), 'fecha_asignacion' => now()->subMinute(), 'activo' => true]);
         $this->post('/login', ['identificador' => $user->correo, 'password' => 'password']);
         $this->get('/inicio')->assertOk()->assertSee('Gestionar pacientes desde recepción')->assertDontSee('Administrar usuarios, roles y permisos');
         Route::middleware(['web', 'auth', 'can:usuarios.gestionar'])->get('/prueba-permiso', fn () => 'permitido');
@@ -117,7 +117,7 @@ class AuthenticationHttpTest extends TestCase
         $this->seed(RolesPermisosSeeder::class);
         foreach (config('permisos.roles') as $name => $permissions) {
             $user = User::factory()->create();
-            DB::table('usuario_rol')->insert(['usuario_id' => $user->id, 'rol_id' => DB::table('roles')->where('nombre', $name)->value('id'), 'activo' => true]);
+            DB::table('usuario_rol')->insert(['usuario_id' => $user->id, 'rol_id' => DB::table('roles')->where('nombre', $name)->value('id'), 'fecha_asignacion' => now()->subMinute(), 'activo' => true]);
             $this->post('/login', ['identificador' => $user->correo, 'password' => 'password']);
             $response = $this->get('/inicio')->assertOk();
             foreach (config('permisos.catalogo') as $code => $description) {
@@ -129,7 +129,7 @@ class AuthenticationHttpTest extends TestCase
             }
             $this->post('/logout');
         }
-        DB::table('usuario_rol')->insert(['usuario_id' => $user->id, 'rol_id' => DB::table('roles')->where('nombre', 'medico')->value('id'), 'activo' => true]);
+        DB::table('usuario_rol')->insert(['usuario_id' => $user->id, 'rol_id' => DB::table('roles')->where('nombre', 'medico')->value('id'), 'fecha_asignacion' => now()->subMinute(), 'activo' => true]);
         $this->post('/login', ['identificador' => $user->correo, 'password' => 'password']);
         $this->get('/inicio')->assertSee('Consultar la agenda del médico autenticado')->assertSee('Consultar y reservar citas propias')->assertDontSee('Administrar usuarios, roles y permisos');
     }

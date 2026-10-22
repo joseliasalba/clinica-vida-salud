@@ -1,6 +1,6 @@
 # CU-01 — Iniciar y cerrar sesión
 
-**Estado:** Borrador de planificación; pendiente de implementación y aceptación.
+**Estado:** Implementación disponible y validación automática completada; revisión visual y aceptación final pendientes. Ver [pruebas](pruebas.md) y [dependencias](dependencias.md).
 
 | Campo | Especificación |
 | --- | --- |
@@ -31,7 +31,7 @@
 | 3 | Envía el formulario | Valida en servidor campos, límites, CSRF y límite de intentos |
 | 4 | Espera el resultado | Identifica la cuenta activa y verifica el hash sin modificar la contraseña ingresada |
 | 5 | — | Regenera el identificador de sesión y limpia el contador de intentos correspondiente |
-| 6 | — | Redirige a una ruta interna solicitada únicamente si está autorizada; en otro caso, a `/inicio` |
+| 6 | — | Redirige siempre a `/inicio` y descarta la URL solicitada antes de autenticarse |
 | 7 | Consulta su inicio | Muestra funciones según permisos efectivos; las rutas vuelven a comprobarlos en servidor |
 
 ## Flujos alternativos y excepciones
@@ -50,7 +50,9 @@
 | A10 | Identificación | Un nombre de usuario podría confundirse con el correo de otra cuenta | Reservar `@` para correos en la gestión de cuentas; comprobar los datos existentes antes de implementar el acceso dual |
 | A11 | Sesión abierta | Usuario cierra sesión | POST con CSRF; logout, invalidación de sesión, regeneración CSRF y redirección al login |
 
-## Reglas de negocio y seguridad propuestas
+## Reglas de negocio y seguridad
+
+Las decisiones del plan fueron acordadas con el usuario. Las referencias académicas pendientes no se consideran requisitos confirmados. La primera versión siempre vuelve al inicio; el retorno a una ruta interna solicitada queda fuera de esta versión hasta comprobar su autorización.
 
 1. Login mediante nombre de usuario o correo. Se definen normalización y unicidad junto con CU-02/CU-03; nunca recortar ni cambiar mayúsculas de la contraseña.
 2. Propuesta de límite inicial: cinco fallos por combinación de identificador normalizado e IP, con espera de quince minutos. Añadir límite global por IP para intentos distribuidos entre cuentas. Los valores se configuran y prueban, incluyendo el comportamiento tras vencer la espera.
@@ -70,7 +72,7 @@
 - No se requieren nuevas tablas para el CU-01 básico. `ultimo_acceso` es opcional y solo se añadirá por migración si se acuerda su necesidad.
 - Salida: errores de validación, mensaje genérico de acceso fallido, sesión o cierre de sesión, inicio con funciones permitidas.
 
-## Rutas y piezas previstas
+## Rutas y piezas implementadas
 
 | Método y ruta | Uso | Protección |
 | --- | --- | --- |
@@ -79,7 +81,7 @@
 | GET `/inicio` | Inicio y opciones habilitadas | Autenticación y comprobación de cuenta activa |
 | POST `/logout` | Salir | Autenticación y CSRF |
 
-Controlador de sesión, validación del formulario, vistas Blade de login/inicio, estilos y JavaScript opcional. Las vistas nunca serán endpoints PHP directos. Ninguna redirección aceptará URLs externas proporcionadas por el usuario.
+Controlador de sesión, validación del formulario, vistas Blade de login/inicio, estilos y JavaScript opcional. Las rutas de acceso y recuperación están en `sistema/backend/routes/auth.php`, cargadas desde `routes/web.php`. Las vistas nunca serán endpoints PHP directos. Ninguna redirección aceptará URLs externas proporcionadas por el usuario.
 
 ## Criterios de aceptación
 
@@ -107,7 +109,7 @@ Controlador de sesión, validación del formulario, vistas Blade de login/inicio
 
 ## Evidencia de pruebas
 
-Existen 13 pruebas de infraestructura con 40 comprobaciones aprobadas en la revisión anterior. Cubren parte de autenticación, permisos y PostgreSQL; no acreditan este flujo HTTP ni sus pantallas. Las pruebas de aceptación de CU-01 siguen pendientes.
+Ver [pruebas.md](pruebas.md) para los comandos, el resultado de la suite y las verificaciones manuales pendientes. Las pruebas de autenticación están en `sistema/backend/tests/Feature/Auth/` y usan PostgreSQL aislado.
 
 ## Preguntas pendientes
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +18,7 @@ class PasswordResetConcurrencyTest extends TestCase
         try {
             $token = Password::createToken($user);
             foreach (['Primera frase privada de prueba', 'Segunda frase privada de prueba'] as $password) {
-                $process = proc_open([PHP_BINARY, base_path('tests/Fixtures/reset-password-worker.php')], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, base_path());
+                $process = proc_open([PHP_BINARY, base_path('tests/Fixtures/Auth/reset-password-worker.php')], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, base_path());
                 $this->assertIsResource($process);
                 $processes[] = [$process, $pipes, $password];
             }

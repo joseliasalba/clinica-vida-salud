@@ -1,0 +1,5 @@
+@media (max-width: 1000px) { .auth-shell, .dashboard { margin-left: 24px; margin-right: 24px; }.auth-story { padding: 40px 32px; }.auth-card { padding: 48px 36px; }.care-art { opacity: .5; }.module-grid { grid-template-columns: repeat(2, 1fr); } }
+
+@media (max-width: 680px) { .site-header, .site-footer { padding: 24px; }.header-note { display: none; }.auth-shell { display: block; margin: 8px 18px; min-height: auto; border-radius: 20px; }.auth-story { display: none; }.auth-card { padding: 36px 25px; }.auth-card h2 { font-size: 29px; }.site-footer { flex-direction: column; align-items: flex-start; gap: 8px; }.dashboard { margin: 18px; }.dashboard-top { align-items: flex-start; flex-direction: column; }.dashboard-top h1 { font-size: 29px; overflow-wrap: anywhere; }.welcome-banner { padding: 28px; }.welcome-banner h2 { font-size: 29px; }.banner-cross { font-size: 90px; margin-left: 12px; }.section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }.module-grid { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) { .button { transition: none; }.button:active { scale: 1; } }

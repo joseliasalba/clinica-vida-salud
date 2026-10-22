@@ -1,0 +1,45 @@
+.auth-shell { max-width: 1184px; margin: 15px auto 0; display: grid; grid-template-columns: 1.05fr 1fr; min-height: 640px; border-radius: 28px; overflow: hidden; box-shadow: 0 0 0 1px #00000008, 0 12px 45px #153f4308; }
+
+.auth-story { position: relative; padding: 54px; background: #e4efea; overflow: hidden; }
+
+.auth-story h1 { font-size: clamp(44px, 4.4vw, 62px); font-weight: 500; line-height: 1.08; letter-spacing: -2.5px; margin: 27px 0 22px; position: relative; z-index: 1; }
+
+.auth-story em { font-style: normal; color: var(--teal); }
+
+.auth-story p { max-width: 310px; font-size: 15px; line-height: 1.8; color: #426861; position: relative; z-index: 1; }
+
+.story-foot { position: absolute; bottom: 38px; font-size: 12px; display: flex; align-items: center; gap: 9px; z-index: 1; }
+
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+
+.care-art { position: absolute; width: 275px; height: 275px; right: -30px; bottom: 48px; border-radius: 50%; background: #cedfd4; display: grid; place-items: center; transform: rotate(-12deg); }
+
+.care-art span { font-size: 170px; color: #f4f6eb; line-height: 1; }
+
+.care-ring { position: absolute; inset: -28px; border: 1px solid #b7cfc2; border-radius: 50%; }
+
+.care-art i { position: absolute; inset: -60px; border: 1px solid #c8dbd0; border-radius: 50%; }
+
+.auth-card { background: white; padding: 65px 64px 38px; display: flex; flex-direction: column; justify-content: center; }
+
+.auth-card h2 { font-size: 32px; font-weight: 600; line-height: 1.2; letter-spacing: -1.1px; margin: 18px 0 12px; }
+
+.form-description { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 0 0 28px; }
+
+.auth-form { display: flex; flex-direction: column; gap: 20px; }
+
+.password-field { position: relative; }
+
+.password-field input { padding-right: 78px; }
+
+.reveal { position: absolute; right: 4px; top: 4px; min-width: 68px; min-height: 41px; border: 0; border-radius: 6px; font-size: 12px; background: transparent; color: var(--teal); }
+
+.reveal:hover { background: #edf5ef; }
+
+.forgot-link { align-self: flex-end; margin-top: -6px; font-size: 12px; font-weight: 600; }
+
+.private-note { padding: 21px 0; margin-top: 8px; border-bottom: 1px solid #edf0ec; display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
+
+.help-note { text-align: center; color: var(--muted); font-size: 12px; line-height: 1.8; margin: 25px 0 0; }
+
+.back-link { font-size: 13px; margin-top: 24px; }

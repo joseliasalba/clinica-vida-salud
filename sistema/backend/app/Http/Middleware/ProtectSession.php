@@ -14,9 +14,11 @@ class ProtectSession
         $user = $request->user()?->fresh();
         $last = $request->session()->get('auth_last_activity', 0);
         $hash = $request->session()->get('auth_password_hash', '');
+        $token = $request->session()->get('auth_session_token', '');
 
         if (! $user || ! $user->activo || now()->timestamp - $last >= config('seguridad.inactividad')
-            || ! is_string($hash) || ! hash_equals($user->getAuthPassword(), $hash)) {
+            || ! is_string($hash) || ! hash_equals($user->getAuthPassword(), $hash)
+            || ! is_string($token) || ! hash_equals($user->remember_token ?? '', $token)) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

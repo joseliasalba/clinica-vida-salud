@@ -38,6 +38,7 @@ class SessionController extends Controller
         $request->session()->forget('url.intended');
         $request->session()->put('auth_last_activity', now()->timestamp);
         $request->session()->put('auth_password_hash', $request->user()->getAuthPassword());
+        $request->session()->put('auth_session_token', $request->user()->remember_token ?? '');
         Log::info('auth.login', ['usuario_id' => Auth::id()]);
 
         return redirect()->route('inicio');

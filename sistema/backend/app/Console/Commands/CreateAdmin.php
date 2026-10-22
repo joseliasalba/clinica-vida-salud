@@ -23,19 +23,39 @@ class CreateAdmin extends Command
             return self::FAILURE;
         }
 
+        $this->line('Usa una contraseña de 8 a 128 caracteres. Al escribirla no se mostrará en pantalla.');
         $data = [
-            'nombre_usuario' => $this->option('usuario') ?: $this->ask('Nombre de usuario'),
-            'correo' => mb_strtolower($this->option('correo') ?: $this->ask('Correo')),
-            'password' => $this->secret('Contraseña (15 a 128 caracteres)'),
+            'nombre_usuario' => trim((string) ($this->option('usuario') ?: $this->ask('Nombre de usuario'))),
+            'correo' => mb_strtolower(trim((string) ($this->option('correo') ?: $this->ask('Correo')))),
+            'password' => $this->secret('Contraseña (8 a 128 caracteres)'),
             'password_confirmation' => $this->secret('Confirma la contraseña'),
         ];
         $validator = Validator::make($data, [
             'nombre_usuario' => ['required', 'string', 'max:255', 'not_regex:/@/', 'unique:usuarios,nombre_usuario'],
             'correo' => ['required', 'email', 'max:255', 'unique:usuarios,correo'],
             'password' => ['required', 'confirmed', new PasswordPolicy],
+        ], [
+            'nombre_usuario.required' => 'Debes ingresar un nombre de usuario.',
+            'nombre_usuario.string' => 'El nombre de usuario debe ser texto.',
+            'nombre_usuario.max' => 'El nombre de usuario no puede superar los 255 caracteres.',
+            'nombre_usuario.not_regex' => 'El nombre de usuario no puede contener @. Usa el campo correo para tu dirección.',
+            'nombre_usuario.unique' => 'Ese nombre de usuario ya está registrado. Elige otro.',
+            'correo.required' => 'Debes ingresar un correo electrónico.',
+            'correo.email' => 'El correo electrónico no tiene un formato válido.',
+            'correo.max' => 'El correo no puede superar los 255 caracteres.',
+            'correo.unique' => 'Ese correo electrónico ya está registrado.',
+            'password.required' => 'Debes ingresar una contraseña de 8 a 128 caracteres.',
+            'password.confirmed' => 'La confirmación de la contraseña no coincide. Escríbela igual las dos veces.',
         ]);
-        if ($validator->fails() || User::whereRaw('lower(correo) = ?', [$data['correo']])->exists()) {
-            $this->error('Revisa los datos: usuario y correo deben ser únicos y la contraseña debe cumplir la política y coincidir.');
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $message) {
+                $this->error($message);
+            }
+
+            return self::FAILURE;
+        }
+        if (User::whereRaw('lower(correo) = ?', [$data['correo']])->exists()) {
+            $this->error('Ese correo electrónico ya está registrado.');
 
             return self::FAILURE;
         }

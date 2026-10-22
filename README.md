@@ -10,8 +10,8 @@ Proyecto universitario de Ingeniería de Requisitos / SI1: sistema web de gesti�
 - Aplicación Laravel 13 creada en `sistema/backend/`, conectada localmente a PostgreSQL 17.
 - Las 29 migraciones están ejecutadas, incluyendo el dominio clínico y la protección contra citas superpuestas.
 - Autenticación preparada sobre `usuarios`, cuatro roles y ocho permisos iniciales; horario `America/La_Paz`.
-- 13 pruebas aprobadas con PostgreSQL en el esquema aislado `clinica_testing`.
-- Pantallas y flujos de los casos de uso: pendientes de implementación.
+- 57 pruebas aprobadas con 451 comprobaciones y PostgreSQL en el esquema aislado `clinica_testing`.
+- Acceso, cierre de sesión, recuperación y gestión de usuarios, roles y permisos implementados; revisión en navegador y entrega SMTP real pendientes. Los flujos clínicos posteriores siguen pendientes.
 
 ## Tecnologías acordadas
 
@@ -29,6 +29,7 @@ Entorno comprobado: PHP 8.4, Composer 2, Laravel 13, PostgreSQL 17 y Node.js 24.
 | `docs/modelo/` | Diagrama editable y notas del diseño |
 | `docs/casos-de-uso/` | Catálogo y especificaciones de casos de uso |
 | `docs/entorno.md` | Estado de herramientas y preparación local |
+| `docs/estructura.md` | Módulos y ubicación de controladores, vistas, recursos y pruebas |
 | `CONTRIBUTING.md` | Flujo de trabajo para el equipo |
 | `.github/` | Plantillas de tareas y pull requests |
 | `scripts/` | Preparación y activación del entorno Windows |
@@ -56,6 +57,8 @@ El segundo ciclo incluye perfil de salud, consultas, tratamientos, estudios, res
 2. Revisar [el modelo](docs/modelo/README.md).
 3. Especificar los casos de uso del [catálogo inicial](docs/casos-de-uso/README.md).
 4. Trabajar en ramas cortas y revisar los cambios según [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Consultar [la guía de estructura](docs/estructura.md) antes de agregar archivos y [el índice de casos de uso](docs/casos-de-uso/README.md) para encontrar especificaciones, dependencias y evidencias.
 
 ## Entregas según el enunciado
 

@@ -9,10 +9,10 @@ class PasswordPolicy implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! is_string($value) || mb_strlen($value) < 15 || mb_strlen($value) > 128
+        if (! is_string($value) || mb_strlen($value) < 8 || mb_strlen($value) > 128
             || in_array(mb_strtolower($value), config('seguridad.claves_comunes'), true)
             || preg_match('/^(.)\1+$/us', $value)) {
-            $fail('Usa una frase de entre 15 y 128 caracteres. Evita claves comunes o un solo carácter repetido.');
+            $fail('Usa una frase de entre 8 y 128 caracteres. Evita claves comunes o un solo carácter repetido.');
         }
     }
 }

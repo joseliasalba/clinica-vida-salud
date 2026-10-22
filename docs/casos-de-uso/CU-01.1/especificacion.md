@@ -1,6 +1,6 @@
 # CU-01.1 — Recuperar contraseña por correo
 
-**Estado:** Borrador de extensión de CU-01; pendiente de implementación y aceptación. Su obligatoriedad como requisito académico está por verificar.
+**Estado:** Implementación disponible y validación automática completada; entrega SMTP real, revisión visual y aceptación final pendientes. Su obligatoriedad como requisito académico está por verificar. Ver [pruebas](pruebas.md) y [dependencias](dependencias.md).
 
 | Campo | Especificación |
 | --- | --- |
@@ -36,7 +36,9 @@
 | A6 | Cambio | Dos envíos simultáneos del mismo token | Solo uno puede completar el cambio |
 | A7 | Cambio | Cuenta desactivada después de solicitar el enlace | Se rechaza sin reactivar la cuenta |
 
-## Diseño y reglas propuestas
+## Diseño y reglas
+
+El usuario acordó implementar el plan; la política implementada admite de 8 a 128 caracteres y usa Argon2id. Se conservan las siguientes decisiones y verificaciones necesarias.
 
 - Usar Password Broker y notificaciones/mail de Laravel, con `password_reset_tokens` existente. Adaptar el ingreso `correo` y el callback de actualización a `contrasena_hash`; el nombre técnico `email` de la tabla de tokens no obliga a renombrar `usuarios.correo`.
 - No añadir PHPMailer ni `recuperacion_passwords`: duplicarían funciones disponibles. No exigir SHA-256 específicamente; usar el almacenamiento de tokens del framework y verificar su comportamiento.
@@ -44,15 +46,15 @@
 - Generar URLs mediante rutas y un dominio de aplicación confiable, nunca concatenando el Host enviado por el navegador. HTTPS en despliegue; HTTP solo local.
 - Respuestas equivalentes en contenido y comportamiento temporal para cuentas existentes e inexistentes. Evitar que SMTP síncrono revele la existencia del correo; usar cola con worker verificado o un mecanismo equivalente comprobado.
 - No registrar tokens ni enlaces completos en logs de uso real. En desarrollo, el transporte log solo demuestra generación; no acredita entrega SMTP.
-- Propuesta de claves sin MFA: mínimo quince caracteres, admitir frases, espacios y Unicode, sin regex obligatoria de mayúsculas/números/símbolos; rechazar claves comunes y confirmar la clave. Definir un máximo de al menos 64 caracteres y verificar algoritmo y límites de bytes antes de implementarlo; nunca truncar silenciosamente. Si la docente exige composición, registrarlo como restricción académica.
+- Propuesta de claves sin MFA: mínimo ocho caracteres, según decisión del usuario, admitir frases, espacios y Unicode, sin regex obligatoria de mayúsculas/números/símbolos; rechazar claves comunes y confirmar la clave. Definir un máximo de al menos 64 caracteres y verificar algoritmo y límites de bytes antes de implementarlo; nunca truncar silenciosamente. Si la docente exige composición, registrarlo como restricción académica.
 - Aplicar la misma política en registro, creación de cuentas y restablecimiento. JavaScript solo ofrece ayuda visual; la validación del servidor es obligatoria.
-- Revocar sesiones antiguas requiere una solución explícita: middleware `auth.session` con comprobación de cambio de hash o almacenamiento de sesiones en base de datos. La sesión en archivos actual no permite asumir que actualizar la clave basta. Probar dos clientes independientes.
+- Las sesiones guardan el hash de contraseña al ingresar. El middleware `ProtectSession` lo compara con el hash actual antes de autorizar la siguiente petición protegida e invalida la sesión si cambió. Hay una prueba con dos contextos de sesión; la comprobación con dos navegadores independientes sigue pendiente.
 - Consumir el token y actualizar la contraseña dentro de una operación transaccional con control de concurrencia; no dar por garantizado el uso único simultáneo por utilizar el broker.
 - No habilitar «recordarme» en la primera versión, pero rotar el token existente por seguridad.
 
-## Rutas previstas
+## Rutas implementadas
 
-GET/POST `/recuperar-contrasena`, GET `/restablecer-contrasena/{token}` y POST `/restablecer-contrasena`. Formularios POST con CSRF y limitación de intentos. Las vistas se ubican en `sistema/frontend/views/auth/`.
+GET/POST `/recuperar-contrasena`, GET `/restablecer-contrasena/{token}` y POST `/restablecer-contrasena`, en `sistema/backend/routes/auth.php`. Formularios POST con CSRF y limitación de intentos. Las vistas se ubican en `sistema/frontend/views/auth/`; los mensajes compartidos, en `views/components/`.
 
 ## Criterios de aceptación
 
@@ -67,7 +69,7 @@ GET/POST `/recuperar-contrasena`, GET `/restablecer-contrasena/{token}` y POST `
 
 ## Evidencia de pruebas
 
-Pendiente. Usar notificaciones simuladas para pruebas automatizadas y una prueba separada del transporte real de correo. No se necesita enviar correos externos durante las pruebas de la lógica.
+Ver [pruebas.md](pruebas.md). Las pruebas usan notificaciones simuladas; una prueba adicional con dos procesos verifica el consumo concurrente del token. La entrega SMTP real no está comprobada.
 
 ## Decisiones pendientes
 
