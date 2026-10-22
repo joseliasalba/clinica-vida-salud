@@ -2,15 +2,15 @@
 
 ## Estado comprobado — 21/10/2026
 
-Git 2.46.2 y Node.js 24.19.0 están disponibles. El cliente PostgreSQL 17 está instalado en `C:\Program Files\PostgreSQL\17\bin`. PHP y Composer no se encontraron en PATH ni en las ubicaciones comunes revisadas.
+Git 2.46.2 y Node.js 24.19.0 están disponibles. PostgreSQL 17.11 responde en `127.0.0.1:5432`. PHP 8.4.27 y Composer se prepararon en `.tools/`.
 
-PostgreSQL no respondió en `127.0.0.1:5432` desde esta sesión. Esto no demuestra que esté detenido fuera de ella. Las descargas fallan por resolución de nombres desde la terminal de trabajo. **La instalación de herramientas y la aplicación Laravel siguen pendientes.**
+Laravel 13 funciona en `sistema/backend/`, conectado como `clinica_app` a la base `clinica_vida_salud`. Se aplicaron las 29 migraciones y se cargaron cuatro roles y ocho permisos iniciales. Pasaron 13 pruebas con 40 comprobaciones sobre PostgreSQL. La aplicación y sus conexiones PostgreSQL usan `America/La_Paz`.
 
 ## Versiones elegidas
 
 PHP 8.4 x64 NTS, Composer 2, Laravel 13, PostgreSQL 17 y Node.js 24. Laravel 13 admite PHP 8.3–8.5. El script descarga el parche estable de PHP 8.4 y valida su SHA256 oficial. También valida el SHA384 del instalador Composer.
 
-Los parches exactos de la aplicación quedarán registrados en `sistema/composer.lock` y `sistema/package-lock.json` al completar la instalación.
+Los parches exactos de la aplicación están registrados en `sistema/backend/composer.lock` y `sistema/frontend/package-lock.json`.
 
 ## Preparar herramientas y aplicación
 
@@ -22,7 +22,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\preparar-entorno.p
 
 La política indicada afecta solo al proceso iniciado. El script usa `.tools/`, excluido de Git, sin cambiar el PATH permanente. Requiere Internet, Node.js y Visual C++ Runtime x64; las DLL del runtime se encontraron en esta PC.
 
-El script prepara PHP con `pdo_pgsql` y Composer; crea Laravel en `sistema/`; prepara `.env.example` para PostgreSQL; genera una clave local; instala dependencias; compila recursos y ejecuta las pruebas iniciales. Conserva un `.env` existente y no ejecuta migraciones. Si una descarga falla, se puede repetir: reutiliza herramientas y la aplicación si ya existe.
+El script prepara PHP con `pdo_pgsql` y Composer; instala las dependencias de Laravel en `sistema/backend/`; prepara `.env.example` para PostgreSQL; genera una clave local e instala y compila el frontend. Conserva un `.env` existente y no ejecuta migraciones. Las pruebas se ejecutan después de preparar PostgreSQL. Si una descarga falla, se puede repetir: reutiliza herramientas y la aplicación si ya existe.
 
 Para instalar únicamente las herramientas, añadir `-SoloHerramientas` al comando.
 
@@ -44,7 +44,13 @@ $pgBin = 'C:\Program Files\PostgreSQL\17\bin'
 & "$pgBin\createdb.exe" -h 127.0.0.1 -p 5432 -U postgres --owner=clinica_app --encoding=UTF8 clinica_vida_salud
 ```
 
-En `sistema/.env`, completar las credenciales locales:
+Para configurar la contraseña local de `clinica_app` con entrada oculta, comprobar la conexión, ejecutar las migraciones, cargar roles y permisos y pasar las pruebas:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\conectar-postgresql.ps1
+```
+
+Como alternativa, en `sistema/backend/.env` completar las credenciales locales manualmente:
 
 ```dotenv
 DB_CONNECTION=pgsql
@@ -59,7 +65,7 @@ Desde la raíz del repositorio, comprobar la conexión sin modificar el esquema:
 
 ```powershell
 . .\scripts\activar-entorno.ps1
-Set-Location sistema
+Set-Location sistema/backend
 php artisan config:clear
 php artisan db:show
 ```
@@ -68,11 +74,12 @@ Verificar que aparece la base nueva `clinica_vida_salud`. Solo entonces ejecutar
 
 ```powershell
 php artisan migrate
+php artisan db:seed
 php artisan migrate:status
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-Abrir <http://127.0.0.1:8000>. Detener el servidor con Ctrl+C. Las migraciones iniciales pertenecen al esqueleto Laravel; todavía no representan las 24 clases del modelo de la clínica.
+Abrir <http://127.0.0.1:8000>. Detener el servidor con Ctrl+C. Se conservan las tablas originales de Laravel; la autenticación utiliza `usuarios`. El seeder es repetible, conserva las desactivaciones y no crea cuentas ni contraseñas predeterminadas.
 
 ## Uso diario
 
@@ -80,20 +87,23 @@ En una nueva terminal, desde la raíz del repositorio:
 
 ```powershell
 . .\scripts\activar-entorno.ps1
-Set-Location sistema
+Set-Location sistema/backend
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-Para editar estilos con recarga, abrir otra terminal, activar el entorno, entrar en `sistema/` y ejecutar `npm.cmd run dev`.
+Para editar estilos con recarga, abrir otra terminal, activar el entorno, entrar en `sistema/frontend/` y ejecutar `npm.cmd run dev`.
 
-La configuración inicial usa sesiones y caché en archivos y tareas síncronas. Esto permite abrir la página inicial antes de crear tablas; no valida por sí solo PostgreSQL. Las pruebas iniciales tampoco sustituyen las pruebas de integración con PostgreSQL.
+La configuración local usa sesiones y caché en archivos y tareas síncronas. Las pruebas requieren las credenciales PostgreSQL locales del backend. Desde `sistema/backend/`, ejecutar `php artisan test`.
 
-## Validación pendiente
+PHPUnit fuerza la conexión `pgsql_testing`, cuyo único esquema es `clinica_testing` en la misma base local. El arranque de las pruebas crea ese esquema y aplica sus migraciones; los casos que escriben datos usan transacciones que se revierten. No se usa `migrate:fresh` sobre los datos de desarrollo. Se requiere permiso para crear el esquema y la extensión `btree_gist`. La extensión compartida se conserva al revertir la migración de la restricción de citas. No ejecutar pruebas paralelas sobre este mismo esquema.
 
-- Instalar herramientas con acceso a Internet y comprobar `pdo_pgsql`.
-- Generar Laravel, compilar recursos y ejecutar sus pruebas.
-- Confirmar conexión y migraciones sobre la base nueva.
-- Versionar el código generado y ambos lockfiles; excluir `.env`, `.tools`, `vendor` y `node_modules`.
+Los permisos iniciales están en `config/permisos.php`; los Gates comprueban usuario, rol, permiso y asignación activos, además de vigencia. Los permisos de recursos propios requieren también comprobar la propiedad del recurso al implementar cada caso de uso. Los permisos clínicos del segundo ciclo quedan pendientes de especificación.
+
+## Validación completada y pendiente
+
+- Completado: herramientas, compilación, conexión PostgreSQL, 29 migraciones, autenticación sobre `usuarios`, roles y permisos, horario Bolivia y 13 pruebas.
+- Pendiente: pantallas y flujos de los casos de uso, cuenta administradora inicial y pruebas adicionales de cada flujo, incluyendo concurrencia con conexiones simultáneas.
+- `sistema/backend/.env`, `.tools`, `vendor` y `node_modules` están excluidos de Git.
 
 ## Referencias oficiales
 

@@ -7,16 +7,20 @@ Proyecto universitario de Ingeniería de Requisitos / SI1: sistema web de gesti�
 - Repositorio preparado para el trabajo de dos integrantes.
 - Modelo de clases propuesto: 24 clases, 32 asociaciones y un único diagrama de StarUML.
 - Catálogo inicial y plantilla para especificar casos de uso.
-- Aplicación Laravel, migraciones y pruebas de software: pendientes de implementación.
+- Aplicación Laravel 13 creada en `sistema/backend/`, conectada localmente a PostgreSQL 17.
+- Las 29 migraciones están ejecutadas, incluyendo el dominio clínico y la protección contra citas superpuestas.
+- Autenticación preparada sobre `usuarios`, cuatro roles y ocho permisos iniciales; horario `America/La_Paz`.
+- 13 pruebas aprobadas con PostgreSQL en el esquema aislado `clinica_testing`.
+- Pantallas y flujos de los casos de uso: pendientes de implementación.
 
 ## Tecnologías acordadas
 
 - PHP con Laravel.
 - PostgreSQL.
-- HTML y CSS; Blade como propuesta para las pantallas.
+- HTML y CSS; Blade para las pantallas.
 - JavaScript para mejorar los formularios cuando sea necesario.
 
-Entorno elegido: PHP 8.4, Composer 2, Laravel 13, PostgreSQL 17 y Node.js 24. El script de preparación está disponible, pero su ejecución y la aplicación siguen pendientes por falta de acceso de red desde la terminal de trabajo. Los archivos de dependencias y sus lockfiles se incorporarán con la aplicación.
+Entorno comprobado: PHP 8.4, Composer 2, Laravel 13, PostgreSQL 17 y Node.js 24. Se incluyen `composer.lock` y `package-lock.json`; las credenciales locales se mantienen fuera de Git.
 
 ## Organización
 
@@ -28,7 +32,8 @@ Entorno elegido: PHP 8.4, Composer 2, Laravel 13, PostgreSQL 17 y Node.js 24. El
 | `CONTRIBUTING.md` | Flujo de trabajo para el equipo |
 | `.github/` | Plantillas de tareas y pull requests |
 | `scripts/` | Preparación y activación del entorno Windows |
-| `sistema/` | Ubicación prevista para Laravel; se creará con Composer |
+| `sistema/backend/` | Laravel: lógica, rutas, migraciones, pruebas y servidor |
+| `sistema/frontend/` | Vistas Blade, CSS, JavaScript y compilación con Vite |
 
 ## Alcance
 

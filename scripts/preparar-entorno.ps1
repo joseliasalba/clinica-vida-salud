@@ -11,7 +11,7 @@ $toolsDir = Join-Path $repoRoot '.tools'
 $phpDir = Join-Path $toolsDir 'php'
 $phpExe = Join-Path $phpDir 'php.exe'
 $composerPhar = Join-Path $toolsDir 'composer.phar'
-$appDir = Join-Path $repoRoot 'sistema'
+$appDir = Join-Path $repoRoot 'sistema/backend'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 
 function Write-Utf8([string]$Path, [string]$Text) {
@@ -92,10 +92,9 @@ if ($SoloHerramientas) { Write-Host 'PHP y Composer preparados.'; return }
 Push-Location $repoRoot
 try {
     if (-not (Test-Path $appDir)) {
-        # No ejecutar post-create-project: incluye migraciones SQLite por defecto.
-        Invoke-Checked $phpExe @($composerPhar, 'create-project', 'laravel/laravel', 'sistema', '^13.0', '--prefer-dist', '--no-interaction', '--no-scripts')
+        throw 'Falta sistema/backend. Recupera la estructura completa del repositorio antes de preparar el entorno.'
     } elseif (-not (Test-Path (Join-Path $appDir 'artisan'))) {
-        throw 'sistema/ existe pero no es una aplicacion Laravel. Revisarla antes de continuar.'
+        throw 'sistema/backend/ existe pero no es una aplicacion Laravel. Revisarla antes de continuar.'
     }
     Set-Location $appDir
     if (-not (Test-Path 'vendor/autoload.php')) {
@@ -123,11 +122,14 @@ try {
     $localEnv = [IO.File]::ReadAllText((Join-Path $appDir '.env'))
     if ($localEnv -notmatch '(?m)^APP_KEY=.+') { Invoke-Checked $phpExe @('artisan', 'key:generate', '--no-interaction') }
     Invoke-Checked $phpExe @('artisan', 'config:clear')
-    if (Test-Path 'package-lock.json') { Invoke-Checked 'npm.cmd' @('ci') }
-    else { Invoke-Checked 'npm.cmd' @('install') }
-    Invoke-Checked 'npm.cmd' @('run', 'build')
-    Invoke-Checked $phpExe @('artisan', 'test')
-    Write-Host 'Laravel preparado y pruebas iniciales ejecutadas.'
-    Write-Host 'Falta crear la base PostgreSQL y configurar DB_PASSWORD en sistema/.env.'
-    Write-Host 'Consulta docs/entorno.md. No se han ejecutado migraciones.'
+    Push-Location (Join-Path $repoRoot 'sistema/frontend')
+    try {
+        if (Test-Path 'package-lock.json') { Invoke-Checked 'npm.cmd' @('ci') }
+        else { Invoke-Checked 'npm.cmd' @('install') }
+        Invoke-Checked 'npm.cmd' @('run', 'build')
+    } finally { Pop-Location }
+    Write-Host 'Herramientas, Laravel y frontend preparados.'
+    Write-Host 'Si PostgreSQL aun no esta configurado, consulta docs/entorno.md y ejecuta scripts/conectar-postgresql.ps1.'
+    Write-Host 'Las pruebas requieren PostgreSQL. Ejecuta php artisan test desde sistema/backend despues de configurar la conexion.'
+    Write-Host 'Este script no ejecuta migraciones ni pruebas.'
 } finally { Pop-Location }

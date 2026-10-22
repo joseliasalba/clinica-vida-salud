@@ -25,3 +25,8 @@ Propuesta de organización para comenzar el análisis. Los códigos CU son nuevo
 La asignación por ciclo es propuesta, porque el plan detallado del ZIP no se ha podido leer. El bloqueo de citas duplicadas y la autorización son reglas transversales, no pasos opcionales de la interfaz.
 
 Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso CU-07 debe incluir reservas simultáneas en sus criterios de aceptación.
+
+## Especificaciones en planificación
+
+- [CU-01 — Iniciar y cerrar sesión](CU-01.md): borrador de alcance, flujos, seguridad, aceptación y orden de implementación.
+- [CU-01.1 — Recuperar contraseña por correo](CU-01.1.md): extensión propuesta, con alcance académico pendiente de confirmar.

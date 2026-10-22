@@ -11,17 +11,17 @@ auth.json
 /.tools/
 vendor/
 node_modules/
-/sistema/public/build/
-/sistema/public/hot
-/sistema/public/storage
-/sistema/storage/*.key
-/sistema/storage/app/private/*
-!/sistema/storage/app/private/.gitignore
-/sistema/storage/framework/cache/*
-/sistema/storage/framework/sessions/*
-/sistema/storage/framework/views/*
-/sistema/storage/logs/*
-/sistema/bootstrap/cache/*.php
+/sistema/backend/public/build/
+/sistema/backend/public/hot
+/sistema/backend/public/storage
+/sistema/backend/storage/*.key
+/sistema/backend/storage/app/private/*
+!/sistema/backend/storage/app/private/.gitignore
+/sistema/backend/storage/framework/cache/*
+/sistema/backend/storage/framework/sessions/*
+/sistema/backend/storage/framework/views/*
+/sistema/backend/storage/logs/*
+/sistema/backend/bootstrap/cache/*.php
 
 # Pruebas y herramientas
 .phpunit.result.cache

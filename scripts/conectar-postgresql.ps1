@@ -3,14 +3,14 @@
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$appDir = Join-Path $repoRoot 'sistema'
+$appDir = Join-Path $repoRoot 'sistema/backend'
 $envPath = Join-Path $appDir '.env'
 $phpExe = Join-Path $repoRoot '.tools\php\php.exe'
 
 if (-not (Test-Path $phpExe) -or -not (Test-Path (Join-Path $appDir 'artisan'))) {
     throw 'Laravel o PHP no está preparado. Ejecuta primero scripts/preparar-entorno.ps1.'
 }
-if (-not (Test-Path $envPath)) { throw 'Falta sistema/.env.' }
+if (-not (Test-Path $envPath)) { throw 'Falta sistema/backend/.env.' }
 
 $envText = [IO.File]::ReadAllText($envPath)
 $settings = [ordered]@{
@@ -19,11 +19,11 @@ $settings = [ordered]@{
 }
 foreach ($key in $settings.Keys) {
     $pattern = '(?m)^' + [regex]::Escape($key) + '=[^\r\n]*'
-    if ($envText -notmatch $pattern) { throw "Falta $key en sistema/.env. Revisar el archivo antes de continuar." }
+    if ($envText -notmatch $pattern) { throw "Falta $key en sistema/backend/.env. Revisar el archivo antes de continuar." }
     $envText = [regex]::Replace($envText, $pattern, [string]$key + '=' + $settings[$key])
 }
 if ($envText -notmatch '(?m)^DB_PASSWORD=[^\r\n]*') {
-    throw 'Falta DB_PASSWORD en sistema/.env.'
+    throw 'Falta DB_PASSWORD en sistema/backend/.env.'
 }
 
 $securePassword = Read-Host 'Contraseña que elegiste para clinica_app' -AsSecureString
@@ -46,12 +46,14 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'No se pudo limpiar la configuración.' }
     & $phpExe artisan db:show --no-interaction
     if ($LASTEXITCODE -ne 0) { throw 'No se pudo conectar. Revisa la contraseña de clinica_app y repite este script.' }
-    Write-Host 'Conexión con clinica_vida_salud comprobada. Ejecutando migraciones iniciales...'
+    Write-Host 'Conexión con clinica_vida_salud comprobada. Ejecutando migraciones...'
     & $phpExe artisan migrate --no-interaction
     if ($LASTEXITCODE -ne 0) { throw 'Falló la migración. Revisar el error antes de continuar.' }
+    & $phpExe artisan db:seed --no-interaction
+    if ($LASTEXITCODE -ne 0) { throw 'No se pudieron preparar los roles y permisos.' }
     & $phpExe artisan migrate:status
     if ($LASTEXITCODE -ne 0) { throw 'No se pudo consultar el estado de las migraciones.' }
     & $phpExe artisan test
     if ($LASTEXITCODE -ne 0) { throw 'Las pruebas iniciales fallaron.' }
-    Write-Host 'PostgreSQL y Laravel configurados. sistema/.env es local y está excluido de Git.'
+    Write-Host 'PostgreSQL y Laravel configurados. sistema/backend/.env es local y está excluido de Git.'
 } finally { Pop-Location }
