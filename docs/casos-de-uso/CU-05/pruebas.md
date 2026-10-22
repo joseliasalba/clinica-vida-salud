@@ -1,6 +1,8 @@
-# CU-03 — Resultados y reproducción
+# CU-05 — Resultados y reproducción del submódulo de especialidades
 
 **Fecha:** 22/10/2026, Bolivia. **Resultado:** 14 pruebas del módulo aprobadas (196 comprobaciones); suite completa aprobada, 85 pruebas y 813 comprobaciones. Build de Vite y formato Pint completados.
+
+Estos resultados corresponden al submódulo de especialidades y a la ejecución anterior al cambio de numeración. No son pruebas de gestión de médicos. Los nombres técnicos cu03-*, clinica_cu03_* y $phpCu03 se conservan en los comandos como identificadores históricos del entorno usado; no definen el código vigente del caso de uso.
 
 ## Entorno observado
 
@@ -57,14 +59,14 @@ Desde `sistema/frontend`: `npm ci --ignore-scripts --no-audit --no-fund` y `npm 
 
 ## Recorrido en navegador y evidencia
 
-1. Acceder como administrador de prueba y abrir Gestionar especialidades: [listado](../../pruebas/CU-03/01-listado.png).
-2. Registrar `pediatria` con Pediatría existente: muestra error y conserva el formulario: [duplicado](../../pruebas/CU-03/02-duplicado.png).
+1. Acceder como administrador de prueba y abrir Gestionar especialidades: [listado](../../pruebas/CU-05/01-listado.png).
+2. Registrar `pediatria` con Pediatría existente: muestra error y conserva el formulario: [duplicado](../../pruebas/CU-05/02-duplicado.png).
 3. Registrar Dermatología y editar su descripción: se observaron mensajes de registro/actualización correctos y el valor actualizado.
-4. Abrir Desactivar: [confirmación explícita](../../pruebas/CU-03/03-confirmacion.png).
-5. Confirmar y buscar `dermatologia`: queda una fila Inactiva con acción Activar: [registro conservado](../../pruebas/CU-03/04-desactivada.png).
+4. Abrir Desactivar: [confirmación explícita](../../pruebas/CU-05/03-confirmacion.png).
+5. Confirmar y buscar `dermatologia`: queda una fila Inactiva con acción Activar: [registro conservado](../../pruebas/CU-05/04-desactivada.png).
 
 La revisión visual cubrió las pantallas en el navegador integrado a 854 px de ancho. El CSS incluye adaptación móvil; queda pendiente revisión en teléfono físico y aceptación por el equipo. Los diagramas draw.io tienen XML validado; no se exportaron PNG de diagramas ni se verificó su apariencia en el editor.
 
 ## Cómo probar en la instalación del equipo
 
-Configurar las credenciales correctas de PostgreSQL únicamente en el `.env` local, usar PHP 8.4 con OpenSSL y `pdo_pgsql`, instalar las dependencias del lockfile y compilar recursos. Con las migraciones existentes aplicadas, iniciar el servidor y entrar con una cuenta que tenga `medicos.gestionar`. No se necesita una migración nueva para CU-03. Repetir el recorrido anterior con datos ficticios.
+Configurar las credenciales correctas de PostgreSQL únicamente en el `.env` local, usar PHP 8.4 con OpenSSL y `pdo_pgsql`, instalar las dependencias del lockfile y compilar recursos. Con las migraciones existentes aplicadas, iniciar el servidor y entrar con una cuenta que tenga `medicos.gestionar`. No se necesita una migración nueva para CU-05. Repetir el recorrido anterior con datos ficticios.

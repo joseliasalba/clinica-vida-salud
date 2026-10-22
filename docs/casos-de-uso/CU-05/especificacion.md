@@ -1,12 +1,14 @@
-# CU-03 — Gestionar especialidades médicas
+# CU-05 — Gestionar médicos y especialidades
 
-**Módulo:** Especialidades. **Ciclo:** 1. **Prioridad:** Alta. **Requisito:** RF04.
+**Módulo:** Médicos y especialidades. **Ciclo:** 1. **Prioridad:** Alta. **Requisitos:** RF03 y RF04.
 
-La numeración procede de la imagen entregada por el usuario el 22/10/2026. Sustituye, para este trabajo, el antiguo CU-03 de autorregistro. El usuario confirmó continuar con Laravel existente. El enunciado original completo sigue pendiente de contraste; no se atribuyen a la docente decisiones adicionales.
+El usuario confirmó el 22/10/2026 conservar la numeración original del proyecto: CU-03 es «Registrarse como paciente», CU-04 es «Registrar y gestionar pacientes en recepción» y CU-05 es «Gestionar médicos y especialidades». Esta decisión reemplaza la numeración alternativa usada antes en esta rama. Se mantiene Laravel existente.
+
+**Estado de esta rama:** está implementado el submódulo de especialidades (RF04). La gestión de médicos (RF03) queda pendiente. Los flujos, criterios y evidencias siguientes corresponden exclusivamente a especialidades; el cambio de título no completa el CU-05 entero. El enunciado original completo sigue pendiente de contraste; no se atribuyen a la docente decisiones adicionales.
 
 | Campo | Especificación |
 | --- | --- |
-| Caso de Uso | CU-03 Gestionar especialidades médicas |
+| Caso de Uso | CU-05 Gestionar médicos y especialidades — submódulo de especialidades |
 | Propósito | Mantener un catálogo de especialidades sin nombres duplicados y conservar sus relaciones al desactivar entradas |
 | Descripción | Listar, buscar, registrar, editar, desactivar y reactivar especialidades |
 | Actores | Administrador con permiso efectivo `medicos.gestionar` |
@@ -29,9 +31,9 @@ La numeración procede de la imagen entregada por el usuario el 22/10/2026. Sust
 
 ## Límites
 
-Este CU mantiene el catálogo. La selección de especialidades activas al reservar se verificará en los CU de disponibilidad y programación; todavía no se presenta como implementada. No administra médicos, horarios, citas ni roles. No se modifica el esquema ni se introduce una dependencia nueva.
+Esta implementación parcial del CU-05 mantiene el catálogo de especialidades. La gestión de médicos queda pendiente dentro del mismo caso. La selección de especialidades activas al reservar se verificará en CU-07; todavía no se presenta como implementada. Este submódulo no administra médicos, horarios, citas ni roles. No se modifica el esquema ni se introduce una dependencia nueva.
 
-## Criterios de aceptación
+## Criterios de aceptación del submódulo de especialidades
 
 1. Una cuenta con permiso efectivo puede listar, registrar, editar y cambiar estado; cuentas sin permiso y visitantes no pueden hacerlo.
 2. Nombres equivalentes por mayúsculas, tildes o espacios se rechazan, aunque el registro anterior esté inactivo.
@@ -40,4 +42,4 @@ Este CU mantiene el catálogo. La selección de especialidades activas al reserv
 5. La desactivación/reactivación conserva ID y vínculos; la confirmación GET no modifica datos.
 6. Una edición antigua no sobrescribe cambios recientes. PostgreSQL impide duplicados incluso si se omite la validación de formulario.
 
-Consultar [trazabilidad](dependencias.md), [pruebas](pruebas.md) y [diagramas](../../diagramas/CU-03.drawio).
+Consultar [trazabilidad](dependencias.md), [pruebas](pruebas.md) y [diagramas del submódulo de especialidades](../../diagramas/CU-05.drawio).

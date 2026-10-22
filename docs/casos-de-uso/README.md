@@ -1,23 +1,8 @@
 # Catálogo de casos de uso
 
-## Numeración vigente indicada por el usuario el 22/10/2026
+## Numeración acordada
 
-La imagen del usuario reemplaza los códigos del catálogo inicial. Se conservan las carpetas anteriores para no romper enlaces del trabajo compartido; sus códigos son históricos. El cambio implementado en esta rama corresponde exclusivamente a **CU-03 Gestionar especialidades médicas**.
-
-| Código vigente | Caso de uso | Actor principal | Requisito | Implementación/documentación |
-| --- | --- | --- | --- | --- |
-| CU-01 | Autenticar usuario | Usuario | RF01 | Documentación existente en CU-01 |
-| CU-02 | Gestionar pacientes | Recepcionista / Administrador | RF02 | Documentación histórica en CU-04 |
-| CU-03 | Gestionar especialidades médicas | Administrador | RF04 | [Especificación](CU-03/especificacion.md), [trazabilidad](CU-03/dependencias.md), [pruebas](CU-03/pruebas.md) |
-| CU-04 | Gestionar médicos | Administrador | RF03 | Pendiente |
-| CU-05 | Configurar horarios de atención | Administrador | RF05 | Pendiente |
-| CU-06 | Programar cita médica | Recepcionista | RF06, RF07 | Pendiente |
-| CU-07 | Consultar disponibilidad médica | Recepcionista | RF05, RF06; prevención de conflictos RF07 | Pendiente; asignado al usuario |
-| CU-08 | Consultar agenda de citas | Médico / Recepcionista | RF11 | Pendiente; asignado al usuario |
-
-La administración de usuarios/roles existente conserva su documentación histórica CU-02. Su código definitivo y los demás casos del segundo ciclo quedan por conciliar con el equipo. No utilizar los números históricos en la defensa sin esta correspondencia.
-
-## Catálogo histórico anterior a la imagen
+El usuario confirmó el 22/10/2026 mantener la numeración original del proyecto. CU-03 corresponde al autorregistro de pacientes; CU-04, a la gestión de pacientes en recepción; CU-05, a médicos y especialidades; CU-06, a horarios; CU-07, a disponibilidad y reserva; y CU-11, a agenda médica. Esta decisión reemplaza el catálogo alternativo que se usó anteriormente en esta rama.
 
 Los códigos CU son propios del proyecto y no sustituyen los RF del enunciado. Cada caso tiene una carpeta directa `CU-XX/` con `especificacion.md`, `dependencias.md` y `pruebas.md`; se usa `PLANTILLA.md` para la especificación. Los ciclos se indican aquí, sin anidar casos dentro de otros casos ni de carpetas de entregas.
 
@@ -47,16 +32,15 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 
 ## Documentación y estado
 
-La siguiente tabla conserva los códigos históricos. Para el CU-03 vigente, usar los enlaces de la tabla superior.
-
 | Caso | Módulo | Especificación | Dependencias y código | Evidencia | Estado |
 | --- | --- | --- | --- | --- | --- |
 | CU-01 | Auth | [Especificación](CU-01/especificacion.md) | [Trazabilidad](CU-01/dependencias.md) | [Pruebas](CU-01/pruebas.md) | Implementado con pruebas automáticas; revisión en navegador pendiente |
 | CU-01.1 | Auth | [Especificación](CU-01.1/especificacion.md) | [Trazabilidad](CU-01.1/dependencias.md) | [Pruebas](CU-01.1/pruebas.md) | Implementado con pruebas automáticas; SMTP real y revisión en navegador pendientes |
 | CU-02 | Auth | [Especificación](CU-02/especificacion.md) | [Trazabilidad](CU-02/dependencias.md) | [Pruebas](CU-02/pruebas.md) | Usuarios, roles y permisos implementados y probados; revisión visual pendiente |
 | CU-04 | Pacientes | [Especificación](CU-04/especificacion.md) | [Código y dependencias](CU-04/dependencias.md) | [Pruebas](CU-04/pruebas.md) | Fichas administrativas implementadas y probadas; revisión visual pendiente |
+| CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Especialidades implementadas; gestión de médicos pendiente |
 
-Los casos no incluidos en la tabla de estado están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
+La tabla de estado describe únicamente el código presente en esta rama. El autorregistro CU-03 desarrollado en la copia local principal todavía no está integrado aquí. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
 
 ## Convenciones
 

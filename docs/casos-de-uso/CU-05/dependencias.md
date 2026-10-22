@@ -1,4 +1,4 @@
-# CU-03 — Dependencias y trazabilidad
+# CU-05 — Dependencias y trazabilidad de especialidades
 
 ## Archivos del módulo
 
@@ -14,18 +14,18 @@ Las rutas se expresan respecto a la raíz del repositorio.
 | Pruebas | `sistema/backend/tests/Feature/Especialidades/SpecialtyManagementTest.php`, `database/factories/EspecialidadFactory.php` | Casos HTTP y servicio, datos ficticios, rollback |
 | Interfaz | `sistema/frontend/views/especialidades/{index,form,estado}.blade.php`, `views/layouts/especialidades.blade.php` | Listado, formulario y confirmación accesible |
 | Integración visual | `sistema/frontend/views/inicio.blade.php`, `css/app.css`, `css/especialidades/especialidades.css` | Acceso por permiso y estilos adaptables |
-| Diagramas | `docs/diagramas/CU-03.drawio` | Cinco páginas: CU, comunicación, clases de análisis, secuencia de alta y secuencia de edición/estado |
+| Diagramas | `docs/diagramas/CU-05.drawio` | Cinco páginas: CU, comunicación, clases de análisis, secuencia de alta y secuencia de edición/estado |
 
 ## Matriz RF → CU → tablas → pruebas
 
 | Requisito/regla | CU | Tablas | Pruebas/evidencia |
 | --- | --- | --- | --- |
-| RF04: registrar y mantener especialidades | CU-03 | especialidades | Altas, edición, estado; recorrido de navegador |
-| RF04: nombre único normalizado | CU-03 | especialidades (UNIQUE nombre_normalizado) | Duplicados con tildes/espacios/mayúsculas, inactivos y restricción PostgreSQL; captura 02 |
-| RF01/RN12: acceso autorizado | CU-03 | usuarios, roles, permisos, usuario_rol, rol_permiso | Sesión requerida, 403 para roles sin permiso, permiso revocado |
-| Conservación de referencias al desactivar, decisión del módulo | CU-03 | especialidades, medico_especialidad, citas_medicas | Test de cambio de estado conserva vínculos con médico y cita; capturas 03–04 |
-| RNF: entrada validada y salida escapada | CU-03 | especialidades | Arrays, vacíos, longitudes, campos protegidos, HTML, búsqueda SQL y CSRF |
-| Evitar pérdida de ediciones, decisión del módulo | CU-03 | especialidades | Versión HMAC + bloqueo de fila; rechazo de edición/confirmación desactualizada |
+| RF04: registrar y mantener especialidades | CU-05 | especialidades | Altas, edición, estado; recorrido de navegador |
+| RF04: nombre único normalizado | CU-05 | especialidades (UNIQUE nombre_normalizado) | Duplicados con tildes/espacios/mayúsculas, inactivos y restricción PostgreSQL; captura 02 |
+| RF01/RN12: acceso autorizado | CU-05 | usuarios, roles, permisos, usuario_rol, rol_permiso | Sesión requerida, 403 para roles sin permiso, permiso revocado |
+| Conservación de referencias al desactivar, decisión del módulo | CU-05 | especialidades, medico_especialidad, citas_medicas | Test de cambio de estado conserva vínculos con médico y cita; capturas 03–04 |
+| RNF: entrada validada y salida escapada | CU-05 | especialidades | Arrays, vacíos, longitudes, campos protegidos, HTML, búsqueda SQL y CSRF |
+| Evitar pérdida de ediciones, decisión del módulo | CU-05 | especialidades | Versión HMAC + bloqueo de fila; rechazo de edición/confirmación desactualizada |
 
 ## Decisiones para explicar en defensa
 
