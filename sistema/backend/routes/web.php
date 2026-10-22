@@ -8,6 +8,6 @@ Route::middleware('cache.headers:no_store;private;max_age=0')->group(function ()
     require __DIR__.'/usuarios.php';
     require __DIR__.'/pacientes.php';
 
-    Route::redirect('/', '/inicio');
+    Route::view('/', 'public.home')->name('portada');
     Route::view('/inicio', 'inicio')->middleware([ProtectSession::class, 'auth'])->name('inicio');
 });

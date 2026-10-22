@@ -1,4 +1,4 @@
-.auth-shell { max-width: 1184px; margin: 15px auto 0; display: grid; grid-template-columns: 1.05fr 1fr; min-height: 640px; border-radius: 28px; overflow: hidden; box-shadow: 0 0 0 1px #00000008, 0 12px 45px #153f4308; }
+.auth-shell { width: min(calc(100% - 2 * var(--page-gutter)), var(--content-max)); margin: 15px auto 0; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); min-height: 640px; border-radius: 28px; overflow: hidden; box-shadow: 0 0 0 1px #00000008, 0 12px 45px #153f4308; }
 
 .auth-story { position: relative; padding: 54px; background: #e4efea; overflow: hidden; }
 
@@ -32,7 +32,7 @@
 
 .password-field input { padding-right: 78px; }
 
-.reveal { position: absolute; right: 4px; top: 4px; min-width: 68px; min-height: 41px; border: 0; border-radius: 6px; font-size: 12px; background: transparent; color: var(--teal); }
+.reveal { position: absolute; right: 2px; top: 2px; min-width: 68px; min-height: 44px; border: 0; border-radius: 6px; font-size: 12px; background: transparent; color: var(--teal); }
 
 .reveal:hover { background: #edf5ef; }
 

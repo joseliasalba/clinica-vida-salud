@@ -1,0 +1,30 @@
+.responsive-table-region { container: records / inline-size; min-inline-size: 0; max-inline-size: 100%; }
+.responsive-table { display: block; inline-size: 100%; min-inline-size: 0; border-collapse: collapse; table-layout: fixed; text-align: start; font-size: 14px; }
+.responsive-table thead { position: absolute; inline-size: 1px; block-size: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.responsive-table tbody { display: grid; gap: 16px; }
+.responsive-table tbody tr { display: grid; min-inline-size: 0; padding: 12px 18px; background: #fff; border-radius: 16px; box-shadow: 0 0 0 1px #00000008; }
+.responsive-table-cell { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 6px; min-inline-size: 0; padding: 12px 0; border-bottom: 1px solid #edf0ec; font-weight: 400; }
+.responsive-table tbody tr > :last-child { border-bottom: 0; }
+.responsive-table th[scope=row] { display: block; font-weight: 600; }
+.responsive-table th[scope=row] .table-cell-label { display: block; margin-bottom: 8px; }
+.table-cell-label { color: var(--muted); font-size: 12px; font-weight: 600; line-height: 1.5; }
+.table-cell-value { min-inline-size: 0; max-inline-size: 100%; overflow-wrap: anywhere; line-height: 1.6; }
+.table-empty { display: block; min-inline-size: 0; }
+.record-actions { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+.record-actions > * { max-inline-size: 100%; }
+
+@container records (min-width: 26rem) {
+    .responsive-table-cell { grid-template-columns: minmax(0, 8rem) minmax(0, 1fr); gap: 12px; }
+}
+
+@container records (min-width: 44rem) {
+    .responsive-table { display: table; font-size: 13px; background: #fff; border-radius: 16px; box-shadow: 0 0 0 1px #00000008; }
+    .responsive-table thead { display: table-header-group; position: static; inline-size: auto; block-size: auto; overflow: visible; clip-path: none; white-space: normal; color: var(--muted); background: #edf2ec; }
+    .responsive-table thead th { padding: 20px 22px; font-weight: 600; }
+    .responsive-table tbody { display: table-row-group; }
+    .responsive-table tbody tr { display: table-row; padding: 0; background: transparent; border-radius: 0; box-shadow: none; }
+    .responsive-table-cell, .responsive-table th[scope=row], .table-empty { display: table-cell; padding: 20px 22px; border-bottom: 1px solid #edf0ec; vertical-align: middle; }
+    .responsive-table tbody tr > :last-child { border-bottom: 1px solid #edf0ec; }
+    .responsive-table tbody tr:last-child > * { border-bottom: 0; }
+    .responsive-table .table-cell-label, .responsive-table th[scope=row] .table-cell-label { display: none; }
+}

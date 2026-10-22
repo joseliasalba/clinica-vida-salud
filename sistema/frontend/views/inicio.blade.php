@@ -4,6 +4,9 @@
 <div class="dashboard">
     <div class="dashboard-top"><div><span class="eyebrow">TU ESPACIO PERSONAL</span><h1>Hola, {{ auth()->user()->nombre_usuario }}.</h1><p>Bienvenido a Clínica Vida Salud.</p></div><form action="{{ route('logout') }}" method="POST">@csrf<button class="button secondary" type="submit">Cerrar sesión ↗</button></form></div>
     <x-messages />
+    @if(!auth()->user()->hasVerifiedEmail() && \App\Models\Paciente::query()->where('usuario_id', auth()->id())->exists())
+        <div class="notice">Tu correo está pendiente de confirmación. <a href="{{ route('verification.notice') }}">Verificar mi correo</a>.</div>
+    @endif
     <section class="welcome-banner"><div><span class="eyebrow">ESTAMOS CONTIGO</span><h2>Todo empieza con<br>una buena atención.</h2><p>Este es tu punto de encuentro con la clínica.</p></div><span class="banner-cross" aria-hidden="true">✚</span></section>
     <div class="section-heading"><h2>Tu espacio de atención</h2><span>Opciones de tu cuenta</span></div>
     <div class="module-grid">

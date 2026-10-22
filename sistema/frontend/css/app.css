@@ -1,9 +1,12 @@
 @import 'tailwindcss';
 @import './shared/base.css';
+@import './shared/navigation.css';
 @import './auth/auth.css';
-@import './auth/usuarios.css';
+@import './shared/admin.css';
+@import './shared/tables.css';
 @import './pacientes/pacientes.css';
 @import './inicio/inicio.css';
+@import './inicio/public.css';
 @import './shared/responsive.css';
 
 @source '../../backend/vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

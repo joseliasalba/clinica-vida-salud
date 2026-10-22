@@ -9,12 +9,18 @@
     <button class="button secondary" type="submit">Buscar</button><a class="filter-reset" href="{{ route('pacientes.index') }}">Limpiar</a>
 </form>
 <div class="admin-result-heading"><h2>Fichas de pacientes</h2><span>{{ $pacientes->total() }} {{ $pacientes->total() === 1 ? 'paciente' : 'pacientes' }}</span></div>
-<div class="admin-table-wrap" role="region" aria-label="Lista de pacientes" tabindex="0"><table class="admin-table"><thead><tr><th scope="col">Paciente</th><th scope="col">CI</th><th scope="col">Teléfono</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead><tbody>
+<x-responsive-table label="Lista de pacientes" :columns="['paciente' => 'Paciente', 'ci' => 'CI', 'telefono' => 'Teléfono', 'estado' => 'Estado', 'acciones' => 'Acciones']">
 @forelse($pacientes as $paciente)
-    <tr><th scope="row"><span class="user-label">{{ $paciente->nombres }} {{ $paciente->apellidos }}</span><small class="cell-note">{{ $paciente->codigo }}</small></th><td>{{ $paciente->ci ?: 'Sin CI' }}</td><td>{{ $paciente->telefono }}</td><td><span class="state {{ $paciente->activo ? 'active' : 'inactive' }}">{{ $paciente->activo ? 'Activo' : 'Inactivo' }}</span></td><td><div class="patient-row-actions"><a class="table-action" href="{{ route('pacientes.show', $paciente) }}" aria-label="Ver ficha de {{ $paciente->nombres }} {{ $paciente->apellidos }}">Ver ficha ↗</a><a class="table-action" href="{{ route('pacientes.edit', $paciente) }}" aria-label="Editar ficha de {{ $paciente->nombres }} {{ $paciente->apellidos }}">Editar</a></div></td></tr>
+    <tr role="row">
+        <x-table-cell column="paciente" heading><span class="user-label">{{ $paciente->nombres }} {{ $paciente->apellidos }}</span><small class="cell-note">{{ $paciente->codigo }}</small></x-table-cell>
+        <x-table-cell column="ci">{{ $paciente->ci ?: 'Sin CI' }}</x-table-cell>
+        <x-table-cell column="telefono">{{ $paciente->telefono }}</x-table-cell>
+        <x-table-cell column="estado"><span class="state {{ $paciente->activo ? 'active' : 'inactive' }}">{{ $paciente->activo ? 'Activo' : 'Inactivo' }}</span></x-table-cell>
+        <x-table-cell column="acciones"><div class="record-actions"><a class="table-action" href="{{ route('pacientes.show', $paciente) }}" aria-label="Ver ficha de {{ $paciente->nombres }} {{ $paciente->apellidos }}">Ver ficha ↗</a><a class="table-action" href="{{ route('pacientes.edit', $paciente) }}" aria-label="Editar ficha de {{ $paciente->nombres }} {{ $paciente->apellidos }}">Editar</a></div></x-table-cell>
+    </tr>
 @empty
-    <tr><td colspan="5"><div class="admin-empty"><h3>No encontramos pacientes con estos filtros.</h3><p>Prueba con otro nombre o CI. Si aún no existe su ficha, puedes registrar al paciente.</p><a class="button primary" href="{{ route('pacientes.create') }}">Registrar paciente</a></div></td></tr>
+    <x-table-empty><div class="admin-empty"><h3>No encontramos pacientes con estos filtros.</h3><p>Prueba con otro nombre o CI. Si aún no existe su ficha, puedes registrar al paciente.</p><a class="button primary" href="{{ route('pacientes.create') }}">Registrar paciente</a></div></x-table-empty>
 @endforelse
-</tbody></table></div>
+</x-responsive-table>
 <div class="admin-pagination">{{ $pacientes->links() }}</div>
 @endsection

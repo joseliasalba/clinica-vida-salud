@@ -11,5 +11,7 @@
         <a class="forgot-link" href="{{ route('password.request') }}">Olvidé mi contraseña</a>
         <button class="button primary" type="submit">Iniciar sesión <span aria-hidden="true">↗</span></button>
     </form>
+    <p class="registration-login">¿Es tu primera vez? <a href="{{ route('registro') }}">Crea tu cuenta de paciente</a></p>
+    <a class="back-link" href="{{ route('portada') }}">← Volver a la clínica</a>
     <div class="private-note"><span aria-hidden="true">◇</span> Un acceso personal para cuidar tu información.</div>
 @endsection

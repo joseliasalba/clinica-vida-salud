@@ -86,6 +86,45 @@ La especificación describe el comportamiento; `dependencias.md` conecta requisi
 
 La separación backend/frontend organiza responsabilidades. Las vistas Blade siguen siendo renderizadas por Laravel; no son una aplicación independiente que consuma una API.
 
+## Estándar de adaptación a móviles
+
+Las instrucciones para los próximos cambios están en [`sistema/frontend/AGENTS.md`](../sistema/frontend/AGENTS.md). Los estilos compartidos de administración se encuentran en `frontend/css/shared/admin.css`; ya no pertenecen exclusivamente a Auth. La adaptación general se centraliza en `shared/responsive.css` y la de listados en `shared/tables.css`.
+
+Cada listado utiliza el mismo componente, sin repetir sus datos para móvil y escritorio:
+
+```blade
+<x-responsive-table label="Lista de pacientes"
+    :columns="['nombre' => 'Paciente', 'telefono' => 'Teléfono', 'acciones' => 'Acciones']">
+    @forelse($pacientes as $paciente)
+        <tr role="row">
+            <x-table-cell column="nombre" heading>{{ $paciente->nombres }}</x-table-cell>
+            <x-table-cell column="telefono">{{ $paciente->telefono }}</x-table-cell>
+            <x-table-cell column="acciones">
+                <div class="record-actions"><a class="table-action" href="{{ route('pacientes.show', $paciente) }}">Ver ficha</a></div>
+            </x-table-cell>
+        </tr>
+    @empty
+        <x-table-empty>No se encontraron pacientes.</x-table-empty>
+    @endforelse
+</x-responsive-table>
+```
+
+Las etiquetas de cada celda y los encabezados se generan desde `columns`; una clave inexistente provoca un error explícito en vez de perder una etiqueta móvil. La tabla conserva encabezados, roles y relaciones de fila para lectores de pantalla. En tarjetas las etiquetas visuales no se anuncian por duplicado.
+
+| Ancho disponible del listado | Presentación |
+| --- | --- |
+| Menos de 26rem | Tarjetas con etiquetas sobre cada valor; teléfono, estado y acciones siempre presentes |
+| Desde 26rem hasta menos de 44rem | Tarjetas con etiqueta y valor en dos columnas flexibles |
+| Desde 44rem | Tabla completa, con anchos flexibles y ajuste de texto |
+
+La adaptación depende del contenedor, no de reconocer un teléfono concreto. Si un navegador no admite consultas de contenedor, conserva la presentación de tarjetas. El contenido no se esconde para eliminar el desbordamiento.
+
+Los contenedores generales usan `--page-gutter` y `--content-max`; paneles, `--panel-padding`. Las reglas generales cambian a 48rem (formularios, navegación, botones, contacto y autenticación) y 62.5rem (distribución intermedia). No agregar nuevos márgenes rígidos, `min-width` de escritorio ni recortes del contenido para un módulo.
+
+`backend/tests/Feature/ResponsiveLayoutTest.php` verifica todos los listados actuales, valores largos, etiquetas coherentes, acciones presentes y estados vacíos; también impide añadir tablas HTML fuera del componente común. Es una garantía estructural, no una medición del desbordamiento en un navegador.
+
+Antes de aceptar cambios de interfaz, revisar 320, 360, 390, 430, 768, 1024 y 1440px y zoom al 200%, con nombres, correos y códigos extensos. Comprobar login/recuperación, inicio, los cuatro listados, formularios, ficha, filtros, paginación y teclado. Si no hay navegador disponible, registrar esa verificación como pendiente.
+
 ## Ejecución de pruebas
 
 Desde la raíz del repositorio, en PowerShell:

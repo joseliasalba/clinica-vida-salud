@@ -1,0 +1,51 @@
+.public-shell { width: min(calc(100% - 2 * var(--page-gutter)), var(--content-max)); margin: 12px auto 0; }
+.public-shell section[id] { scroll-margin-block-start: 7rem; }
+.site-header-public { flex-wrap: wrap; gap: 16px; }
+.public-navigation { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+.public-navigation > a:not(.button) { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: 13px; text-decoration: none; }
+.public-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .9fr); gap: clamp(24px, 5vw, 72px); align-items: center; padding-block: clamp(28px, 6vw, 76px); }
+.public-hero h1 { margin: 22px 0; font-size: clamp(36px, 5vw, 64px); line-height: 1.08; font-weight: 500; letter-spacing: -2px; }
+.public-hero h1 em { color: var(--teal); font-style: normal; }
+.public-hero-copy > p { max-width: 30rem; color: var(--muted); font-size: 16px; line-height: 1.8; }
+.public-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 26px; }
+.public-caption { display: block; margin-block-start: 20px; color: var(--muted); font-size: 12px; }
+.public-welcome-card { position: relative; padding: clamp(24px, 4vw, 44px); border-radius: 28px; background: #e4efea; }
+.public-cross { display: grid; place-items: center; width: 70px; height: 70px; margin-block-end: 28px; background: #cddfd4; color: var(--teal); border-radius: 22px; font-size: 46px; }
+.public-welcome-card h2 { margin: 16px 0 24px; font-size: clamp(26px, 3vw, 36px); font-weight: 500; line-height: 1.2; letter-spacing: -.8px; }
+.public-welcome-card ol { display: grid; gap: 20px; padding-inline-start: 20px; margin: 0; }
+.public-welcome-card li { padding-inline-start: 7px; }
+.public-welcome-card li::marker { color: var(--teal); font-weight: 600; }
+.public-welcome-card li strong, .public-welcome-card li span { display: block; font-size: 13px; }
+.public-welcome-card li span { color: #426861; line-height: 1.6; margin-block-start: 5px; }
+.public-introduction { padding: clamp(28px, 5vw, 56px) 0; border-block: 1px solid #dce5df; max-width: 47rem; }
+.public-shell h2 { font-size: clamp(25px, 3vw, 34px); font-weight: 500; line-height: 1.25; letter-spacing: -.8px; }
+.public-introduction p, .public-service p, .public-ticket p { color: var(--muted); line-height: 1.8; font-size: 14px; }
+.public-section { padding-block: clamp(32px, 6vw, 68px); }
+.public-section-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-block-end: 20px; }
+.public-services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.public-service { padding: var(--panel-padding); border: 1px solid #e1e8e2; border-radius: 20px; background: white; }
+.public-service h3 { margin: 24px 0 12px; font-size: 19px; font-weight: 600; }
+.public-service p { margin: 0; }
+.public-ticket { padding: clamp(24px, 4vw, 44px); border-radius: 24px; background: #e4efea; }
+.public-ticket > div:first-child { max-width: 47rem; }
+.public-ticket-status { border-inline-start: 3px solid var(--teal); padding-inline-start: 16px; }
+.public-demo-note { max-width: 48rem; color: var(--muted); line-height: 1.7; font-size: 13px; }
+.public-contact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-block-start: 28px; }
+.public-contact dt { font-size: 13px; font-weight: 600; margin-block-end: 10px; }
+.public-contact dd { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.registration-shell { width: min(calc(100% - 2 * var(--page-gutter)), var(--content-max)); margin: 24px auto; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: start; gap: clamp(24px, 5vw, 64px); }
+.registration-intro { padding-block: 16px; }
+.registration-intro .back-link { display: inline-flex; align-items: center; min-height: 44px; margin: 0 0 28px; }
+.registration-intro h1 { margin: 22px 0; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.2; font-weight: 500; letter-spacing: -1.2px; }
+.registration-intro p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+.registration-intro .notice { margin-block: 24px; }
+.registration-intro .notice p { margin-block-end: 0; }
+.registration-card { padding: clamp(20px, 3vw, 36px); background: white; border: 1px solid #e1e8e2; border-radius: 24px; }
+.registration-card h2 { font-size: 28px; font-weight: 600; line-height: 1.25; margin: 16px 0 12px; letter-spacing: -.8px; }
+.registration-form { display: flex; flex-direction: column; gap: 24px; }
+.registration-form fieldset { border: 0; padding: 0; margin: 0; }
+.registration-form legend { margin-block-end: 20px; font-size: 14px; font-weight: 600; }
+.registration-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.registration-note, .registration-login { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.8; }
+.registration-login { margin-block-start: 20px; }
+.registration-login a { font-weight: 600; }

@@ -10,18 +10,17 @@
     <button class="button secondary" type="submit">Buscar</button><a class="filter-reset" href="{{ route('usuarios.index') }}">Limpiar</a>
 </form>
 <div class="admin-result-heading"><h2>Cuentas de usuario</h2><span>{{ $users->total() }} {{ $users->total() === 1 ? 'cuenta' : 'cuentas' }}</span></div>
-<div class="admin-table-wrap" role="region" aria-label="Lista de usuarios" tabindex="0">
-<table class="admin-table"><thead><tr><th scope="col">Usuario</th><th scope="col">Correo</th><th scope="col">Roles asignados</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead><tbody>
+<x-responsive-table label="Lista de usuarios" :columns="['usuario' => 'Usuario', 'correo' => 'Correo', 'roles' => 'Roles asignados', 'estado' => 'Estado', 'acciones' => 'Acciones']">
 @forelse($users as $usuario)
-    <tr><th scope="row"><span class="user-label">{{ $usuario->nombre_usuario }}</span>@if($usuario->id === auth()->id())<small class="cell-note">Tu cuenta</small>@endif</th><td>{{ $usuario->correo }}</td><td><div class="tag-list">
+    <tr role="row"><x-table-cell column="usuario" heading><span class="user-label">{{ $usuario->nombre_usuario }}</span>@if($usuario->id === auth()->id())<small class="cell-note">Tu cuenta</small>@endif</x-table-cell><x-table-cell column="correo">{{ $usuario->correo }}</x-table-cell><x-table-cell column="roles"><div class="tag-list">
         @forelse($assignments->get($usuario->id, collect()) as $assignment)
             @php($valid = $assignment->rol_activo && $assignment->fecha_asignacion <= now()->toDateTimeString() && (!$assignment->fecha_expiracion || $assignment->fecha_expiracion > now()->toDateTimeString()))
             <span class="tag {{ $valid ? '' : 'muted' }}">{{ $assignment->nombre }} @if(!$valid) · sin vigencia @endif</span>
         @empty<span class="cell-note">Sin roles vigentes</span>@endforelse
-    </div></td><td><span class="state {{ $usuario->activo ? 'active' : 'inactive' }}">{{ $usuario->activo ? 'Activo' : 'Inactivo' }}</span></td><td><a class="table-action" href="{{ route('usuarios.edit', $usuario) }}" aria-label="Editar usuario {{ $usuario->nombre_usuario }}">Editar ↗</a></td></tr>
+    </div></x-table-cell><x-table-cell column="estado"><span class="state {{ $usuario->activo ? 'active' : 'inactive' }}">{{ $usuario->activo ? 'Activo' : 'Inactivo' }}</span></x-table-cell><x-table-cell column="acciones"><a class="table-action" href="{{ route('usuarios.edit', $usuario) }}" aria-label="Editar usuario {{ $usuario->nombre_usuario }}">Editar ↗</a></x-table-cell></tr>
 @empty
-    <tr><td colspan="5"><div class="admin-empty"><h3>No encontramos usuarios con estos filtros.</h3><p>Prueba con otro texto o limpia la búsqueda.</p></div></td></tr>
+    <x-table-empty><div class="admin-empty"><h3>No encontramos usuarios con estos filtros.</h3><p>Prueba con otro texto o limpia la búsqueda.</p></div></x-table-empty>
 @endforelse
-</tbody></table></div>
+</x-responsive-table>
 <div class="admin-pagination">{{ $users->links() }}</div>
 @endsection

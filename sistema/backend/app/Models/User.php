@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,10 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 #[Fillable(['nombre_usuario', 'correo', 'contrasena_hash'])]
 #[Hidden(['contrasena_hash', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmailContract
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, MustVerifyEmail, Notifiable;
 
     protected $table = 'usuarios';
 
@@ -25,6 +27,11 @@ class User extends Authenticatable
     }
 
     public function getEmailForPasswordReset(): string
+    {
+        return $this->correo;
+    }
+
+    public function getEmailForVerification(): string
     {
         return $this->correo;
     }
@@ -65,6 +72,7 @@ class User extends Authenticatable
     {
         return [
             'activo' => 'boolean',
+            'email_verified_at' => 'datetime',
             'contrasena_hash' => 'hashed',
         ];
     }

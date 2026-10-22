@@ -36,6 +36,9 @@ class UserAdministration
             $passwordChanged = ! empty($data['password']);
             $deactivated = $user->exists && $user->activo && ! $data['activo'];
             $user->forceFill(['nombre_usuario' => $data['nombre_usuario'], 'correo' => $data['correo'], 'activo' => (bool) $data['activo']]);
+            if ($oldEmail !== $user->correo) {
+                $user->email_verified_at = null;
+            }
             if ($passwordChanged) {
                 $user->contrasena_hash = $data['password'];
             }

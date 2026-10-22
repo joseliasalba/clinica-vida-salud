@@ -1,5 +1,44 @@
-@media (max-width: 1000px) { .auth-shell, .dashboard { margin-left: 24px; margin-right: 24px; }.auth-story { padding: 40px 32px; }.auth-card { padding: 48px 36px; }.care-art { opacity: .5; }.module-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 62.5rem) {
+    .auth-story { padding: 40px 32px; }
+    .auth-card { padding: 48px 36px; }
+    .care-art { opacity: .5; }
+    .module-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .site-header-public .public-navigation { flex: 1 1 100%; }
+}
 
-@media (max-width: 680px) { .site-header, .site-footer { padding: 24px; }.header-note { display: none; }.auth-shell { display: block; margin: 8px 18px; min-height: auto; border-radius: 20px; }.auth-story { display: none; }.auth-card { padding: 36px 25px; }.auth-card h2 { font-size: 29px; }.site-footer { flex-direction: column; align-items: flex-start; gap: 8px; }.dashboard { margin: 18px; }.dashboard-top { align-items: flex-start; flex-direction: column; }.dashboard-top h1 { font-size: 29px; overflow-wrap: anywhere; }.welcome-banner { padding: 28px; }.welcome-banner h2 { font-size: 29px; }.banner-cross { font-size: 90px; margin-left: 12px; }.section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }.module-grid { grid-template-columns: 1fr; } }
+@media (max-width: 48rem) {
+    .site-header, .site-footer { padding: 24px var(--page-gutter); }
+    .header-note { display: none; }
+    .auth-shell { display: block; margin-block-start: 8px; min-height: auto; border-radius: 20px; }
+    .auth-story { display: none; }
+    .auth-card { padding: 32px clamp(16px, 5vw, 32px); }
+    .auth-card h2, .dashboard-top h1, .welcome-banner h2 { font-size: clamp(25px, 6vw, 29px); }
+    .site-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .dashboard { margin-block: 18px; }
+    .dashboard-top, .admin-heading { align-items: flex-start; flex-direction: column; }
+    .admin-actions, .admin-actions .button { width: 100%; }
+    .admin-nav { width: 100%; }
+    .admin-nav a { flex: 1 1 6.25rem; padding-inline: 10px; text-align: center; }
+    .admin-filters { padding: var(--panel-padding); gap: 12px; }
+    .admin-filters .field, .admin-filters .field:first-child { flex: 1 1 100%; }
+    .admin-filters > .button { flex: 1 1 10rem; }
+    .filter-reset { display: inline-flex; align-items: center; min-height: 44px; padding: 10px; }
+    .admin-form-grid, .choice-grid, .patient-details { grid-template-columns: minmax(0, 1fr); }
+    .admin-form-footer > .button { flex: 1 1 10rem; }
+    .admin-heading h1 { letter-spacing: -.8px; }
+    .field input, .field select, .field textarea { font-size: 16px; }
+    .welcome-banner { padding: var(--panel-padding); }
+    .banner-cross { display: none; }
+    .section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+    .module-grid { grid-template-columns: minmax(0, 1fr); }
+    .module-card { padding: var(--panel-padding); }
+    .module-card .button { width: 100%; }
+    .public-hero, .public-services, .public-contact, .registration-shell, .registration-fields { grid-template-columns: minmax(0, 1fr); }
+    .public-navigation { gap: 8px 16px; }
+    .public-navigation > .button { margin-inline-start: auto; }
+    .public-actions .button { flex: 1 1 14rem; }
+    .public-section-heading { align-items: flex-start; flex-direction: column; }
+    .registration-shell { margin-block-start: 8px; }
+}
 
 @media (prefers-reduced-motion: reduce) { .button { transition: none; }.button:active { scale: 1; } }

@@ -26,7 +26,7 @@
 | Revocar sesiones y enlaces | `SessionController.php`, `ProtectSession.php`, `UserAdministration.php` | Desactivación/reactivación, cambio de contraseña y revocación de tokens |
 | Pantallas | `frontend/views/auth/usuarios/`, `auth/roles/`, `auth/permisos/` | Pruebas HTTP de todas las pantallas |
 | Estructura y navegación | `frontend/views/layouts/admin.blade.php`, `components/admin-nav.blade.php`, `views/inicio.blade.php` | Acceso desde inicio y navegación por roles/permisos |
-| Presentación | `frontend/css/auth/usuarios.css`, estilos y JavaScript compartidos | Compilación correcta; inspección visual pendiente |
+| Presentación | `frontend/css/shared/admin.css`, `shared/tables.css`, `shared/responsive.css`, componentes de tabla y estilos compartidos | Adaptación común a tarjetas; compilación y pruebas HTTP; inspección visual pendiente |
 
 Los controladores y Form Requests abreviados en la tabla están bajo `backend/app/Http/Controllers/Auth/` y `backend/app/Http/Requests/Auth/`. Las pruebas comparten cuentas efímeras mediante `backend/tests/Support/CreatesAdministrativeUsers.php`; el proceso auxiliar está en `backend/tests/Fixtures/Auth/admin-mutation-worker.php`.
 
