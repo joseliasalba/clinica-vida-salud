@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Especialidad;
+use App\Models\HorarioAtencion;
+use App\Models\IndisponibilidadMedico;
 use App\Models\Medico;
 use App\Models\Paciente;
 use App\Models\User;
@@ -28,7 +30,9 @@ class ResponsiveLayoutTest extends TestCase
         $specialty = Especialidad::factory()->create(['nombre' => str_repeat('Especialidad ', 18), 'descripcion' => str_repeat('Descripción ', 20)]);
         $doctor = Medico::factory()->create(['nombres' => str_repeat('Nombre ', 20), 'correo' => str_repeat('correo', 35).'@example.test']);
         $doctor->especialidades()->attach($specialty->id, ['activo' => true]);
-        foreach (['/pacientes', '/usuarios', '/roles', '/permisos', '/especialidades', '/medicos'] as $url) {
+        HorarioAtencion::factory()->create(['medico_id' => $doctor->id]);
+        IndisponibilidadMedico::factory()->create(['medico_id' => $doctor->id, 'motivo' => str_repeat('Motivo ', 30)]);
+        foreach (['/pacientes', '/usuarios', '/roles', '/permisos', '/especialidades', '/medicos', '/horarios', '/horarios/bloqueos'] as $url) {
             $response = $this->get($url)->assertOk();
             $xpath = $this->xpath($response->getContent());
             $this->assertSame(1, $xpath->query('//table[@role="table"]')->length, $url);

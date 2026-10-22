@@ -74,7 +74,7 @@ Los puntos de entrada de Vite siguen siendo `css/app.css` y `js/app.js`. Laravel
 7. Colocar pruebas HTTP en `tests/Feature/Pacientes/`, con namespace `Tests\Feature\Pacientes`. PHPUnit descubre recursivamente los archivos.
 8. Registrar rutas en `routes/web.php` o cargar un archivo funcional desde allí cuando el módulo lo justifique. Todas conservan el middleware web y los controles de autenticación y permisos necesarios.
 
-Módulos previstos: `Auth` (CU-01, CU-01.1 y CU-02), `Pacientes` (CU-03, CU-04 y CU-14), `Medicos` (CU-05 y CU-06), `Citas` (CU-07 a CU-12), `Reportes` (CU-13), `AtencionClinica` (CU-15 y CU-16) y `Recordatorios` (CU-17). Es una organización propuesta; las carpetas aparecen al implementar cada función.
+Módulos: `Auth` (CU-01, CU-01.1 y CU-02), `Pacientes` (CU-03, CU-04 y CU-14), `Medicos` y `Especialidades` (CU-05), `Horarios` (CU-06), `Citas` (CU-07 a CU-12), `Reportes` (CU-13), `AtencionClinica` (CU-15 y CU-16) y `Recordatorios` (CU-17). Las carpetas aparecen al implementar cada función; los módulos posteriores a CU-06 siguen previstos.
 
 ## Documentación y estados
 

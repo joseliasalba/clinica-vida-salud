@@ -16,7 +16,7 @@ return [
             'icono' => 'calendario',
             'opciones' => [
                 ['titulo' => 'Citas', 'icono' => 'calendario', 'permiso' => 'citas.gestionar', 'ruta' => null],
-                ['titulo' => 'Horarios de atención', 'icono' => 'reloj', 'permiso' => 'horarios.gestionar', 'ruta' => null],
+                ['titulo' => 'Horarios de atención', 'icono' => 'reloj', 'permiso' => 'horarios.gestionar', 'ruta' => 'horarios.index', 'activo' => 'horarios.*'],
                 ['titulo' => 'Mis citas', 'icono' => 'calendario', 'permiso' => 'citas.propias', 'ruta' => null],
                 ['titulo' => 'Mi agenda', 'icono' => 'calendario', 'permiso' => 'agenda.propia', 'ruta' => null],
             ],

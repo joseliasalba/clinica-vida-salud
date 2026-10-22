@@ -40,8 +40,9 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 | CU-03 | Pacientes | [Especificación](CU-03/especificacion.md) | [Código y dependencias](CU-03/dependencias.md) | [Pruebas](CU-03/pruebas.md) | Portada pública y autorregistro implementados; revisión visual y SMTP real pendientes |
 | CU-04 | Pacientes | [Especificación](CU-04/especificacion.md) | [Código y dependencias](CU-04/dependencias.md) | [Pruebas](CU-04/pruebas.md) | Fichas administrativas implementadas y probadas; revisión visual pendiente |
 | CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Médicos y especialidades implementados; revisión visual de médicos pendiente |
+| CU-06 | Horarios y bloqueos | [Reglas implementadas](../../README.md#cu-06-horarios-y-bloqueos) | [Servicio](../../sistema/backend/app/Services/Horarios/ScheduleManagement.php) | [Pruebas](../../sistema/backend/tests/Feature/Horarios/ScheduleManagementTest.php) | Implementado; revisión visual autenticada y diagramas pendientes |
 
-La copia integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación de listados móviles y médicos/especialidades del CU-05. CU-06, CU-07 y CU-11 siguen pendientes; CU-07 no tiene flujo de reservas activo. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
+La copia integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación de listados móviles, médicos/especialidades del CU-05 y horarios/bloqueos del CU-06. CU-07 y CU-11 siguen pendientes; CU-07 no tiene flujo de reservas activo. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
 
 ## Convenciones
 
