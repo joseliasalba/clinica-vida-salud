@@ -39,9 +39,9 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 | CU-02 | Auth | [Especificación](CU-02/especificacion.md) | [Trazabilidad](CU-02/dependencias.md) | [Pruebas](CU-02/pruebas.md) | Usuarios, roles y permisos implementados y probados; revisión visual pendiente |
 | CU-03 | Pacientes | [Especificación](CU-03/especificacion.md) | [Código y dependencias](CU-03/dependencias.md) | [Pruebas](CU-03/pruebas.md) | Portada pública y autorregistro implementados; revisión visual y SMTP real pendientes |
 | CU-04 | Pacientes | [Especificación](CU-04/especificacion.md) | [Código y dependencias](CU-04/dependencias.md) | [Pruebas](CU-04/pruebas.md) | Fichas administrativas implementadas y probadas; revisión visual pendiente |
-| CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Especialidades implementadas; gestión de médicos pendiente |
+| CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Médicos y especialidades implementados; revisión visual de médicos pendiente |
 
-La rama integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación de listados móviles y el catálogo de especialidades del CU-05. La gestión de médicos sigue pendiente. CU-07 está pausado y no tiene flujo de reservas activo. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
+La copia integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación de listados móviles y médicos/especialidades del CU-05. CU-06, CU-07 y CU-11 siguen pendientes; CU-07 no tiene flujo de reservas activo. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
 
 ## Convenciones
 

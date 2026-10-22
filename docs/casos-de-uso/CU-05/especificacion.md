@@ -4,7 +4,9 @@
 
 El usuario confirmó el 22/10/2026 conservar la numeración original del proyecto: CU-03 es «Registrarse como paciente», CU-04 es «Registrar y gestionar pacientes en recepción» y CU-05 es «Gestionar médicos y especialidades». Esta decisión reemplaza la numeración alternativa usada antes en esta rama. Se mantiene Laravel existente.
 
-**Estado de esta rama:** está implementado el submódulo de especialidades (RF04). La gestión de médicos (RF03) queda pendiente. Los flujos, criterios y evidencias siguientes corresponden exclusivamente a especialidades; el cambio de título no completa el CU-05 entero. El enunciado original completo sigue pendiente de contraste; no se atribuyen a la docente decisiones adicionales.
+**Estado:** implementados médicos (RF03) y especialidades (RF04), con validación automática. La revisión visual del nuevo submódulo de médicos está pendiente. Los diagramas y capturas históricos corresponden solo a especialidades. El enunciado original completo sigue pendiente de contraste; las reglas operativas siguientes son decisiones de implementación y no se atribuyen a la docente.
+
+## Flujo documentado de especialidades
 
 | Campo | Especificación |
 | --- | --- |
@@ -31,7 +33,7 @@ El usuario confirmó el 22/10/2026 conservar la numeración original del proyect
 
 ## Límites
 
-Esta implementación parcial del CU-05 mantiene el catálogo de especialidades. La gestión de médicos queda pendiente dentro del mismo caso. La selección de especialidades activas al reservar se verificará en CU-07; todavía no se presenta como implementada. Este submódulo no administra médicos, horarios, citas ni roles. No se modifica el esquema ni se introduce una dependencia nueva.
+El submódulo de especialidades mantiene el catálogo. La gestión de médicos se describe debajo. Horarios, disponibilidad, reservas y consulta de agenda corresponden a CU-06, CU-07 y CU-11 y todavía no están implementados. Este caso no crea usuarios ni modifica roles o contraseñas.
 
 ## Criterios de aceptación del submódulo de especialidades
 
@@ -43,3 +45,27 @@ Esta implementación parcial del CU-05 mantiene el catálogo de especialidades. 
 6. Una edición antigua no sobrescribe cambios recientes. PostgreSQL impide duplicados incluso si se omite la validación de formulario.
 
 Consultar [trazabilidad](dependencias.md), [pruebas](pruebas.md) y [diagramas del submódulo de especialidades](../../diagramas/CU-05.drawio).
+
+## Gestión de médicos implementada
+
+Entrada `/medicos`, sesión vigente y permiso efectivo `medicos.gestionar`. El administrador puede buscar por código, registro profesional o nombre completo, filtrar por estado/especialidad y recorrer páginas de 15 registros. El listado conserva todos los datos y acciones en tarjetas móviles.
+
+1. Abrir Médicos desde el inicio o el menú lateral y buscar antes de registrar.
+2. Seleccionar Registrar médico, completar nombres, apellidos, registro profesional, teléfono y correo de contacto.
+3. Asignar una o varias especialidades activas. Opcionalmente elegir una cuenta existente activa con permiso efectivo `agenda.propia`, sin vinculación con otro médico.
+4. Validar en servidor y guardar médico, código `MED-` + ID y asignaciones en una transacción. La ficha nace activa. No se crean usuarios, horarios, citas ni historias clínicas.
+5. Editar con una firma de versión que incluye campos de la ficha y estados de sus asignaciones. Una edición o confirmación desactualizada se rechaza.
+6. Activar/desactivar en una pantalla de confirmación separada. GET no cambia datos. No existe DELETE.
+
+### Reglas de médicos
+
+- Nombres/apellidos: texto obligatorio de hasta 150 caracteres; se compactan espacios. Registro profesional: obligatorio, hasta 100 caracteres, normalizado a mayúsculas y sin espacios exteriores. PostgreSQL impide duplicados normalizados, incluso entre inactivos y ante escrituras concurrentes. La migración rechaza datos previos duplicados antes de crear el índice; no los modifica ni elimina.
+- Teléfono obligatorio de hasta 50 caracteres; correo de contacto obligatorio de hasta 255, en minúsculas. No se exige correo de contacto único y no se vinculan cuentas por coincidencias de correo.
+- Al guardar deben seleccionarse de 1 a 100 especialidades activas distintas. Se revalida su estado bajo bloqueo. Las asignaciones retiradas del catálogo activo cambian a `activo=false` sin borrar filas; las relaciones con especialidades desactivadas se conservan y no son editables hasta que vuelvan a estar activas.
+- La selección de cuenta es explícita y opcional; una cuenta solo puede asociarse con un médico. Una cuenta actual desactivada o que perdió permisos puede conservarse al editar, pero no asignarse a una nueva ficha. Seleccionar «Sin cuenta vinculada» retira la asociación. Las reglas se revalidan dentro de la transacción y comparten el bloqueo de administración de permisos.
+- Desactivar un médico no cambia su cuenta, asignaciones, horarios ni citas. Se informa la cantidad de citas futuras pendientes para coordinar su atención. Reactivar exige una especialidad activa asignada.
+- La sesión y el permiso se verifican en las rutas y en el servicio; POST/PUT/PATCH requieren CSRF. Salidas Blade escapadas. Los eventos guardan solo IDs y estado después del commit.
+
+### Criterios de aceptación de médicos
+
+Registro y edición completos; código generado; ninguna cuenta creada implícitamente; especialidades asignadas; cuenta opcional elegible y única; rechazo de registro duplicado también en PostgreSQL; rollback ante colisiones; conservación de identidad y relaciones históricas; rechazo de versiones antiguas; activación/desactivación con confirmación; permisos, CSRF y escape HTML; búsqueda, paginación y adaptación del listado verificadas automáticamente. No se acredita una prueba de carga simultánea ni una revisión visual de médicos en navegador.

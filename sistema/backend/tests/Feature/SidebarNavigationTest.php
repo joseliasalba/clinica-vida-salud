@@ -42,7 +42,7 @@ class SidebarNavigationTest extends TestCase
     public static function roleNavigation(): array
     {
         return [
-            'administrador' => ['administrador', ['inicio', 'pacientes.index', 'especialidades.index', 'usuarios.index', 'roles.index', 'permisos.index'], ['Médicos', 'Citas', 'Horarios de atención']],
+            'administrador' => ['administrador', ['inicio', 'pacientes.index', 'especialidades.index', 'medicos.index', 'usuarios.index', 'roles.index', 'permisos.index'], ['Citas', 'Horarios de atención']],
             'recepción' => ['recepcion', ['inicio', 'pacientes.index'], ['Citas']],
             'médico' => ['medico', ['inicio'], ['Mi agenda']],
             'paciente' => ['paciente', ['inicio'], ['Mis citas', 'Mi perfil']],
@@ -66,7 +66,7 @@ class SidebarNavigationTest extends TestCase
     public function test_current_module_is_marked_on_all_administrative_pages(): void
     {
         $this->loginManager();
-        foreach (['/pacientes/crear' => 'pacientes.index', '/usuarios/crear' => 'usuarios.index', '/roles/crear' => 'roles.index', '/permisos' => 'permisos.index', '/especialidades/crear' => 'especialidades.index'] as $url => $route) {
+        foreach (['/pacientes/crear' => 'pacientes.index', '/usuarios/crear' => 'usuarios.index', '/roles/crear' => 'roles.index', '/permisos' => 'permisos.index', '/especialidades/crear' => 'especialidades.index', '/medicos/crear' => 'medicos.index'] as $url => $route) {
             $xpath = $this->xpath($this->get($url)->assertOk()->getContent());
             $active = $xpath->query('//dialog//a[@aria-current="page"]');
             $this->assertSame(1, $active->length);

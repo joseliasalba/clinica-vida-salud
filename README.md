@@ -10,12 +10,13 @@ Proyecto universitario de Ingeniería de Requisitos / SI1: sistema web de gesti�
 - Aplicación Laravel 13 creada en `sistema/backend/`, conectada localmente a PostgreSQL 17.
 - Las migraciones incluyen el dominio clínico, la protección contra citas superpuestas y la verificación de correo. Se aplican con `php artisan migrate` en cada instalación.
 - Autenticación preparada sobre `usuarios`, cuatro roles y ocho permisos iniciales; horario `America/La_Paz`.
-- CU-05 — Gestionar médicos y especialidades: submódulo de especialidades implementado con listado, búsqueda, registro, edición y activación/desactivación. Entrada `/especialidades`, permiso existente `medicos.gestionar`. La gestión de médicos sigue pendiente.
+- CU-05 — Gestionar médicos y especialidades implementado: listado, búsqueda, registro, edición, asignaciones de especialidades, vínculo opcional con cuenta existente y activación/desactivación. Entradas `/medicos` y `/especialidades`, permiso `medicos.gestionar`. Revisión visual de médicos pendiente.
+- Validación posterior de médicos, 22/10/2026: **147 pruebas y 1793 aserciones aprobadas**, formato Pint y compilación Vite correctos; índice de registro profesional normalizado aplicado en localhost.
 - CU-03 implementado: autorregistro con cuenta y ficha vinculada, rol paciente y verificación de correo. Portada pública en `/`, registro en `/registro` y panel privado en `/inicio`.
 - Menú lateral por permisos, botón de acceso persistente y listados adaptables compartidos, incluido Especialidades. Los datos institucionales de ejemplo se configuran en `sistema/backend/config/clinica.php`.
 - Integración verificada el 22/10/2026: **124 pruebas aprobadas y 1535 aserciones**, con PostgreSQL en el esquema aislado `clinica_testing`; formato Pint y compilación Vite correctos. Portada, registro y CSS responden HTTP 200 en localhost. Revisión visual de la integración y entrega SMTP real pendientes.
 - Acceso, cierre de sesión, recuperación y gestión de usuarios, roles y permisos implementados; revisión en navegador y entrega SMTP real pendientes. Los flujos clínicos posteriores siguen pendientes.
-- CU-07 continúa pausado: no hay reservas activas. Primero deben completarse médicos (CU-05) y horarios (CU-06).
+- CU-07 continúa pausado: no hay reservas activas. El siguiente paso es configurar horarios (CU-06), seguido de reservas (CU-07) y agenda (CU-11).
 
 ## Tecnologías acordadas
 

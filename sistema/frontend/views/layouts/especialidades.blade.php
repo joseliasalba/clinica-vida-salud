@@ -11,6 +11,7 @@
         </div>
     </header>
     <nav class="admin-nav" aria-label="Gestión de especialidades médicas">
+        <a href="{{ route('medicos.index') }}">Médicos</a>
         <a href="{{ route('especialidades.index') }}" @if(request()->routeIs('especialidades.index')) aria-current="page" @endif>Especialidades</a>
         <a href="{{ route('especialidades.create') }}" @if(request()->routeIs('especialidades.create')) aria-current="page" @endif>Registrar especialidad</a>
     </nav>
