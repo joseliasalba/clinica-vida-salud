@@ -1,0 +1,335 @@
+[
+    {
+        "table_name": "jobs",
+        "column_name": "id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "nextval('jobs_id_seq'::regclass)"
+    },
+    {
+        "table_name": "jobs",
+        "column_name": "queue",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "jobs",
+        "column_name": "payload",
+        "data_type": "text",
+        "udt_name": "text",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "jobs",
+        "column_name": "attempts",
+        "data_type": "smallint",
+        "udt_name": "int2",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "jobs",
+        "column_name": "reserved_at",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "character_maximum_length": null,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "jobs",
+        "column_name": "available_at",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "jobs",
+        "column_name": "created_at",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "password_reset_tokens",
+        "column_name": "email",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "password_reset_tokens",
+        "column_name": "token",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "password_reset_tokens",
+        "column_name": "created_at",
+        "data_type": "timestamp without time zone",
+        "udt_name": "timestamp",
+        "character_maximum_length": null,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "permisos",
+        "column_name": "id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "nextval('permisos_id_seq'::regclass)"
+    },
+    {
+        "table_name": "permisos",
+        "column_name": "codigo",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "permisos",
+        "column_name": "accion",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "permisos",
+        "column_name": "descripcion",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "permisos",
+        "column_name": "activo",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "true"
+    },
+    {
+        "table_name": "rol_permiso",
+        "column_name": "rol_id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "rol_permiso",
+        "column_name": "permiso_id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "rol_permiso",
+        "column_name": "activo",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "true"
+    },
+    {
+        "table_name": "roles",
+        "column_name": "id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "nextval('roles_id_seq'::regclass)"
+    },
+    {
+        "table_name": "roles",
+        "column_name": "nombre",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "roles",
+        "column_name": "descripcion",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "roles",
+        "column_name": "activo",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "true"
+    },
+    {
+        "table_name": "roles",
+        "column_name": "created_at",
+        "data_type": "timestamp without time zone",
+        "udt_name": "timestamp",
+        "character_maximum_length": null,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "roles",
+        "column_name": "updated_at",
+        "data_type": "timestamp without time zone",
+        "udt_name": "timestamp",
+        "character_maximum_length": null,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "usuario_rol",
+        "column_name": "usuario_id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "usuario_rol",
+        "column_name": "rol_id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "usuario_rol",
+        "column_name": "fecha_asignacion",
+        "data_type": "timestamp without time zone",
+        "udt_name": "timestamp",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+        "table_name": "usuario_rol",
+        "column_name": "fecha_expiracion",
+        "data_type": "timestamp without time zone",
+        "udt_name": "timestamp",
+        "character_maximum_length": null,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "usuario_rol",
+        "column_name": "activo",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "true"
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "id",
+        "data_type": "bigint",
+        "udt_name": "int8",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "nextval('usuarios_id_seq'::regclass)"
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "nombre_usuario",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "correo",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "contrasena_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 255,
+        "is_nullable": "NO",
+        "column_default": null
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "activo",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "character_maximum_length": null,
+        "is_nullable": "NO",
+        "column_default": "true"
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "created_at",
+        "data_type": "timestamp without time zone",
+        "udt_name": "timestamp",
+        "character_maximum_length": null,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "updated_at",
+        "data_type": "timestamp without time zone",
+        "udt_name": "timestamp",
+        "character_maximum_length": null,
+        "is_nullable": "YES",
+        "column_default": null
+    },
+    {
+        "table_name": "usuarios",
+        "column_name": "remember_token",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "character_maximum_length": 100,
+        "is_nullable": "YES",
+        "column_default": null
+    }
+]

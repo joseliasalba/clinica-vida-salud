@@ -1,5 +1,11 @@
 # Modelo de datos
 
+## Diagramas de los casos implementados en Enterprise Architect
+
+El proyecto editable [CU-01 y CU-02](enterprise-architect/Clinica_Vida_Salud_CU01_CU02.eapx) contiene 30 diagramas de requisitos, análisis, diseño e implementación, siguiendo el formato de `todos los diagramas.pdf`. Ver el [informe PDF](enterprise-architect/Diagramas_CU01_CU02.pdf) y la [guía del modelo](enterprise-architect/README.md).
+
+## Modelo general de dominio en StarUML
+
 Abrir `Clinica_Vida_Salud.mdj` con StarUML. El modelo tiene una única vista general, 24 clases y 32 asociaciones.
 
 Es una propuesta de diseño basada en el enunciado, el contexto de continuidad y las entidades legibles de la referencia del usuario. Se comprobó la estructura del archivo y una vista previa de sus coordenadas; queda pendiente su revisión visual completa en StarUML.

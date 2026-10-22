@@ -1,0 +1,4038 @@
+{
+  "title": "Clínica Vida Salud - CU-01 y CU-02",
+  "reference": "todos los diagramas.pdf, 15 páginas",
+  "date": "2026-10-22",
+  "nodes": [
+    {
+      "id": "usuario",
+      "name": "Usuario",
+      "type": "Actor"
+    },
+    {
+      "id": "administrador",
+      "name": "Administrador",
+      "type": "Actor"
+    },
+    {
+      "id": "recepcion",
+      "name": "Recepción",
+      "type": "Actor"
+    },
+    {
+      "id": "medico",
+      "name": "Médico",
+      "type": "Actor"
+    },
+    {
+      "id": "paciente",
+      "name": "Paciente",
+      "type": "Actor"
+    },
+    {
+      "id": "gestor",
+      "name": "Gestor autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu01",
+      "name": "CU-01 Iniciar y cerrar\nsesión",
+      "type": "UseCase"
+    },
+    {
+      "id": "login",
+      "name": "Iniciar sesión",
+      "type": "UseCase"
+    },
+    {
+      "id": "logout",
+      "name": "Cerrar sesión",
+      "type": "UseCase"
+    },
+    {
+      "id": "recuperar",
+      "name": "CU-01.1 Recuperar\ncontraseña",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu02",
+      "name": "CU-02 Administrar usuarios,\nroles y permisos",
+      "type": "UseCase"
+    },
+    {
+      "id": "pkgAuth",
+      "name": "Seguridad y usuarios",
+      "type": "Package"
+    },
+    {
+      "id": "pkgVistas",
+      "name": "Vistas Blade",
+      "type": "Package"
+    },
+    {
+      "id": "pkgControl",
+      "name": "Controladores",
+      "type": "Package"
+    },
+    {
+      "id": "pkgServicios",
+      "name": "Servicios de seguridad",
+      "type": "Package"
+    },
+    {
+      "id": "pkgModelo",
+      "name": "Modelo y persistencia",
+      "type": "Package"
+    },
+    {
+      "id": "pkgInfra",
+      "name": "Infraestructura Laravel",
+      "type": "Package"
+    },
+    {
+      "id": "notaUsuario",
+      "name": "Persona con una cuenta activa. Puede ingresar y cerrar su sesión.",
+      "type": "Note"
+    },
+    {
+      "id": "notaAdmin",
+      "name": "Rol inicial con el permiso usuarios.gestionar. Administra cuentas, roles y permisos.",
+      "type": "Note"
+    },
+    {
+      "id": "notaPersonal",
+      "name": "Recepción, médico y paciente acceden a las funciones de sus permisos vigentes.",
+      "type": "Note"
+    },
+    {
+      "id": "notaGestor",
+      "name": "Actor de CU-02: cualquier cuenta activa con usuarios.gestionar efectivo.",
+      "type": "Note"
+    },
+    {
+      "id": "preCU02",
+      "name": "CU-02 requiere una sesión válida y permiso efectivo. Es precondición, no un include que repita el login en cada operación.",
+      "type": "Note"
+    },
+    {
+      "id": "notaAuth",
+      "name": "Agrupa CU-01, CU-01.1 y CU-02. Contiene las funciones de acceso y de administración implementadas.",
+      "type": "Note"
+    },
+    {
+      "id": "notaInfra",
+      "name": "Sesiones, caché de intentos, hash Argon2id, validación, CSRF y cola de correo.",
+      "type": "Note"
+    },
+    {
+      "id": "aVista01",
+      "name": "UI_acceso",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "aControl01",
+      "name": "Control de acceso",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "aEntidad01",
+      "name": "Usuario",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "aVista02",
+      "name": "UI_administración",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "aControl02",
+      "name": "Control administrativo",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "aEntidad02",
+      "name": "Usuario, Rol, Permiso",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "bVista01",
+      "name": "V.Acceso",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "mostrarLogin(): Vista",
+        "enviarDatos(): POST",
+        "mostrarInicio(): Vista",
+        "cerrarSesion(): POST"
+      ]
+    },
+    {
+      "id": "bControl01",
+      "name": "C.Autenticación",
+      "type": "Class",
+      "stereotype": "control",
+      "ops": [
+        "validarCredenciales(): bool",
+        "limitarIntentos(): void",
+        "regenerarSesion(): void",
+        "invalidarSesion(): void"
+      ]
+    },
+    {
+      "id": "bEntidad01",
+      "name": "E.Usuario",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "nombre_usuario: string",
+        "correo: string",
+        "contrasena_hash: string",
+        "activo: bool"
+      ],
+      "ops": [
+        "verificarClave(): bool"
+      ]
+    },
+    {
+      "id": "bVista02",
+      "name": "V.Administración",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "listar(): Vista",
+        "crear(): Vista",
+        "editar(): Vista",
+        "guardar(): POST / PUT"
+      ]
+    },
+    {
+      "id": "bControl02",
+      "name": "C.Administración",
+      "type": "Class",
+      "stereotype": "control",
+      "ops": [
+        "validarDatos(): void",
+        "asignarRoles(): void",
+        "guardarEstado(): void",
+        "protegerUltimoGestor(): void"
+      ]
+    },
+    {
+      "id": "bEntidad02",
+      "name": "E.Acceso",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "usuario: Usuario",
+        "roles: Rol [0..*]",
+        "permisos: Permiso [0..*]"
+      ],
+      "ops": [
+        "permisosEfectivos(): bool",
+        "guardarTransaccion(): void"
+      ]
+    },
+    {
+      "id": "equipo",
+      "name": "Equipo de desarrollo\nWindows",
+      "type": "Node"
+    },
+    {
+      "id": "php",
+      "name": "Servidor HTTP local\nPHP 8.4 / Laravel 13",
+      "type": "Node",
+      "stereotype": "executionEnvironment"
+    },
+    {
+      "id": "pg",
+      "name": "PostgreSQL 17\n127.0.0.1:5432",
+      "type": "Node",
+      "stereotype": "executionEnvironment"
+    },
+    {
+      "id": "browser",
+      "name": "Navegador web",
+      "type": "Node",
+      "stereotype": "device"
+    },
+    {
+      "id": "worker",
+      "name": "Worker de correo\nqueue:work database",
+      "type": "Artifact"
+    },
+    {
+      "id": "smtp",
+      "name": "Proveedor SMTP",
+      "type": "Node",
+      "stereotype": "externo pendiente"
+    },
+    {
+      "id": "notaDespliegue",
+      "name": "Despliegue local comprobado. SMTP real pendiente de configurar. No se incluyen credenciales ni un servidor de producción ficticio.",
+      "type": "Note"
+    },
+    {
+      "id": "vistaLayer",
+      "name": "Vista",
+      "type": "Boundary"
+    },
+    {
+      "id": "controlLayer",
+      "name": "Controlador y validación",
+      "type": "Boundary"
+    },
+    {
+      "id": "modelLayer",
+      "name": "Modelo y servicios",
+      "type": "Boundary"
+    },
+    {
+      "id": "baseDatos",
+      "name": "PostgreSQL",
+      "type": "Package"
+    },
+    {
+      "id": "cSession",
+      "name": "SessionController",
+      "type": "Class",
+      "ops": [
+        "store(LoginRequest): RedirectResponse",
+        "destroy(Request): RedirectResponse"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cPassword",
+      "name": "PasswordController",
+      "type": "Class",
+      "ops": [
+        "edit(Request, token): View",
+        "send(Request): RedirectResponse",
+        "reset(ResetPasswordRequest): RedirectResponse"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cUserCtl",
+      "name": "UserController",
+      "type": "Class",
+      "ops": [
+        "index(Request): View",
+        "create(): View",
+        "edit(User): View",
+        "store(SaveUserRequest): RedirectResponse",
+        "update(SaveUserRequest, User): RedirectResponse"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cRoleCtl",
+      "name": "RoleController",
+      "type": "Class",
+      "ops": [
+        "index(): View",
+        "create(): View",
+        "edit(rol): View",
+        "store(SaveRoleRequest): RedirectResponse",
+        "update(SaveRoleRequest, rol): RedirectResponse"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cPermCtl",
+      "name": "PermissionController",
+      "type": "Class",
+      "ops": [
+        "index(): View",
+        "update(Request, permiso): RedirectResponse"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cService",
+      "name": "UserAdministration",
+      "type": "Class",
+      "ops": [
+        "saveUser(actor, data, id): User",
+        "saveRole(actor, data, id): int",
+        "setPermissionState(actor, id, activo): void",
+        "mutate(actor, operación): mixed"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cUser",
+      "name": "User",
+      "type": "Class",
+      "ops": [
+        "getAuthPasswordName(): string",
+        "tienePermiso(codigo): bool",
+        "getEmailForPasswordReset(): string"
+      ],
+      "stereotype": "entity"
+    },
+    {
+      "id": "cProtect",
+      "name": "ProtectSession",
+      "type": "Class",
+      "ops": [
+        "handle(Request, next): Response"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cLoginReq",
+      "name": "LoginRequest",
+      "type": "Class",
+      "ops": [
+        "authorize(): bool",
+        "rules(): array",
+        "throttleKey(): string"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cSaveUser",
+      "name": "SaveUserRequest",
+      "type": "Class",
+      "ops": [
+        "authorize(): bool",
+        "rules(): array",
+        "prepareForValidation(): void"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cSaveRole",
+      "name": "SaveRoleRequest",
+      "type": "Class",
+      "ops": [
+        "authorize(): bool",
+        "rules(): array",
+        "prepareForValidation(): void"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "cHash",
+      "name": "Hash / Auth / RateLimiter",
+      "type": "Class",
+      "ops": [
+        "attempt(credentials): bool",
+        "check(password, hash): bool",
+        "hit(key, segundos): int"
+      ],
+      "stereotype": "framework"
+    },
+    {
+      "id": "cDB",
+      "name": "DB (Laravel)",
+      "type": "Class",
+      "ops": [
+        "transaction(operación): mixed",
+        "table(nombre): Builder",
+        "select(SQL, parámetros): array"
+      ],
+      "stereotype": "framework"
+    },
+    {
+      "id": "cBroker",
+      "name": "Password Broker",
+      "type": "Class",
+      "ops": [
+        "sendResetLink(correo): string",
+        "tokenExists(user, token): bool",
+        "reset(credentials, callback): string"
+      ],
+      "stereotype": "framework"
+    },
+    {
+      "id": "cJob",
+      "name": "SendPasswordResetLink",
+      "type": "Class",
+      "ops": [
+        "handle(): void"
+      ],
+      "stereotype": "control"
+    },
+    {
+      "id": "14-secuencia-login-actor",
+      "name": "Usuario",
+      "type": "Actor"
+    },
+    {
+      "id": "14-secuencia-login-vista",
+      "name": "V.Login / Inicio",
+      "type": "Object"
+    },
+    {
+      "id": "14-secuencia-login-control",
+      "name": "SessionController",
+      "type": "Object"
+    },
+    {
+      "id": "14-secuencia-login-auth",
+      "name": "Auth / User",
+      "type": "Object"
+    },
+    {
+      "id": "14-secuencia-login-sesion",
+      "name": "Sesión / Caché",
+      "type": "Object"
+    },
+    {
+      "id": "15-secuencia-recuperar-actor",
+      "name": "Usuario",
+      "type": "Actor"
+    },
+    {
+      "id": "15-secuencia-recuperar-vista",
+      "name": "V.Recuperación",
+      "type": "Object"
+    },
+    {
+      "id": "15-secuencia-recuperar-control",
+      "name": "PasswordController",
+      "type": "Object"
+    },
+    {
+      "id": "15-secuencia-recuperar-job",
+      "name": "Cola / Broker",
+      "type": "Object"
+    },
+    {
+      "id": "15-secuencia-recuperar-db",
+      "name": "User / PostgreSQL",
+      "type": "Object"
+    },
+    {
+      "id": "16-secuencia-cu02-actor",
+      "name": "Gestor autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "16-secuencia-cu02-vista",
+      "name": "V.Administración",
+      "type": "Object"
+    },
+    {
+      "id": "16-secuencia-cu02-control",
+      "name": "User / Role / Permission Controller",
+      "type": "Object"
+    },
+    {
+      "id": "16-secuencia-cu02-service",
+      "name": "UserAdministration",
+      "type": "Object"
+    },
+    {
+      "id": "16-secuencia-cu02-db",
+      "name": "DB / PostgreSQL",
+      "type": "Object"
+    },
+    {
+      "id": "eUsuario",
+      "name": "Usuario",
+      "type": "Class",
+      "attrs": [
+        "id: bigint",
+        "nombre_usuario: string",
+        "correo: string",
+        "activo: bool"
+      ]
+    },
+    {
+      "id": "eRol",
+      "name": "Rol",
+      "type": "Class",
+      "attrs": [
+        "id: bigint",
+        "nombre: string",
+        "activo: bool"
+      ]
+    },
+    {
+      "id": "ePermiso",
+      "name": "Permiso",
+      "type": "Class",
+      "attrs": [
+        "id: bigint",
+        "codigo: string",
+        "activo: bool"
+      ]
+    },
+    {
+      "id": "eAsignacion",
+      "name": "Asignación de rol",
+      "type": "Class",
+      "attrs": [
+        "fecha_asignacion: datetime",
+        "fecha_expiracion: datetime?",
+        "activo: bool"
+      ]
+    },
+    {
+      "id": "eConcesion",
+      "name": "Permiso de rol",
+      "type": "Class",
+      "attrs": [
+        "activo: bool"
+      ]
+    },
+    {
+      "id": "eToken",
+      "name": "Token de recuperación",
+      "type": "Class",
+      "attrs": [
+        "correo: string",
+        "token_hash: string",
+        "creado_en: datetime"
+      ]
+    },
+    {
+      "id": "eTrabajo",
+      "name": "Trabajo de correo",
+      "type": "Class",
+      "attrs": [
+        "cola: string",
+        "intentos: int",
+        "disponible_en: int"
+      ]
+    },
+    {
+      "id": "t_jobs",
+      "name": "jobs",
+      "type": "Class",
+      "stereotype": "table",
+      "attrs": [
+        "id: bigint",
+        "queue: varchar(255)",
+        "payload: text",
+        "attempts: smallint",
+        "reserved_at: integer ?",
+        "available_at: integer",
+        "created_at: integer"
+      ],
+      "columns": [
+        {
+          "table_name": "jobs",
+          "column_name": "id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "nextval('jobs_id_seq'::regclass)"
+        },
+        {
+          "table_name": "jobs",
+          "column_name": "queue",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "jobs",
+          "column_name": "payload",
+          "data_type": "text",
+          "udt_name": "text",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "jobs",
+          "column_name": "attempts",
+          "data_type": "smallint",
+          "udt_name": "int2",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "jobs",
+          "column_name": "reserved_at",
+          "data_type": "integer",
+          "udt_name": "int4",
+          "character_maximum_length": null,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        {
+          "table_name": "jobs",
+          "column_name": "available_at",
+          "data_type": "integer",
+          "udt_name": "int4",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "jobs",
+          "column_name": "created_at",
+          "data_type": "integer",
+          "udt_name": "int4",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        }
+      ]
+    },
+    {
+      "id": "t_password_reset_tokens",
+      "name": "password_reset_tokens",
+      "type": "Class",
+      "stereotype": "table",
+      "attrs": [
+        "email: varchar(255)",
+        "token: varchar(255)",
+        "created_at: timestamp ?"
+      ],
+      "columns": [
+        {
+          "table_name": "password_reset_tokens",
+          "column_name": "email",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "password_reset_tokens",
+          "column_name": "token",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "password_reset_tokens",
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "udt_name": "timestamp",
+          "character_maximum_length": null,
+          "is_nullable": "YES",
+          "column_default": null
+        }
+      ]
+    },
+    {
+      "id": "t_permisos",
+      "name": "permisos",
+      "type": "Class",
+      "stereotype": "table",
+      "attrs": [
+        "id: bigint",
+        "codigo: varchar(255)",
+        "accion: varchar(255)",
+        "descripcion: varchar(255) ?",
+        "activo: boolean"
+      ],
+      "columns": [
+        {
+          "table_name": "permisos",
+          "column_name": "id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "nextval('permisos_id_seq'::regclass)"
+        },
+        {
+          "table_name": "permisos",
+          "column_name": "codigo",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "permisos",
+          "column_name": "accion",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "permisos",
+          "column_name": "descripcion",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        {
+          "table_name": "permisos",
+          "column_name": "activo",
+          "data_type": "boolean",
+          "udt_name": "bool",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "true"
+        }
+      ]
+    },
+    {
+      "id": "t_rol_permiso",
+      "name": "rol_permiso",
+      "type": "Class",
+      "stereotype": "table",
+      "attrs": [
+        "rol_id: bigint",
+        "permiso_id: bigint",
+        "activo: boolean"
+      ],
+      "columns": [
+        {
+          "table_name": "rol_permiso",
+          "column_name": "rol_id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "rol_permiso",
+          "column_name": "permiso_id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "rol_permiso",
+          "column_name": "activo",
+          "data_type": "boolean",
+          "udt_name": "bool",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "true"
+        }
+      ]
+    },
+    {
+      "id": "t_roles",
+      "name": "roles",
+      "type": "Class",
+      "stereotype": "table",
+      "attrs": [
+        "id: bigint",
+        "nombre: varchar(255)",
+        "descripcion: varchar(255) ?",
+        "activo: boolean",
+        "created_at: timestamp ?",
+        "updated_at: timestamp ?"
+      ],
+      "columns": [
+        {
+          "table_name": "roles",
+          "column_name": "id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "nextval('roles_id_seq'::regclass)"
+        },
+        {
+          "table_name": "roles",
+          "column_name": "nombre",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "roles",
+          "column_name": "descripcion",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        {
+          "table_name": "roles",
+          "column_name": "activo",
+          "data_type": "boolean",
+          "udt_name": "bool",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "true"
+        },
+        {
+          "table_name": "roles",
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "udt_name": "timestamp",
+          "character_maximum_length": null,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        {
+          "table_name": "roles",
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "udt_name": "timestamp",
+          "character_maximum_length": null,
+          "is_nullable": "YES",
+          "column_default": null
+        }
+      ]
+    },
+    {
+      "id": "t_usuario_rol",
+      "name": "usuario_rol",
+      "type": "Class",
+      "stereotype": "table",
+      "attrs": [
+        "usuario_id: bigint",
+        "rol_id: bigint",
+        "fecha_asignacion: timestamp",
+        "fecha_expiracion: timestamp ?",
+        "activo: boolean"
+      ],
+      "columns": [
+        {
+          "table_name": "usuario_rol",
+          "column_name": "usuario_id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "usuario_rol",
+          "column_name": "rol_id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "usuario_rol",
+          "column_name": "fecha_asignacion",
+          "data_type": "timestamp without time zone",
+          "udt_name": "timestamp",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "CURRENT_TIMESTAMP"
+        },
+        {
+          "table_name": "usuario_rol",
+          "column_name": "fecha_expiracion",
+          "data_type": "timestamp without time zone",
+          "udt_name": "timestamp",
+          "character_maximum_length": null,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        {
+          "table_name": "usuario_rol",
+          "column_name": "activo",
+          "data_type": "boolean",
+          "udt_name": "bool",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "true"
+        }
+      ]
+    },
+    {
+      "id": "t_usuarios",
+      "name": "usuarios",
+      "type": "Class",
+      "stereotype": "table",
+      "attrs": [
+        "id: bigint",
+        "nombre_usuario: varchar(255)",
+        "correo: varchar(255)",
+        "contrasena_hash: varchar(255)",
+        "activo: boolean",
+        "created_at: timestamp ?",
+        "updated_at: timestamp ?",
+        "remember_token: varchar(100) ?"
+      ],
+      "columns": [
+        {
+          "table_name": "usuarios",
+          "column_name": "id",
+          "data_type": "bigint",
+          "udt_name": "int8",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "nextval('usuarios_id_seq'::regclass)"
+        },
+        {
+          "table_name": "usuarios",
+          "column_name": "nombre_usuario",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "usuarios",
+          "column_name": "correo",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "usuarios",
+          "column_name": "contrasena_hash",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 255,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        {
+          "table_name": "usuarios",
+          "column_name": "activo",
+          "data_type": "boolean",
+          "udt_name": "bool",
+          "character_maximum_length": null,
+          "is_nullable": "NO",
+          "column_default": "true"
+        },
+        {
+          "table_name": "usuarios",
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "udt_name": "timestamp",
+          "character_maximum_length": null,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        {
+          "table_name": "usuarios",
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "udt_name": "timestamp",
+          "character_maximum_length": null,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        {
+          "table_name": "usuarios",
+          "column_name": "remember_token",
+          "data_type": "character varying",
+          "udt_name": "varchar",
+          "character_maximum_length": 100,
+          "is_nullable": "YES",
+          "column_default": null
+        }
+      ]
+    },
+    {
+      "id": "22-estados-cu01-start",
+      "name": "Inicio",
+      "type": "StateNode",
+      "subtype": 3
+    },
+    {
+      "id": "22-estados-cu01-anon",
+      "name": "Sin autenticar",
+      "type": "State"
+    },
+    {
+      "id": "22-estados-cu01-validando",
+      "name": "Validando credenciales",
+      "type": "State"
+    },
+    {
+      "id": "22-estados-cu01-limitado",
+      "name": "Intentos limitados",
+      "type": "State"
+    },
+    {
+      "id": "22-estados-cu01-activa",
+      "name": "Sesión autenticada",
+      "type": "State"
+    },
+    {
+      "id": "22-estados-cu01-terminada",
+      "name": "Sesión invalidada",
+      "type": "State"
+    },
+    {
+      "id": "23-estados-cu02-start",
+      "name": "Inicio",
+      "type": "StateNode",
+      "subtype": 3
+    },
+    {
+      "id": "23-estados-cu02-validacion",
+      "name": "Datos en validación",
+      "type": "State"
+    },
+    {
+      "id": "23-estados-cu02-activa",
+      "name": "Cuenta activa",
+      "type": "State"
+    },
+    {
+      "id": "23-estados-cu02-inactiva",
+      "name": "Cuenta inactiva",
+      "type": "State"
+    },
+    {
+      "id": "23-estados-cu02-rechazada",
+      "name": "Cambio rechazado",
+      "type": "State"
+    },
+    {
+      "id": "tiempo01",
+      "name": "Sesión de usuario",
+      "type": "TimeLine",
+      "states": [
+        "Sin sesión",
+        "Validando",
+        "Autenticada",
+        "Invalidada"
+      ],
+      "transitions": [
+        {
+          "time": 0,
+          "state": "Sin sesión",
+          "event": "Abrir login"
+        },
+        {
+          "time": 1,
+          "state": "Validando",
+          "event": "Enviar credenciales"
+        },
+        {
+          "time": 2,
+          "state": "Autenticada",
+          "event": "Acceso válido"
+        },
+        {
+          "time": 32,
+          "state": "Invalidada",
+          "event": "30 min sin actividad"
+        }
+      ]
+    },
+    {
+      "id": "tiempo02",
+      "name": "Operación administrativa",
+      "type": "TimeLine",
+      "states": [
+        "Sin cambios",
+        "Validando",
+        "Transacción",
+        "Confirmada",
+        "Revertida"
+      ],
+      "transitions": [
+        {
+          "time": 0,
+          "state": "Sin cambios",
+          "event": "Abrir formulario"
+        },
+        {
+          "time": 1,
+          "state": "Validando",
+          "event": "Guardar"
+        },
+        {
+          "time": 2,
+          "state": "Transacción",
+          "event": "BEGIN + bloqueo"
+        },
+        {
+          "time": 3,
+          "state": "Confirmada",
+          "event": "COMMIT"
+        }
+      ]
+    },
+    {
+      "id": "notaTiempo01",
+      "name": "Escala en minutos. El tramo 0–2 es esquemático, no una medición de rendimiento. Se invalida al alcanzar 30 min sin actividad desde el último acceso.",
+      "type": "Note"
+    },
+    {
+      "id": "notaTiempo02",
+      "name": "Escala ordinal t0–t3, sin duración de rendimiento prometida. En la alternativa insegura, t3 es Revertida (ROLLBACK), no Confirmada.",
+      "type": "Note"
+    },
+    {
+      "id": "vLogin",
+      "name": "V.Login",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /login",
+        "POST /login"
+      ]
+    },
+    {
+      "id": "vInicio",
+      "name": "V.Inicio",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /inicio",
+        "POST /logout"
+      ]
+    },
+    {
+      "id": "vRecuperar",
+      "name": "V.Recuperación",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /recuperar-contrasena",
+        "POST /recuperar-contrasena"
+      ]
+    },
+    {
+      "id": "vReset",
+      "name": "V.Nueva contraseña",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /restablecer-contrasena/{token}",
+        "POST /restablecer-contrasena"
+      ]
+    },
+    {
+      "id": "vUsuarios",
+      "name": "V.Usuarios",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /usuarios",
+        "GET /usuarios/crear",
+        "GET /usuarios/{id}/editar"
+      ]
+    },
+    {
+      "id": "vRoles",
+      "name": "V.Roles",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /roles",
+        "GET /roles/crear",
+        "GET /roles/{id}/editar"
+      ]
+    },
+    {
+      "id": "vPermisos",
+      "name": "V.Permisos",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /permisos",
+        "PATCH /permisos/{id}"
+      ]
+    },
+    {
+      "id": "cmpVista01",
+      "name": "Vistas de acceso",
+      "type": "Component",
+      "stereotype": "Vista"
+    },
+    {
+      "id": "cmpSession",
+      "name": "SessionController",
+      "type": "Component",
+      "stereotype": "Controlador"
+    },
+    {
+      "id": "cmpAuth",
+      "name": "Auth / Hash / Sesión",
+      "type": "Component",
+      "stereotype": "Servicio Laravel"
+    },
+    {
+      "id": "cmpUser",
+      "name": "User / usuarios",
+      "type": "Component",
+      "stereotype": "Modelo"
+    },
+    {
+      "id": "cmpDB",
+      "name": "PostgreSQL",
+      "type": "Component",
+      "stereotype": "Persistencia"
+    },
+    {
+      "id": "cmpVista02",
+      "name": "Vistas de administración",
+      "type": "Component",
+      "stereotype": "Vista"
+    },
+    {
+      "id": "cmpControl02",
+      "name": "User / Role / Permission\nControllers",
+      "type": "Component",
+      "stereotype": "Controlador"
+    },
+    {
+      "id": "cmpService",
+      "name": "UserAdministration",
+      "type": "Component",
+      "stereotype": "Servicio"
+    },
+    {
+      "id": "cmpReq",
+      "name": "Form Requests / Gates",
+      "type": "Component",
+      "stereotype": "Seguridad"
+    },
+    {
+      "id": "cmpQuery",
+      "name": "User / Query Builder",
+      "type": "Component",
+      "stereotype": "Modelo"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "01-actores",
+      "title": "Identificación de los actores",
+      "phase": "01 Captura de requisitos",
+      "type": "Analysis",
+      "sourcePage": 2,
+      "placements": [
+        {
+          "ref": "usuario",
+          "x": 40,
+          "y": 70,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "notaUsuario",
+          "x": 240,
+          "y": 75,
+          "w": 350,
+          "h": 85
+        },
+        {
+          "ref": "administrador",
+          "x": 40,
+          "y": 225,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "notaAdmin",
+          "x": 240,
+          "y": 230,
+          "w": 350,
+          "h": 95
+        },
+        {
+          "ref": "gestor",
+          "x": 40,
+          "y": 390,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "notaGestor",
+          "x": 240,
+          "y": 395,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "usuario",
+          "to": "notaUsuario",
+          "label": "",
+          "type": "NoteLink"
+        },
+        {
+          "from": "administrador",
+          "to": "notaAdmin",
+          "label": "",
+          "type": "NoteLink"
+        },
+        {
+          "from": "gestor",
+          "to": "notaGestor",
+          "label": "",
+          "type": "NoteLink"
+        }
+      ],
+      "width": 630,
+      "height": 525
+    },
+    {
+      "id": "02-cu01",
+      "title": "CU-01 Iniciar y cerrar sesión",
+      "phase": "01 Captura de requisitos",
+      "type": "Use Case",
+      "sourcePage": 3,
+      "placements": [
+        {
+          "ref": "usuario",
+          "x": 45,
+          "y": 110,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "cu01",
+          "x": 250,
+          "y": 110,
+          "w": 235,
+          "h": 100
+        }
+      ],
+      "edges": [
+        {
+          "from": "usuario",
+          "to": "cu01",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "width": 525,
+      "height": 250
+    },
+    {
+      "id": "03-cu02",
+      "title": "CU-02 Administrar usuarios, roles y permisos",
+      "phase": "01 Captura de requisitos",
+      "type": "Use Case",
+      "sourcePage": 3,
+      "placements": [
+        {
+          "ref": "gestor",
+          "x": 45,
+          "y": 110,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "cu02",
+          "x": 250,
+          "y": 110,
+          "w": 260,
+          "h": 100
+        }
+      ],
+      "edges": [
+        {
+          "from": "gestor",
+          "to": "cu02",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "width": 550,
+      "height": 250
+    },
+    {
+      "id": "04-general-cu",
+      "title": "Diagrama general de casos de uso",
+      "phase": "01 Captura de requisitos",
+      "type": "Use Case",
+      "sourcePage": 4,
+      "placements": [
+        {
+          "ref": "usuario",
+          "x": 30,
+          "y": 175,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "login",
+          "x": 220,
+          "y": 85,
+          "w": 200,
+          "h": 85
+        },
+        {
+          "ref": "logout",
+          "x": 220,
+          "y": 240,
+          "w": 200,
+          "h": 85
+        },
+        {
+          "ref": "recuperar",
+          "x": 505,
+          "y": 85,
+          "w": 220,
+          "h": 85
+        },
+        {
+          "ref": "gestor",
+          "x": 45,
+          "y": 425,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "cu02",
+          "x": 240,
+          "y": 425,
+          "w": 260,
+          "h": 95
+        },
+        {
+          "ref": "preCU02",
+          "x": 535,
+          "y": 390,
+          "w": 235,
+          "h": 130
+        }
+      ],
+      "edges": [
+        {
+          "from": "usuario",
+          "to": "login",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "usuario",
+          "to": "logout",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "recuperar",
+          "to": "login",
+          "label": "",
+          "type": "Dependency",
+          "stereotype": "extend"
+        },
+        {
+          "from": "gestor",
+          "to": "cu02",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "preCU02",
+          "to": "cu02",
+          "label": "",
+          "type": "NoteLink"
+        }
+      ],
+      "width": 810,
+      "height": 560
+    },
+    {
+      "id": "05-identificar-paquetes",
+      "title": "Identificación de paquetes",
+      "phase": "02 Análisis",
+      "type": "Package",
+      "sourcePage": 5,
+      "placements": [
+        {
+          "ref": "pkgAuth",
+          "x": 60,
+          "y": 80,
+          "w": 230,
+          "h": 125
+        },
+        {
+          "ref": "notaAuth",
+          "x": 410,
+          "y": 80,
+          "w": 280,
+          "h": 125
+        },
+        {
+          "ref": "pkgInfra",
+          "x": 60,
+          "y": 285,
+          "w": 230,
+          "h": 125
+        },
+        {
+          "ref": "notaInfra",
+          "x": 410,
+          "y": 285,
+          "w": 280,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkgAuth",
+          "to": "notaAuth",
+          "label": "",
+          "type": "NoteLink"
+        },
+        {
+          "from": "pkgInfra",
+          "to": "notaInfra",
+          "label": "",
+          "type": "NoteLink"
+        }
+      ],
+      "width": 730,
+      "height": 450
+    },
+    {
+      "id": "06-paquetes-casos",
+      "title": "Relacionar paquete con caso de uso",
+      "phase": "02 Análisis",
+      "type": "Use Case",
+      "sourcePage": 5,
+      "placements": [
+        {
+          "ref": "pkgAuth",
+          "x": 50,
+          "y": 210,
+          "w": 240,
+          "h": 135
+        },
+        {
+          "ref": "cu01",
+          "x": 445,
+          "y": 55,
+          "w": 240,
+          "h": 90
+        },
+        {
+          "ref": "recuperar",
+          "x": 445,
+          "y": 230,
+          "w": 240,
+          "h": 90
+        },
+        {
+          "ref": "cu02",
+          "x": 445,
+          "y": 405,
+          "w": 260,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkgAuth",
+          "to": "cu01",
+          "label": "",
+          "type": "Dependency",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkgAuth",
+          "to": "recuperar",
+          "label": "",
+          "type": "Dependency",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkgAuth",
+          "to": "cu02",
+          "label": "",
+          "type": "Dependency",
+          "stereotype": "trace"
+        }
+      ],
+      "width": 745,
+      "height": 535
+    },
+    {
+      "id": "07-encapsular",
+      "title": "Encapsular paquete",
+      "phase": "02 Análisis",
+      "type": "Use Case",
+      "sourcePage": 6,
+      "placements": [
+        {
+          "ref": "pkgAuth",
+          "x": 25,
+          "y": 35,
+          "w": 760,
+          "h": 520,
+          "background": true,
+          "showContents": false
+        },
+        {
+          "ref": "usuario",
+          "x": 70,
+          "y": 150,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "cu01",
+          "x": 285,
+          "y": 120,
+          "w": 230,
+          "h": 95
+        },
+        {
+          "ref": "recuperar",
+          "x": 285,
+          "y": 330,
+          "w": 230,
+          "h": 95
+        },
+        {
+          "ref": "gestor",
+          "x": 640,
+          "y": 155,
+          "w": 65,
+          "h": 95
+        },
+        {
+          "ref": "cu02",
+          "x": 545,
+          "y": 330,
+          "w": 220,
+          "h": 95
+        }
+      ],
+      "edges": [
+        {
+          "from": "usuario",
+          "to": "cu01",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "recuperar",
+          "to": "cu01",
+          "label": "",
+          "type": "Dependency",
+          "stereotype": "extend"
+        },
+        {
+          "from": "gestor",
+          "to": "cu02",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "width": 825,
+      "height": 595
+    },
+    {
+      "id": "08-comunicacion-cu01",
+      "title": "CU-01 Comunicación / colaboración",
+      "phase": "02 Análisis",
+      "type": "Analysis",
+      "sourcePage": 6,
+      "placements": [
+        {
+          "ref": "usuario",
+          "x": 30,
+          "y": 145,
+          "w": 65,
+          "h": 100
+        },
+        {
+          "ref": "aVista01",
+          "x": 185,
+          "y": 150,
+          "w": 125,
+          "h": 90
+        },
+        {
+          "ref": "aControl01",
+          "x": 390,
+          "y": 150,
+          "w": 170,
+          "h": 90
+        },
+        {
+          "ref": "aEntidad01",
+          "x": 650,
+          "y": 150,
+          "w": 135,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "usuario",
+          "to": "aVista01",
+          "label": "1: ingresar datos\n4: cerrar sesión",
+          "type": "Association"
+        },
+        {
+          "from": "aVista01",
+          "to": "aControl01",
+          "label": "1.1: validar / autenticar\n4.1: invalidar sesión",
+          "type": "Association"
+        },
+        {
+          "from": "aControl01",
+          "to": "aEntidad01",
+          "label": "1.2: buscar activo\n1.3: verificar hash",
+          "type": "Association"
+        }
+      ],
+      "width": 825,
+      "height": 285
+    },
+    {
+      "id": "09-comunicacion-cu02",
+      "title": "CU-02 Comunicación / colaboración",
+      "phase": "02 Análisis",
+      "type": "Analysis",
+      "sourcePage": 6,
+      "placements": [
+        {
+          "ref": "gestor",
+          "x": 30,
+          "y": 145,
+          "w": 65,
+          "h": 100
+        },
+        {
+          "ref": "aVista02",
+          "x": 185,
+          "y": 150,
+          "w": 150,
+          "h": 90
+        },
+        {
+          "ref": "aControl02",
+          "x": 405,
+          "y": 150,
+          "w": 180,
+          "h": 90
+        },
+        {
+          "ref": "aEntidad02",
+          "x": 680,
+          "y": 150,
+          "w": 165,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "gestor",
+          "to": "aVista02",
+          "label": "1: listar\n2: crear / editar\n3: desactivar",
+          "type": "Association"
+        },
+        {
+          "from": "aVista02",
+          "to": "aControl02",
+          "label": "1.1: index\n2.1: validar datos\n3.1: guardar estado",
+          "type": "Association"
+        },
+        {
+          "from": "aControl02",
+          "to": "aEntidad02",
+          "label": "2.2: transacción\n2.3: comprobar gestor\n2.4: confirmar",
+          "type": "Association"
+        }
+      ],
+      "width": 885,
+      "height": 285
+    },
+    {
+      "id": "10-clases-analisis-cu01",
+      "title": "CU-01 Diagrama de clase análisis",
+      "phase": "02 Análisis",
+      "type": "Logical",
+      "sourcePage": 6,
+      "placements": [
+        {
+          "ref": "usuario",
+          "x": 25,
+          "y": 155,
+          "w": 60,
+          "h": 100
+        },
+        {
+          "ref": "bVista01",
+          "x": 150,
+          "y": 75,
+          "w": 185,
+          "h": 250
+        },
+        {
+          "ref": "bControl01",
+          "x": 390,
+          "y": 75,
+          "w": 205,
+          "h": 250
+        },
+        {
+          "ref": "bEntidad01",
+          "x": 650,
+          "y": 75,
+          "w": 210,
+          "h": 250
+        }
+      ],
+      "edges": [
+        {
+          "from": "usuario",
+          "to": "bVista01",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "bVista01",
+          "to": "bControl01",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "bControl01",
+          "to": "bEntidad01",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "width": 900,
+      "height": 365
+    },
+    {
+      "id": "10-clases-analisis-cu02",
+      "title": "CU-02 Diagrama de clase análisis",
+      "phase": "02 Análisis",
+      "type": "Logical",
+      "sourcePage": 6,
+      "placements": [
+        {
+          "ref": "gestor",
+          "x": 25,
+          "y": 155,
+          "w": 60,
+          "h": 100
+        },
+        {
+          "ref": "bVista02",
+          "x": 150,
+          "y": 75,
+          "w": 185,
+          "h": 250
+        },
+        {
+          "ref": "bControl02",
+          "x": 390,
+          "y": 75,
+          "w": 205,
+          "h": 250
+        },
+        {
+          "ref": "bEntidad02",
+          "x": 650,
+          "y": 75,
+          "w": 210,
+          "h": 250
+        }
+      ],
+      "edges": [
+        {
+          "from": "gestor",
+          "to": "bVista02",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "bVista02",
+          "to": "bControl02",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "bControl02",
+          "to": "bEntidad02",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "width": 900,
+      "height": 365
+    },
+    {
+      "id": "11-general-paquetes",
+      "title": "Diagrama general de paquetes",
+      "phase": "02 Análisis",
+      "type": "Package",
+      "sourcePage": 7,
+      "placements": [
+        {
+          "ref": "pkgAuth",
+          "x": 20,
+          "y": 30,
+          "w": 770,
+          "h": 560,
+          "background": true
+        },
+        {
+          "ref": "pkgVistas",
+          "x": 75,
+          "y": 110,
+          "w": 240,
+          "h": 120
+        },
+        {
+          "ref": "pkgControl",
+          "x": 455,
+          "y": 110,
+          "w": 250,
+          "h": 120
+        },
+        {
+          "ref": "pkgServicios",
+          "x": 455,
+          "y": 350,
+          "w": 250,
+          "h": 120
+        },
+        {
+          "ref": "pkgModelo",
+          "x": 75,
+          "y": 350,
+          "w": 240,
+          "h": 120
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkgVistas",
+          "to": "pkgControl",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgControl",
+          "to": "pkgServicios",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgServicios",
+          "to": "pkgModelo",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgControl",
+          "to": "pkgModelo",
+          "label": "",
+          "type": "Dependency"
+        }
+      ],
+      "width": 830,
+      "height": 630
+    },
+    {
+      "id": "12-arquitectura-fisica",
+      "title": "Diseño físico de la arquitectura",
+      "phase": "03 Diseño",
+      "type": "Deployment",
+      "sourcePage": 8,
+      "placements": [
+        {
+          "ref": "equipo",
+          "x": 30,
+          "y": 40,
+          "w": 700,
+          "h": 530,
+          "background": true
+        },
+        {
+          "ref": "browser",
+          "x": 90,
+          "y": 100,
+          "w": 230,
+          "h": 100
+        },
+        {
+          "ref": "php",
+          "x": 390,
+          "y": 95,
+          "w": 250,
+          "h": 120
+        },
+        {
+          "ref": "pg",
+          "x": 90,
+          "y": 365,
+          "w": 230,
+          "h": 120
+        },
+        {
+          "ref": "worker",
+          "x": 390,
+          "y": 370,
+          "w": 250,
+          "h": 100
+        },
+        {
+          "ref": "smtp",
+          "x": 420,
+          "y": 660,
+          "w": 250,
+          "h": 110
+        },
+        {
+          "ref": "notaDespliegue",
+          "x": 30,
+          "y": 665,
+          "w": 305,
+          "h": 110
+        }
+      ],
+      "edges": [
+        {
+          "from": "browser",
+          "to": "php",
+          "label": "HTTP :8000",
+          "type": "Association"
+        },
+        {
+          "from": "php",
+          "to": "pg",
+          "label": "PDO / SQL",
+          "type": "Association"
+        },
+        {
+          "from": "worker",
+          "to": "pg",
+          "label": "jobs / tokens",
+          "type": "Association"
+        },
+        {
+          "from": "worker",
+          "to": "smtp",
+          "label": "SMTP pendiente",
+          "type": "Dependency"
+        }
+      ],
+      "width": 770,
+      "height": 815
+    },
+    {
+      "id": "13-arquitectura-logica",
+      "title": "Diseño lógico de la arquitectura",
+      "phase": "03 Diseño",
+      "type": "Package",
+      "sourcePage": 9,
+      "placements": [
+        {
+          "ref": "vistaLayer",
+          "x": 30,
+          "y": 30,
+          "w": 760,
+          "h": 170,
+          "background": true
+        },
+        {
+          "ref": "controlLayer",
+          "x": 30,
+          "y": 215,
+          "w": 760,
+          "h": 170,
+          "background": true
+        },
+        {
+          "ref": "modelLayer",
+          "x": 30,
+          "y": 400,
+          "w": 760,
+          "h": 170,
+          "background": true
+        },
+        {
+          "ref": "pkgVistas",
+          "x": 250,
+          "y": 70,
+          "w": 280,
+          "h": 95
+        },
+        {
+          "ref": "pkgControl",
+          "x": 90,
+          "y": 255,
+          "w": 270,
+          "h": 95
+        },
+        {
+          "ref": "pkgInfra",
+          "x": 460,
+          "y": 255,
+          "w": 270,
+          "h": 95
+        },
+        {
+          "ref": "pkgModelo",
+          "x": 90,
+          "y": 440,
+          "w": 270,
+          "h": 95
+        },
+        {
+          "ref": "pkgServicios",
+          "x": 460,
+          "y": 440,
+          "w": 270,
+          "h": 95
+        },
+        {
+          "ref": "baseDatos",
+          "x": 275,
+          "y": 650,
+          "w": 260,
+          "h": 100
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkgVistas",
+          "to": "pkgControl",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgControl",
+          "to": "pkgInfra",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgControl",
+          "to": "pkgServicios",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgServicios",
+          "to": "pkgModelo",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgModelo",
+          "to": "baseDatos",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "pkgInfra",
+          "to": "baseDatos",
+          "label": "cola / tokens",
+          "type": "Dependency"
+        }
+      ],
+      "width": 830,
+      "height": 790
+    },
+    {
+      "id": "14-secuencia-login",
+      "title": "CU-01 Diagrama de secuencia: acceso y salida",
+      "phase": "03 Diseño",
+      "type": "Sequence",
+      "sourcePage": 9,
+      "placements": [
+        {
+          "ref": "14-secuencia-login-actor",
+          "x": 30,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "14-secuencia-login-vista",
+          "x": 195,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "14-secuencia-login-control",
+          "x": 360,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "14-secuencia-login-auth",
+          "x": 525,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "14-secuencia-login-sesion",
+          "x": 690,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        }
+      ],
+      "edges": [
+        {
+          "from": "14-secuencia-login-actor",
+          "to": "14-secuencia-login-vista",
+          "label": "1: ingresar datos",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-vista",
+          "to": "14-secuencia-login-control",
+          "label": "2: POST /login",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-control",
+          "to": "14-secuencia-login-sesion",
+          "label": "3: comprobar límite",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-control",
+          "to": "14-secuencia-login-auth",
+          "label": "4: attempt(id, password)",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-auth",
+          "to": "14-secuencia-login-control",
+          "label": "5: resultado",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": true
+        },
+        {
+          "from": "14-secuencia-login-control",
+          "to": "14-secuencia-login-sesion",
+          "label": "6: regenerar / guardar hash",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-control",
+          "to": "14-secuencia-login-vista",
+          "label": "7: redirigir /inicio",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": true
+        },
+        {
+          "from": "14-secuencia-login-actor",
+          "to": "14-secuencia-login-vista",
+          "label": "8: cerrar sesión",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-vista",
+          "to": "14-secuencia-login-control",
+          "label": "9: POST /logout",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-control",
+          "to": "14-secuencia-login-sesion",
+          "label": "10: invalidar / regenerar CSRF",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": false
+        },
+        {
+          "from": "14-secuencia-login-control",
+          "to": "14-secuencia-login-vista",
+          "label": "11: redirigir /login",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": true
+        }
+      ],
+      "fragments": [
+        {
+          "name": "alt [válidas] / [incorrectas: error genérico + contador]",
+          "start": 4,
+          "end": 7
+        }
+      ],
+      "width": 865,
+      "height": 675
+    },
+    {
+      "id": "15-secuencia-recuperar",
+      "title": "CU-01.1 Diagrama de secuencia: recuperar contraseña",
+      "phase": "03 Diseño",
+      "type": "Sequence",
+      "sourcePage": 9,
+      "placements": [
+        {
+          "ref": "15-secuencia-recuperar-actor",
+          "x": 30,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "15-secuencia-recuperar-vista",
+          "x": 195,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "15-secuencia-recuperar-control",
+          "x": 360,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "15-secuencia-recuperar-job",
+          "x": 525,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "15-secuencia-recuperar-db",
+          "x": 690,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        }
+      ],
+      "edges": [
+        {
+          "from": "15-secuencia-recuperar-actor",
+          "to": "15-secuencia-recuperar-vista",
+          "label": "1: solicitar enlace",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-vista",
+          "to": "15-secuencia-recuperar-control",
+          "label": "2: POST correo",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-control",
+          "to": "15-secuencia-recuperar-job",
+          "label": "3: encolar para cualquier correo",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-control",
+          "to": "15-secuencia-recuperar-vista",
+          "label": "4: respuesta genérica",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": true
+        },
+        {
+          "from": "15-secuencia-recuperar-job",
+          "to": "15-secuencia-recuperar-db",
+          "label": "5: buscar activo / crear token hash",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-actor",
+          "to": "15-secuencia-recuperar-control",
+          "label": "6: enviar token + nueva clave",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-control",
+          "to": "15-secuencia-recuperar-db",
+          "label": "7: transacción + lockForUpdate",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-control",
+          "to": "15-secuencia-recuperar-job",
+          "label": "8: Password::reset",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-job",
+          "to": "15-secuencia-recuperar-db",
+          "label": "9: guardar hash / consumir token",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "15-secuencia-recuperar-control",
+          "to": "15-secuencia-recuperar-vista",
+          "label": "10: volver a login",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": true
+        }
+      ],
+      "fragments": [
+        {
+          "name": "alt [token vigente] / [inválido o vencido]",
+          "start": 7,
+          "end": 10
+        }
+      ],
+      "width": 865,
+      "height": 675
+    },
+    {
+      "id": "16-secuencia-cu02",
+      "title": "CU-02 Diagrama de secuencia: guardar administración",
+      "phase": "03 Diseño",
+      "type": "Sequence",
+      "sourcePage": 9,
+      "placements": [
+        {
+          "ref": "16-secuencia-cu02-actor",
+          "x": 30,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "16-secuencia-cu02-vista",
+          "x": 195,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "16-secuencia-cu02-control",
+          "x": 360,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "16-secuencia-cu02-service",
+          "x": 525,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        },
+        {
+          "ref": "16-secuencia-cu02-db",
+          "x": 690,
+          "y": 65,
+          "w": 135,
+          "h": 570
+        }
+      ],
+      "edges": [
+        {
+          "from": "16-secuencia-cu02-actor",
+          "to": "16-secuencia-cu02-vista",
+          "label": "1: listar / crear / editar",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-vista",
+          "to": "16-secuencia-cu02-control",
+          "label": "2: GET vista o POST/PUT/PATCH",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-control",
+          "to": "16-secuencia-cu02-service",
+          "label": "3: guardar datos validados",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-service",
+          "to": "16-secuencia-cu02-db",
+          "label": "4: BEGIN + advisory lock",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-service",
+          "to": "16-secuencia-cu02-db",
+          "label": "5: revalidar permiso del actor",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-service",
+          "to": "16-secuencia-cu02-db",
+          "label": "6: guardar cuenta / vínculos",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-service",
+          "to": "16-secuencia-cu02-db",
+          "label": "7: comprobar gestor restante",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-service",
+          "to": "16-secuencia-cu02-db",
+          "label": "8: COMMIT o ROLLBACK",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "16-secuencia-cu02-service",
+          "to": "16-secuencia-cu02-control",
+          "label": "9: resultado / error",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": true
+        },
+        {
+          "from": "16-secuencia-cu02-control",
+          "to": "16-secuencia-cu02-vista",
+          "label": "10: listado y confirmación",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": true
+        }
+      ],
+      "fragments": [
+        {
+          "name": "alt [seguro: confirmar] / [sin gestor o auto-revocación: revertir]",
+          "start": 7,
+          "end": 8
+        }
+      ],
+      "width": 865,
+      "height": 675
+    },
+    {
+      "id": "17-conceptual-bd",
+      "title": "Diseño conceptual de la base de datos",
+      "phase": "03 Diseño",
+      "type": "Logical",
+      "sourcePage": 10,
+      "placements": [
+        {
+          "ref": "eUsuario",
+          "x": 40,
+          "y": 50,
+          "w": 205,
+          "h": 150
+        },
+        {
+          "ref": "eRol",
+          "x": 585,
+          "y": 50,
+          "w": 205,
+          "h": 150
+        },
+        {
+          "ref": "eAsignacion",
+          "x": 305,
+          "y": 255,
+          "w": 225,
+          "h": 150
+        },
+        {
+          "ref": "ePermiso",
+          "x": 585,
+          "y": 510,
+          "w": 205,
+          "h": 150
+        },
+        {
+          "ref": "eConcesion",
+          "x": 575,
+          "y": 280,
+          "w": 225,
+          "h": 130
+        },
+        {
+          "ref": "eToken",
+          "x": 40,
+          "y": 330,
+          "w": 205,
+          "h": 150
+        },
+        {
+          "ref": "eTrabajo",
+          "x": 40,
+          "y": 555,
+          "w": 205,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "eUsuario",
+          "to": "eAsignacion",
+          "label": "tiene",
+          "type": "Association",
+          "sourceCard": "1",
+          "targetCard": "0..*"
+        },
+        {
+          "from": "eRol",
+          "to": "eAsignacion",
+          "label": "asignado en",
+          "type": "Association",
+          "sourceCard": "1",
+          "targetCard": "0..*"
+        },
+        {
+          "from": "eRol",
+          "to": "eConcesion",
+          "label": "concede",
+          "type": "Association",
+          "sourceCard": "1",
+          "targetCard": "0..*"
+        },
+        {
+          "from": "ePermiso",
+          "to": "eConcesion",
+          "label": "habilita",
+          "type": "Association",
+          "sourceCard": "1",
+          "targetCard": "0..*"
+        },
+        {
+          "from": "eUsuario",
+          "to": "eToken",
+          "label": "solicita (por correo)",
+          "type": "Association",
+          "sourceCard": "1",
+          "targetCard": "0..1"
+        }
+      ],
+      "caption": "Entidades conceptuales de seguridad. Rol y Permiso son conceptos del dominio; el código actual los consulta mediante Query Builder, no mediante modelos PHP separados.",
+      "width": 840,
+      "height": 740
+    },
+    {
+      "id": "18-logico-bd",
+      "title": "Diseño lógico de la base de datos",
+      "phase": "03 Diseño",
+      "type": "Logical",
+      "sourcePage": 10,
+      "placements": [
+        {
+          "ref": "t_usuarios",
+          "x": 25,
+          "y": 40,
+          "w": 260,
+          "h": 250
+        },
+        {
+          "ref": "t_roles",
+          "x": 605,
+          "y": 40,
+          "w": 225,
+          "h": 225
+        },
+        {
+          "ref": "t_usuario_rol",
+          "x": 320,
+          "y": 310,
+          "w": 250,
+          "h": 200
+        },
+        {
+          "ref": "t_permisos",
+          "x": 605,
+          "y": 565,
+          "w": 255,
+          "h": 210
+        },
+        {
+          "ref": "t_rol_permiso",
+          "x": 605,
+          "y": 335,
+          "w": 255,
+          "h": 160
+        },
+        {
+          "ref": "t_password_reset_tokens",
+          "x": 25,
+          "y": 360,
+          "w": 255,
+          "h": 160
+        },
+        {
+          "ref": "t_jobs",
+          "x": 25,
+          "y": 590,
+          "w": 270,
+          "h": 230
+        }
+      ],
+      "edges": [
+        {
+          "from": "t_usuario_rol",
+          "to": "t_usuarios",
+          "label": "usuario_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        },
+        {
+          "from": "t_usuario_rol",
+          "to": "t_roles",
+          "label": "rol_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        },
+        {
+          "from": "t_rol_permiso",
+          "to": "t_roles",
+          "label": "rol_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        },
+        {
+          "from": "t_rol_permiso",
+          "to": "t_permisos",
+          "label": "permiso_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        }
+      ],
+      "caption": "Las tablas usuario_rol y rol_permiso tienen claves primarias compuestas. Los tokens se asocian por correo sin una clave foránea declarada; jobs no tiene relación FK con usuarios.",
+      "width": 900,
+      "height": 860
+    },
+    {
+      "id": "19-fisico-bd",
+      "title": "Diseño físico de la base de datos",
+      "phase": "03 Diseño",
+      "type": "Logical",
+      "sourcePage": 11,
+      "placements": [
+        {
+          "ref": "t_usuarios",
+          "x": 25,
+          "y": 40,
+          "w": 260,
+          "h": 250
+        },
+        {
+          "ref": "t_roles",
+          "x": 605,
+          "y": 40,
+          "w": 225,
+          "h": 225
+        },
+        {
+          "ref": "t_usuario_rol",
+          "x": 320,
+          "y": 310,
+          "w": 250,
+          "h": 200
+        },
+        {
+          "ref": "t_permisos",
+          "x": 605,
+          "y": 565,
+          "w": 255,
+          "h": 210
+        },
+        {
+          "ref": "t_rol_permiso",
+          "x": 605,
+          "y": 335,
+          "w": 255,
+          "h": 160
+        },
+        {
+          "ref": "t_password_reset_tokens",
+          "x": 25,
+          "y": 360,
+          "w": 255,
+          "h": 160
+        },
+        {
+          "ref": "t_jobs",
+          "x": 25,
+          "y": 590,
+          "w": 270,
+          "h": 230
+        }
+      ],
+      "edges": [
+        {
+          "from": "t_usuario_rol",
+          "to": "t_usuarios",
+          "label": "usuario_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        },
+        {
+          "from": "t_usuario_rol",
+          "to": "t_roles",
+          "label": "rol_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        },
+        {
+          "from": "t_rol_permiso",
+          "to": "t_roles",
+          "label": "rol_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        },
+        {
+          "from": "t_rol_permiso",
+          "to": "t_permisos",
+          "label": "permiso_id → id",
+          "type": "Association",
+          "sourceCard": "0..*",
+          "targetCard": "1"
+        }
+      ],
+      "caption": "PostgreSQL 17: tipos y nulabilidad obtenidos de information_schema. El diccionario completo acompaña este diagrama en el informe; no se incluyen datos de usuarios.",
+      "width": 900,
+      "height": 860
+    },
+    {
+      "id": "20-clases-dinamico-cu01",
+      "title": "CU-01 Diagrama de clases dinámico",
+      "phase": "03 Diseño",
+      "type": "Logical",
+      "sourcePage": 12,
+      "placements": [
+        {
+          "ref": "bVista01",
+          "x": 25,
+          "y": 55,
+          "w": 230,
+          "h": 235
+        },
+        {
+          "ref": "cSession",
+          "x": 345,
+          "y": 55,
+          "w": 330,
+          "h": 170
+        },
+        {
+          "ref": "cLoginReq",
+          "x": 345,
+          "y": 310,
+          "w": 330,
+          "h": 190
+        },
+        {
+          "ref": "cUser",
+          "x": 25,
+          "y": 380,
+          "w": 250,
+          "h": 205
+        },
+        {
+          "ref": "cProtect",
+          "x": 345,
+          "y": 585,
+          "w": 330,
+          "h": 120
+        },
+        {
+          "ref": "cHash",
+          "x": 25,
+          "y": 710,
+          "w": 300,
+          "h": 170
+        }
+      ],
+      "edges": [
+        {
+          "from": "bVista01",
+          "to": "cSession",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cSession",
+          "to": "cLoginReq",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cSession",
+          "to": "cUser",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cProtect",
+          "to": "cUser",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cSession",
+          "to": "cHash",
+          "label": "",
+          "type": "Dependency"
+        }
+      ],
+      "width": 715,
+      "height": 920
+    },
+    {
+      "id": "21-clases-dinamico-cu02",
+      "title": "CU-02 Diagrama de clases dinámico",
+      "phase": "03 Diseño",
+      "type": "Logical",
+      "sourcePage": 12,
+      "placements": [
+        {
+          "ref": "bVista02",
+          "x": 30,
+          "y": 45,
+          "w": 260,
+          "h": 220
+        },
+        {
+          "ref": "cUserCtl",
+          "x": 395,
+          "y": 45,
+          "w": 340,
+          "h": 235
+        },
+        {
+          "ref": "cRoleCtl",
+          "x": 30,
+          "y": 345,
+          "w": 310,
+          "h": 235
+        },
+        {
+          "ref": "cPermCtl",
+          "x": 395,
+          "y": 360,
+          "w": 340,
+          "h": 150
+        },
+        {
+          "ref": "cService",
+          "x": 395,
+          "y": 625,
+          "w": 365,
+          "h": 220
+        },
+        {
+          "ref": "cDB",
+          "x": 30,
+          "y": 655,
+          "w": 300,
+          "h": 175
+        }
+      ],
+      "edges": [
+        {
+          "from": "bVista02",
+          "to": "cUserCtl",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "bVista02",
+          "to": "cRoleCtl",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "bVista02",
+          "to": "cPermCtl",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cUserCtl",
+          "to": "cService",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cRoleCtl",
+          "to": "cService",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cPermCtl",
+          "to": "cService",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cService",
+          "to": "cDB",
+          "label": "",
+          "type": "Dependency"
+        }
+      ],
+      "width": 800,
+      "height": 885
+    },
+    {
+      "id": "22-estados-cu01",
+      "title": "CU-01 Diagrama de estado de la sesión",
+      "phase": "03 Diseño",
+      "type": "Statechart",
+      "sourcePage": 13,
+      "placements": [
+        {
+          "ref": "22-estados-cu01-start",
+          "x": 65,
+          "y": 55,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "ref": "22-estados-cu01-anon",
+          "x": 50,
+          "y": 145,
+          "w": 205,
+          "h": 80
+        },
+        {
+          "ref": "22-estados-cu01-validando",
+          "x": 360,
+          "y": 145,
+          "w": 205,
+          "h": 80
+        },
+        {
+          "ref": "22-estados-cu01-limitado",
+          "x": 360,
+          "y": 355,
+          "w": 205,
+          "h": 80
+        },
+        {
+          "ref": "22-estados-cu01-activa",
+          "x": 50,
+          "y": 355,
+          "w": 205,
+          "h": 80
+        },
+        {
+          "ref": "22-estados-cu01-terminada",
+          "x": 50,
+          "y": 590,
+          "w": 205,
+          "h": 80
+        }
+      ],
+      "edges": [
+        {
+          "from": "22-estados-cu01-start",
+          "to": "22-estados-cu01-anon",
+          "label": "",
+          "type": "StateFlow"
+        },
+        {
+          "from": "22-estados-cu01-anon",
+          "to": "22-estados-cu01-validando",
+          "label": "enviar credenciales",
+          "type": "StateFlow"
+        },
+        {
+          "from": "22-estados-cu01-validando",
+          "to": "22-estados-cu01-activa",
+          "label": "[válidas y cuenta activa]",
+          "type": "StateFlow"
+        },
+        {
+          "from": "22-estados-cu01-validando",
+          "to": "22-estados-cu01-anon",
+          "label": "[incorrectas / cuenta inactiva]",
+          "type": "StateFlow"
+        },
+        {
+          "from": "22-estados-cu01-validando",
+          "to": "22-estados-cu01-limitado",
+          "label": "[5 fallos por identificador + IP]",
+          "type": "StateFlow"
+        },
+        {
+          "from": "22-estados-cu01-limitado",
+          "to": "22-estados-cu01-anon",
+          "label": "[15 min transcurridos]",
+          "type": "StateFlow"
+        },
+        {
+          "from": "22-estados-cu01-activa",
+          "to": "22-estados-cu01-terminada",
+          "label": "logout / inactividad ≥30 min / revocación",
+          "type": "StateFlow"
+        },
+        {
+          "from": "22-estados-cu01-terminada",
+          "to": "22-estados-cu01-anon",
+          "label": "volver a login",
+          "type": "StateFlow"
+        }
+      ],
+      "width": 605,
+      "height": 710
+    },
+    {
+      "id": "23-estados-cu02",
+      "title": "CU-02 Diagrama de estado de la cuenta",
+      "phase": "03 Diseño",
+      "type": "Statechart",
+      "sourcePage": 13,
+      "placements": [
+        {
+          "ref": "23-estados-cu02-start",
+          "x": 65,
+          "y": 55,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "ref": "23-estados-cu02-validacion",
+          "x": 55,
+          "y": 145,
+          "w": 205,
+          "h": 80
+        },
+        {
+          "ref": "23-estados-cu02-activa",
+          "x": 55,
+          "y": 355,
+          "w": 205,
+          "h": 80
+        },
+        {
+          "ref": "23-estados-cu02-inactiva",
+          "x": 390,
+          "y": 355,
+          "w": 205,
+          "h": 80
+        },
+        {
+          "ref": "23-estados-cu02-rechazada",
+          "x": 390,
+          "y": 145,
+          "w": 205,
+          "h": 80
+        }
+      ],
+      "edges": [
+        {
+          "from": "23-estados-cu02-start",
+          "to": "23-estados-cu02-validacion",
+          "label": "crear o editar",
+          "type": "StateFlow"
+        },
+        {
+          "from": "23-estados-cu02-validacion",
+          "to": "23-estados-cu02-activa",
+          "label": "[válidos y estado activo] / COMMIT",
+          "type": "StateFlow"
+        },
+        {
+          "from": "23-estados-cu02-validacion",
+          "to": "23-estados-cu02-inactiva",
+          "label": "[válidos y estado inactivo] / COMMIT",
+          "type": "StateFlow"
+        },
+        {
+          "from": "23-estados-cu02-validacion",
+          "to": "23-estados-cu02-rechazada",
+          "label": "[duplicado / sin roles / sin gestor]",
+          "type": "StateFlow"
+        },
+        {
+          "from": "23-estados-cu02-rechazada",
+          "to": "23-estados-cu02-validacion",
+          "label": "corregir datos",
+          "type": "StateFlow"
+        },
+        {
+          "from": "23-estados-cu02-activa",
+          "to": "23-estados-cu02-inactiva",
+          "label": "desactivar / revocar sesiones",
+          "type": "StateFlow"
+        },
+        {
+          "from": "23-estados-cu02-inactiva",
+          "to": "23-estados-cu02-activa",
+          "label": "reactivar / login nuevo",
+          "type": "StateFlow"
+        }
+      ],
+      "width": 635,
+      "height": 475
+    },
+    {
+      "id": "24-tiempo-cu01",
+      "title": "CU-01 Diagrama de tiempo",
+      "phase": "03 Diseño",
+      "type": "Timing",
+      "sourcePage": 13,
+      "placements": [
+        {
+          "ref": "tiempo01",
+          "x": 30,
+          "y": 40,
+          "w": 800,
+          "h": 290
+        },
+        {
+          "ref": "notaTiempo01",
+          "x": 70,
+          "y": 385,
+          "w": 680,
+          "h": 105
+        }
+      ],
+      "edges": [],
+      "width": 870,
+      "height": 530
+    },
+    {
+      "id": "25-tiempo-cu02",
+      "title": "CU-02 Diagrama de tiempo",
+      "phase": "03 Diseño",
+      "type": "Timing",
+      "sourcePage": 13,
+      "placements": [
+        {
+          "ref": "tiempo02",
+          "x": 30,
+          "y": 40,
+          "w": 800,
+          "h": 320
+        },
+        {
+          "ref": "notaTiempo02",
+          "x": 70,
+          "y": 410,
+          "w": 680,
+          "h": 105
+        }
+      ],
+      "edges": [],
+      "width": 870,
+      "height": 555
+    },
+    {
+      "id": "26-navegacion-cu01",
+      "title": "CU-01 Diagrama de navegación",
+      "phase": "03 Diseño",
+      "type": "Logical",
+      "sourcePage": 14,
+      "placements": [
+        {
+          "ref": "usuario",
+          "x": 20,
+          "y": 95,
+          "w": 60,
+          "h": 90
+        },
+        {
+          "ref": "vLogin",
+          "x": 180,
+          "y": 55,
+          "w": 250,
+          "h": 130
+        },
+        {
+          "ref": "vInicio",
+          "x": 515,
+          "y": 55,
+          "w": 255,
+          "h": 130
+        },
+        {
+          "ref": "vRecuperar",
+          "x": 180,
+          "y": 340,
+          "w": 270,
+          "h": 130
+        },
+        {
+          "ref": "vReset",
+          "x": 510,
+          "y": 340,
+          "w": 300,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "usuario",
+          "to": "vLogin",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "vLogin",
+          "to": "vInicio",
+          "label": "[credenciales válidas]",
+          "type": "Dependency"
+        },
+        {
+          "from": "vInicio",
+          "to": "vLogin",
+          "label": "POST logout",
+          "type": "Dependency"
+        },
+        {
+          "from": "vLogin",
+          "to": "vRecuperar",
+          "label": "olvidé mi contraseña",
+          "type": "Dependency"
+        },
+        {
+          "from": "vRecuperar",
+          "to": "vReset",
+          "label": "correo con enlace",
+          "type": "Dependency"
+        },
+        {
+          "from": "vReset",
+          "to": "vLogin",
+          "label": "cambio confirmado",
+          "type": "Dependency"
+        }
+      ],
+      "width": 850,
+      "height": 525
+    },
+    {
+      "id": "27-navegacion-cu02",
+      "title": "CU-02 Diagrama de navegación",
+      "phase": "03 Diseño",
+      "type": "Logical",
+      "sourcePage": 14,
+      "placements": [
+        {
+          "ref": "gestor",
+          "x": 20,
+          "y": 85,
+          "w": 60,
+          "h": 90
+        },
+        {
+          "ref": "vInicio",
+          "x": 180,
+          "y": 55,
+          "w": 250,
+          "h": 130
+        },
+        {
+          "ref": "vUsuarios",
+          "x": 180,
+          "y": 340,
+          "w": 265,
+          "h": 175
+        },
+        {
+          "ref": "vRoles",
+          "x": 530,
+          "y": 55,
+          "w": 265,
+          "h": 175
+        },
+        {
+          "ref": "vPermisos",
+          "x": 530,
+          "y": 340,
+          "w": 265,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "gestor",
+          "to": "vInicio",
+          "label": "login previo",
+          "type": "Association"
+        },
+        {
+          "from": "vInicio",
+          "to": "vUsuarios",
+          "label": "Administrar acceso",
+          "type": "Dependency"
+        },
+        {
+          "from": "vUsuarios",
+          "to": "vRoles",
+          "label": "pestaña Roles",
+          "type": "Dependency"
+        },
+        {
+          "from": "vRoles",
+          "to": "vPermisos",
+          "label": "pestaña Permisos",
+          "type": "Dependency"
+        },
+        {
+          "from": "vPermisos",
+          "to": "vUsuarios",
+          "label": "pestaña Usuarios",
+          "type": "Dependency"
+        }
+      ],
+      "width": 835,
+      "height": 555
+    },
+    {
+      "id": "28-componentes-cu01",
+      "title": "CU-01 Diagrama de componentes",
+      "phase": "04 Implementación",
+      "type": "Component",
+      "sourcePage": 15,
+      "placements": [
+        {
+          "ref": "cmpVista01",
+          "x": 245,
+          "y": 45,
+          "w": 285,
+          "h": 105
+        },
+        {
+          "ref": "cmpSession",
+          "x": 245,
+          "y": 250,
+          "w": 285,
+          "h": 105
+        },
+        {
+          "ref": "cmpAuth",
+          "x": 30,
+          "y": 450,
+          "w": 300,
+          "h": 110
+        },
+        {
+          "ref": "cmpUser",
+          "x": 445,
+          "y": 450,
+          "w": 285,
+          "h": 110
+        },
+        {
+          "ref": "cmpDB",
+          "x": 245,
+          "y": 680,
+          "w": 285,
+          "h": 105
+        }
+      ],
+      "edges": [
+        {
+          "from": "cmpVista01",
+          "to": "cmpSession",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cmpSession",
+          "to": "cmpAuth",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cmpSession",
+          "to": "cmpUser",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cmpUser",
+          "to": "cmpDB",
+          "label": "",
+          "type": "Dependency"
+        }
+      ],
+      "width": 770,
+      "height": 825
+    },
+    {
+      "id": "29-componentes-cu02",
+      "title": "CU-02 Diagrama de componentes",
+      "phase": "04 Implementación",
+      "type": "Component",
+      "sourcePage": 15,
+      "placements": [
+        {
+          "ref": "cmpVista02",
+          "x": 245,
+          "y": 45,
+          "w": 285,
+          "h": 105
+        },
+        {
+          "ref": "cmpControl02",
+          "x": 245,
+          "y": 250,
+          "w": 285,
+          "h": 110
+        },
+        {
+          "ref": "cmpReq",
+          "x": 30,
+          "y": 450,
+          "w": 300,
+          "h": 110
+        },
+        {
+          "ref": "cmpService",
+          "x": 445,
+          "y": 450,
+          "w": 285,
+          "h": 110
+        },
+        {
+          "ref": "cmpQuery",
+          "x": 445,
+          "y": 660,
+          "w": 285,
+          "h": 105
+        },
+        {
+          "ref": "cmpDB",
+          "x": 245,
+          "y": 865,
+          "w": 285,
+          "h": 105
+        }
+      ],
+      "edges": [
+        {
+          "from": "cmpVista02",
+          "to": "cmpControl02",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cmpControl02",
+          "to": "cmpReq",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cmpControl02",
+          "to": "cmpService",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cmpService",
+          "to": "cmpQuery",
+          "label": "",
+          "type": "Dependency"
+        },
+        {
+          "from": "cmpQuery",
+          "to": "cmpDB",
+          "label": "",
+          "type": "Dependency"
+        }
+      ],
+      "width": 770,
+      "height": 1010
+    }
+  ],
+  "schema": [
+    {
+      "table_name": "jobs",
+      "column_name": "id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "nextval('jobs_id_seq'::regclass)"
+    },
+    {
+      "table_name": "jobs",
+      "column_name": "queue",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "jobs",
+      "column_name": "payload",
+      "data_type": "text",
+      "udt_name": "text",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "jobs",
+      "column_name": "attempts",
+      "data_type": "smallint",
+      "udt_name": "int2",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "jobs",
+      "column_name": "reserved_at",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "jobs",
+      "column_name": "available_at",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "jobs",
+      "column_name": "created_at",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "password_reset_tokens",
+      "column_name": "email",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "password_reset_tokens",
+      "column_name": "token",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "password_reset_tokens",
+      "column_name": "created_at",
+      "data_type": "timestamp without time zone",
+      "udt_name": "timestamp",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "permisos",
+      "column_name": "id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "nextval('permisos_id_seq'::regclass)"
+    },
+    {
+      "table_name": "permisos",
+      "column_name": "codigo",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "permisos",
+      "column_name": "accion",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "permisos",
+      "column_name": "descripcion",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "permisos",
+      "column_name": "activo",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "rol_permiso",
+      "column_name": "rol_id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "rol_permiso",
+      "column_name": "permiso_id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "rol_permiso",
+      "column_name": "activo",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "roles",
+      "column_name": "id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "nextval('roles_id_seq'::regclass)"
+    },
+    {
+      "table_name": "roles",
+      "column_name": "nombre",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "roles",
+      "column_name": "descripcion",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "roles",
+      "column_name": "activo",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "roles",
+      "column_name": "created_at",
+      "data_type": "timestamp without time zone",
+      "udt_name": "timestamp",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "roles",
+      "column_name": "updated_at",
+      "data_type": "timestamp without time zone",
+      "udt_name": "timestamp",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "usuario_rol",
+      "column_name": "usuario_id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "usuario_rol",
+      "column_name": "rol_id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "usuario_rol",
+      "column_name": "fecha_asignacion",
+      "data_type": "timestamp without time zone",
+      "udt_name": "timestamp",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "usuario_rol",
+      "column_name": "fecha_expiracion",
+      "data_type": "timestamp without time zone",
+      "udt_name": "timestamp",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "usuario_rol",
+      "column_name": "activo",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "id",
+      "data_type": "bigint",
+      "udt_name": "int8",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "nextval('usuarios_id_seq'::regclass)"
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "nombre_usuario",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "correo",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "contrasena_hash",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 255,
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "activo",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "created_at",
+      "data_type": "timestamp without time zone",
+      "udt_name": "timestamp",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "updated_at",
+      "data_type": "timestamp without time zone",
+      "udt_name": "timestamp",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "usuarios",
+      "column_name": "remember_token",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "character_maximum_length": 100,
+      "is_nullable": "YES",
+      "column_default": null
+    }
+  ]
+}

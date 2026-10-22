@@ -1,0 +1,182 @@
+﻿[
+    {
+        "diagramId":  8,
+        "guid":  "{5C449AAC-4433-4618-B917-A7BB9CEBEF5B}",
+        "id":  "01-actores",
+        "image":  "diagramas/01-actores.png"
+    },
+    {
+        "diagramId":  9,
+        "guid":  "{AE806A2E-642B-4f6a-99F9-EB50D5ACBBD8}",
+        "id":  "02-cu01",
+        "image":  "diagramas/02-cu01.png"
+    },
+    {
+        "diagramId":  10,
+        "guid":  "{54D35002-9108-47ed-B43A-E86D1DDBA483}",
+        "id":  "03-cu02",
+        "image":  "diagramas/03-cu02.png"
+    },
+    {
+        "diagramId":  11,
+        "guid":  "{6F8DFD6A-5F5C-46a0-978D-848E1301E9E7}",
+        "id":  "04-general-cu",
+        "image":  "diagramas/04-general-cu.png"
+    },
+    {
+        "diagramId":  12,
+        "guid":  "{7E39423F-106F-4bb7-A12B-701595FB7CCF}",
+        "id":  "05-identificar-paquetes",
+        "image":  "diagramas/05-identificar-paquetes.png"
+    },
+    {
+        "diagramId":  13,
+        "guid":  "{24D18EB8-3D0B-4e64-B137-7BF65EB3074F}",
+        "id":  "06-paquetes-casos",
+        "image":  "diagramas/06-paquetes-casos.png"
+    },
+    {
+        "diagramId":  14,
+        "guid":  "{2C7246AC-ECA2-4299-A8A2-1AECD6399CD7}",
+        "id":  "07-encapsular",
+        "image":  "diagramas/07-encapsular.png"
+    },
+    {
+        "diagramId":  15,
+        "guid":  "{0BAFC033-991E-4024-A8DA-97E6F02043EC}",
+        "id":  "08-comunicacion-cu01",
+        "image":  "diagramas/08-comunicacion-cu01.png"
+    },
+    {
+        "diagramId":  16,
+        "guid":  "{D0ED20A9-E648-4960-B1D6-6A46AF1E24AD}",
+        "id":  "09-comunicacion-cu02",
+        "image":  "diagramas/09-comunicacion-cu02.png"
+    },
+    {
+        "diagramId":  17,
+        "guid":  "{BFDD7BC6-B73A-4ba9-8F8F-9DF248B1F496}",
+        "id":  "10-clases-analisis-cu01",
+        "image":  "diagramas/10-clases-analisis-cu01.png"
+    },
+    {
+        "diagramId":  18,
+        "guid":  "{AD32B1BC-9C06-4be7-AF64-5B013D2E86EE}",
+        "id":  "10-clases-analisis-cu02",
+        "image":  "diagramas/10-clases-analisis-cu02.png"
+    },
+    {
+        "diagramId":  19,
+        "guid":  "{48B7411E-0E1B-4c11-B187-402FB86EBC19}",
+        "id":  "11-general-paquetes",
+        "image":  "diagramas/11-general-paquetes.png"
+    },
+    {
+        "diagramId":  20,
+        "guid":  "{615ED4E3-6A51-42f7-9E00-6432D35F57B0}",
+        "id":  "12-arquitectura-fisica",
+        "image":  "diagramas/12-arquitectura-fisica.png"
+    },
+    {
+        "diagramId":  21,
+        "guid":  "{A1CD6224-D46E-4fb2-9EB8-1F622F8B3A39}",
+        "id":  "13-arquitectura-logica",
+        "image":  "diagramas/13-arquitectura-logica.png"
+    },
+    {
+        "diagramId":  22,
+        "guid":  "{7709AE7A-0E41-4e9a-95E1-570BB6B9E3C7}",
+        "id":  "14-secuencia-login",
+        "image":  "diagramas/14-secuencia-login.png"
+    },
+    {
+        "diagramId":  23,
+        "guid":  "{FF757CD7-2550-4f79-B4E0-2F50E1CB5707}",
+        "id":  "15-secuencia-recuperar",
+        "image":  "diagramas/15-secuencia-recuperar.png"
+    },
+    {
+        "diagramId":  24,
+        "guid":  "{F7891F56-A728-4112-B567-8BC101A6CAF1}",
+        "id":  "16-secuencia-cu02",
+        "image":  "diagramas/16-secuencia-cu02.png"
+    },
+    {
+        "diagramId":  25,
+        "guid":  "{AE00B357-BE57-4f68-AE73-8798EB759556}",
+        "id":  "17-conceptual-bd",
+        "image":  "diagramas/17-conceptual-bd.png"
+    },
+    {
+        "diagramId":  26,
+        "guid":  "{68B3D354-85F8-473d-9547-71CA7629150C}",
+        "id":  "18-logico-bd",
+        "image":  "diagramas/18-logico-bd.png"
+    },
+    {
+        "diagramId":  27,
+        "guid":  "{32D68C89-6AE9-489f-ABFE-BEF29CB10854}",
+        "id":  "19-fisico-bd",
+        "image":  "diagramas/19-fisico-bd.png"
+    },
+    {
+        "diagramId":  28,
+        "guid":  "{2C7CFD8F-7C54-4141-9F87-A2380B3B8D11}",
+        "id":  "20-clases-dinamico-cu01",
+        "image":  "diagramas/20-clases-dinamico-cu01.png"
+    },
+    {
+        "diagramId":  29,
+        "guid":  "{772A9E21-B316-4729-9B3E-06988A1A2C36}",
+        "id":  "21-clases-dinamico-cu02",
+        "image":  "diagramas/21-clases-dinamico-cu02.png"
+    },
+    {
+        "diagramId":  30,
+        "guid":  "{8256BFDA-285A-4598-AF68-C5317467BBDB}",
+        "id":  "22-estados-cu01",
+        "image":  "diagramas/22-estados-cu01.png"
+    },
+    {
+        "diagramId":  31,
+        "guid":  "{7018E74A-1282-4549-A04E-59D90BE50E6C}",
+        "id":  "23-estados-cu02",
+        "image":  "diagramas/23-estados-cu02.png"
+    },
+    {
+        "diagramId":  32,
+        "guid":  "{46553542-9A5A-4d3a-9E49-5CD03B8E5CA4}",
+        "id":  "24-tiempo-cu01",
+        "image":  "diagramas/24-tiempo-cu01.png"
+    },
+    {
+        "diagramId":  33,
+        "guid":  "{0FCCD403-15E2-421e-8D43-5D1484F9BDA0}",
+        "id":  "25-tiempo-cu02",
+        "image":  "diagramas/25-tiempo-cu02.png"
+    },
+    {
+        "diagramId":  34,
+        "guid":  "{3481A4E6-3712-4c1e-B85B-24AC06277273}",
+        "id":  "26-navegacion-cu01",
+        "image":  "diagramas/26-navegacion-cu01.png"
+    },
+    {
+        "diagramId":  35,
+        "guid":  "{A778F19D-5AA7-411d-BC60-751431EFF3BD}",
+        "id":  "27-navegacion-cu02",
+        "image":  "diagramas/27-navegacion-cu02.png"
+    },
+    {
+        "diagramId":  36,
+        "guid":  "{A92AA92D-9912-460e-A55A-569463498814}",
+        "id":  "28-componentes-cu01",
+        "image":  "diagramas/28-componentes-cu01.png"
+    },
+    {
+        "diagramId":  37,
+        "guid":  "{C0BD5D32-3652-4463-9D93-608EB268D1C4}",
+        "id":  "29-componentes-cu02",
+        "image":  "diagramas/29-componentes-cu02.png"
+    }
+]

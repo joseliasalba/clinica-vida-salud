@@ -39,6 +39,7 @@ coverage/
 *.backup
 *.bak
 *.mdj~
+*.ldb
 
 # Sistema operativo
 .DS_Store
