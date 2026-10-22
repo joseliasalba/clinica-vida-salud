@@ -1,4 +1,23 @@
-# Catálogo inicial de casos de uso
+# Catálogo de casos de uso
+
+## Numeración vigente indicada por el usuario el 22/10/2026
+
+La imagen del usuario reemplaza los códigos del catálogo inicial. Se conservan las carpetas anteriores para no romper enlaces del trabajo compartido; sus códigos son históricos. El cambio implementado en esta rama corresponde exclusivamente a **CU-03 Gestionar especialidades médicas**.
+
+| Código vigente | Caso de uso | Actor principal | Requisito | Implementación/documentación |
+| --- | --- | --- | --- | --- |
+| CU-01 | Autenticar usuario | Usuario | RF01 | Documentación existente en CU-01 |
+| CU-02 | Gestionar pacientes | Recepcionista / Administrador | RF02 | Documentación histórica en CU-04 |
+| CU-03 | Gestionar especialidades médicas | Administrador | RF04 | [Especificación](CU-03/especificacion.md), [trazabilidad](CU-03/dependencias.md), [pruebas](CU-03/pruebas.md) |
+| CU-04 | Gestionar médicos | Administrador | RF03 | Pendiente |
+| CU-05 | Configurar horarios de atención | Administrador | RF05 | Pendiente |
+| CU-06 | Programar cita médica | Recepcionista | RF06, RF07 | Pendiente |
+| CU-07 | Consultar disponibilidad médica | Recepcionista | RF05, RF06; prevención de conflictos RF07 | Pendiente; asignado al usuario |
+| CU-08 | Consultar agenda de citas | Médico / Recepcionista | RF11 | Pendiente; asignado al usuario |
+
+La administración de usuarios/roles existente conserva su documentación histórica CU-02. Su código definitivo y los demás casos del segundo ciclo quedan por conciliar con el equipo. No utilizar los números históricos en la defensa sin esta correspondencia.
+
+## Catálogo histórico anterior a la imagen
 
 Los códigos CU son propios del proyecto y no sustituyen los RF del enunciado. Cada caso tiene una carpeta directa `CU-XX/` con `especificacion.md`, `dependencias.md` y `pruebas.md`; se usa `PLANTILLA.md` para la especificación. Los ciclos se indican aquí, sin anidar casos dentro de otros casos ni de carpetas de entregas.
 
@@ -27,6 +46,8 @@ La asignación por ciclo es propuesta, porque el plan detallado del ZIP no se ha
 Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso CU-07 debe incluir reservas simultáneas en sus criterios de aceptación.
 
 ## Documentación y estado
+
+La siguiente tabla conserva los códigos históricos. Para el CU-03 vigente, usar los enlaces de la tabla superior.
 
 | Caso | Módulo | Especificación | Dependencias y código | Evidencia | Estado |
 | --- | --- | --- | --- | --- | --- |

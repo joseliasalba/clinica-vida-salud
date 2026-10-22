@@ -10,10 +10,13 @@ Proyecto universitario de Ingeniería de Requisitos / SI1: sistema web de gesti�
 - Aplicación Laravel 13 creada en `sistema/backend/`, conectada localmente a PostgreSQL 17.
 - Las 29 migraciones están ejecutadas, incluyendo el dominio clínico y la protección contra citas superpuestas.
 - Autenticación preparada sobre `usuarios`, cuatro roles y ocho permisos iniciales; horario `America/La_Paz`.
-- 57 pruebas aprobadas con 451 comprobaciones y PostgreSQL en el esquema aislado `clinica_testing`.
+- CU-03 (numeración de la imagen del usuario): especialidades implementadas con listado, búsqueda, registro, edición y activación/desactivación. Entrada `/especialidades`, permiso existente `medicos.gestionar`.
+- Verificación del 22/10/2026: 85 pruebas aprobadas con 813 comprobaciones en PostgreSQL temporal aislado, esquema `clinica_testing`; incluye 14 pruebas de especialidades. La conexión de desarrollo de esta copia requiere corregir las credenciales locales de `clinica_app`.
 - Acceso, cierre de sesión, recuperación y gestión de usuarios, roles y permisos implementados; revisión en navegador y entrega SMTP real pendientes. Los flujos clínicos posteriores siguen pendientes.
 
 ## Tecnologías acordadas
+
+El usuario confirmó el 22/10/2026 continuar con Laravel existente para CU-03. Ver [especificación, pruebas y diagramas del módulo](docs/casos-de-uso/CU-03/especificacion.md).
 
 - PHP con Laravel.
 - PostgreSQL.
