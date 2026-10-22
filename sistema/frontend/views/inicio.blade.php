@@ -11,7 +11,7 @@
         @foreach (config('permisos.catalogo') as $codigo => $descripcion)
             @can($codigo)
                 @php($available = true)
-                <article class="module-card"><span class="module-icon" aria-hidden="true">✚</span><h3>{{ $descripcion }}</h3>@if($codigo === 'usuarios.gestionar')<p>Organiza las cuentas y las funciones de cada persona.</p><a class="button primary" href="{{ route('usuarios.index') }}">Administrar acceso ↗</a>@elseif($codigo === 'pacientes.gestionar')<p>Registra pacientes y mantén sus fichas y datos de contacto.</p><a class="button primary" href="{{ route('pacientes.index') }}">Gestionar pacientes ↗</a>@else<p>Este servicio estará disponible próximamente.</p><span class="badge">Próximamente</span>@endif</article>
+                <article class="module-card"><span class="module-icon" aria-hidden="true">✚</span><h3>{{ $descripcion }}</h3>@if($codigo === 'usuarios.gestionar')<p>Organiza las cuentas y las funciones de cada persona.</p><a class="button primary" href="{{ route('usuarios.index') }}">Administrar acceso ↗</a>@elseif($codigo === 'pacientes.gestionar')<p>Registra pacientes y mantén sus fichas y datos de contacto.</p><a class="button primary" href="{{ route('pacientes.index') }}">Gestionar pacientes ↗</a>@elseif($codigo === 'medicos.gestionar')<p>Organiza el catálogo de especialidades médicas de la clínica.</p><a class="button primary" href="{{ route('especialidades.index') }}">Gestionar especialidades ↗</a>@else<p>Este servicio estará disponible próximamente.</p><span class="badge">Próximamente</span>@endif</article>
             @endcan
         @endforeach
     </div>

@@ -3,6 +3,7 @@
 @import './auth/auth.css';
 @import './auth/usuarios.css';
 @import './pacientes/pacientes.css';
+@import './especialidades/especialidades.css';
 @import './inicio/inicio.css';
 @import './shared/responsive.css';
 
