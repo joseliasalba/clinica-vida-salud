@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device" version="24.7.17" agent="Codex">
+  <diagram id="CU12_1_page" name="01 Caso de uso">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU12_1_frame" value="uc CU-12 · Consultar historial de citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="300" y="60" width="1230" height="940" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_actor" value="Recepción / Administrador" style="shape=umlActor;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_main" value="Consultar historial de citas" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="430" y="320" width="400" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_edge1" value="" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;endArrow=none;" edge="1" parent="1" source="CU12_1_actor" target="CU12_1_main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_actor2" value="Paciente&#10;(solo ficha propia)" style="shape=umlActor;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="570" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_edge2" value="" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;endArrow=none;" edge="1" parent="1" source="CU12_1_actor2" target="CU12_1_main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_option0" value="Seleccionar paciente" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="170" width="350" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_edge3" value="«extend»&#10;[personal selecciona ficha]" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_1_option0" target="CU12_1_main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_option1" value="Filtrar fecha y estado" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="360" width="350" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_edge4" value="«extend»" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_1_option1" target="CU12_1_main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_option2" value="Paginar citas del paciente" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="550" width="350" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_edge5" value="«extend»" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_1_option2" target="CU12_1_main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_1_rules" value="Personal: citas.gestionar o pacientes.gestionar.&#10;Paciente: citas.propias y ficha vinculada a su cuenta.&#10;agenda.propia por sí sola no da acceso.&#10;Filtros desde/hasta inclusivos, estado y búsqueda administrativa de pacientes.&#10;Sin selección o ficha vinculada: resultado vacío.&#10;Consulta de solo lectura; citas ordenadas por inicio e ID descendente." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="380" y="740" width="1060" height="210" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="CU12_2_page" name="02 Comunicación">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU12_2_frame" value="com CU-12 · Consultar historial de citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="25" y="25" width="1530" height="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_actor" value="Recepción / Administrador / Paciente (solo ficha propia)" style="shape=umlActor;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="55" y="250" width="180" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_boundary" value="«boundary»&#10;:PantallaHistorial" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="310" y="275" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_control" value="«control»&#10;:HistorialController" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="690" y="275" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_service" value="«control»&#10;:AutorizaciónYFiltros" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="275" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_rules" value="«entity»&#10;:Usuario / Paciente" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="610" width="330" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_entity" value="«entity»&#10;:CitaMedica" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="690" y="610" width="280" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_last" value="«entity»&#10;:Médico / Especialidad" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="310" y="610" width="260" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_edge1" value="1: elegir paciente o abrir ficha propia; filtros" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_2_actor" target="CU12_2_boundary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_edge2" value="2: GET /historial o /pacientes/{paciente}/historial" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_2_boundary" target="CU12_2_control">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_edge3" value="3: autorizar y validar selección, rango y estado" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_2_control" target="CU12_2_service">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_edge4" value="4: comprobar vínculo o permiso administrativo" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_2_service" target="CU12_2_rules">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_edge5" value="5: SELECT proyección administrativa; ordenar; paginar 15" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="CU12_2_service" target="CU12_2_entity">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="470" />
+              <mxPoint x="830" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CU12_2_edge6" value="6: obtener nombres de médico y especialidad" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_2_entity" target="CU12_2_last">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_2_edge7" value="7: mostrar historial o vacío; conservar filtros" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;exitY=0;entryY=0;" edge="1" parent="1" source="CU12_2_control" target="CU12_2_boundary">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="150" />
+              <mxPoint x="440" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CU12_2_note" value="Solo SELECT. El paciente no puede seleccionar otra ficha por parámetro ni por ruta. El personal puede consultar fichas activas e inactivas. Se presenta código, inicio/fin, estado, médico, especialidad y fecha de registro, sin modificar citas." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="840" width="1370" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="CU12_3_page" name="03 Clases de análisis">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU12_3_frame" value="class CU-12 · Consultar historial de citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="25" y="25" width="1530" height="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_class0" value="«boundary»&#10;PantallaHistorial&#10;────────────────────────&#10;seleccionar paciente autorizado&#10;filtrar desde / hasta / estado&#10;mostrar citas y paginación" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="145" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_class1" value="«control»&#10;ConsultaHistorial&#10;────────────────────────&#10;autorizar y delimitar ficha&#10;validar filtros administrativos&#10;consultar proyección paginada" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="590" y="145" width="380" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_class2" value="«entity»&#10;Paciente&#10;────────────────────────&#10;id · usuario_id opcional&#10;código · CI · nombres&#10;activo" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="145" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_class3" value="«entity»&#10;Usuario&#10;────────────────────────&#10;id · activo&#10;permisos efectivos" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="540" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_class4" value="«entity»&#10;CitaMedica (proyección)&#10;────────────────────────&#10;código · inicio · fin · estado&#10;médico · especialidad&#10;fecha de registro" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="590" y="540" width="380" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_class5" value="«entity»&#10;Médico / Especialidad&#10;────────────────────────&#10;id médico · nombres&#10;id especialidad · nombre" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="540" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_edge1" value="solicita" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_3_class0" target="CU12_3_class1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_edge2" value="valida / consulta" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_3_class1" target="CU12_3_class2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_edge3" value="interactúa" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_3_class3" target="CU12_3_class0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_edge4" value="consulta" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_3_class1" target="CU12_3_class4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_edge5" value="1 → 1 médico / especialidad" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;endArrow=none;" edge="1" parent="1" source="CU12_3_class4" target="CU12_3_class5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_edge6" value="1 paciente → 0..* citas" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;endArrow=none;" edge="1" parent="1" source="CU12_3_class2" target="CU12_3_class4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_3_note" value="Relaciones de consulta: Usuario 0..1 ↔ Paciente (vínculo para acceso propio); Paciente 1 ↔ 0..* CitaMedica; cada cita pertenece a un médico y una especialidad. Las proyecciones se seleccionan expresamente y no se guardan entidades." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="890" width="1370" height="125" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="CU12_4_page" name="04 Secuencia">
+    <mxGraphModel dx="1600" dy="1290" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1290" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU12_4_frame" value="sd CU-12 · Consultar historial de citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="25" y="25" width="1530" height="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_participant0" value="Recepción / Administrador / Paciente" style="shape=umlActor;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="20" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_lifeline0" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="175" width="1" height="920" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_participant1" value="Vista / HTTP" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_lifeline1" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="175" width="1" height="920" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_participant2" value=":HistorialController" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_lifeline2" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="175" width="1" height="920" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_participant3" value="Autorización / filtros" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="950" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_lifeline3" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="175" width="1" height="920" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_participant4" value="PostgreSQL / entidades" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_lifeline4" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="175" width="1" height="920" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg1s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="220" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg1t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="220" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge1" value="1. Abrir Historial; seleccionar paciente o ficha propia" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_4_msg1s" target="CU12_4_msg1t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg2s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="286" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg2t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="286" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge2" value="2. GET /historial o /pacientes/{paciente}/historial" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_4_msg2s" target="CU12_4_msg2t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg3s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="352" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg3t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="352" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge3" value="3. Validar sesión y permisos efectivos" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_4_msg3s" target="CU12_4_msg3t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg4s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="418" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg4t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="418" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge4" value="4. SELECT ficha autorizada / vínculo usuario-paciente" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_4_msg4s" target="CU12_4_msg4t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg5s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="484" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg5t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="484" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge5" value="5. Paciente permitido o selección vacía" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_4_msg5s" target="CU12_4_msg5t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg6s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="550" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg6t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="550" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge6" value="6. Validar fecha desde/hasta y estado" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_4_msg6s" target="CU12_4_msg6t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg7s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="616" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg7t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="616" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge7" value="7. SELECT columnas administrativas del paciente" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_4_msg7s" target="CU12_4_msg7t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg8s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="682" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg8t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="682" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge8" value="8. Aplicar rango inclusivo, estado y orden inicio/id DESC" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU12_4_msg8s" target="CU12_4_msg8t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg9s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="748" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg9t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="748" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge9" value="9. Resultado paginado de 15 citas y nombres" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_4_msg9s" target="CU12_4_msg9t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg10s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="814" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg10t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="814" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge10" value="10. Renderizar historial; conservar filtros en enlaces" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_4_msg10s" target="CU12_4_msg10t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg11s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="880" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_msg11t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="880" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_edge11" value="11. Mostrar citas o estado vacío" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU12_4_msg11s" target="CU12_4_msg11t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU12_4_note" value="Consulta de solo lectura. Paciente_id ajeno o ruta de otra ficha: 403. Sin ficha propia o selección: vacío. Rango inválido o estado desconocido: error de validación. El personal puede buscar por código, CI y nombre y consultar fichas inactivas. No se ejecutan INSERT, UPDATE ni DELETE." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1070" width="1410" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
