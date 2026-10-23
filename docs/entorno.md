@@ -105,6 +105,45 @@ Los permisos iniciales están en `config/permisos.php`; los Gates comprueban usu
 - Pendiente: revisión en navegador, entrega SMTP real, cuenta administradora inicial y pantallas y flujos clínicos posteriores. Las reservas simultáneas de citas requieren pruebas adicionales al implementar CU-07.
 - `sistema/backend/.env`, `.tools`, `vendor` y `node_modules` están excluidos de Git.
 
+## Correo real con Brevo desde localhost
+
+Laravel usa su transporte SMTP existente, sin paquetes adicionales. El envío real queda pendiente hasta crear la cuenta de Brevo, verificar el remitente y completar las credenciales locales. La aplicación conserva `MAIL_MAILER=log` mientras falten esos datos; en ese modo los mensajes no llegan a ninguna bandeja externa.
+
+1. Crear una cuenta en [Brevo](https://www.brevo.com/) y completar su activación.
+2. En la configuración de remitentes, agregar el correo que aparecerá como remitente y completar su verificación. Cumplir los requisitos de dominio o activación que solicite Brevo para esa cuenta.
+3. En **Configuración → SMTP y API → SMTP**, copiar el **Login SMTP** y generar una **clave SMTP**. No utilizar una clave API ni la contraseña de la cuenta. El Login SMTP puede ser una dirección técnica distinta del remitente.
+4. Completar `sistema/backend/.env` localmente, sin compartir las claves en el chat, capturas ni Git:
+
+```dotenv
+MAIL_MAILER=smtp
+MAIL_SCHEME=smtp
+MAIL_HOST=smtp-relay.brevo.com
+MAIL_PORT=587
+MAIL_USERNAME="LOGIN_SMTP_DE_BREVO"
+MAIL_PASSWORD="CLAVE_SMTP_DE_BREVO"
+MAIL_FROM_ADDRESS="CORREO_REMITENTE_VERIFICADO"
+MAIL_FROM_NAME="Clínica Vida Salud"
+MAIL_TIMEOUT=15
+```
+
+Los valores en mayúsculas son marcadores que deben reemplazarse. `MAIL_FROM_ADDRESS` debe ser el remitente verificado; no copiar ahí una dirección técnica `@smtp-brevo.com`. Si existe `MAIL_URL`, quitar su valor para que no sobrescriba estas opciones. Mantener la validación de certificados TLS habilitada.
+
+5. Activar el entorno y recargar la configuración desde la raíz del proyecto:
+
+```powershell
+. .\scripts\activar-entorno.ps1
+Set-Location sistema/backend
+php artisan config:clear
+```
+
+Si el servidor no recoge el cambio, detener y volver a ejecutar `php artisan serve --host=127.0.0.1 --port=8000`. No ejecutar `config:show mail` ni publicar la configuración: puede mostrar credenciales.
+
+6. Iniciar sesión con una cuenta de paciente cuyo correo esté pendiente y usar **Solicitar nuevo enlace** en `/verificar-correo`. Se permite un envío por minuto. Comprobar recepción y spam, abrir el enlace en el mismo equipo y navegador con esa sesión iniciada, y verificar que permite continuar a `/citas`. En Brevo, los registros de correo transaccional ayudan a distinguir envío aceptado, entrega y rechazo. Una conexión SMTP correcta no demuestra que el destinatario haya recibido el mensaje.
+
+El servidor puede enviar mensajes desde localhost; el enlace de confirmación sigue apuntando a `APP_URL`, que en esta instalación es `http://127.0.0.1:8000`. Para que otras personas abran el sistema desde Internet, se necesita una URL pública con HTTPS y actualizar `APP_URL`; no hace falta desplegar para esta prueba en el mismo equipo.
+
+Referencias: [Envío mediante Brevo SMTP](https://help.brevo.com/hc/en-us/articles/7924908994450-Send-transactional-emails-using-Brevo-SMTP), [Credenciales y claves SMTP](https://developers.brevo.com/docs/smtp-integration), [Problemas de remitente, activación o entrega](https://help.brevo.com/hc/en-us/articles/115000188150-Troubleshooting-Issues-with-Brevo-SMTP).
+
 ## Referencias oficiales
 
 - [PHP en Windows](https://www.php.net/manual/en/install.windows.php)
