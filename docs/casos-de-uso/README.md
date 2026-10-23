@@ -40,8 +40,8 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 | CU-03 | Pacientes | [Especificación](CU-03/especificacion.md) | [Código y dependencias](CU-03/dependencias.md) | [Pruebas](CU-03/pruebas.md) | Portada pública y autorregistro implementados; revisión visual y SMTP real pendientes |
 | CU-04 | Pacientes | [Especificación](CU-04/especificacion.md) | [Código y dependencias](CU-04/dependencias.md) | [Pruebas](CU-04/pruebas.md) | Fichas administrativas implementadas y probadas; revisión visual pendiente |
 | CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Médicos y especialidades implementados; revisión visual de médicos pendiente |
-| CU-06 | Horarios y bloqueos | [Reglas implementadas](../../README.md#cu-06-horarios-y-bloqueos) | [Servicio](../../sistema/backend/app/Services/Horarios/ScheduleManagement.php) | [Pruebas](../../sistema/backend/tests/Feature/Horarios/ScheduleManagementTest.php) | Implementado; revisión visual autenticada y diagramas pendientes |
-| CU-07 | Citas | [Reglas implementadas](../../README.md#cu-07-disponibilidad-y-reserva) | [Servicio](../../sistema/backend/app/Services/Citas/AppointmentBooking.php) | [Pruebas](../../sistema/backend/tests/Feature/Citas/AppointmentBookingTest.php) | Implementado; revisión de vistas de prueba en navegador, flujo autenticado e impresión y diagramas pendientes |
+| CU-06 | Horarios y bloqueos | [Reglas implementadas](../../README.md#cu-06-horarios-y-bloqueos) | [Servicio](../../sistema/backend/app/Services/Horarios/ScheduleManagement.php) | [Pruebas](../../sistema/backend/tests/Feature/Horarios/ScheduleManagementTest.php) | Implementado; revisión visual autenticada pendiente |
+| CU-07 | Citas | [Reglas implementadas](../../README.md#cu-07-disponibilidad-y-reserva) | [Servicio](../../sistema/backend/app/Services/Citas/AppointmentBooking.php) | [Pruebas](../../sistema/backend/tests/Feature/Citas/AppointmentBookingTest.php) | Implementado; revisión de vistas de prueba en navegador, flujo autenticado e impresión pendientes |
 
 La copia integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación móvil, CU-05, CU-06 y el flujo de disponibilidad/reserva del CU-07. CU-11 sigue pendiente. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
 
@@ -52,3 +52,7 @@ La copia integra el autorregistro CU-03, la portada pública, el menú lateral, 
 - **PENDIENTE:** requisito por aclarar, código por implementar o verificación por realizar.
 
 La [guía de estructura](../estructura.md) explica dónde colocar controladores, validaciones, modelos, vistas, recursos y pruebas de cada módulo. Las verificaciones pendientes se registran en el documento de pruebas de cada caso, sin presentarlas como aprobadas.
+
+## Diagramas de CU-03 a CU-07
+
+Disponibles los diagramas de casos de uso, comunicación, navegación y secuencia de cada caso: [modelo editable de Enterprise Architect y entregables](../modelo/enterprise-architect/CU03_CU07/README.md). Se contrastaron con el código implementado; su entrega no elimina las verificaciones funcionales pendientes indicadas arriba.

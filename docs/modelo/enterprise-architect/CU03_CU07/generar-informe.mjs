@@ -1,0 +1,36 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import PDFDocument from '../../../../.tools/pdf-reader/node_modules/pdfkit/js/pdfkit.js';
+const dir=path.dirname(fileURLToPath(import.meta.url));
+const model=JSON.parse(fs.readFileSync(path.join(dir,'modelo.json'),'utf8').replace(/^\uFEFF/,''));
+const manifest=JSON.parse(fs.readFileSync(path.join(dir,'manifest.json'),'utf8').replace(/^\uFEFF/,''));
+const out=path.resolve(dir,'../../../../output/pdf/Diagramas_CU03_CU07.pdf');
+fs.mkdirSync(path.dirname(out),{recursive:true});
+const doc=new PDFDocument({autoFirstPage:false,bufferPages:true,info:{Title:'Clínica Vida Salud - Diagramas CU-03 a CU-07',Author:'Clínica Vida Salud',Subject:'Casos de uso, comunicación, navegación y secuencia; modelo editable en Enterprise Architect'}});
+const stream=fs.createWriteStream(out);doc.pipe(stream);
+const order=['casos','comunicacion','secuencia','navegacion'];
+const sheets=[];
+for(const c of model.cases)for(const kind of order){
+ const spec=model.diagrams.find(x=>x.caseId===c.id&&x.kind===kind);
+ const entry=manifest.find(x=>x.id===spec.id);
+ const file=path.join(dir,entry.image);
+ if(!fs.existsSync(file))throw Error('Falta '+file);
+ const im=doc.openImage(file);
+ const pageWidth=Math.max(850,Math.ceil(im.width*.75+90));
+ const pageHeight=Math.ceil(im.height*.75+210);
+ doc.addPage({size:[pageWidth,pageHeight],margins:{left:45,right:45,top:38,bottom:32}});
+ doc.font('Times-Bold').fontSize(22).fillColor('#111').text(spec.title.toLocaleUpperCase('es'),45,38,{width:pageWidth-90});
+ doc.font('Times-Bold').fontSize(15).text(c.id+' - '+c.title,45,72,{width:pageWidth-90});
+ doc.font('Times-Roman').fontSize(11).fillColor('#444').text(c.permission,45,101,{width:pageWidth-90,height:35});
+ doc.image(file,45,145,{width:im.width*.75,height:im.height*.75});
+ const footer=pageHeight-48;
+ doc.font('Times-Roman').fontSize(10).fillColor('#444').text('Clínica Vida Salud | Modelo UML editable en Enterprise Architect | 23/10/2026',45,footer,{width:pageWidth-140,lineBreak:false});
+ doc.text(String(sheets.length+1)+' / 20',pageWidth-95,footer,{width:50,align:'right',lineBreak:false});
+ doc.outline.addItem(c.id+' - '+spec.title,{pageNumber:sheets.length});
+ sheets.push({caseId:c.id,kind:spec.kind,page:sheets.length+1,width:pageWidth,height:pageHeight,image:entry.image});
+}
+doc.end();
+await new Promise((resolve,reject)=>{stream.on('finish',resolve);stream.on('error',reject)});
+fs.writeFileSync(path.join(dir,'laminas.json'),JSON.stringify(sheets,null,2)+'\n');
+console.log(JSON.stringify({output:out,pages:sheets.length,bytes:fs.statSync(out).size}));

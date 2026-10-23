@@ -1,0 +1,3978 @@
+{
+  "title": "Clínica Vida Salud - CU-03 a CU-07",
+  "version": 1,
+  "reference": "todos los diagramas.pdf, páginas 3, 6, 9 y 14",
+  "scope": "Cinco casos implementados; cuatro diagramas por caso. Fuentes: código y reglas vigentes al 23/10/2026.",
+  "cases": [
+    {
+      "id": "CU-03",
+      "title": "Registrarse como paciente",
+      "permission": "Registro público. Verificación: cuenta autenticada, firma vigente y correo de la misma cuenta.",
+      "rules": "Cuenta y ficha se crean juntas. Solo rol paciente. No vincular fichas previas por coincidencia de CI o correo. Registrar una cuenta no reserva una cita.",
+      "sources": [
+        "docs/casos-de-uso/CU-03/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php"
+      ]
+    },
+    {
+      "id": "CU-04",
+      "title": "Registrar y gestionar pacientes en recepción",
+      "permission": "Sesión vigente y permiso efectivo pacientes.gestionar.",
+      "rules": "CI opcional, normalizado y único incluso entre inactivos. Código PAC-ID inmutable. No borrar fichas ni modificar la cuenta de acceso al cambiar su estado.",
+      "sources": [
+        "docs/casos-de-uso/CU-04/especificacion.md",
+        "sistema/backend/routes/pacientes.php",
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php"
+      ]
+    },
+    {
+      "id": "CU-05",
+      "title": "Gestionar médicos y especialidades",
+      "permission": "Sesión vigente y permiso efectivo medicos.gestionar.",
+      "rules": "Especialidades activas obligatorias. Cuenta existente opcional, elegible y sin otra vinculación. Registro profesional y nombre de especialidad únicos normalizados. Conservar relaciones e identidad.",
+      "sources": [
+        "docs/casos-de-uso/CU-05/especificacion.md",
+        "sistema/backend/routes/medicos.php",
+        "sistema/backend/routes/especialidades.php",
+        "sistema/backend/app/Services/Medicos/DoctorManagement.php",
+        "sistema/backend/app/Services/Especialidades/SpecialtyManagement.php"
+      ]
+    },
+    {
+      "id": "CU-06",
+      "title": "Configurar horarios de atención y bloqueos",
+      "permission": "Sesión vigente y permiso efectivo horarios.gestionar.",
+      "rules": "Días 1 a 7; duración divide la franja en turnos completos. Vigencia con ocurrencias reales. Bloquear siempre primero el médico. No dejar citas pendientes sin cobertura ni bloquear citas pendientes.",
+      "sources": [
+        "README.md#cu-06-horarios-y-bloqueos",
+        "sistema/backend/routes/horarios.php",
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php"
+      ]
+    },
+    {
+      "id": "CU-07",
+      "title": "Consultar disponibilidad y reservar cita",
+      "permission": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.",
+      "rules": "Reserva hasta 30 días adelante. Revisar no aparta el turno. Revalidar al guardar. Estado inicial programada. Token ligado al actor, 30 minutos; reintento devuelve la misma cita.",
+      "sources": [
+        "README.md#cu-07-disponibilidad-y-reserva",
+        "sistema/backend/routes/citas.php",
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "cu03-actor",
+      "name": "Visitante / Paciente",
+      "type": "Actor"
+    },
+    {
+      "id": "cu03-limite",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "cu03-reglas",
+      "name": "Registro público. Verificación: cuenta autenticada, firma vigente y correo de la misma cuenta.\n\nCuenta y ficha se crean juntas. Solo rol paciente. No vincular fichas previas por coincidencia de CI o correo. Registrar una cuenta no reserva una cita.",
+      "type": "Note"
+    },
+    {
+      "id": "cu03-objetivo-0",
+      "name": "Registrar cuenta de paciente",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu03-objetivo-1",
+      "name": "Verificar correo de la cuenta",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu03-objetivo-2",
+      "name": "Solicitar nuevo enlace",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu03-com-0",
+      "name": "UI_registro / verificación",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "cu03-com-1",
+      "name": "Registro y verificación",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "cu03-com-2",
+      "name": "User / Paciente / DB",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "cu03-com-actor",
+      "name": "Visitante / Paciente",
+      "type": "Actor"
+    },
+    {
+      "id": "cu03-com-nota",
+      "name": "El control agrupa RegistrationController, VerificationController y PatientSelfRegistration. El correo es una notificación externa; su fallo no deshace la cuenta creada.",
+      "type": "Note"
+    },
+    {
+      "id": "cu03-nav-0",
+      "name": "Portada",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /",
+        "Crear cuenta / Iniciar sesión"
+      ]
+    },
+    {
+      "id": "cu03-nav-1",
+      "name": "Registro",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /registro",
+        "POST /registro"
+      ]
+    },
+    {
+      "id": "cu03-nav-2",
+      "name": "Acceso",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /login",
+        "POST /login (CU-01)"
+      ]
+    },
+    {
+      "id": "cu03-nav-3",
+      "name": "Mi inicio",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /inicio",
+        "Aviso de correo pendiente"
+      ]
+    },
+    {
+      "id": "cu03-nav-4",
+      "name": "Confirmar correo",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /verificar-correo",
+        "POST reenvío: 1 por minuto"
+      ]
+    },
+    {
+      "id": "cu03-nav-5",
+      "name": "Enlace firmado",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /verificar-correo/{id}/{hash}",
+        "Misma cuenta + firma + vigencia"
+      ]
+    },
+    {
+      "id": "cu03-nav-actor",
+      "name": "Visitante / Paciente",
+      "type": "Actor"
+    },
+    {
+      "id": "cu03-nav-nota",
+      "name": "El enlace se recibe fuera del portal. En modo log no se entrega a la bandeja. Crear la cuenta o reenviar no verifica el correo automáticamente.",
+      "type": "Note"
+    },
+    {
+      "id": "cu03-seq-0",
+      "name": "Visitante / Paciente",
+      "type": "Actor"
+    },
+    {
+      "id": "cu03-seq-1",
+      "name": "V.Registro / Verificación",
+      "type": "Object"
+    },
+    {
+      "id": "cu03-seq-2",
+      "name": "RegistrationController /\nVerificationController",
+      "type": "Object"
+    },
+    {
+      "id": "cu03-seq-3",
+      "name": "PatientSelfRegistration",
+      "type": "Object"
+    },
+    {
+      "id": "cu03-seq-4",
+      "name": "User / Paciente / DB",
+      "type": "Object"
+    },
+    {
+      "id": "cu03-seq-5",
+      "name": "Correo",
+      "type": "Object"
+    },
+    {
+      "id": "cu03-seq-nota",
+      "name": "Datos inválidos o duplicados: rechazar sin registros parciales. Error de correo: conservar la cuenta e informar reenvío. Firma, correo, cuenta o vigencia incorrectos: rechazar la verificación.",
+      "type": "Note"
+    },
+    {
+      "id": "cu03-frag-0",
+      "name": "opt [registro válido]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu03-frag-1",
+      "name": "opt [enlace válido y misma cuenta]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu04-actor",
+      "name": "Recepción / Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu04-limite",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "cu04-reglas",
+      "name": "Sesión vigente y permiso efectivo pacientes.gestionar.\n\nCI opcional, normalizado y único incluso entre inactivos. Código PAC-ID inmutable. No borrar fichas ni modificar la cuenta de acceso al cambiar su estado.",
+      "type": "Note"
+    },
+    {
+      "id": "cu04-objetivo-0",
+      "name": "Buscar y consultar fichas",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu04-objetivo-1",
+      "name": "Registrar paciente en recepción",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu04-objetivo-2",
+      "name": "Editar ficha administrativa",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu04-objetivo-3",
+      "name": "Activar o desactivar ficha",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu04-com-0",
+      "name": "UI_pacientes",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "cu04-com-1",
+      "name": "PacienteController /\nPatientRegistration",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "cu04-com-2",
+      "name": "Paciente / PostgreSQL",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "cu04-com-actor",
+      "name": "Recepción / Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu04-com-nota",
+      "name": "La ficha administrativa no es una historia clínica. Un CI ya existente no provoca fusión ni vinculación automática de cuentas.",
+      "type": "Note"
+    },
+    {
+      "id": "cu04-nav-0",
+      "name": "Mi inicio / Menú",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /inicio",
+        "Pacientes"
+      ]
+    },
+    {
+      "id": "cu04-nav-1",
+      "name": "Listado de pacientes",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /pacientes",
+        "Buscar, filtrar, paginar"
+      ]
+    },
+    {
+      "id": "cu04-nav-2",
+      "name": "Registrar paciente",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /pacientes/crear",
+        "POST /pacientes"
+      ]
+    },
+    {
+      "id": "cu04-nav-3",
+      "name": "Ficha administrativa",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /pacientes/{paciente}",
+        "Datos, estado y código"
+      ]
+    },
+    {
+      "id": "cu04-nav-4",
+      "name": "Editar paciente",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /pacientes/{paciente}/editar",
+        "PUT /pacientes/{paciente}"
+      ]
+    },
+    {
+      "id": "cu04-nav-5",
+      "name": "Estado de la ficha",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "En el formulario de edición",
+        "Activo / inactivo + versión"
+      ]
+    },
+    {
+      "id": "cu04-nav-actor",
+      "name": "Recepción / Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu04-nav-nota",
+      "name": "El estado se edita en el formulario del paciente; no existe una ruta de confirmación independiente. Datos o versión inválidos mantienen la edición sin sobrescribir otra ficha.",
+      "type": "Note"
+    },
+    {
+      "id": "cu04-seq-0",
+      "name": "Recepción / Administrador",
+      "type": "Actor"
+    },
+    {
+      "id": "cu04-seq-1",
+      "name": "V.Pacientes",
+      "type": "Object"
+    },
+    {
+      "id": "cu04-seq-2",
+      "name": "PacienteController",
+      "type": "Object"
+    },
+    {
+      "id": "cu04-seq-3",
+      "name": "PatientRegistration",
+      "type": "Object"
+    },
+    {
+      "id": "cu04-seq-4",
+      "name": "Paciente / PostgreSQL",
+      "type": "Object"
+    },
+    {
+      "id": "cu04-seq-nota",
+      "name": "CI repetido o versión desactualizada: rechazar y conservar la ficha previa. Sin permiso: 403. Cancelar no guarda; no hay borrado físico.",
+      "type": "Note"
+    },
+    {
+      "id": "cu04-frag-0",
+      "name": "opt [consulta autorizada]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu04-frag-1",
+      "name": "opt [alta o edición]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu04-frag-2",
+      "name": "opt [cambio de estado]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu05-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu05-limite",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "cu05-reglas",
+      "name": "Sesión vigente y permiso efectivo medicos.gestionar.\n\nEspecialidades activas obligatorias. Cuenta existente opcional, elegible y sin otra vinculación. Registro profesional y nombre de especialidad únicos normalizados. Conservar relaciones e identidad.",
+      "type": "Note"
+    },
+    {
+      "id": "cu05-objetivo-0",
+      "name": "Gestionar catálogo de especialidades",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu05-objetivo-1",
+      "name": "Registrar o editar médico",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu05-objetivo-2",
+      "name": "Asignar especialidades al médico",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu05-objetivo-3",
+      "name": "Vincular cuenta existente elegible",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu05-objetivo-4",
+      "name": "Activar o desactivar registros",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu05-com-0",
+      "name": "UI_médicos / especialidades",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "cu05-com-1",
+      "name": "Controllers +\nservicios de gestión",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "cu05-com-2",
+      "name": "Medico / Especialidad / DB",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "cu05-com-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu05-com-nota",
+      "name": "Servicios: DoctorManagement y SpecialtyManagement. Vincular una cuenta existente no crea usuarios ni cambia roles. El estado se confirma en una página separada.",
+      "type": "Note"
+    },
+    {
+      "id": "cu05-nav-0",
+      "name": "Mi inicio / Menú",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /inicio",
+        "Médicos / Especialidades"
+      ]
+    },
+    {
+      "id": "cu05-nav-1",
+      "name": "Listado de médicos",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /medicos",
+        "Buscar y filtrar"
+      ]
+    },
+    {
+      "id": "cu05-nav-2",
+      "name": "Formulario de médico",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /medicos/crear o /{id}/editar",
+        "POST /medicos o PUT /{id}"
+      ]
+    },
+    {
+      "id": "cu05-nav-3",
+      "name": "Confirmar estado médico",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /medicos/{id}/estado",
+        "PATCH /medicos/{id}/estado"
+      ]
+    },
+    {
+      "id": "cu05-nav-4",
+      "name": "Listado de especialidades",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /especialidades",
+        "Buscar y filtrar"
+      ]
+    },
+    {
+      "id": "cu05-nav-5",
+      "name": "Formulario / estado de especialidad",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET crear, editar o estado",
+        "POST / PUT / PATCH según acción"
+      ]
+    },
+    {
+      "id": "cu05-nav-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu05-nav-nota",
+      "name": "Las rutas GET muestran formularios y confirmaciones; no alteran datos. Las altas y ediciones no cambian el estado; se usa PATCH desde su confirmación.",
+      "type": "Note"
+    },
+    {
+      "id": "cu05-seq-0",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu05-seq-1",
+      "name": "V.Médicos / Especialidades",
+      "type": "Object"
+    },
+    {
+      "id": "cu05-seq-2",
+      "name": "Controllers de gestión",
+      "type": "Object"
+    },
+    {
+      "id": "cu05-seq-3",
+      "name": "DoctorManagement /\nSpecialtyManagement",
+      "type": "Object"
+    },
+    {
+      "id": "cu05-seq-4",
+      "name": "Modelos / PostgreSQL",
+      "type": "Object"
+    },
+    {
+      "id": "cu05-seq-nota",
+      "name": "Duplicado o versión antigua: rechazar. Una cuenta vinculada se selecciona explícitamente. Reactivar médico exige especialidad activa. Desactivar conserva horarios y citas.",
+      "type": "Note"
+    },
+    {
+      "id": "cu05-frag-0",
+      "name": "opt [consulta]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu05-frag-1",
+      "name": "opt [alta o edición de médico]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu05-frag-2",
+      "name": "opt [estado de médico]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu05-frag-3",
+      "name": "opt [catálogo de especialidades]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu06-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu06-limite",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "cu06-reglas",
+      "name": "Sesión vigente y permiso efectivo horarios.gestionar.\n\nDías 1 a 7; duración divide la franja en turnos completos. Vigencia con ocurrencias reales. Bloquear siempre primero el médico. No dejar citas pendientes sin cobertura ni bloquear citas pendientes.",
+      "type": "Note"
+    },
+    {
+      "id": "cu06-objetivo-0",
+      "name": "Consultar horarios de atención",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu06-objetivo-1",
+      "name": "Registrar o editar franja semanal",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu06-objetivo-2",
+      "name": "Registrar o editar bloqueo",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu06-objetivo-3",
+      "name": "Activar o desactivar horario / bloqueo",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu06-com-0",
+      "name": "UI_horarios / bloqueos",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "cu06-com-1",
+      "name": "Controllers +\nScheduleManagement",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "cu06-com-2",
+      "name": "Horario / Bloqueo / Cita / DB",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "cu06-com-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu06-com-nota",
+      "name": "Los bloqueos restan disponibilidad sin borrar el horario semanal. Horarios y bloqueos activos no se solapan entre sí dentro de su tipo. Se conservan citas y relaciones.",
+      "type": "Note"
+    },
+    {
+      "id": "cu06-nav-0",
+      "name": "Mi inicio / Menú",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /inicio",
+        "Horarios de atención"
+      ]
+    },
+    {
+      "id": "cu06-nav-1",
+      "name": "Horarios semanales",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /horarios",
+        "Filtrar médico, día y estado"
+      ]
+    },
+    {
+      "id": "cu06-nav-2",
+      "name": "Formulario de horario",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET crear o /{id}/editar",
+        "POST /horarios o PUT /{id}"
+      ]
+    },
+    {
+      "id": "cu06-nav-3",
+      "name": "Confirmar estado",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /horarios/{id}/estado",
+        "PATCH /horarios/{id}/estado"
+      ]
+    },
+    {
+      "id": "cu06-nav-4",
+      "name": "Bloqueos y ausencias",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /horarios/bloqueos",
+        "Consultar periodos"
+      ]
+    },
+    {
+      "id": "cu06-nav-5",
+      "name": "Formulario / estado de bloqueo",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET crear, editar o estado",
+        "POST / PUT / PATCH de bloqueos"
+      ]
+    },
+    {
+      "id": "cu06-nav-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu06-nav-nota",
+      "name": "Los errores de cruce, duración, vigencia o versión vuelven al formulario. Las citas afectadas se deben resolver en sus propios casos; CU-06 no cancela ni reprograma.",
+      "type": "Note"
+    },
+    {
+      "id": "cu06-seq-0",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu06-seq-1",
+      "name": "V.Horarios / Bloqueos",
+      "type": "Object"
+    },
+    {
+      "id": "cu06-seq-2",
+      "name": "HorarioController /\nIndisponibilidadController",
+      "type": "Object"
+    },
+    {
+      "id": "cu06-seq-3",
+      "name": "ScheduleManagement",
+      "type": "Object"
+    },
+    {
+      "id": "cu06-seq-4",
+      "name": "Modelos / PostgreSQL",
+      "type": "Object"
+    },
+    {
+      "id": "cu06-seq-nota",
+      "name": "Al editar un horario usado por citas se conservan día, horas, duración y fecha inicial. La fecha final y el estado respetan las citas pendientes. Horas de Bolivia e intervalos [inicio, fin).",
+      "type": "Note"
+    },
+    {
+      "id": "cu06-frag-0",
+      "name": "opt [consulta]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu06-frag-1",
+      "name": "opt [guardar horario]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu06-frag-2",
+      "name": "opt [bloqueo o estado]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu07-actor",
+      "name": "Paciente / Recepción autorizada",
+      "type": "Actor"
+    },
+    {
+      "id": "cu07-limite",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "cu07-reglas",
+      "name": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.\n\nReserva hasta 30 días adelante. Revisar no aparta el turno. Revalidar al guardar. Estado inicial programada. Token ligado al actor, 30 minutos; reintento devuelve la misma cita.",
+      "type": "Note"
+    },
+    {
+      "id": "cu07-objetivo-0",
+      "name": "Consultar disponibilidad",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu07-objetivo-1",
+      "name": "Reservar cita médica",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu07-objetivo-2",
+      "name": "Consultar / imprimir comprobante",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu07-com-0",
+      "name": "UI_disponibilidad / reserva",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "cu07-com-1",
+      "name": "CitaController +\nservicios de citas",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "cu07-com-2",
+      "name": "Cita / Horario / Bloqueo / DB",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "cu07-com-actor",
+      "name": "Paciente / Recepción autorizada",
+      "type": "Actor"
+    },
+    {
+      "id": "cu07-com-nota",
+      "name": "Servicios: AppointmentAvailability y AppointmentBooking. PostgreSQL impide cruces del mismo médico y paciente. Un reenvío del mismo token devuelve un solo comprobante.",
+      "type": "Note"
+    },
+    {
+      "id": "cu07-nav-0",
+      "name": "Portada / Menú",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET / o /inicio",
+        "Sacar ticket / Reservar cita"
+      ]
+    },
+    {
+      "id": "cu07-nav-1",
+      "name": "Acceso / Verificación",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /login o /verificar-correo",
+        "CU-01 / verificación de CU-03"
+      ]
+    },
+    {
+      "id": "cu07-nav-2",
+      "name": "Disponibilidad",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /citas",
+        "Especialidad, médico y fecha"
+      ]
+    },
+    {
+      "id": "cu07-nav-3",
+      "name": "Revisar reserva",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /citas/revisar",
+        "Datos + token; aún no aparta"
+      ]
+    },
+    {
+      "id": "cu07-nav-4",
+      "name": "Guardar reserva",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "POST /citas",
+        "Solo token; revalidación final"
+      ]
+    },
+    {
+      "id": "cu07-nav-5",
+      "name": "Comprobante",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /citas/{cita}/comprobante",
+        "Código CIT-ID; imprimir / PDF"
+      ]
+    },
+    {
+      "id": "cu07-nav-actor",
+      "name": "Paciente / Recepción autorizada",
+      "type": "Actor"
+    },
+    {
+      "id": "cu07-nav-nota",
+      "name": "Recepción puede reservar a pacientes sin cuenta y no exige verificación de su correo. Un paciente solo reserva su ficha vinculada. La consulta del comprobante exige propiedad o permiso de gestión.",
+      "type": "Note"
+    },
+    {
+      "id": "cu07-seq-0",
+      "name": "Paciente / Recepción",
+      "type": "Actor"
+    },
+    {
+      "id": "cu07-seq-1",
+      "name": "V.Disponibilidad / Reserva",
+      "type": "Object"
+    },
+    {
+      "id": "cu07-seq-2",
+      "name": "CitaController",
+      "type": "Object"
+    },
+    {
+      "id": "cu07-seq-3",
+      "name": "AppointmentAvailability",
+      "type": "Object"
+    },
+    {
+      "id": "cu07-seq-4",
+      "name": "AppointmentBooking",
+      "type": "Object"
+    },
+    {
+      "id": "cu07-seq-5",
+      "name": "Modelos / PostgreSQL",
+      "type": "Object"
+    },
+    {
+      "id": "cu07-seq-nota",
+      "name": "Token ya usado: devolver la misma cita sin insertar otra auditoría. Si el turno se ocupa, expira la revisión o hay cruce: no guardar y volver a consultar. Estado programada no equivale a CU-10 confirmada.",
+      "type": "Note"
+    },
+    {
+      "id": "cu07-frag-0",
+      "name": "opt [consultar disponibilidad]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu07-frag-1",
+      "name": "opt [revisar turno]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu07-frag-2",
+      "name": "opt [guardar reserva / recuperar reintento]",
+      "type": "InteractionFragment",
+      "fragment": true
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "cu03-casos",
+      "caseId": "CU-03",
+      "caseTitle": "Registrarse como paciente",
+      "title": "Diagrama de casos de uso",
+      "kind": "casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "cu03-limite",
+          "x": 230,
+          "y": 40,
+          "w": 950,
+          "h": 650,
+          "background": true
+        },
+        {
+          "ref": "cu03-actor",
+          "x": 40,
+          "y": 265,
+          "w": 100,
+          "h": 120
+        },
+        {
+          "ref": "cu03-reglas",
+          "x": 850,
+          "y": 135,
+          "w": 280,
+          "h": 350
+        },
+        {
+          "ref": "cu03-objetivo-0",
+          "x": 390,
+          "y": 95,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu03-objetivo-1",
+          "x": 390,
+          "y": 220,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu03-objetivo-2",
+          "x": 390,
+          "y": 345,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu03-actor",
+          "to": "cu03-objetivo-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu03-actor",
+          "to": "cu03-objetivo-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu03-actor",
+          "to": "cu03-objetivo-2",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "note": "Cuenta y ficha se crean juntas. Solo rol paciente. No vincular fichas previas por coincidencia de CI o correo. Registrar una cuenta no reserva una cita.",
+      "sources": [
+        "docs/casos-de-uso/CU-03/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php"
+      ],
+      "permission": "Registro público. Verificación: cuenta autenticada, firma vigente y correo de la misma cuenta.",
+      "referencePage": 3
+    },
+    {
+      "id": "cu03-comunicacion",
+      "caseId": "CU-03",
+      "caseTitle": "Registrarse como paciente",
+      "title": "Diagrama de comunicación",
+      "kind": "comunicacion",
+      "type": "Analysis",
+      "placements": [
+        {
+          "ref": "cu03-com-actor",
+          "x": 55,
+          "y": 300,
+          "w": 80,
+          "h": 110
+        },
+        {
+          "ref": "cu03-com-0",
+          "x": 390,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu03-com-1",
+          "x": 815,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu03-com-2",
+          "x": 1240,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu03-com-nota",
+          "x": 285,
+          "y": 525,
+          "w": 1070,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu03-com-actor",
+          "to": "cu03-com-0",
+          "label": "1: completar registro\n2: iniciar sesión (CU-01)\n3: abrir enlace / reenviar",
+          "type": "Association",
+          "messageGroup": 0
+        },
+        {
+          "from": "cu03-com-0",
+          "to": "cu03-com-1",
+          "label": "1.1: POST /registro\n3.1: GET enlace firmado\n3.2: POST reenvío (1/min)",
+          "type": "Association",
+          "messageGroup": 1
+        },
+        {
+          "from": "cu03-com-1",
+          "to": "cu03-com-2",
+          "label": "1.2: register() transaccional\n1.3: crear cuenta, rol y ficha\n3.3: verificar correo del propietario",
+          "type": "Association",
+          "messageGroup": 2
+        }
+      ],
+      "note": "El control agrupa RegistrationController, VerificationController y PatientSelfRegistration. El correo es una notificación externa; su fallo no deshace la cuenta creada.",
+      "sources": [
+        "docs/casos-de-uso/CU-03/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php"
+      ],
+      "permission": "Registro público. Verificación: cuenta autenticada, firma vigente y correo de la misma cuenta.",
+      "referencePage": 6
+    },
+    {
+      "id": "cu03-navegacion",
+      "caseId": "CU-03",
+      "caseTitle": "Registrarse como paciente",
+      "title": "Diagrama de navegación",
+      "kind": "navegacion",
+      "type": "Logical",
+      "placements": [
+        {
+          "ref": "cu03-nav-actor",
+          "x": 45,
+          "y": 105,
+          "w": 90,
+          "h": 125
+        },
+        {
+          "ref": "cu03-nav-0",
+          "x": 240,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu03-nav-1",
+          "x": 650,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu03-nav-2",
+          "x": 1060,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu03-nav-3",
+          "x": 240,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu03-nav-4",
+          "x": 650,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu03-nav-5",
+          "x": 1060,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu03-nav-nota",
+          "x": 265,
+          "y": 750,
+          "w": 1040,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu03-nav-actor",
+          "to": "cu03-nav-0",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "cu03-nav-0",
+          "to": "cu03-nav-1",
+          "label": "Crear mi cuenta",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 1
+        },
+        {
+          "from": "cu03-nav-1",
+          "to": "cu03-nav-2",
+          "label": "[cuenta creada]",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 2
+        },
+        {
+          "from": "cu03-nav-2",
+          "to": "cu03-nav-3",
+          "label": "[acceso válido]",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 3
+        },
+        {
+          "from": "cu03-nav-3",
+          "to": "cu03-nav-4",
+          "label": "Verificar correo",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 4
+        },
+        {
+          "from": "cu03-nav-4",
+          "to": "cu03-nav-5",
+          "label": "Abrir enlace recibido",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 5
+        },
+        {
+          "from": "cu03-nav-5",
+          "to": "cu03-nav-3",
+          "label": "[correo verificado]",
+          "type": "Dependency",
+          "navFrom": 5,
+          "navTo": 3
+        },
+        {
+          "from": "cu03-nav-1",
+          "to": "cu03-nav-1",
+          "label": "[datos inválidos]",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 1
+        },
+        {
+          "from": "cu03-nav-4",
+          "to": "cu03-nav-4",
+          "label": "Reenviar / esperar 60 s",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 4
+        }
+      ],
+      "note": "El enlace se recibe fuera del portal. En modo log no se entrega a la bandeja. Crear la cuenta o reenviar no verifica el correo automáticamente.",
+      "sources": [
+        "docs/casos-de-uso/CU-03/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php"
+      ],
+      "permission": "Registro público. Verificación: cuenta autenticada, firma vigente y correo de la misma cuenta.",
+      "referencePage": 14
+    },
+    {
+      "id": "cu03-secuencia",
+      "caseId": "CU-03",
+      "caseTitle": "Registrarse como paciente",
+      "title": "Diagrama de secuencia",
+      "kind": "secuencia",
+      "type": "Sequence",
+      "placements": [
+        {
+          "ref": "cu03-seq-0",
+          "x": 45,
+          "y": 65,
+          "w": 205,
+          "h": 992
+        },
+        {
+          "ref": "cu03-seq-1",
+          "x": 295,
+          "y": 65,
+          "w": 205,
+          "h": 992
+        },
+        {
+          "ref": "cu03-seq-2",
+          "x": 545,
+          "y": 65,
+          "w": 205,
+          "h": 992
+        },
+        {
+          "ref": "cu03-seq-3",
+          "x": 795,
+          "y": 65,
+          "w": 205,
+          "h": 992
+        },
+        {
+          "ref": "cu03-seq-4",
+          "x": 1045,
+          "y": 65,
+          "w": 205,
+          "h": 992
+        },
+        {
+          "ref": "cu03-seq-5",
+          "x": 1295,
+          "y": 65,
+          "w": 205,
+          "h": 992
+        },
+        {
+          "ref": "cu03-seq-nota",
+          "x": 70,
+          "y": 1152,
+          "w": 1400,
+          "h": 140
+        },
+        {
+          "ref": "cu03-frag-0",
+          "x": 20,
+          "y": 180,
+          "w": 1520,
+          "h": 535,
+          "background": true
+        },
+        {
+          "ref": "cu03-frag-1",
+          "x": 20,
+          "y": 752,
+          "w": 1520,
+          "h": 275,
+          "background": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu03-seq-0",
+          "to": "cu03-seq-1",
+          "label": "Completar y enviar registro",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-1",
+          "to": "cu03-seq-2",
+          "label": "POST /registro; validar RegisterPatientRequest",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-2",
+          "to": "cu03-seq-3",
+          "label": "register(datos permitidos)",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-3",
+          "to": "cu03-seq-4",
+          "label": "BEGIN + bloqueo de administración",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-3",
+          "to": "cu03-seq-4",
+          "label": "Crear User, asignar rol paciente y crear ficha PAC-ID",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-4",
+          "to": "cu03-seq-3",
+          "label": "COMMIT; cuenta y ficha vinculadas",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": true
+        },
+        {
+          "from": "cu03-seq-3",
+          "to": "cu03-seq-2",
+          "label": "Usuario creado",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": true
+        },
+        {
+          "from": "cu03-seq-2",
+          "to": "cu03-seq-5",
+          "label": "sendEmailVerificationNotification()",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-5",
+          "to": "cu03-seq-2",
+          "label": "Aceptado o fallo de transporte",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": true
+        },
+        {
+          "from": "cu03-seq-2",
+          "to": "cu03-seq-1",
+          "label": "Redirigir a /login; informar resultado",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": true
+        },
+        {
+          "from": "cu03-seq-0",
+          "to": "cu03-seq-1",
+          "label": "Iniciar sesión mediante CU-01",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-0",
+          "to": "cu03-seq-1",
+          "label": "Abrir el enlace firmado recibido",
+          "type": "Sequence",
+          "sequence": 12,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-1",
+          "to": "cu03-seq-2",
+          "label": "GET /verificar-correo/{id}/{hash}",
+          "type": "Sequence",
+          "sequence": 13,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-2",
+          "to": "cu03-seq-4",
+          "label": "Comprobar sesión, propietario, hash y firma",
+          "type": "Sequence",
+          "sequence": 14,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-2",
+          "to": "cu03-seq-4",
+          "label": "Marcar email_verified_at; conservar la ficha",
+          "type": "Sequence",
+          "sequence": 15,
+          "return": false
+        },
+        {
+          "from": "cu03-seq-2",
+          "to": "cu03-seq-1",
+          "label": "Redirigir a /inicio con confirmación",
+          "type": "Sequence",
+          "sequence": 16,
+          "return": true
+        }
+      ],
+      "note": "Datos inválidos o duplicados: rechazar sin registros parciales. Error de correo: conservar la cuenta e informar reenvío. Firma, correo, cuenta o vigencia incorrectos: rechazar la verificación.",
+      "sources": [
+        "docs/casos-de-uso/CU-03/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php"
+      ],
+      "permission": "Registro público. Verificación: cuenta autenticada, firma vigente y correo de la misma cuenta.",
+      "referencePage": 9,
+      "sections": [
+        {
+          "name": "opt [registro válido]",
+          "start": 1,
+          "end": 10
+        },
+        {
+          "name": "opt [enlace válido y misma cuenta]",
+          "start": 12,
+          "end": 16
+        }
+      ]
+    },
+    {
+      "id": "cu04-casos",
+      "caseId": "CU-04",
+      "caseTitle": "Registrar y gestionar pacientes en recepción",
+      "title": "Diagrama de casos de uso",
+      "kind": "casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "cu04-limite",
+          "x": 230,
+          "y": 40,
+          "w": 950,
+          "h": 650,
+          "background": true
+        },
+        {
+          "ref": "cu04-actor",
+          "x": 40,
+          "y": 265,
+          "w": 100,
+          "h": 120
+        },
+        {
+          "ref": "cu04-reglas",
+          "x": 850,
+          "y": 135,
+          "w": 280,
+          "h": 350
+        },
+        {
+          "ref": "cu04-objetivo-0",
+          "x": 390,
+          "y": 95,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu04-objetivo-1",
+          "x": 390,
+          "y": 220,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu04-objetivo-2",
+          "x": 390,
+          "y": 345,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu04-objetivo-3",
+          "x": 390,
+          "y": 470,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu04-actor",
+          "to": "cu04-objetivo-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu04-actor",
+          "to": "cu04-objetivo-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu04-actor",
+          "to": "cu04-objetivo-2",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu04-actor",
+          "to": "cu04-objetivo-3",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "note": "CI opcional, normalizado y único incluso entre inactivos. Código PAC-ID inmutable. No borrar fichas ni modificar la cuenta de acceso al cambiar su estado.",
+      "sources": [
+        "docs/casos-de-uso/CU-04/especificacion.md",
+        "sistema/backend/routes/pacientes.php",
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo pacientes.gestionar.",
+      "referencePage": 3
+    },
+    {
+      "id": "cu04-comunicacion",
+      "caseId": "CU-04",
+      "caseTitle": "Registrar y gestionar pacientes en recepción",
+      "title": "Diagrama de comunicación",
+      "kind": "comunicacion",
+      "type": "Analysis",
+      "placements": [
+        {
+          "ref": "cu04-com-actor",
+          "x": 55,
+          "y": 300,
+          "w": 80,
+          "h": 110
+        },
+        {
+          "ref": "cu04-com-0",
+          "x": 390,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu04-com-1",
+          "x": 815,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu04-com-2",
+          "x": 1240,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu04-com-nota",
+          "x": 285,
+          "y": 525,
+          "w": 1070,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu04-com-actor",
+          "to": "cu04-com-0",
+          "label": "1: buscar / consultar\n2: registrar / editar\n3: cambiar estado",
+          "type": "Association",
+          "messageGroup": 0
+        },
+        {
+          "from": "cu04-com-0",
+          "to": "cu04-com-1",
+          "label": "1.1: index() / show()\n2.1: store() / update()\n3.1: update(activo, versión)",
+          "type": "Association",
+          "messageGroup": 1
+        },
+        {
+          "from": "cu04-com-1",
+          "to": "cu04-com-2",
+          "label": "1.2: consultar con filtros\n2.2: save() con transacción\n2.3: bloquear y validar versión",
+          "type": "Association",
+          "messageGroup": 2
+        }
+      ],
+      "note": "La ficha administrativa no es una historia clínica. Un CI ya existente no provoca fusión ni vinculación automática de cuentas.",
+      "sources": [
+        "docs/casos-de-uso/CU-04/especificacion.md",
+        "sistema/backend/routes/pacientes.php",
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo pacientes.gestionar.",
+      "referencePage": 6
+    },
+    {
+      "id": "cu04-navegacion",
+      "caseId": "CU-04",
+      "caseTitle": "Registrar y gestionar pacientes en recepción",
+      "title": "Diagrama de navegación",
+      "kind": "navegacion",
+      "type": "Logical",
+      "placements": [
+        {
+          "ref": "cu04-nav-actor",
+          "x": 45,
+          "y": 105,
+          "w": 90,
+          "h": 125
+        },
+        {
+          "ref": "cu04-nav-0",
+          "x": 240,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu04-nav-1",
+          "x": 650,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu04-nav-2",
+          "x": 1060,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu04-nav-3",
+          "x": 240,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu04-nav-4",
+          "x": 650,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu04-nav-5",
+          "x": 1060,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu04-nav-nota",
+          "x": 265,
+          "y": 750,
+          "w": 1040,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu04-nav-actor",
+          "to": "cu04-nav-0",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "cu04-nav-0",
+          "to": "cu04-nav-1",
+          "label": "Pacientes",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 1
+        },
+        {
+          "from": "cu04-nav-1",
+          "to": "cu04-nav-2",
+          "label": "Registrar paciente",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 2
+        },
+        {
+          "from": "cu04-nav-1",
+          "to": "cu04-nav-3",
+          "label": "Consultar ficha",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 3
+        },
+        {
+          "from": "cu04-nav-3",
+          "to": "cu04-nav-4",
+          "label": "Editar",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 4
+        },
+        {
+          "from": "cu04-nav-2",
+          "to": "cu04-nav-3",
+          "label": "[alta válida]",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 3
+        },
+        {
+          "from": "cu04-nav-4",
+          "to": "cu04-nav-3",
+          "label": "[cambios válidos]",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 3
+        },
+        {
+          "from": "cu04-nav-4",
+          "to": "cu04-nav-5",
+          "label": "Cambiar activo",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 5
+        },
+        {
+          "from": "cu04-nav-5",
+          "to": "cu04-nav-3",
+          "label": "Guardar edición",
+          "type": "Dependency",
+          "navFrom": 5,
+          "navTo": 3
+        },
+        {
+          "from": "cu04-nav-2",
+          "to": "cu04-nav-1",
+          "label": "Cancelar",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 1
+        },
+        {
+          "from": "cu04-nav-4",
+          "to": "cu04-nav-1",
+          "label": "Cancelar",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 1
+        }
+      ],
+      "note": "El estado se edita en el formulario del paciente; no existe una ruta de confirmación independiente. Datos o versión inválidos mantienen la edición sin sobrescribir otra ficha.",
+      "sources": [
+        "docs/casos-de-uso/CU-04/especificacion.md",
+        "sistema/backend/routes/pacientes.php",
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo pacientes.gestionar.",
+      "referencePage": 14
+    },
+    {
+      "id": "cu04-secuencia",
+      "caseId": "CU-04",
+      "caseTitle": "Registrar y gestionar pacientes en recepción",
+      "title": "Diagrama de secuencia",
+      "kind": "secuencia",
+      "type": "Sequence",
+      "placements": [
+        {
+          "ref": "cu04-seq-0",
+          "x": 45,
+          "y": 65,
+          "w": 205,
+          "h": 1200
+        },
+        {
+          "ref": "cu04-seq-1",
+          "x": 295,
+          "y": 65,
+          "w": 205,
+          "h": 1200
+        },
+        {
+          "ref": "cu04-seq-2",
+          "x": 545,
+          "y": 65,
+          "w": 205,
+          "h": 1200
+        },
+        {
+          "ref": "cu04-seq-3",
+          "x": 795,
+          "y": 65,
+          "w": 205,
+          "h": 1200
+        },
+        {
+          "ref": "cu04-seq-4",
+          "x": 1045,
+          "y": 65,
+          "w": 205,
+          "h": 1200
+        },
+        {
+          "ref": "cu04-seq-nota",
+          "x": 70,
+          "y": 1360,
+          "w": 1150,
+          "h": 140
+        },
+        {
+          "ref": "cu04-frag-0",
+          "x": 20,
+          "y": 180,
+          "w": 1270,
+          "h": 275,
+          "background": true
+        },
+        {
+          "ref": "cu04-frag-1",
+          "x": 20,
+          "y": 440,
+          "w": 1270,
+          "h": 483,
+          "background": true
+        },
+        {
+          "ref": "cu04-frag-2",
+          "x": 20,
+          "y": 908,
+          "w": 1270,
+          "h": 327,
+          "background": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu04-seq-0",
+          "to": "cu04-seq-1",
+          "label": "Buscar o consultar ficha",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-1",
+          "to": "cu04-seq-2",
+          "label": "GET /pacientes o /pacientes/{id}",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-2",
+          "to": "cu04-seq-4",
+          "label": "Consultar filtros / ficha autorizada",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-4",
+          "to": "cu04-seq-2",
+          "label": "Pacientes o ficha",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": true
+        },
+        {
+          "from": "cu04-seq-2",
+          "to": "cu04-seq-1",
+          "label": "Mostrar listado / ficha",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": true
+        },
+        {
+          "from": "cu04-seq-0",
+          "to": "cu04-seq-1",
+          "label": "Enviar alta o edición",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-1",
+          "to": "cu04-seq-2",
+          "label": "POST /pacientes o PUT /pacientes/{id}",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-2",
+          "to": "cu04-seq-3",
+          "label": "save(actor, datos validados, id?)",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-3",
+          "to": "cu04-seq-4",
+          "label": "BEGIN; revalidar permiso",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-3",
+          "to": "cu04-seq-4",
+          "label": "[edición] lockForUpdate y comprobar versión",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-3",
+          "to": "cu04-seq-4",
+          "label": "Insertar / actualizar; generar PAC-ID en alta",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-4",
+          "to": "cu04-seq-3",
+          "label": "COMMIT o conflicto de unicidad",
+          "type": "Sequence",
+          "sequence": 12,
+          "return": true
+        },
+        {
+          "from": "cu04-seq-3",
+          "to": "cu04-seq-2",
+          "label": "Paciente o error de validación",
+          "type": "Sequence",
+          "sequence": 13,
+          "return": true
+        },
+        {
+          "from": "cu04-seq-2",
+          "to": "cu04-seq-1",
+          "label": "Redirigir a ficha o corregir formulario",
+          "type": "Sequence",
+          "sequence": 14,
+          "return": true
+        },
+        {
+          "from": "cu04-seq-0",
+          "to": "cu04-seq-1",
+          "label": "Editar activo con versión vigente",
+          "type": "Sequence",
+          "sequence": 15,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-1",
+          "to": "cu04-seq-2",
+          "label": "PUT /pacientes/{id}; activo y versión",
+          "type": "Sequence",
+          "sequence": 16,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-2",
+          "to": "cu04-seq-3",
+          "label": "save(actor, datos, id)",
+          "type": "Sequence",
+          "sequence": 17,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-3",
+          "to": "cu04-seq-4",
+          "label": "Transacción: bloquear, validar versión y actualizar",
+          "type": "Sequence",
+          "sequence": 18,
+          "return": false
+        },
+        {
+          "from": "cu04-seq-3",
+          "to": "cu04-seq-2",
+          "label": "Ficha conservada; estado actualizado",
+          "type": "Sequence",
+          "sequence": 19,
+          "return": true
+        },
+        {
+          "from": "cu04-seq-2",
+          "to": "cu04-seq-1",
+          "label": "Mostrar ficha y confirmación",
+          "type": "Sequence",
+          "sequence": 20,
+          "return": true
+        }
+      ],
+      "note": "CI repetido o versión desactualizada: rechazar y conservar la ficha previa. Sin permiso: 403. Cancelar no guarda; no hay borrado físico.",
+      "sources": [
+        "docs/casos-de-uso/CU-04/especificacion.md",
+        "sistema/backend/routes/pacientes.php",
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo pacientes.gestionar.",
+      "referencePage": 9,
+      "sections": [
+        {
+          "name": "opt [consulta autorizada]",
+          "start": 1,
+          "end": 5
+        },
+        {
+          "name": "opt [alta o edición]",
+          "start": 6,
+          "end": 14
+        },
+        {
+          "name": "opt [cambio de estado]",
+          "start": 15,
+          "end": 20
+        }
+      ]
+    },
+    {
+      "id": "cu05-casos",
+      "caseId": "CU-05",
+      "caseTitle": "Gestionar médicos y especialidades",
+      "title": "Diagrama de casos de uso",
+      "kind": "casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "cu05-limite",
+          "x": 230,
+          "y": 40,
+          "w": 950,
+          "h": 695,
+          "background": true
+        },
+        {
+          "ref": "cu05-actor",
+          "x": 40,
+          "y": 265,
+          "w": 100,
+          "h": 120
+        },
+        {
+          "ref": "cu05-reglas",
+          "x": 850,
+          "y": 135,
+          "w": 280,
+          "h": 350
+        },
+        {
+          "ref": "cu05-objetivo-0",
+          "x": 390,
+          "y": 95,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu05-objetivo-1",
+          "x": 390,
+          "y": 220,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu05-objetivo-2",
+          "x": 390,
+          "y": 345,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu05-objetivo-3",
+          "x": 390,
+          "y": 470,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu05-objetivo-4",
+          "x": 390,
+          "y": 595,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu05-actor",
+          "to": "cu05-objetivo-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu05-actor",
+          "to": "cu05-objetivo-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu05-actor",
+          "to": "cu05-objetivo-2",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu05-actor",
+          "to": "cu05-objetivo-3",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu05-actor",
+          "to": "cu05-objetivo-4",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "note": "Especialidades activas obligatorias. Cuenta existente opcional, elegible y sin otra vinculación. Registro profesional y nombre de especialidad únicos normalizados. Conservar relaciones e identidad.",
+      "sources": [
+        "docs/casos-de-uso/CU-05/especificacion.md",
+        "sistema/backend/routes/medicos.php",
+        "sistema/backend/routes/especialidades.php",
+        "sistema/backend/app/Services/Medicos/DoctorManagement.php",
+        "sistema/backend/app/Services/Especialidades/SpecialtyManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo medicos.gestionar.",
+      "referencePage": 3
+    },
+    {
+      "id": "cu05-comunicacion",
+      "caseId": "CU-05",
+      "caseTitle": "Gestionar médicos y especialidades",
+      "title": "Diagrama de comunicación",
+      "kind": "comunicacion",
+      "type": "Analysis",
+      "placements": [
+        {
+          "ref": "cu05-com-actor",
+          "x": 55,
+          "y": 300,
+          "w": 80,
+          "h": 110
+        },
+        {
+          "ref": "cu05-com-0",
+          "x": 390,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu05-com-1",
+          "x": 815,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu05-com-2",
+          "x": 1240,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu05-com-nota",
+          "x": 285,
+          "y": 525,
+          "w": 1070,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu05-com-actor",
+          "to": "cu05-com-0",
+          "label": "1: listar / buscar\n2: alta / edición\n3: confirmar estado",
+          "type": "Association",
+          "messageGroup": 0
+        },
+        {
+          "from": "cu05-com-0",
+          "to": "cu05-com-1",
+          "label": "1.1: index()\n2.1: store() / update()\n3.1: updateState()",
+          "type": "Association",
+          "messageGroup": 1
+        },
+        {
+          "from": "cu05-com-1",
+          "to": "cu05-com-2",
+          "label": "2.2: validar y guardar datos\n2.3: guardar médico y asignaciones\n3.2: changeState() con versión",
+          "type": "Association",
+          "messageGroup": 2
+        }
+      ],
+      "note": "Servicios: DoctorManagement y SpecialtyManagement. Vincular una cuenta existente no crea usuarios ni cambia roles. El estado se confirma en una página separada.",
+      "sources": [
+        "docs/casos-de-uso/CU-05/especificacion.md",
+        "sistema/backend/routes/medicos.php",
+        "sistema/backend/routes/especialidades.php",
+        "sistema/backend/app/Services/Medicos/DoctorManagement.php",
+        "sistema/backend/app/Services/Especialidades/SpecialtyManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo medicos.gestionar.",
+      "referencePage": 6
+    },
+    {
+      "id": "cu05-navegacion",
+      "caseId": "CU-05",
+      "caseTitle": "Gestionar médicos y especialidades",
+      "title": "Diagrama de navegación",
+      "kind": "navegacion",
+      "type": "Logical",
+      "placements": [
+        {
+          "ref": "cu05-nav-actor",
+          "x": 45,
+          "y": 105,
+          "w": 90,
+          "h": 125
+        },
+        {
+          "ref": "cu05-nav-0",
+          "x": 240,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu05-nav-1",
+          "x": 650,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu05-nav-2",
+          "x": 1060,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu05-nav-3",
+          "x": 240,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu05-nav-4",
+          "x": 650,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu05-nav-5",
+          "x": 1060,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu05-nav-nota",
+          "x": 265,
+          "y": 750,
+          "w": 1040,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu05-nav-actor",
+          "to": "cu05-nav-0",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "cu05-nav-0",
+          "to": "cu05-nav-1",
+          "label": "Médicos",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 1
+        },
+        {
+          "from": "cu05-nav-0",
+          "to": "cu05-nav-4",
+          "label": "Especialidades",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 4
+        },
+        {
+          "from": "cu05-nav-1",
+          "to": "cu05-nav-2",
+          "label": "Registrar / editar",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 2
+        },
+        {
+          "from": "cu05-nav-2",
+          "to": "cu05-nav-1",
+          "label": "Guardar o cancelar",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 1
+        },
+        {
+          "from": "cu05-nav-1",
+          "to": "cu05-nav-3",
+          "label": "Activar / desactivar",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 3
+        },
+        {
+          "from": "cu05-nav-3",
+          "to": "cu05-nav-1",
+          "label": "Confirmar o cancelar",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 1
+        },
+        {
+          "from": "cu05-nav-4",
+          "to": "cu05-nav-5",
+          "label": "Registrar / editar / estado",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 5
+        },
+        {
+          "from": "cu05-nav-5",
+          "to": "cu05-nav-4",
+          "label": "Guardar / confirmar / cancelar",
+          "type": "Dependency",
+          "navFrom": 5,
+          "navTo": 4
+        },
+        {
+          "from": "cu05-nav-2",
+          "to": "cu05-nav-4",
+          "label": "Consultar catálogo desde menú",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 4
+        }
+      ],
+      "note": "Las rutas GET muestran formularios y confirmaciones; no alteran datos. Las altas y ediciones no cambian el estado; se usa PATCH desde su confirmación.",
+      "sources": [
+        "docs/casos-de-uso/CU-05/especificacion.md",
+        "sistema/backend/routes/medicos.php",
+        "sistema/backend/routes/especialidades.php",
+        "sistema/backend/app/Services/Medicos/DoctorManagement.php",
+        "sistema/backend/app/Services/Especialidades/SpecialtyManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo medicos.gestionar.",
+      "referencePage": 14
+    },
+    {
+      "id": "cu05-secuencia",
+      "caseId": "CU-05",
+      "caseTitle": "Gestionar médicos y especialidades",
+      "title": "Diagrama de secuencia",
+      "kind": "secuencia",
+      "type": "Sequence",
+      "placements": [
+        {
+          "ref": "cu05-seq-0",
+          "x": 45,
+          "y": 65,
+          "w": 205,
+          "h": 1460
+        },
+        {
+          "ref": "cu05-seq-1",
+          "x": 295,
+          "y": 65,
+          "w": 205,
+          "h": 1460
+        },
+        {
+          "ref": "cu05-seq-2",
+          "x": 545,
+          "y": 65,
+          "w": 205,
+          "h": 1460
+        },
+        {
+          "ref": "cu05-seq-3",
+          "x": 795,
+          "y": 65,
+          "w": 205,
+          "h": 1460
+        },
+        {
+          "ref": "cu05-seq-4",
+          "x": 1045,
+          "y": 65,
+          "w": 205,
+          "h": 1460
+        },
+        {
+          "ref": "cu05-seq-nota",
+          "x": 70,
+          "y": 1620,
+          "w": 1150,
+          "h": 140
+        },
+        {
+          "ref": "cu05-frag-0",
+          "x": 20,
+          "y": 180,
+          "w": 1270,
+          "h": 223,
+          "background": true
+        },
+        {
+          "ref": "cu05-frag-1",
+          "x": 20,
+          "y": 388,
+          "w": 1270,
+          "h": 483,
+          "background": true
+        },
+        {
+          "ref": "cu05-frag-2",
+          "x": 20,
+          "y": 856,
+          "w": 1270,
+          "h": 327,
+          "background": true
+        },
+        {
+          "ref": "cu05-frag-3",
+          "x": 20,
+          "y": 1168,
+          "w": 1270,
+          "h": 327,
+          "background": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu05-seq-0",
+          "to": "cu05-seq-1",
+          "label": "Consultar médicos o especialidades",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-1",
+          "to": "cu05-seq-2",
+          "label": "GET /medicos o /especialidades",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-4",
+          "label": "Consultar filtros y relaciones",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-1",
+          "label": "Mostrar listado",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": true
+        },
+        {
+          "from": "cu05-seq-0",
+          "to": "cu05-seq-1",
+          "label": "Enviar alta / edición de médico",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-1",
+          "to": "cu05-seq-2",
+          "label": "POST /medicos o PUT /medicos/{id}",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-3",
+          "label": "save(actor, datos, id?)",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-4",
+          "label": "BEGIN; bloqueo global y médico si existe",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-4",
+          "label": "Validar permiso, versión, especialidades y cuenta",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-4",
+          "label": "Guardar MED-ID y asignaciones sin borrar historial",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-4",
+          "to": "cu05-seq-3",
+          "label": "COMMIT o ROLLBACK",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": true
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-2",
+          "label": "Médico o validación",
+          "type": "Sequence",
+          "sequence": 12,
+          "return": true
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-1",
+          "label": "Volver a listado con resultado",
+          "type": "Sequence",
+          "sequence": 13,
+          "return": true
+        },
+        {
+          "from": "cu05-seq-0",
+          "to": "cu05-seq-1",
+          "label": "Confirmar cambio de estado",
+          "type": "Sequence",
+          "sequence": 14,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-1",
+          "to": "cu05-seq-2",
+          "label": "PATCH /medicos/{id}/estado",
+          "type": "Sequence",
+          "sequence": 15,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-3",
+          "label": "changeState(actor, id, versión, activo)",
+          "type": "Sequence",
+          "sequence": 16,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-4",
+          "label": "Bloquear; comprobar versión y reactivación válida",
+          "type": "Sequence",
+          "sequence": 17,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-2",
+          "label": "Estado guardado; conservar cuenta y citas",
+          "type": "Sequence",
+          "sequence": 18,
+          "return": true
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-1",
+          "label": "Listado y confirmación",
+          "type": "Sequence",
+          "sequence": 19,
+          "return": true
+        },
+        {
+          "from": "cu05-seq-0",
+          "to": "cu05-seq-1",
+          "label": "Guardar especialidad en su formulario",
+          "type": "Sequence",
+          "sequence": 20,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-1",
+          "to": "cu05-seq-2",
+          "label": "POST /especialidades o PUT /{id}",
+          "type": "Sequence",
+          "sequence": 21,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-3",
+          "label": "SpecialtyManagement.save(actor, datos, id?)",
+          "type": "Sequence",
+          "sequence": 22,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-4",
+          "label": "Transacción; unicidad normalizada y versión",
+          "type": "Sequence",
+          "sequence": 23,
+          "return": false
+        },
+        {
+          "from": "cu05-seq-3",
+          "to": "cu05-seq-2",
+          "label": "Especialidad guardada o error",
+          "type": "Sequence",
+          "sequence": 24,
+          "return": true
+        },
+        {
+          "from": "cu05-seq-2",
+          "to": "cu05-seq-1",
+          "label": "Listado de especialidades",
+          "type": "Sequence",
+          "sequence": 25,
+          "return": true
+        }
+      ],
+      "note": "Duplicado o versión antigua: rechazar. Una cuenta vinculada se selecciona explícitamente. Reactivar médico exige especialidad activa. Desactivar conserva horarios y citas.",
+      "sources": [
+        "docs/casos-de-uso/CU-05/especificacion.md",
+        "sistema/backend/routes/medicos.php",
+        "sistema/backend/routes/especialidades.php",
+        "sistema/backend/app/Services/Medicos/DoctorManagement.php",
+        "sistema/backend/app/Services/Especialidades/SpecialtyManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo medicos.gestionar.",
+      "referencePage": 9,
+      "sections": [
+        {
+          "name": "opt [consulta]",
+          "start": 1,
+          "end": 4
+        },
+        {
+          "name": "opt [alta o edición de médico]",
+          "start": 5,
+          "end": 13
+        },
+        {
+          "name": "opt [estado de médico]",
+          "start": 14,
+          "end": 19
+        },
+        {
+          "name": "opt [catálogo de especialidades]",
+          "start": 20,
+          "end": 25
+        }
+      ]
+    },
+    {
+      "id": "cu06-casos",
+      "caseId": "CU-06",
+      "caseTitle": "Configurar horarios de atención y bloqueos",
+      "title": "Diagrama de casos de uso",
+      "kind": "casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "cu06-limite",
+          "x": 230,
+          "y": 40,
+          "w": 950,
+          "h": 650,
+          "background": true
+        },
+        {
+          "ref": "cu06-actor",
+          "x": 40,
+          "y": 265,
+          "w": 100,
+          "h": 120
+        },
+        {
+          "ref": "cu06-reglas",
+          "x": 850,
+          "y": 135,
+          "w": 280,
+          "h": 350
+        },
+        {
+          "ref": "cu06-objetivo-0",
+          "x": 390,
+          "y": 95,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu06-objetivo-1",
+          "x": 390,
+          "y": 220,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu06-objetivo-2",
+          "x": 390,
+          "y": 345,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu06-objetivo-3",
+          "x": 390,
+          "y": 470,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu06-actor",
+          "to": "cu06-objetivo-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-actor",
+          "to": "cu06-objetivo-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-actor",
+          "to": "cu06-objetivo-2",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-actor",
+          "to": "cu06-objetivo-3",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "note": "Días 1 a 7; duración divide la franja en turnos completos. Vigencia con ocurrencias reales. Bloquear siempre primero el médico. No dejar citas pendientes sin cobertura ni bloquear citas pendientes.",
+      "sources": [
+        "README.md#cu-06-horarios-y-bloqueos",
+        "sistema/backend/routes/horarios.php",
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo horarios.gestionar.",
+      "referencePage": 3
+    },
+    {
+      "id": "cu06-comunicacion",
+      "caseId": "CU-06",
+      "caseTitle": "Configurar horarios de atención y bloqueos",
+      "title": "Diagrama de comunicación",
+      "kind": "comunicacion",
+      "type": "Analysis",
+      "placements": [
+        {
+          "ref": "cu06-com-actor",
+          "x": 55,
+          "y": 300,
+          "w": 80,
+          "h": 110
+        },
+        {
+          "ref": "cu06-com-0",
+          "x": 390,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu06-com-1",
+          "x": 815,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu06-com-2",
+          "x": 1240,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu06-com-nota",
+          "x": 285,
+          "y": 525,
+          "w": 1070,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu06-com-actor",
+          "to": "cu06-com-0",
+          "label": "1: consultar agenda configurada\n2: guardar franja o bloqueo\n3: confirmar estado",
+          "type": "Association",
+          "messageGroup": 0
+        },
+        {
+          "from": "cu06-com-0",
+          "to": "cu06-com-1",
+          "label": "1.1: index()\n2.1: store() / update()\n3.1: updateState()",
+          "type": "Association",
+          "messageGroup": 1
+        },
+        {
+          "from": "cu06-com-1",
+          "to": "cu06-com-2",
+          "label": "2.2: lock médico + versión\n2.3: comprobar cruces y citas\n2.4: guardar / confirmar",
+          "type": "Association",
+          "messageGroup": 2
+        }
+      ],
+      "note": "Los bloqueos restan disponibilidad sin borrar el horario semanal. Horarios y bloqueos activos no se solapan entre sí dentro de su tipo. Se conservan citas y relaciones.",
+      "sources": [
+        "README.md#cu-06-horarios-y-bloqueos",
+        "sistema/backend/routes/horarios.php",
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo horarios.gestionar.",
+      "referencePage": 6
+    },
+    {
+      "id": "cu06-navegacion",
+      "caseId": "CU-06",
+      "caseTitle": "Configurar horarios de atención y bloqueos",
+      "title": "Diagrama de navegación",
+      "kind": "navegacion",
+      "type": "Logical",
+      "placements": [
+        {
+          "ref": "cu06-nav-actor",
+          "x": 45,
+          "y": 105,
+          "w": 90,
+          "h": 125
+        },
+        {
+          "ref": "cu06-nav-0",
+          "x": 240,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu06-nav-1",
+          "x": 650,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu06-nav-2",
+          "x": 1060,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu06-nav-3",
+          "x": 240,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu06-nav-4",
+          "x": 650,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu06-nav-5",
+          "x": 1060,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu06-nav-nota",
+          "x": 265,
+          "y": 750,
+          "w": 1040,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu06-nav-actor",
+          "to": "cu06-nav-0",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-nav-0",
+          "to": "cu06-nav-1",
+          "label": "Horarios",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 1
+        },
+        {
+          "from": "cu06-nav-1",
+          "to": "cu06-nav-2",
+          "label": "Registrar / editar",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 2
+        },
+        {
+          "from": "cu06-nav-2",
+          "to": "cu06-nav-1",
+          "label": "Guardar o cancelar",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 1
+        },
+        {
+          "from": "cu06-nav-1",
+          "to": "cu06-nav-3",
+          "label": "Activar / desactivar",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 3
+        },
+        {
+          "from": "cu06-nav-3",
+          "to": "cu06-nav-1",
+          "label": "Confirmar o cancelar",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 1
+        },
+        {
+          "from": "cu06-nav-1",
+          "to": "cu06-nav-4",
+          "label": "Bloqueos y ausencias",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 4
+        },
+        {
+          "from": "cu06-nav-4",
+          "to": "cu06-nav-1",
+          "label": "Horarios",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 1
+        },
+        {
+          "from": "cu06-nav-4",
+          "to": "cu06-nav-5",
+          "label": "Registrar / editar / estado",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 5
+        },
+        {
+          "from": "cu06-nav-5",
+          "to": "cu06-nav-4",
+          "label": "Guardar / confirmar / cancelar",
+          "type": "Dependency",
+          "navFrom": 5,
+          "navTo": 4
+        }
+      ],
+      "note": "Los errores de cruce, duración, vigencia o versión vuelven al formulario. Las citas afectadas se deben resolver en sus propios casos; CU-06 no cancela ni reprograma.",
+      "sources": [
+        "README.md#cu-06-horarios-y-bloqueos",
+        "sistema/backend/routes/horarios.php",
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo horarios.gestionar.",
+      "referencePage": 14
+    },
+    {
+      "id": "cu06-secuencia",
+      "caseId": "CU-06",
+      "caseTitle": "Configurar horarios de atención y bloqueos",
+      "title": "Diagrama de secuencia",
+      "kind": "secuencia",
+      "type": "Sequence",
+      "placements": [
+        {
+          "ref": "cu06-seq-0",
+          "x": 45,
+          "y": 65,
+          "w": 205,
+          "h": 1252
+        },
+        {
+          "ref": "cu06-seq-1",
+          "x": 295,
+          "y": 65,
+          "w": 205,
+          "h": 1252
+        },
+        {
+          "ref": "cu06-seq-2",
+          "x": 545,
+          "y": 65,
+          "w": 205,
+          "h": 1252
+        },
+        {
+          "ref": "cu06-seq-3",
+          "x": 795,
+          "y": 65,
+          "w": 205,
+          "h": 1252
+        },
+        {
+          "ref": "cu06-seq-4",
+          "x": 1045,
+          "y": 65,
+          "w": 205,
+          "h": 1252
+        },
+        {
+          "ref": "cu06-seq-nota",
+          "x": 70,
+          "y": 1412,
+          "w": 1150,
+          "h": 140
+        },
+        {
+          "ref": "cu06-frag-0",
+          "x": 20,
+          "y": 180,
+          "w": 1270,
+          "h": 223,
+          "background": true
+        },
+        {
+          "ref": "cu06-frag-1",
+          "x": 20,
+          "y": 388,
+          "w": 1270,
+          "h": 483,
+          "background": true
+        },
+        {
+          "ref": "cu06-frag-2",
+          "x": 20,
+          "y": 856,
+          "w": 1270,
+          "h": 431,
+          "background": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu06-seq-0",
+          "to": "cu06-seq-1",
+          "label": "Consultar horarios o bloqueos",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-1",
+          "to": "cu06-seq-2",
+          "label": "GET /horarios o /horarios/bloqueos",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-2",
+          "to": "cu06-seq-4",
+          "label": "Consultar agenda configurada",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-2",
+          "to": "cu06-seq-1",
+          "label": "Mostrar listado y filtros",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": true
+        },
+        {
+          "from": "cu06-seq-0",
+          "to": "cu06-seq-1",
+          "label": "Enviar franja semanal",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-1",
+          "to": "cu06-seq-2",
+          "label": "POST /horarios o PUT /horarios/{id}",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-2",
+          "to": "cu06-seq-3",
+          "label": "saveSchedule(actor, datos, id?)",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-4",
+          "label": "BEGIN; lock médico; registro y versión si existe",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-4",
+          "label": "Comprobar vigencia, duración y protección de citas",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-4",
+          "label": "Guardar; exclusión SQL de franjas activas",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-4",
+          "to": "cu06-seq-3",
+          "label": "COMMIT o conflicto",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": true
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-2",
+          "label": "Horario guardado o validación",
+          "type": "Sequence",
+          "sequence": 12,
+          "return": true
+        },
+        {
+          "from": "cu06-seq-2",
+          "to": "cu06-seq-1",
+          "label": "Listado o corrección",
+          "type": "Sequence",
+          "sequence": 13,
+          "return": true
+        },
+        {
+          "from": "cu06-seq-0",
+          "to": "cu06-seq-1",
+          "label": "Enviar bloqueo o cambio de estado",
+          "type": "Sequence",
+          "sequence": 14,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-1",
+          "to": "cu06-seq-2",
+          "label": "POST /horarios/bloqueos o PUT/PATCH",
+          "type": "Sequence",
+          "sequence": 15,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-2",
+          "to": "cu06-seq-3",
+          "label": "saveBlock() / changeScheduleState() / changeBlockState()",
+          "type": "Sequence",
+          "sequence": 16,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-4",
+          "label": "BEGIN; lock médico; comprobar versión",
+          "type": "Sequence",
+          "sequence": 17,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-4",
+          "label": "Comprobar citas pendientes y superposición",
+          "type": "Sequence",
+          "sequence": 18,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-4",
+          "label": "Guardar o revertir; no modificar citas",
+          "type": "Sequence",
+          "sequence": 19,
+          "return": false
+        },
+        {
+          "from": "cu06-seq-3",
+          "to": "cu06-seq-2",
+          "label": "Resultado de la operación",
+          "type": "Sequence",
+          "sequence": 20,
+          "return": true
+        },
+        {
+          "from": "cu06-seq-2",
+          "to": "cu06-seq-1",
+          "label": "Confirmación o error de intervalo",
+          "type": "Sequence",
+          "sequence": 21,
+          "return": true
+        }
+      ],
+      "note": "Al editar un horario usado por citas se conservan día, horas, duración y fecha inicial. La fecha final y el estado respetan las citas pendientes. Horas de Bolivia e intervalos [inicio, fin).",
+      "sources": [
+        "README.md#cu-06-horarios-y-bloqueos",
+        "sistema/backend/routes/horarios.php",
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo horarios.gestionar.",
+      "referencePage": 9,
+      "sections": [
+        {
+          "name": "opt [consulta]",
+          "start": 1,
+          "end": 4
+        },
+        {
+          "name": "opt [guardar horario]",
+          "start": 5,
+          "end": 13
+        },
+        {
+          "name": "opt [bloqueo o estado]",
+          "start": 14,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "id": "cu07-casos",
+      "caseId": "CU-07",
+      "caseTitle": "Consultar disponibilidad y reservar cita",
+      "title": "Diagrama de casos de uso",
+      "kind": "casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "cu07-limite",
+          "x": 230,
+          "y": 40,
+          "w": 950,
+          "h": 650,
+          "background": true
+        },
+        {
+          "ref": "cu07-actor",
+          "x": 40,
+          "y": 265,
+          "w": 100,
+          "h": 120
+        },
+        {
+          "ref": "cu07-reglas",
+          "x": 850,
+          "y": 135,
+          "w": 280,
+          "h": 350
+        },
+        {
+          "ref": "cu07-objetivo-0",
+          "x": 390,
+          "y": 95,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu07-objetivo-1",
+          "x": 390,
+          "y": 220,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu07-objetivo-2",
+          "x": 390,
+          "y": 345,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu07-actor",
+          "to": "cu07-objetivo-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-actor",
+          "to": "cu07-objetivo-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-actor",
+          "to": "cu07-objetivo-2",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "note": "Reserva hasta 30 días adelante. Revisar no aparta el turno. Revalidar al guardar. Estado inicial programada. Token ligado al actor, 30 minutos; reintento devuelve la misma cita.",
+      "sources": [
+        "README.md#cu-07-disponibilidad-y-reserva",
+        "sistema/backend/routes/citas.php",
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php"
+      ],
+      "permission": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.",
+      "referencePage": 3
+    },
+    {
+      "id": "cu07-comunicacion",
+      "caseId": "CU-07",
+      "caseTitle": "Consultar disponibilidad y reservar cita",
+      "title": "Diagrama de comunicación",
+      "kind": "comunicacion",
+      "type": "Analysis",
+      "placements": [
+        {
+          "ref": "cu07-com-actor",
+          "x": 55,
+          "y": 300,
+          "w": 80,
+          "h": 110
+        },
+        {
+          "ref": "cu07-com-0",
+          "x": 390,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu07-com-1",
+          "x": 815,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu07-com-2",
+          "x": 1240,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu07-com-nota",
+          "x": 285,
+          "y": 525,
+          "w": 1070,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu07-com-actor",
+          "to": "cu07-com-0",
+          "label": "1: elegir filtros y turno\n2: revisar datos\n3: reservar y ver comprobante",
+          "type": "Association",
+          "messageGroup": 0
+        },
+        {
+          "from": "cu07-com-0",
+          "to": "cu07-com-1",
+          "label": "1.1: index() + slots()\n2.1: review() + token cifrado\n3.1: store() + book()",
+          "type": "Association",
+          "messageGroup": 1
+        },
+        {
+          "from": "cu07-com-1",
+          "to": "cu07-com-2",
+          "label": "3.2: lock médico y paciente\n3.3: revalidar; cita + auditoría\n3.4: COMMIT / devolver cita",
+          "type": "Association",
+          "messageGroup": 2
+        }
+      ],
+      "note": "Servicios: AppointmentAvailability y AppointmentBooking. PostgreSQL impide cruces del mismo médico y paciente. Un reenvío del mismo token devuelve un solo comprobante.",
+      "sources": [
+        "README.md#cu-07-disponibilidad-y-reserva",
+        "sistema/backend/routes/citas.php",
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php"
+      ],
+      "permission": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.",
+      "referencePage": 6
+    },
+    {
+      "id": "cu07-navegacion",
+      "caseId": "CU-07",
+      "caseTitle": "Consultar disponibilidad y reservar cita",
+      "title": "Diagrama de navegación",
+      "kind": "navegacion",
+      "type": "Logical",
+      "placements": [
+        {
+          "ref": "cu07-nav-actor",
+          "x": 45,
+          "y": 105,
+          "w": 90,
+          "h": 125
+        },
+        {
+          "ref": "cu07-nav-0",
+          "x": 240,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu07-nav-1",
+          "x": 650,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu07-nav-2",
+          "x": 1060,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu07-nav-3",
+          "x": 240,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu07-nav-4",
+          "x": 650,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu07-nav-5",
+          "x": 1060,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu07-nav-nota",
+          "x": 265,
+          "y": 750,
+          "w": 1040,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu07-nav-actor",
+          "to": "cu07-nav-0",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-nav-0",
+          "to": "cu07-nav-1",
+          "label": "/reservar [sin sesión]",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 1
+        },
+        {
+          "from": "cu07-nav-0",
+          "to": "cu07-nav-2",
+          "label": "[sesión habilitada]",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 2
+        },
+        {
+          "from": "cu07-nav-1",
+          "to": "cu07-nav-2",
+          "label": "[acceso y verificación requeridos]",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 2
+        },
+        {
+          "from": "cu07-nav-2",
+          "to": "cu07-nav-3",
+          "label": "Revisar turno disponible",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 3
+        },
+        {
+          "from": "cu07-nav-3",
+          "to": "cu07-nav-2",
+          "label": "Volver sin reservar",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 2
+        },
+        {
+          "from": "cu07-nav-3",
+          "to": "cu07-nav-4",
+          "label": "Reservar cita",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 4
+        },
+        {
+          "from": "cu07-nav-4",
+          "to": "cu07-nav-5",
+          "label": "[reserva guardada / reintento]",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 5
+        },
+        {
+          "from": "cu07-nav-4",
+          "to": "cu07-nav-2",
+          "label": "[turno ocupado / revisión inválida]",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 2
+        },
+        {
+          "from": "cu07-nav-5",
+          "to": "cu07-nav-2",
+          "label": "Consultar disponibilidad",
+          "type": "Dependency",
+          "navFrom": 5,
+          "navTo": 2
+        }
+      ],
+      "note": "Recepción puede reservar a pacientes sin cuenta y no exige verificación de su correo. Un paciente solo reserva su ficha vinculada. La consulta del comprobante exige propiedad o permiso de gestión.",
+      "sources": [
+        "README.md#cu-07-disponibilidad-y-reserva",
+        "sistema/backend/routes/citas.php",
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php"
+      ],
+      "permission": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.",
+      "referencePage": 14
+    },
+    {
+      "id": "cu07-secuencia",
+      "caseId": "CU-07",
+      "caseTitle": "Consultar disponibilidad y reservar cita",
+      "title": "Diagrama de secuencia",
+      "kind": "secuencia",
+      "type": "Sequence",
+      "placements": [
+        {
+          "ref": "cu07-seq-0",
+          "x": 45,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu07-seq-1",
+          "x": 295,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu07-seq-2",
+          "x": 545,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu07-seq-3",
+          "x": 1045,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu07-seq-4",
+          "x": 795,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu07-seq-5",
+          "x": 1295,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu07-seq-nota",
+          "x": 70,
+          "y": 1516,
+          "w": 1400,
+          "h": 140
+        },
+        {
+          "ref": "cu07-frag-0",
+          "x": 20,
+          "y": 180,
+          "w": 1520,
+          "h": 379,
+          "background": true
+        },
+        {
+          "ref": "cu07-frag-1",
+          "x": 20,
+          "y": 544,
+          "w": 1520,
+          "h": 327,
+          "background": true
+        },
+        {
+          "ref": "cu07-frag-2",
+          "x": 20,
+          "y": 856,
+          "w": 1520,
+          "h": 535,
+          "background": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu07-seq-0",
+          "to": "cu07-seq-1",
+          "label": "Elegir paciente si aplica, especialidad y fecha",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-1",
+          "to": "cu07-seq-2",
+          "label": "GET /citas; validar filtros y acceso",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-2",
+          "to": "cu07-seq-4",
+          "label": "patient(actor, paciente?)",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-2",
+          "to": "cu07-seq-3",
+          "label": "slots(especialidad, fecha, médico?, paciente)",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-3",
+          "to": "cu07-seq-5",
+          "label": "Consultar agenda activa, bloqueos y citas",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-3",
+          "to": "cu07-seq-2",
+          "label": "Turnos futuros completos y disponibles",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": true
+        },
+        {
+          "from": "cu07-seq-2",
+          "to": "cu07-seq-1",
+          "label": "Mostrar turnos",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": true
+        },
+        {
+          "from": "cu07-seq-0",
+          "to": "cu07-seq-1",
+          "label": "Revisar turno elegido",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-1",
+          "to": "cu07-seq-2",
+          "label": "GET /citas/revisar",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-2",
+          "to": "cu07-seq-4",
+          "label": "review(actor, datos); revalidar turno",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-4",
+          "to": "cu07-seq-3",
+          "label": "slots(...); comprobar turno exacto",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-4",
+          "to": "cu07-seq-2",
+          "label": "Datos revisados y token cifrado",
+          "type": "Sequence",
+          "sequence": 12,
+          "return": true
+        },
+        {
+          "from": "cu07-seq-2",
+          "to": "cu07-seq-1",
+          "label": "Mostrar revisión; turno no apartado",
+          "type": "Sequence",
+          "sequence": 13,
+          "return": true
+        },
+        {
+          "from": "cu07-seq-0",
+          "to": "cu07-seq-1",
+          "label": "Confirmar reserva",
+          "type": "Sequence",
+          "sequence": 14,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-1",
+          "to": "cu07-seq-2",
+          "label": "POST /citas con token",
+          "type": "Sequence",
+          "sequence": 15,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-2",
+          "to": "cu07-seq-4",
+          "label": "book(actor, token)",
+          "type": "Sequence",
+          "sequence": 16,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-4",
+          "to": "cu07-seq-5",
+          "label": "BEGIN; lock médico y después paciente",
+          "type": "Sequence",
+          "sequence": 17,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-4",
+          "to": "cu07-seq-5",
+          "label": "Revalidar actor y ficha; buscar token existente",
+          "type": "Sequence",
+          "sequence": 18,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-4",
+          "to": "cu07-seq-3",
+          "label": "slots(...); revalidar disponibilidad actual",
+          "type": "Sequence",
+          "sequence": 19,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-4",
+          "to": "cu07-seq-5",
+          "label": "Insertar cita programada, código CIT-ID y auditoría",
+          "type": "Sequence",
+          "sequence": 20,
+          "return": false
+        },
+        {
+          "from": "cu07-seq-5",
+          "to": "cu07-seq-4",
+          "label": "COMMIT o exclusión por cruce",
+          "type": "Sequence",
+          "sequence": 21,
+          "return": true
+        },
+        {
+          "from": "cu07-seq-4",
+          "to": "cu07-seq-2",
+          "label": "Cita creada o la misma cita del reintento",
+          "type": "Sequence",
+          "sequence": 22,
+          "return": true
+        },
+        {
+          "from": "cu07-seq-2",
+          "to": "cu07-seq-1",
+          "label": "Redirigir a comprobante autorizado",
+          "type": "Sequence",
+          "sequence": 23,
+          "return": true
+        }
+      ],
+      "note": "Token ya usado: devolver la misma cita sin insertar otra auditoría. Si el turno se ocupa, expira la revisión o hay cruce: no guardar y volver a consultar. Estado programada no equivale a CU-10 confirmada.",
+      "sources": [
+        "README.md#cu-07-disponibilidad-y-reserva",
+        "sistema/backend/routes/citas.php",
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php"
+      ],
+      "permission": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.",
+      "referencePage": 9,
+      "sections": [
+        {
+          "name": "opt [consultar disponibilidad]",
+          "start": 1,
+          "end": 7
+        },
+        {
+          "name": "opt [revisar turno]",
+          "start": 8,
+          "end": 13
+        },
+        {
+          "name": "opt [guardar reserva / recuperar reintento]",
+          "start": 14,
+          "end": 23
+        }
+      ]
+    }
+  ]
+}
