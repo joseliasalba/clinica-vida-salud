@@ -27,7 +27,7 @@ try {
     if ($data['mode'] === 'service') {
         app(ScheduleManagement::class)->saveSchedule(User::query()->findOrFail($data['actor_id']), $data['schedule']);
     } else {
-        DB::transaction(fn () => DB::table('horarios_atencion')->insert($data['schedule']));
+        DB::transaction(fn () => DB::table('horarios_atencion')->insert($data['schedule']), 3);
     }
     echo json_encode(['success' => true]);
 } catch (ValidationException $exception) {

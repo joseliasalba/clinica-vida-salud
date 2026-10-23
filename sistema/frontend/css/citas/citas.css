@@ -1,0 +1,18 @@
+.booking-shell { min-width: 0; }
+.booking-shell .admin-panel > .field { margin-block: 1rem; }
+.booking-selected-patient { margin-top: 1rem; overflow-wrap: anywhere; }
+.booking-results { margin-top: 2rem; }
+.booking-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1rem; }
+.booking-slot { display: flex; flex-direction: column; gap: .65rem; min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.booking-slot .button { margin-top: auto; }
+.booking-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+.booking-details div { min-width: 0; overflow-wrap: anywhere; }
+.booking-details dt { font-weight: 600; }
+.booking-details dd { margin: .35rem 0 0; }
+.booking-receipt { max-width: 55rem; }
+@media print {
+    .site-header, .site-footer, .skip-link, .admin-breadcrumb, .booking-actions, #site-navigation, .notice { display: none !important; }
+    .booking-shell { width: 100%; margin: 0; padding: 0; }
+    .booking-receipt { box-shadow: none; border: 1px solid #666; break-inside: avoid; }
+    body { background: #fff; color: #000; }
+}

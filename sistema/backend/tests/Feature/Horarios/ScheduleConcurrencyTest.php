@@ -45,6 +45,7 @@ class ScheduleConcurrencyTest extends TestCase
                 fclose($pipes[1]);
                 fclose($pipes[2]);
                 $this->assertSame(0, proc_close($process), $errors.$output);
+                $this->assertJson($output, $errors.$output);
                 $result = json_decode($output, true, flags: JSON_THROW_ON_ERROR);
                 $successes += (int) $result['success'];
                 $conflicts += (int) ($result['conflict'] ?? false);

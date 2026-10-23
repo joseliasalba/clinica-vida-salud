@@ -14,7 +14,7 @@ class PublicPortalTest extends TestCase
     {
         $this->get('/')->assertOk()->assertViewIs('public.home')
             ->assertSee(route('login'))->assertSee(route('registro'))
-            ->assertSee('Sacar ticket / reservar cita')->assertSee('Reserva en línea próximamente.')
+            ->assertSee('Sacar ticket / reservar cita')->assertSee('Reserva tu cita en línea.')->assertSee(route('citas.entry'))
             ->assertSee('Sitio de demostración')->assertSee(config('clinica.direccion'))
             ->assertDontSee('id="site-navigation"', false);
         $this->get('/inicio')->assertRedirect(route('login'));

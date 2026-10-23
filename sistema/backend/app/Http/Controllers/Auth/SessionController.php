@@ -41,7 +41,7 @@ class SessionController extends Controller
         $request->session()->put('auth_session_token', $request->user()->remember_token ?? '');
         Log::info('auth.login', ['usuario_id' => Auth::id()]);
 
-        return redirect()->route('inicio');
+        return redirect()->route($request->session()->pull('booking.continue', false) ? 'citas.index' : 'inicio');
     }
 
     public function destroy(Request $request): RedirectResponse
