@@ -42,10 +42,10 @@ class SidebarNavigationTest extends TestCase
     public static function roleNavigation(): array
     {
         return [
-            'administrador' => ['administrador', ['inicio', 'pacientes.index', 'especialidades.index', 'usuarios.index', 'roles.index', 'permisos.index'], ['Médicos', 'Citas', 'Horarios de atención']],
-            'recepción' => ['recepcion', ['inicio', 'pacientes.index'], ['Citas']],
-            'médico' => ['medico', ['inicio'], ['Mi agenda']],
-            'paciente' => ['paciente', ['inicio'], ['Mis citas', 'Mi perfil']],
+            'administrador' => ['administrador', ['inicio', 'pacientes.index', 'historial.index', 'especialidades.index', 'citas.index', 'usuarios.index', 'roles.index', 'permisos.index'], ['Médicos', 'Horarios de atención']],
+            'recepción' => ['recepcion', ['inicio', 'pacientes.index', 'historial.index', 'citas.index'], []],
+            'médico' => ['medico', ['inicio', 'citas.index'], ['Mi agenda']],
+            'paciente' => ['paciente', ['inicio', 'historial.index'], ['Mis citas', 'Mi perfil']],
         ];
     }
 

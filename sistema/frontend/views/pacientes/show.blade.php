@@ -2,7 +2,7 @@
 @section('title', 'Ficha del paciente')
 @section('patient-title'){{ $paciente->nombres }} {{ $paciente->apellidos }}@endsection
 @section('patient-description')Ficha administrativa · {{ $paciente->codigo }}@endsection
-@section('patient-actions')<a class="button primary" href="{{ route('pacientes.edit', $paciente) }}">Editar ficha ↗</a>@endsection
+@section('patient-actions')<a class="button secondary" href="{{ route('pacientes.historial', $paciente) }}">Historial de citas</a><a class="button primary" href="{{ route('pacientes.edit', $paciente) }}">Editar ficha ↗</a>@endsection
 @section('patient-content')
 <section class="admin-panel"><div class="patient-detail-heading"><h2>Datos del paciente</h2><span class="state {{ $paciente->activo ? 'active' : 'inactive' }}">{{ $paciente->activo ? 'Activo' : 'Inactivo' }}</span></div>
 <dl class="patient-details">

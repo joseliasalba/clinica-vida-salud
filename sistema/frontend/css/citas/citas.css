@@ -1,0 +1,20 @@
+.citas-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr)); gap:1rem; margin:1.2rem 0; }
+.citas-summary div { min-width:0; overflow-wrap:anywhere; }
+.citas-summary dt { color:var(--text-muted,#526662); font-size:.9rem; }
+.citas-summary dd { margin:.4rem 0; font-weight:600; }
+.citas-actions { display:flex; flex-wrap:wrap; gap:.4rem .8rem; }
+.citas-actions a { display:inline-flex; align-items:center; min-height:44px; }
+.citas-slots { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.75rem; border:1px solid #cddbd5; border-radius:1rem; padding:1rem; margin:1rem 0; }
+.citas-slot { display:flex; align-items:center; gap:.5rem; min-height:44px; padding:.5rem; border:1px solid #d5e1dc; border-radius:.6rem; cursor:pointer; }
+.citas-slot input { width:auto; }
+.citas-slot:has(input:checked) { background:#e5f3ed; border-color:#16665c; }
+.citas-slot:focus-within { outline:2px solid #16665c; outline-offset:2px; }
+.citas-error { color:#9e3030; }
+.state.cita-state-programada { color:#225ca0; }
+.state.cita-state-confirmada, .state.cita-state-en_curso { color:#0d6c70; }
+.state.cita-state-completada, .state.cita-state-atendida { color:#176049; }
+.state.cita-state-cancelada { color:#5d6269; }
+.state.cita-state-inasistencia { color:#a12c38; }
+.citas-form { max-width:58rem; }
+.citas-form .field { margin-block:1rem; }
+@media (max-width:44rem) { .citas-actions { flex-direction:column; align-items:stretch; } .citas-actions a { padding:.5rem; } }

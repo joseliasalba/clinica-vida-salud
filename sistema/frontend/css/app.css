@@ -6,6 +6,7 @@
 @import './shared/tables.css';
 @import './pacientes/pacientes.css';
 @import './especialidades/especialidades.css';
+@import './citas/citas.css';
 @import './inicio/inicio.css';
 @import './inicio/public.css';
 @import './shared/responsive.css';

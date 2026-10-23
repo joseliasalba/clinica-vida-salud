@@ -16,6 +16,8 @@ Proyecto universitario de Ingeniería de Requisitos / SI1: sistema web de gesti�
 - Integración verificada el 22/10/2026: **124 pruebas aprobadas y 1535 aserciones**, con PostgreSQL en el esquema aislado `clinica_testing`; formato Pint y compilación Vite correctos. Portada, registro y CSS responden HTTP 200 en localhost. Revisión visual de la integración y entrega SMTP real pendientes.
 - Acceso, cierre de sesión, recuperación y gestión de usuarios, roles y permisos implementados; revisión en navegador y entrega SMTP real pendientes. Los flujos clínicos posteriores siguen pendientes.
 - CU-07 continúa pausado: no hay reservas activas. Primero deben completarse médicos (CU-05) y horarios (CU-06).
+- Lucas: CU-08 reprogramar, CU-09 cancelar, CU-10 confirmar/registrar atención o inasistencia y CU-12 historial implementados sobre citas existentes. Entradas `/citas` y `/historial`, con acceso por permisos en el menú. La consulta de turnos de reprogramación no sustituye la reserva CU-07 de Elías.
+- Integración Lucas del 23/10/2026: **183 pruebas y 2435 comprobaciones aprobadas**, más verificación posterior de 20 pruebas de interfaz/integración tras actualizar el inicio. Cinco pantallas revisadas a siete anchos (320–1440 px): 35 mediciones sin desbordamiento horizontal. [Resultados y capturas](docs/pruebas/Lucas/RESULTADOS.md).
 
 ## Tecnologías acordadas
 

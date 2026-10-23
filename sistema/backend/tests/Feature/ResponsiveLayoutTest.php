@@ -13,11 +13,12 @@ use Illuminate\View\ViewException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Tests\Support\CreatesAdministrativeUsers;
+use Tests\Support\CreatesAppointments;
 use Tests\TestCase;
 
 class ResponsiveLayoutTest extends TestCase
 {
-    use CreatesAdministrativeUsers, DatabaseTransactions;
+    use CreatesAdministrativeUsers, CreatesAppointments, DatabaseTransactions;
 
     public function test_every_administrative_list_keeps_all_cells_and_mobile_labels_in_one_accessible_table(): void
     {
@@ -25,7 +26,8 @@ class ResponsiveLayoutTest extends TestCase
         Paciente::factory()->create(['ci' => '001234AB', 'nombres' => 'María de los Ángeles', 'apellidos' => str_repeat('Apellido ', 12)]);
         User::factory()->create(['correo' => str_repeat('correo', 35).'@example.test']);
         Especialidad::factory()->create(['nombre' => str_repeat('Especialidad ', 18), 'descripcion' => str_repeat('Descripción ', 20)]);
-        foreach (['/pacientes', '/usuarios', '/roles', '/permisos', '/especialidades'] as $url) {
+        $cita = $this->createAppointment();
+        foreach (['/pacientes', '/usuarios', '/roles', '/permisos', '/especialidades', '/citas', '/historial?paciente_id='.$cita->paciente_id] as $url) {
             $response = $this->get($url)->assertOk();
             $xpath = $this->xpath($response->getContent());
             $this->assertSame(1, $xpath->query('//table[@role="table"]')->length, $url);
