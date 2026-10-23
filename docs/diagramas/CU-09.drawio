@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device" version="24.7.17" agent="Codex">
+  <diagram id="CU09_1_page" name="01 Caso de uso">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU09_1_frame" value="uc CU-09 · Cancelar citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="300" y="60" width="1230" height="940" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_actor" value="Recepción / Administrador" style="shape=umlActor;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_main" value="Cancelar cita médica" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="430" y="320" width="400" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_edge1" value="" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;endArrow=none;" edge="1" parent="1" source="CU09_1_actor" target="CU09_1_main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_option0" value="Revisar cita y motivo" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="170" width="350" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_edge2" value="«include»" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_1_main" target="CU09_1_option0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_option1" value="Confirmar cancelación" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="360" width="350" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_edge3" value="«include»" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_1_main" target="CU09_1_option1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_option2" value="Registrar cambio de cita" style="ellipse;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="550" width="350" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_edge4" value="«include»" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_1_main" target="CU09_1_option2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_1_rules" value="Precondiciones: sesión y permiso citas.gestionar.&#10;Solo citas programadas o confirmadas.&#10;Motivo obligatorio, hasta 255 caracteres.&#10;Confirmación explícita y versión vigente.&#10;La cita conserva sus relaciones y fechas; el intervalo queda disponible." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="380" y="740" width="1060" height="210" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="CU09_2_page" name="02 Comunicación">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU09_2_frame" value="com CU-09 · Cancelar citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="25" y="25" width="1530" height="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_actor" value="Recepción / Administrador" style="shape=umlActor;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="55" y="250" width="180" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_boundary" value="«boundary»&#10;:FormularioCancelación" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="310" y="275" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_control" value="«control»&#10;:CancelacionController" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="690" y="275" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_service" value="«control»&#10;:CancelacionService" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="275" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_rules" value="«control»&#10;:CitaWorkflow" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="610" width="330" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_entity" value="«entity»&#10;:CitaMedica" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="690" y="610" width="280" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_last" value="«entity»&#10;:CambioCita" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="310" y="610" width="260" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_edge1" value="1: revisar cita; indicar motivo y confirmar" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_2_actor" target="CU09_2_boundary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_edge2" value="2: PATCH motivo + confirmar + versión + CSRF" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_2_boundary" target="CU09_2_control">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_edge3" value="3: validar y cancelar(actor, cita, datos)" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_2_control" target="CU09_2_service">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_edge4" value="4: reautorizar y validar transición a cancelada" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_2_service" target="CU09_2_rules">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_edge5" value="5: bloquear; versión; estado y motivo_cancelacion" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="CU09_2_service" target="CU09_2_entity">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="470" />
+              <mxPoint x="830" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CU09_2_edge6" value="6: insertar CANCELAR + snapshots" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_2_entity" target="CU09_2_last">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_2_edge7" value="7: confirmar cancelación / errores" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;exitY=0;entryY=0;" edge="1" parent="1" source="CU09_2_control" target="CU09_2_boundary">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="150" />
+              <mxPoint x="440" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CU09_2_note" value="Cita y auditoría se guardan en la misma transacción. Solo se actualizan estado=cancelada y motivo_cancelacion. El registro no se elimina. La exclusión PostgreSQL permite reutilizar el intervalo cancelado. La apertura de un estado no cancelable devuelve 409." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="840" width="1370" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="CU09_3_page" name="03 Clases de análisis">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU09_3_frame" value="class CU-09 · Cancelar citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="25" y="25" width="1530" height="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_class0" value="«boundary»&#10;PantallaCancelación&#10;────────────────────────&#10;mostrar cita y versión&#10;recoger motivo obligatorio&#10;solicitar confirmación explícita" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="145" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_class1" value="«control»&#10;ControlCancelación&#10;────────────────────────&#10;validar datos y permiso&#10;cancelar en transacción&#10;conservar relaciones y fechas" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="590" y="145" width="380" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_class2" value="«control»&#10;ReglasCita&#10;────────────────────────&#10;autorizar actor&#10;bloquear y comparar versión&#10;validar transición a cancelada" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="145" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_class3" value="«entity»&#10;Usuario&#10;────────────────────────&#10;id · activo&#10;permiso citas.gestionar" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="540" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_class4" value="«entity»&#10;CitaMedica&#10;────────────────────────&#10;código · paciente · médico&#10;especialidad · horario · fechas&#10;estado · motivo_cancelacion" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="590" y="540" width="380" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_class5" value="«entity»&#10;CambioCita&#10;────────────────────────&#10;acción = CANCELAR&#10;actor · fecha · motivo&#10;snapshots anterior y nuevo" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="540" width="360" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_edge1" value="solicita" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_3_class0" target="CU09_3_class1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_edge2" value="aplica reglas" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_3_class1" target="CU09_3_class2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_edge3" value="interactúa" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_3_class3" target="CU09_3_class0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_edge4" value="actualiza" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_3_class1" target="CU09_3_class4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_edge5" value="1 → 0..* cambios" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;endArrow=none;" edge="1" parent="1" source="CU09_3_class4" target="CU09_3_class5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_3_edge6" value="1 actor → 0..* cambios" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;endArrow=none;" edge="1" parent="1" source="CU09_3_class3" target="CU09_3_class5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="825" />
+              <mxPoint x="1300" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CU09_3_note" value="Cancelación lógica: se conserva CitaMedica y se registra CambioCita. Los estados en curso, atendida/completada, cancelada e inasistencia son no cancelables. Una petición antigua o repetida no modifica datos ni duplica cambios." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="890" width="1370" height="125" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="CU09_4_page" name="04 Secuencia">
+    <mxGraphModel dx="1600" dy="1530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1530" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CU09_4_frame" value="sd CU-09 · Cancelar citas" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="25" y="25" width="1530" height="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_participant0" value="Recepción / Administrador" style="shape=umlActor;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="20" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_lifeline0" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="175" width="1" height="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_participant1" value="Vista / HTTP" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_lifeline1" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="175" width="1" height="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_participant2" value=":CancelacionController" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_lifeline2" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="175" width="1" height="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_participant3" value="Servicio / CitaWorkflow" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="950" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_lifeline3" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="175" width="1" height="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_participant4" value="PostgreSQL / entidades" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="95" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_lifeline4" value="" style="fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="175" width="1" height="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_transaction" value="critical Transacción de cambio y auditoría" style="shape=umlFrame;whiteSpace=wrap;html=0;fillColor=none;strokeColor=#666666;fontSize=16;align=left;verticalAlign=top;spacingLeft=12;spacingTop=6;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="970" y="680" width="550" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg1s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="220" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg1t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="220" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge1" value="1. Elegir Cancelar en Citas" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg1s" target="CU09_4_msg1t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg2s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="286" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg2t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="286" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge2" value="2. GET /citas/{cita}/cancelar" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg2s" target="CU09_4_msg2t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg3s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="352" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg3t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="352" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge3" value="3. Autorizar; leer cita; verificar estado cancelable" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg3s" target="CU09_4_msg3t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg4s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="418" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg4t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="418" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge4" value="4. Mostrar cita, motivo y confirmación; versión" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_4_msg4s" target="CU09_4_msg4t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg5s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="484" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg5t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="484" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge5" value="5. Escribir motivo y marcar confirmación" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg5s" target="CU09_4_msg5t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg6s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="550" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg6t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="550" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge6" value="6. PATCH motivo, confirmar, versión + CSRF" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg6s" target="CU09_4_msg6t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg7s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="616" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg7t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="616" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge7" value="7. Validar y cancelar(actor, cita, datos)" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg7s" target="CU09_4_msg7t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg8s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="682" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg8t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="682" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge8" value="8. BEGIN; SELECT FOR UPDATE; comparar versión" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg8s" target="CU09_4_msg8t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg9s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="748" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg9t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="748" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge9" value="9. Reautorizar; validar transición a cancelada" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg9s" target="CU09_4_msg9t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg10s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="814" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg10t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="814" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge10" value="10. UPDATE estado y motivo_cancelacion" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg10s" target="CU09_4_msg10t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg11s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="880" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg11t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="880" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge11" value="11. INSERT cambios_cita: CANCELAR + snapshots" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1" source="CU09_4_msg11s" target="CU09_4_msg11t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg12s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="946" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg12t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="946" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge12" value="12. COMMIT: cancelación y auditoría" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_4_msg12s" target="CU09_4_msg12t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg13s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="1012" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg13t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="1012" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge13" value="13. Cita cancelada; intervalo disponible" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_4_msg13s" target="CU09_4_msg13t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg14s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="1078" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg14t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="1078" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge14" value="14. Redirigir a citas.index con confirmación" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_4_msg14s" target="CU09_4_msg14t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg15s" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="1144" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_msg15t" value="" style="fillColor=none;strokeColor=none;opacity=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1144" width="1" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_edge15" value="15. Mostrar resultado conservando historial" style="endArrow=open;html=0;fontSize=13;whiteSpace=wrap;labelBackgroundColor=#ffffff;rounded=0;dashed=1;" edge="1" parent="1" source="CU09_4_msg15s" target="CU09_4_msg15t">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CU09_4_note" value="Alternativas: Volver conserva la cita. Motivo/confirmación inválidos, versión antigua, permiso revocado o transición no permitida: no se guarda cancelación ni auditoría. Sin sesión: login; sin permiso: 403; CSRF: 419; cita inexistente: 404." style="shape=note;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;spacing=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1310" width="1410" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
