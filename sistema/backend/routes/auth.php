@@ -21,7 +21,7 @@ Route::middleware('guest')->group(function (): void {
 Route::middleware([ProtectSession::class, 'auth'])->group(function (): void {
     Route::get('/verificar-correo', [VerificationController::class, 'notice'])->name('verification.notice');
     Route::get('/verificar-correo/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
-    Route::post('/verificar-correo', [VerificationController::class, 'send'])->middleware('throttle:1,1')->name('verification.send');
+    Route::post('/verificar-correo', [VerificationController::class, 'send'])->name('verification.send');
 });
 
 Route::post('/logout', [SessionController::class, 'destroy'])

@@ -191,7 +191,51 @@ class PatientSelfRegistrationTest extends TestCase
         $this->loginPatient($user);
         $this->from('/verificar-correo')->post('/verificar-correo')->assertRedirect('/verificar-correo')->assertSessionHasNoErrors();
         Notification::assertSentToTimes($user, VerifyEmail::class, 2);
-        $this->post('/verificar-correo')->assertStatus(429);
+        $this->post('/verificar-correo')->assertRedirect(route('verification.notice'))->assertSessionHasErrors('correo')->assertHeader('Retry-After');
+        $this->withCookie(config('session.cookie'), session()->getId());
+        $this->get('/verificar-correo')->assertOk()->assertSee('Espera')->assertSee('data-retry-after=', false);
+        Notification::assertSentToTimes($user, VerifyEmail::class, 2);
+        $this->postJson('/verificar-correo')->assertStatus(429)->assertJsonStructure(['message']);
+        $this->travel(61)->seconds();
+        $this->post('/verificar-correo')->assertRedirect(route('verification.notice'));
+        Notification::assertSentToTimes($user, VerifyEmail::class, 3);
+    }
+
+    public function test_local_mail_mode_explains_that_messages_do_not_reach_the_inbox(): void
+    {
+        config(['mail.default' => 'log']);
+        $this->post('/registro', $this->data())->assertSessionHas('status', fn (string $status): bool => str_contains($status, 'no llegará a tu bandeja'));
+        $user = User::query()->sole();
+        $this->loginPatient($user);
+        $this->get('/verificar-correo')->assertOk()->assertSee('no llegarán a tu bandeja')->assertSee('Generar enlace de prueba')->assertDontSee('name="token"', false);
+        $this->post('/verificar-correo')->assertRedirect(route('verification.notice'))->assertSessionHas('status', fn (string $status): bool => str_contains($status, 'no se envió a tu bandeja'));
+        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+    }
+
+    public function test_smtp_mode_explains_delivery_and_shows_the_real_resend_button(): void
+    {
+        config(['mail.default' => 'smtp']);
+        $this->post('/registro', $this->data())->assertSessionHas('status', fn (string $status): bool => str_contains($status, 'confirma tu correo con el enlace'));
+        $user = User::query()->sole();
+        $this->loginPatient($user);
+        $this->get('/verificar-correo')->assertOk()->assertSee('Solicitar nuevo enlace')->assertSee('spam')->assertDontSee('no llegarán a tu bandeja');
+        $this->post('/verificar-correo')->assertRedirect(route('verification.notice'))->assertSessionHas('status', fn (string $status): bool => str_contains($status, 'carpeta de spam'));
+        Notification::assertSentToTimes($user, VerifyEmail::class, 2);
+    }
+
+    public function test_resend_delivery_failure_keeps_the_account_unverified_and_does_not_claim_success(): void
+    {
+        config(['mail.default' => 'smtp']);
+        $this->post('/registro', $this->data());
+        $user = User::query()->sole();
+        $this->loginPatient($user);
+        Notification::swap($dispatcher = \Mockery::mock(Dispatcher::class));
+        $dispatcher->shouldReceive('send')->once()->andThrow(new RuntimeException('Simulated SMTP failure'));
+        $this->post('/verificar-correo')->assertRedirect(route('verification.notice'))->assertSessionHasErrors('correo')->assertSessionMissing('status');
+        $this->withCookie(config('session.cookie'), session()->getId());
+        $this->get('/verificar-correo')->assertOk()->assertSee('No pudimos enviar el correo.');
+        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+        $this->assertDatabaseCount('usuarios', 1);
     }
 
     public function test_email_delivery_failure_keeps_the_created_account_and_explains_how_to_retry(): void
