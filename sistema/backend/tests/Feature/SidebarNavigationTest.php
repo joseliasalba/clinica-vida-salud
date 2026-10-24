@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Support\CreatesAdministrativeUsers;
+use Tests\Support\CreatesAppointments;
 use Tests\TestCase;
 
 class SidebarNavigationTest extends TestCase
 {
-    use CreatesAdministrativeUsers, DatabaseTransactions;
+    use CreatesAdministrativeUsers, CreatesAppointments, DatabaseTransactions;
 
     public function test_guests_do_not_receive_account_navigation(): void
     {
@@ -42,10 +43,10 @@ class SidebarNavigationTest extends TestCase
     public static function roleNavigation(): array
     {
         return [
-            'administrador' => ['administrador', ['inicio', 'pacientes.index', 'historial.index', 'especialidades.index', 'citas.index', 'usuarios.index', 'roles.index', 'permisos.index'], ['Médicos', 'Horarios de atención']],
-            'recepción' => ['recepcion', ['inicio', 'pacientes.index', 'historial.index', 'citas.index'], []],
-            'médico' => ['medico', ['inicio', 'citas.index'], ['Mi agenda']],
-            'paciente' => ['paciente', ['inicio', 'historial.index'], ['Mis citas', 'Mi perfil']],
+            'administrador' => ['administrador', ['inicio', 'pacientes.index', 'historial.index', 'especialidades.index', 'medicos.index', 'citas.index', 'citas.gestion', 'horarios.index', 'usuarios.index', 'roles.index', 'permisos.index'], []],
+            'recepción' => ['recepcion', ['inicio', 'pacientes.index', 'historial.index', 'citas.index', 'citas.gestion'], []],
+            'médico' => ['medico', ['inicio', 'citas.gestion'], ['Mi agenda']],
+            'paciente' => ['paciente', ['inicio', 'citas.index', 'historial.index'], ['Mi perfil']],
         ];
     }
 
@@ -66,12 +67,33 @@ class SidebarNavigationTest extends TestCase
     public function test_current_module_is_marked_on_all_administrative_pages(): void
     {
         $this->loginManager();
-        foreach (['/pacientes/crear' => 'pacientes.index', '/usuarios/crear' => 'usuarios.index', '/roles/crear' => 'roles.index', '/permisos' => 'permisos.index', '/especialidades/crear' => 'especialidades.index'] as $url => $route) {
+        foreach (['/pacientes/crear' => 'pacientes.index', '/usuarios/crear' => 'usuarios.index', '/roles/crear' => 'roles.index', '/permisos' => 'permisos.index', '/especialidades/crear' => 'especialidades.index', '/medicos/crear' => 'medicos.index', '/horarios/crear' => 'horarios.index', '/horarios/bloqueos/crear' => 'horarios.index'] as $url => $route) {
             $xpath = $this->xpath($this->get($url)->assertOk()->getContent());
             $active = $xpath->query('//dialog//a[@aria-current="page"]');
             $this->assertSame(1, $active->length);
             $this->assertSame(route($route), $active->item(0)->getAttribute('href'));
             $this->assertSame(1, $xpath->query('ancestor::details[@open]', $active->item(0))->length);
+        }
+    }
+
+    public function test_booking_and_appointment_management_mark_distinct_modules(): void
+    {
+        $this->loginManager();
+        $cita = $this->createAppointment();
+        $pages = [
+            '/citas' => 'citas.index',
+            '/citas/gestion' => 'citas.gestion',
+            '/citas/'.$cita->id.'/reprogramar' => 'citas.gestion',
+            '/citas/'.$cita->id.'/cancelar' => 'citas.gestion',
+            '/citas/'.$cita->id.'/asistencia' => 'citas.gestion',
+            '/historial?paciente_id='.$cita->paciente_id => 'historial.index',
+            '/pacientes/'.$cita->paciente_id.'/historial' => 'historial.index',
+        ];
+        foreach ($pages as $url => $route) {
+            $xpath = $this->xpath($this->get($url)->assertOk()->getContent());
+            $active = $xpath->query('//dialog//a[@aria-current="page"]');
+            $this->assertSame(1, $active->length, $url);
+            $this->assertSame(route($route), $active->item(0)->getAttribute('href'), $url);
         }
     }
 

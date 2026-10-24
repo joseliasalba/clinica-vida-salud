@@ -27,7 +27,7 @@ class ReprogramacionController extends Controller
             ->where('medico_especialidad.activo', true)->where('medicos.activo', true)
             ->orderBy('medicos.apellidos')->orderBy('medicos.nombres')
             ->get(['medicos.id', 'medicos.nombres', 'medicos.apellidos']);
-        $turnos = $disponibilidad->turnos($medicoId, $cita->especialidad_id, $fecha, $cita->id);
+        $turnos = $disponibilidad->turnos($medicoId, $cita->especialidad_id, $fecha, $cita->id, $cita->paciente_id);
         $cita->load(['paciente', 'especialidad']);
 
         return view('citas.reprogramar', compact('cita', 'medicos', 'medicoId', 'fecha', 'turnos'));
@@ -38,14 +38,14 @@ class ReprogramacionController extends Controller
         $workflow->authorize($request->user(), $cita);
         $filters = $request->validate(['medico_id' => ['required', 'integer', 'min:1'], 'fecha' => ['required', 'date_format:Y-m-d']]);
 
-        return response()->json(['turnos' => $disponibilidad->turnos((int) $filters['medico_id'], $cita->especialidad_id, $filters['fecha'], $cita->id)]);
+        return response()->json(['turnos' => $disponibilidad->turnos((int) $filters['medico_id'], $cita->especialidad_id, $filters['fecha'], $cita->id, $cita->paciente_id)]);
     }
 
     public function update(ReprogramarCitaRequest $request, CitaMedica $cita, ReprogramacionService $service): RedirectResponse
     {
         $service->reprogramar($request->user(), $cita->id, $request->validated());
 
-        return redirect()->route('citas.index')->with('status', 'Cita reprogramada correctamente. La nueva fecha y el nuevo turno quedaron registrados.');
+        return redirect()->route('citas.gestion')->with('status', 'Cita reprogramada correctamente. La nueva fecha y el nuevo turno quedaron registrados.');
     }
 
     /** @return array<string, mixed> */

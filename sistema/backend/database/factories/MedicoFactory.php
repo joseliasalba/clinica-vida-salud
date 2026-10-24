@@ -18,10 +18,10 @@ class MedicoFactory extends Factory
     public function definition(): array
     {
         return [
-            'codigo' => 'MED-'.fake()->unique()->numerify('########'),
-            'registro_profesional' => fake()->unique()->bothify('REG-########'),
+            'codigo' => 'MED-TEST-'.fake()->unique()->uuid(),
+            'registro_profesional' => 'REG-'.fake()->unique()->uuid(),
             'nombres' => fake()->firstName(), 'apellidos' => fake()->lastName(),
-            'telefono' => '70000000', 'correo' => fake()->unique()->safeEmail(), 'activo' => true,
+            'telefono' => '+591 70000000', 'correo' => fake()->safeEmail(), 'activo' => true,
         ];
     }
 }

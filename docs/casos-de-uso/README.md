@@ -39,7 +39,9 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 | CU-02 | Auth | [Especificación](CU-02/especificacion.md) | [Trazabilidad](CU-02/dependencias.md) | [Pruebas](CU-02/pruebas.md) | Usuarios, roles y permisos implementados y probados; revisión visual pendiente |
 | CU-03 | Pacientes | [Especificación](CU-03/especificacion.md) | [Código y dependencias](CU-03/dependencias.md) | [Pruebas](CU-03/pruebas.md) | Portada pública y autorregistro implementados; revisión visual y SMTP real pendientes |
 | CU-04 | Pacientes | [Especificación](CU-04/especificacion.md) | [Código y dependencias](CU-04/dependencias.md) | [Pruebas](CU-04/pruebas.md) | Fichas administrativas implementadas y probadas; revisión visual pendiente |
-| CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Especialidades implementadas; gestión de médicos pendiente |
+| CU-05 | Médicos y especialidades | [Especificación](CU-05/especificacion.md) | [Trazabilidad](CU-05/dependencias.md) | [Pruebas](CU-05/pruebas.md) | Médicos y especialidades implementados; revisión visual de médicos pendiente |
+| CU-06 | Horarios y bloqueos | [Reglas implementadas](../../README.md#cu-06-horarios-y-bloqueos) | [Servicio](../../sistema/backend/app/Services/Horarios/ScheduleManagement.php) | [Pruebas](../../sistema/backend/tests/Feature/Horarios/ScheduleManagementTest.php) | Implementado; revisión visual autenticada pendiente |
+| CU-07 | Citas | [Reglas implementadas](../../README.md#cu-07-disponibilidad-y-reserva) | [Servicio](../../sistema/backend/app/Services/Citas/AppointmentBooking.php) | [Pruebas](../../sistema/backend/tests/Feature/Citas/AppointmentBookingTest.php) | Implementado; revisión de vistas de prueba en navegador, flujo autenticado e impresión pendientes |
 | CU-08 | Citas · Lucas | [Especificación](CU-08/especificacion.md) | [Trazabilidad](CU-08/dependencias.md) | [Pruebas](CU-08/pruebas.md) | Reprogramación implementada, probada y recorrida en navegador |
 | CU-09 | Citas · Lucas | [Especificación](CU-09/especificacion.md) | [Trazabilidad](CU-09/dependencias.md) | [Pruebas](CU-09/pruebas.md) | Cancelación con motivo y auditoría implementada y probada |
 | CU-10 | Citas · Lucas | [Especificación](CU-10/especificacion.md) | [Trazabilidad](CU-10/dependencias.md) | [Pruebas](CU-10/pruebas.md) | Confirmación, atención e inasistencia implementadas y probadas |
@@ -47,7 +49,8 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 
 Reparto vigente de la imagen del 23/10/2026: Elías CU-05/CU-06/CU-07/CU-11; Lucas CU-08/CU-09/CU-10/CU-12. Estos cuatro últimos operan sobre citas existentes y no crean reservas nuevas. Los resultados integrados están en [evidencias Lucas](../pruebas/Lucas/RESULTADOS.md). Se conservan diagramas editables de cuatro páginas por CU en `docs/diagramas/`; la revisión de su apariencia en draw.io y la exportación PNG siguen pendientes.
 
-La rama integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación de listados móviles y el catálogo de especialidades del CU-05. La gestión de médicos sigue pendiente. CU-07 está pausado y no tiene flujo de reservas activo. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
+
+La copia integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación móvil, CU-05, CU-06, el flujo de disponibilidad/reserva del CU-07 y los CU-08/CU-09/CU-10/CU-12 de Lucas. CU-11 sigue pendiente. Los demás casos no incluidos están pendientes de especificación e implementación de sus flujos. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
 
 ## Convenciones
 
@@ -56,3 +59,7 @@ La rama integra el autorregistro CU-03, la portada pública, el menú lateral, l
 - **PENDIENTE:** requisito por aclarar, código por implementar o verificación por realizar.
 
 La [guía de estructura](../estructura.md) explica dónde colocar controladores, validaciones, modelos, vistas, recursos y pruebas de cada módulo. Las verificaciones pendientes se registran en el documento de pruebas de cada caso, sin presentarlas como aprobadas.
+
+## Diagramas de CU-03 a CU-07
+
+Disponibles los diagramas de casos de uso, comunicación, navegación y secuencia de cada caso: [modelo editable de Enterprise Architect y entregables](../modelo/enterprise-architect/CU03_CU07/README.md). Se contrastaron con el código implementado; su entrega no elimina las verificaciones funcionales pendientes indicadas arriba.

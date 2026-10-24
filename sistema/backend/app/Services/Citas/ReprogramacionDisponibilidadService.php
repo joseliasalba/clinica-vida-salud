@@ -12,7 +12,7 @@ class ReprogramacionDisponibilidadService
      *
      * @return array<int, array{horario_id: int, inicio: string, fin: string, duracion_minutos: int}>
      */
-    public function turnos(int $medicoId, int $especialidadId, string $fecha, ?int $excluirCitaId = null): array
+    public function turnos(int $medicoId, int $especialidadId, string $fecha, ?int $excluirCitaId = null, ?int $pacienteId = null): array
     {
         $dia = CarbonImmutable::createFromFormat('!Y-m-d', $fecha, 'America/La_Paz');
         $ahora = CarbonImmutable::now('America/La_Paz');
@@ -39,7 +39,9 @@ class ReprogramacionDisponibilidadService
             ->orderBy('hora_inicio')->orderBy('id')->get();
         $bloqueos = DB::table('indisponibilidades_medico')->where('medico_id', $medicoId)->where('activo', true)
             ->where('inicio', '<', $dia->addDay()->format('Y-m-d H:i:s'))->where('fin', '>', $dia->format('Y-m-d H:i:s'))->get(['inicio', 'fin']);
-        $citas = DB::table('citas_medicas')->where('medico_id', $medicoId)->where('estado', '<>', 'cancelada')
+        $citas = DB::table('citas_medicas')->where(fn ($query) => $query->where('medico_id', $medicoId)
+            ->when($pacienteId !== null, fn ($query) => $query->orWhere('paciente_id', $pacienteId)))
+            ->where('estado', '<>', 'cancelada')
             ->when($excluirCitaId !== null, fn ($query) => $query->where('id', '<>', $excluirCitaId))
             ->where('inicio', '<', $dia->addDay()->format('Y-m-d H:i:s'))->where('fin', '>', $dia->format('Y-m-d H:i:s'))->get(['inicio', 'fin']);
         $ocupados = $bloqueos->concat($citas);

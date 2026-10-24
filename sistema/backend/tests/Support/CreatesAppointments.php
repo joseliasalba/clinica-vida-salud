@@ -20,11 +20,17 @@ trait CreatesAppointments
         $medicoId = $changes['medico_id'] ?? Medico::factory()->create()->id;
         $especialidadId = $changes['especialidad_id'] ?? Especialidad::factory()->create()->id;
         DB::table('medico_especialidad')->insertOrIgnore(['medico_id' => $medicoId, 'especialidad_id' => $especialidadId, 'activo' => true]);
-        $horarioId = $changes['horario_id'] ?? DB::table('horarios_atencion')->insertGetId([
-            'medico_id' => $medicoId, 'dia_semana' => $start->dayOfWeekIso,
-            'hora_inicio' => '09:00:00', 'hora_fin' => '17:00:00', 'duracion_turno_min' => 30,
-            'vigente_desde' => $start->subDays(30)->toDateString(), 'activo' => true,
-        ]);
+        $horarioId = $changes['horario_id'] ?? DB::table('horarios_atencion')
+            ->where('medico_id', $medicoId)->where('dia_semana', $start->dayOfWeekIso)
+            ->where('activo', true)->where('hora_inicio', '<=', $start->format('H:i:s'))
+            ->where('hora_fin', '>=', $start->addMinutes(30)->format('H:i:s'))
+            ->whereDate('vigente_desde', '<=', $start->toDateString())
+            ->where(fn ($query) => $query->whereNull('vigente_hasta')->orWhereDate('vigente_hasta', '>=', $start->toDateString()))
+            ->value('id') ?? DB::table('horarios_atencion')->insertGetId([
+                'medico_id' => $medicoId, 'dia_semana' => $start->dayOfWeekIso,
+                'hora_inicio' => '09:00:00', 'hora_fin' => '17:00:00', 'duracion_turno_min' => 30,
+                'vigente_desde' => $start->subDays(30)->toDateString(), 'activo' => true,
+            ]);
 
         return CitaMedica::query()->create(array_replace([
             'codigo' => 'CM-'.Str::ulid(), 'paciente_id' => Paciente::factory()->create()->id,

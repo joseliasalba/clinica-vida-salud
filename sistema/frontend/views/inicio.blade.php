@@ -21,13 +21,15 @@
                     @elseif($codigo === 'pacientes.gestionar')
                         <p>Registra pacientes y mantén sus fichas y datos de contacto.</p><a class="button primary" href="{{ route('pacientes.index') }}">Gestionar pacientes ↗</a>
                     @elseif($codigo === 'medicos.gestionar')
-                        <p>Organiza el catálogo de especialidades médicas de la clínica.</p><a class="button primary" href="{{ route('especialidades.index') }}">Gestionar especialidades ↗</a>
+                        <p>Organiza las fichas profesionales y las especialidades de la clínica.</p><div class="record-actions"><a class="button primary" href="{{ route('medicos.index') }}">Gestionar médicos ↗</a><a class="button secondary" href="{{ route('especialidades.index') }}">Especialidades</a></div>
+                    @elseif($codigo === 'horarios.gestionar')
+                        <p>Configura las franjas semanales y los bloqueos por ausencias.</p><a class="button primary" href="{{ route('horarios.index') }}">Configurar horarios ↗</a>
                     @elseif($codigo === 'citas.gestionar')
-                        <p>Reprograma, cancela y registra el estado de las citas existentes.</p><a class="button primary" href="{{ route('citas.index') }}">Gestionar citas ↗</a>
+                        <p>Reprograma, cancela y registra el estado de las citas existentes.</p><a class="button primary" href="{{ route('citas.gestion') }}">Gestionar citas ↗</a><a class="button secondary" href="{{ route('citas.index') }}">Reservar cita</a>
                     @elseif($codigo === 'agenda.propia')
-                        <p>Registra la atención o inasistencia de tus citas.</p><a class="button primary" href="{{ route('citas.index') }}">Registrar asistencia ↗</a>
+                        <p>Registra la atención o inasistencia de tus citas.</p><a class="button primary" href="{{ route('citas.gestion') }}">Registrar asistencia ↗</a>
                     @elseif($codigo === 'citas.propias')
-                        <p>Consulta las fechas y los estados de tus citas registradas.</p><a class="button primary" href="{{ route('historial.index') }}">Ver mi historial ↗</a>
+                        <p>Consulta las fechas y los estados de tus citas registradas.</p><a class="button primary" href="{{ route('historial.index') }}">Ver mi historial ↗</a><a class="button secondary" href="{{ route('citas.index') }}">Reservar cita</a>
                     @else
                         <p>Este servicio estará disponible próximamente.</p><span class="badge">Próximamente</span>
                     @endif

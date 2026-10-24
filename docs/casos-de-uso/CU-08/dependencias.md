@@ -3,9 +3,9 @@
 - Autenticación, protección de sesión y permiso existente `citas.gestionar`.
 - Catálogos activos de pacientes, médicos, especialidades y `medico_especialidad`.
 - Tablas existentes `horarios_atencion`, `indisponibilidades_medico`, `citas_medicas` y `cambios_cita`; sin migraciones nuevas.
-- Infraestructura compartida: modelo `CitaMedica`, `CitaWorkflow`, listado de citas y layout `layouts.citas`.
-- `ReprogramacionDisponibilidadService` calcula los turnos exclusivamente para reprogramar. CU-07 de Elías puede reutilizar o consolidar este cálculo al integrar su consulta/reserva inicial.
-- Bloqueo de médicos por ID ascendente antes de bloquear la cita; versión de edición y restricción PostgreSQL contra solapamientos.
+- Infraestructura compartida: modelo `CitaMedica`, `CitaWorkflow`, listado `/citas/gestion` y layout `layouts.gestion-citas`.
+- `ReprogramacionDisponibilidadService` calcula los turnos exclusivamente para reprogramar. CU-07 de Elías conserva su consulta/reserva inicial en `/citas`; ambos comprueban cruces de médico y paciente.
+- Bloqueo de médicos por ID ascendente, luego paciente y finalmente cita; versión de edición y restricción PostgreSQL contra solapamientos.
 - La base conserva valores históricos de estado en minúsculas (`programada`, `confirmada`, etc.).
 
 ## Rutas

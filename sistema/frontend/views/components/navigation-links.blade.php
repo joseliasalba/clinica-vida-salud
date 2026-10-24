@@ -15,7 +15,7 @@
                 <div class="sidebar-group-links">
                     @foreach($opciones as $opcion)
                         @if($opcion['ruta'])
-                            <a class="sidebar-link" href="{{ route($opcion['ruta']) }}" @if(request()->routeIs($opcion['activo'])) aria-current="page" @endif>
+                            <a class="sidebar-link" href="{{ route($opcion['ruta']) }}" @if(request()->routeIs(...(array) $opcion['activo'])) aria-current="page" @endif>
                                 <x-navigation-icon :name="$opcion['icono']" /><span>{{ $opcion['titulo'] }}</span>
                             </a>
                         @else

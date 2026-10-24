@@ -9,6 +9,7 @@
 @import './citas/citas.css';
 @import './inicio/inicio.css';
 @import './inicio/public.css';
+@import './citas/citas.css';
 @import './shared/responsive.css';
 
 @source '../../backend/vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

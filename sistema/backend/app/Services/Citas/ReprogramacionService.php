@@ -21,7 +21,8 @@ class ReprogramacionService
                 $this->workflow->authorize($actor, $original);
                 $medicoId = (int) $data['medico_id'];
                 DB::table('medicos')->whereIn('id', [$original->medico_id, $medicoId])->orderBy('id')->lockForUpdate()->get();
-                $cita = $this->workflow->lock($citaId, $data['version']);
+                DB::table('pacientes')->where('id', $original->paciente_id)->lockForUpdate()->first();
+                $cita = $this->workflow->lock($citaId, $data['version'], false);
                 $this->workflow->authorize($actor, $cita);
                 if (! in_array($cita->estado, ['programada', 'confirmada'], true)) {
                     throw ValidationException::withMessages(['estado' => 'Solo puedes reprogramar una cita programada o confirmada.']);
@@ -30,7 +31,7 @@ class ReprogramacionService
                     throw ValidationException::withMessages(['paciente' => 'El paciente está inactivo. Actívalo antes de reprogramar la cita.']);
                 }
 
-                $turnos = $this->disponibilidad->turnos($medicoId, $cita->especialidad_id, $data['fecha'], $cita->id);
+                $turnos = $this->disponibilidad->turnos($medicoId, $cita->especialidad_id, $data['fecha'], $cita->id, $cita->paciente_id);
                 $inicio = $data['fecha'].' '.$data['inicio'].':00';
                 $turno = collect($turnos)->first(fn (array $turno): bool => $turno['horario_id'] === (int) $data['horario_id'] && $turno['inicio'] === $inicio);
                 if (! $turno) {

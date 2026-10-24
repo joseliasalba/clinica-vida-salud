@@ -49,6 +49,16 @@ Desde `sistema/frontend`, `npm run build`. Para la vista habitual, configurar la
 
 ## Límites pendientes
 
-La integración futura con creación de citas CU-07 y configuración de médicos/horarios depende del trabajo de Elías. Se implementó únicamente la consulta necesaria para reprogramar. La restricción física existente excluye también inasistencias; la consulta del servicio es más estricta y solo libera canceladas. Un cambio de esa restricción requiere acuerdo previo.
+La integración del 24/10/2026 incorpora CU-05/06/07 de Elías. La reserva inicial conserva `/citas`; la gestión de citas existentes usa `/citas/gestion`. Se verificó el flujo reserva→reprogramación→cancelación→nueva reserva→historial con datos ficticios. La restricción física existente excluye también inasistencias; la consulta del servicio es más estricta y solo libera canceladas. Un cambio de esa restricción requiere acuerdo previo.
 
 Los tests de conflicto comprueban rechazo real de PostgreSQL y rollback, junto a versiones antiguas; no se presentan como prueba de carga. Quedan pendientes aceptación del equipo, revisión del documento original completo, inspección visual de los diagramas/exportación PNG, teléfono físico y zoom nativo al 200 %.
+
+## Verificación de integración del 24/10/2026
+
+Se integraron los cambios de Elías hasta `7418053` conservando la reserva en `/citas` y trasladando las operaciones de Lucas a `/citas/gestion`. Los cuatro revisores independientes aprobaron sus suites tras integrar; los resultados y el alcance están en [REVISION.md](REVISION.md).
+
+La revisión geométrica en navegador usó seis pantallas (reserva, gestión, reprogramación, cancelación, asistencia e historial) y siete anchos: 320, 360, 390, 430, 768, 1024 y 1440 px. Resultado: **42/42 sin desbordamiento horizontal** con datos ficticios. No sustituye la prueba pendiente en teléfono físico ni zoom nativo al 200 %.
+
+`npm run build` y `vendor/bin/pint --dirty --format agent` pasaron. La vista previa recibió las tres nuevas migraciones de la rama compartida en su base temporal.
+
+**Suite general final del 24/10/2026:** `vendor/bin/phpunit --stop-on-defect` aprobó **284/284 pruebas y 3592 comprobaciones**, incluyendo reservas, concurrencia y horarios del equipo y los cuatro CU de Lucas. PostgreSQL aislado, OpenSSL activo y caché Blade propia; duración 212,809 segundos. Una corrida inicial con ruta de configuración PHP errónea falló por OpenSSL ausente; se corrigió el entorno y se repitió la suite completa con resultado aprobado.

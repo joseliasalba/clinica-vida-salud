@@ -15,4 +15,4 @@ Las rutas de archivos son relativas a la raíz del repositorio.
 
 Se reutilizan `citas_medicas`, `cambios_cita`, `pacientes`, `medicos`, `especialidades`, `horarios_atencion` y la autorización existente por roles/permisos. No se requieren migraciones nuevas.
 
-CU-07 proveerá la creación/reserva. CU-08 comparte las reglas de versión y bloqueo al reprogramar. CU-10 comparte estados y auditoría. CU-12 permite consultar posteriormente el motivo y la trazabilidad de la cancelación. Las cuentas por defecto autorizadas son administrador y recepción.
+CU-07 provee la creación/reserva desde `/citas`; la gestión de citas existentes se encuentra en `/citas/gestion`. CU-08 comparte las reglas de versión y bloqueo al reprogramar. CU-10 comparte estados y auditoría. CU-12 permite consultar el estado de la cancelación sin exponer motivos privados; la trazabilidad queda en cambios_cita. Las cuentas por defecto autorizadas son administrador y recepción.

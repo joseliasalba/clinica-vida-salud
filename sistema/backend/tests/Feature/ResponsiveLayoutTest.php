@@ -3,6 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Especialidad;
+use App\Models\HorarioAtencion;
+use App\Models\IndisponibilidadMedico;
+use App\Models\Medico;
 use App\Models\Paciente;
 use App\Models\User;
 use DOMDocument;
@@ -25,9 +28,13 @@ class ResponsiveLayoutTest extends TestCase
         $this->loginManager();
         Paciente::factory()->create(['ci' => '001234AB', 'nombres' => 'María de los Ángeles', 'apellidos' => str_repeat('Apellido ', 12)]);
         User::factory()->create(['correo' => str_repeat('correo', 35).'@example.test']);
-        Especialidad::factory()->create(['nombre' => str_repeat('Especialidad ', 18), 'descripcion' => str_repeat('Descripción ', 20)]);
+        $specialty = Especialidad::factory()->create(['nombre' => str_repeat('Especialidad ', 18), 'descripcion' => str_repeat('Descripción ', 20)]);
+        $doctor = Medico::factory()->create(['nombres' => str_repeat('Nombre ', 20), 'correo' => str_repeat('correo', 35).'@example.test']);
+        $doctor->especialidades()->attach($specialty->id, ['activo' => true]);
+        HorarioAtencion::factory()->create(['medico_id' => $doctor->id]);
+        IndisponibilidadMedico::factory()->create(['medico_id' => $doctor->id, 'motivo' => str_repeat('Motivo ', 30)]);
         $cita = $this->createAppointment();
-        foreach (['/pacientes', '/usuarios', '/roles', '/permisos', '/especialidades', '/citas', '/historial?paciente_id='.$cita->paciente_id] as $url) {
+        foreach (['/pacientes', '/usuarios', '/roles', '/permisos', '/especialidades', '/medicos', '/horarios', '/horarios/bloqueos', '/citas/gestion', '/historial?paciente_id='.$cita->paciente_id] as $url) {
             $response = $this->get($url)->assertOk();
             $xpath = $this->xpath($response->getContent());
             $this->assertSame(1, $xpath->query('//table[@role="table"]')->length, $url);

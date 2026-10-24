@@ -3,6 +3,8 @@
 namespace App\Services\Citas;
 
 use App\Models\CitaMedica;
+use App\Models\Medico;
+use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -29,10 +31,16 @@ class CitaWorkflow
     }
 
     /** Debe llamarse dentro de la transacción que realiza el cambio. */
-    public function lock(int $id, string $version): CitaMedica
+    public function lock(int $id, string $version, bool $lockResources = true): CitaMedica
     {
+        if ($lockResources) {
+            $original = CitaMedica::query()->findOrFail($id);
+            Medico::query()->lockForUpdate()->findOrFail($original->medico_id);
+            Paciente::query()->lockForUpdate()->findOrFail($original->paciente_id);
+        }
         $cita = CitaMedica::query()->lockForUpdate()->findOrFail($id);
-        if (! hash_equals($cita->editVersion(), $version)) {
+        if (($lockResources && ($original->medico_id !== $cita->medico_id || $original->paciente_id !== $cita->paciente_id))
+            || ! hash_equals($cita->editVersion(), $version)) {
             throw ValidationException::withMessages(['version' => 'La cita cambió desde que abriste el formulario. Recarga sus datos antes de continuar.']);
         }
 

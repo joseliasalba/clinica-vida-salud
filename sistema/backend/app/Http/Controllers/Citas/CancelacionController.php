@@ -26,6 +26,6 @@ class CancelacionController extends Controller
     {
         $service->cancelar($request->user(), $cita->id, $request->validated());
 
-        return redirect()->route('citas.index')->with('status', 'Cita cancelada correctamente. El horario quedó disponible y se conservó el historial.');
+        return redirect()->route('citas.gestion')->with('status', 'Cita cancelada correctamente. El horario quedó disponible y se conservó el historial.');
     }
 }

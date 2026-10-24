@@ -1,4 +1,4 @@
-@extends('layouts.citas')
+@extends('layouts.gestion-citas')
 @section('title', 'Confirmar atención o inasistencia')
 @section('citas-title', 'Confirma el estado de la cita.')
 @section('citas-description', 'Revisa el paciente, la fecha y el resultado que quedará registrado en el historial.')
@@ -55,7 +55,7 @@
         @endif
     </section>
     <div class="admin-form-footer">
-        <a class="button secondary" href="{{ route('citas.index') }}">Volver a citas</a>
+        <a class="button secondary" href="{{ route('citas.gestion') }}">Volver a citas</a>
         @if($estados !== [])<button class="button primary" type="submit">Confirmar cambio de estado</button>@endif
     </div>
 </form>

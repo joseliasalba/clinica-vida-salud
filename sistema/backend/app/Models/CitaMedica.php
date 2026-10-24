@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use Database\Factories\CitaMedicaFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CitaMedica extends Model
 {
+    /** @use HasFactory<CitaMedicaFactory> */
+    use HasFactory;
+
+    public const RELEASED_STATES = ['cancelada', 'inasistencia'];
+
     protected $table = 'citas_medicas';
 
     protected $guarded = ['id'];
@@ -29,6 +36,11 @@ class CitaMedica extends Model
     public function especialidad(): BelongsTo
     {
         return $this->belongsTo(Especialidad::class, 'especialidad_id');
+    }
+
+    public function horario(): BelongsTo
+    {
+        return $this->belongsTo(HorarioAtencion::class, 'horario_id');
     }
 
     /** Detecta formularios antiguos aun cuando dos cambios ocurran en el mismo segundo. */

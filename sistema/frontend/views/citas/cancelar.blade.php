@@ -1,4 +1,4 @@
-@extends('layouts.citas')
+@extends('layouts.gestion-citas')
 @section('title', 'Cancelar cita')
 @section('citas-title', 'Cancelar una cita médica.')
 @section('citas-description', 'Revisa los datos de la cita y registra el motivo antes de confirmar la cancelación.')
@@ -8,7 +8,7 @@
     $text = static fn (string $field, string $fallback = ''): string => is_string(old($field, $fallback)) ? old($field, $fallback) : '';
 @endphp
 @if($errors->has('version') || $errors->has('estado'))
-    <div class="notice" role="alert"><a href="{{ route('citas.index') }}">Volver a la lista de citas</a> para revisar el estado actualizado antes de continuar.</div>
+    <div class="notice" role="alert"><a href="{{ route('citas.gestion') }}">Volver a la lista de citas</a> para revisar el estado actualizado antes de continuar.</div>
 @endif
 
 <form class="admin-editor" method="POST" action="{{ route('citas.cancelar.update', $cita) }}">
@@ -43,7 +43,7 @@
         </div>
     </section>
     <div class="admin-form-footer">
-        <a class="button secondary" href="{{ route('citas.index') }}">Volver sin cancelar</a>
+        <a class="button secondary" href="{{ route('citas.gestion') }}">Volver sin cancelar</a>
         <button class="button primary" type="submit">Confirmar cancelación</button>
     </div>
 </form>

@@ -18,7 +18,7 @@
             <span class="eyebrow">CLÍNICA VIDA SALUD · CERCA DE TI</span>
             <h1 id="welcome-title">Tu bienestar,<br><em>nuestro punto<br>de encuentro.</em></h1>
             <p>Conoce nuestra clínica y encuentra un espacio para conectar con tu atención. Tu próximo paso empieza aquí.</p>
-            <div class="public-actions"><a class="button primary" href="#citas">Sacar ticket / reservar cita <span aria-hidden="true">↗</span></a>
+            <div class="public-actions"><a class="button primary" href="{{ route('citas.entry') }}">Sacar ticket / reservar cita <span aria-hidden="true">↗</span></a>
                 @guest<a class="button secondary" href="{{ route('registro') }}">Soy nuevo: registrarme</a>@else<a class="button secondary" href="{{ route('inicio') }}">Ir a mi cuenta</a>@endguest
             </div>
             <span class="public-caption">Una cuenta personal. Un lugar para acompañarte.</span>
@@ -26,7 +26,7 @@
         <aside class="public-welcome-card" aria-label="Cómo comenzar">
             <div class="public-cross" aria-hidden="true">✚</div>
             <span class="eyebrow">TU ATENCIÓN, PASO A PASO</span><h2>Estamos para<br>acompañarte.</h2>
-            <ol><li><strong>Crea tu cuenta</strong><span>Registra tus datos y confirma tu correo.</span></li><li><strong>Accede a tu espacio</strong><span>Ingresa con tu usuario o correo y contraseña.</span></li><li><strong>Prepara tu próxima visita</strong><span>La reserva de citas estará disponible próximamente.</span></li></ol>
+            <ol><li><strong>Crea tu cuenta</strong><span>Registra tus datos y confirma tu correo.</span></li><li><strong>Accede a tu espacio</strong><span>Ingresa con tu usuario o correo y contraseña.</span></li><li><strong>Prepara tu próxima visita</strong><span>Elige un turno disponible y guarda tu comprobante.</span></li></ol>
         </aside>
     </section>
     <section id="clinica" class="public-introduction" aria-labelledby="clinic-title"><span class="eyebrow">CONOCE VIDA SALUD</span><h2 id="clinic-title">Atención que empieza contigo.</h2><p>Queremos que dar el primer paso sea sencillo: encontrar información clara, preparar tus datos y tener un acceso personal a los servicios de la clínica.</p></section>
@@ -35,8 +35,8 @@
         <div class="public-services">@foreach(config('clinica.especialidades') as $especialidad)<article class="public-service"><span class="module-icon"><x-navigation-icon name="salud" /></span><h3>{{ $especialidad['nombre'] }}</h3><p>{{ $especialidad['descripcion'] }}</p></article>@endforeach</div>
     </section>
     <section id="citas" class="public-ticket" aria-labelledby="ticket-title">
-        <div><span class="eyebrow">TU PRÓXIMA VISITA</span><h2 id="ticket-title">Empieza por tu cuenta de paciente.</h2><p>Regístrate si es tu primera vez o inicia sesión si ya tienes cuenta. Si recepción ya registró tu ficha, solicita ayuda para vincularla.</p><p class="public-ticket-status"><strong>Reserva en línea próximamente.</strong> Por ahora no se emiten tickets desde este portal. Crear una cuenta no confirma una cita ni abre una historia clínica.</p></div>
-        <div class="public-actions">@guest<a class="button primary" href="{{ route('registro') }}">Crear mi cuenta <span aria-hidden="true">↗</span></a><a class="button secondary" href="{{ route('login') }}">Ya tengo cuenta</a>@else<a class="button primary" href="{{ route('inicio') }}">Entrar a mi cuenta <span aria-hidden="true">↗</span></a>@endguest</div>
+        <div><span class="eyebrow">TU PRÓXIMA VISITA</span><h2 id="ticket-title">Empieza por tu cuenta de paciente.</h2><p>Regístrate si es tu primera vez o inicia sesión si ya tienes cuenta. Si recepción ya registró tu ficha, solicita ayuda para vincularla.</p><p class="public-ticket-status"><strong>Reserva tu cita en línea.</strong> Consulta los turnos disponibles y guarda tu comprobante. Crear una cuenta no reserva una cita ni abre una historia clínica.</p></div>
+        <div class="public-actions"><a class="button primary" href="{{ route('citas.entry') }}">Consultar turnos</a>@guest<a class="button primary" href="{{ route('registro') }}">Crear mi cuenta <span aria-hidden="true">↗</span></a><a class="button secondary" href="{{ route('login') }}">Ya tengo cuenta</a>@else<a class="button primary" href="{{ route('inicio') }}">Entrar a mi cuenta <span aria-hidden="true">↗</span></a>@endguest</div>
     </section>
     <section id="contacto" class="public-section" aria-labelledby="contact-title">
         <span class="eyebrow">ENCUÉNTRANOS</span><h2 id="contact-title">Hablemos de tu próxima visita.</h2>

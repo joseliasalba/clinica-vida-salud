@@ -118,7 +118,7 @@ class HistorialTest extends TestCase
     {
         $paciente = Paciente::factory()->create();
         $completed = $this->createAppointment(['paciente_id' => $paciente->id, 'estado' => 'completada']);
-        $legacy = $this->createAppointment(['paciente_id' => $paciente->id, 'estado' => 'atendida']);
+        $legacy = $this->createAppointment(['paciente_id' => $paciente->id, 'estado' => 'atendida', 'inicio' => $completed->inicio->addHour()]);
         $cancelled = $this->createAppointment(['paciente_id' => $paciente->id, 'estado' => 'cancelada']);
         $this->loginManager();
         $this->get('/historial?paciente_id='.$paciente->id.'&estado=completada')->assertOk()

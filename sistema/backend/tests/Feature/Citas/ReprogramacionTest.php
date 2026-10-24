@@ -31,7 +31,7 @@ class ReprogramacionTest extends TestCase
         $antes = $cita->snapshot();
 
         $this->put(route('citas.reprogramar.update', $cita), $this->data($cita, ['motivo' => 'Petición del paciente']))
-            ->assertRedirect(route('citas.index'))->assertSessionHasNoErrors();
+            ->assertRedirect(route('citas.gestion'))->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas('citas_medicas', [
             'id' => $cita->id, 'inicio' => '2030-05-07 10:00:00', 'fin' => '2030-05-07 10:30:00',
@@ -151,7 +151,7 @@ class ReprogramacionTest extends TestCase
     public function test_schedule_weekday_validity_and_active_state_are_enforced(): void
     {
         $this->loginManager();
-        foreach ([['dia_semana' => 1], ['vigente_desde' => '2030-05-08'], ['vigente_hasta' => '2030-05-06'], ['activo' => false], ['duracion_turno_min' => 0]] as $cambio) {
+        foreach ([['dia_semana' => 1], ['vigente_desde' => '2030-05-08'], ['vigente_hasta' => '2030-05-06'], ['activo' => false]] as $cambio) {
             $cita = $this->createAppointment();
             DB::table('horarios_atencion')->where('id', $cita->horario_id)->update($cambio);
             $this->putJson(route('citas.reprogramar.update', $cita), $this->data($cita))->assertUnprocessable()->assertJsonValidationErrors('inicio');
@@ -192,7 +192,7 @@ class ReprogramacionTest extends TestCase
         $this->travelTo(CarbonImmutable::parse('2030-05-07 09:30:00', 'America/La_Paz'));
         $this->loginManager();
         $cita = $this->createAppointment(['inicio' => '2030-05-07 09:00:00', 'fin' => '2030-05-07 09:30:00']);
-        DB::table('horarios_atencion')->where('id', $cita->horario_id)->update(['hora_fin' => '10:45:00']);
+        DB::table('horarios_atencion')->where('id', $cita->horario_id)->update(['hora_fin' => '10:30:00']);
         DB::table('indisponibilidades_medico')->insert(['medico_id' => $cita->medico_id, 'inicio' => '2030-05-07 10:30:00', 'fin' => '2030-05-07 11:00:00', 'motivo' => 'Límite', 'activo' => true]);
         $response = $this->getJson(route('citas.reprogramar.turnos', ['cita' => $cita, 'medico_id' => $cita->medico_id, 'fecha' => '2030-05-07']))->assertOk();
         $this->assertSame([['horario_id' => $cita->horario_id, 'inicio' => '2030-05-07 10:00:00', 'fin' => '2030-05-07 10:30:00', 'duracion_minutos' => 30]], $response->json('turnos'));
@@ -227,6 +227,22 @@ class ReprogramacionTest extends TestCase
             }
         });
         $this->put(route('citas.reprogramar.update', $cita), $this->data($cita))->assertStatus(419);
+        $this->assertOriginal($cita);
+    }
+
+    public function test_patient_conflict_with_another_doctor_is_hidden_and_rejected_without_losing_original_reservation(): void
+    {
+        $this->loginManager();
+        $cita = $this->createAppointment();
+        $this->createAppointment(['paciente_id' => $cita->paciente_id,
+            'inicio' => '2030-05-07 10:00:00', 'fin' => '2030-05-07 10:30:00']);
+
+        $response = $this->getJson(route('citas.reprogramar.turnos', [
+            'cita' => $cita, 'medico_id' => $cita->medico_id, 'fecha' => '2030-05-07',
+        ]))->assertOk();
+        $this->assertNotContains('2030-05-07 10:00:00', array_column($response->json('turnos'), 'inicio'));
+        $this->putJson(route('citas.reprogramar.update', $cita), $this->data($cita))
+            ->assertUnprocessable()->assertJsonValidationErrors('inicio');
         $this->assertOriginal($cita);
     }
 

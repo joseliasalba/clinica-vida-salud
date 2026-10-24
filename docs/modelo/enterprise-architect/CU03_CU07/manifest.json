@@ -1,0 +1,182 @@
+﻿[
+    {
+        "id":  "cu03-casos",
+        "image":  "diagramas/cu03-casos.png",
+        "guid":  "{C40854C3-6217-4fe1-ACE4-FDFB6854B24B}",
+        "kind":  "casos",
+        "diagramId":  1,
+        "title":  "Diagrama de casos de uso",
+        "caseId":  "CU-03"
+    },
+    {
+        "id":  "cu03-comunicacion",
+        "image":  "diagramas/cu03-comunicacion.png",
+        "guid":  "{8942C020-C85E-4cbf-BE9F-4C75607B9ACC}",
+        "kind":  "comunicacion",
+        "diagramId":  2,
+        "title":  "Diagrama de comunicación",
+        "caseId":  "CU-03"
+    },
+    {
+        "id":  "cu03-navegacion",
+        "image":  "diagramas/cu03-navegacion.png",
+        "guid":  "{85D33183-8F39-4db8-9417-FC71CCC225C9}",
+        "kind":  "navegacion",
+        "diagramId":  3,
+        "title":  "Diagrama de navegación",
+        "caseId":  "CU-03"
+    },
+    {
+        "id":  "cu03-secuencia",
+        "image":  "diagramas/cu03-secuencia.png",
+        "guid":  "{14AA4C6F-7A32-406f-9692-8CC8FAF57E93}",
+        "kind":  "secuencia",
+        "diagramId":  4,
+        "title":  "Diagrama de secuencia",
+        "caseId":  "CU-03"
+    },
+    {
+        "id":  "cu04-casos",
+        "image":  "diagramas/cu04-casos.png",
+        "guid":  "{683BB866-6469-4131-A60A-DE1789F5F307}",
+        "kind":  "casos",
+        "diagramId":  5,
+        "title":  "Diagrama de casos de uso",
+        "caseId":  "CU-04"
+    },
+    {
+        "id":  "cu04-comunicacion",
+        "image":  "diagramas/cu04-comunicacion.png",
+        "guid":  "{7EE65535-7DC3-4e2a-843C-6F5AAC60174E}",
+        "kind":  "comunicacion",
+        "diagramId":  6,
+        "title":  "Diagrama de comunicación",
+        "caseId":  "CU-04"
+    },
+    {
+        "id":  "cu04-navegacion",
+        "image":  "diagramas/cu04-navegacion.png",
+        "guid":  "{7569485E-BEDA-4c27-B81E-3E2F4535E710}",
+        "kind":  "navegacion",
+        "diagramId":  7,
+        "title":  "Diagrama de navegación",
+        "caseId":  "CU-04"
+    },
+    {
+        "id":  "cu04-secuencia",
+        "image":  "diagramas/cu04-secuencia.png",
+        "guid":  "{29306D0E-89CA-493a-AC4D-C379EA0A2B77}",
+        "kind":  "secuencia",
+        "diagramId":  8,
+        "title":  "Diagrama de secuencia",
+        "caseId":  "CU-04"
+    },
+    {
+        "id":  "cu05-casos",
+        "image":  "diagramas/cu05-casos.png",
+        "guid":  "{97E91351-E2D9-4927-8E1E-FC4DE3194289}",
+        "kind":  "casos",
+        "diagramId":  9,
+        "title":  "Diagrama de casos de uso",
+        "caseId":  "CU-05"
+    },
+    {
+        "id":  "cu05-comunicacion",
+        "image":  "diagramas/cu05-comunicacion.png",
+        "guid":  "{AE381D93-F7B3-460e-A897-8215911D266E}",
+        "kind":  "comunicacion",
+        "diagramId":  10,
+        "title":  "Diagrama de comunicación",
+        "caseId":  "CU-05"
+    },
+    {
+        "id":  "cu05-navegacion",
+        "image":  "diagramas/cu05-navegacion.png",
+        "guid":  "{8ADCBF8E-4CBF-4c9c-9322-D6DC871C1E1A}",
+        "kind":  "navegacion",
+        "diagramId":  11,
+        "title":  "Diagrama de navegación",
+        "caseId":  "CU-05"
+    },
+    {
+        "id":  "cu05-secuencia",
+        "image":  "diagramas/cu05-secuencia.png",
+        "guid":  "{E49AB9B0-14E0-43cb-A9FC-FB0BB8745E46}",
+        "kind":  "secuencia",
+        "diagramId":  12,
+        "title":  "Diagrama de secuencia",
+        "caseId":  "CU-05"
+    },
+    {
+        "id":  "cu06-casos",
+        "image":  "diagramas/cu06-casos.png",
+        "guid":  "{67729B86-A77B-4e73-9388-5C41441639AF}",
+        "kind":  "casos",
+        "diagramId":  13,
+        "title":  "Diagrama de casos de uso",
+        "caseId":  "CU-06"
+    },
+    {
+        "id":  "cu06-comunicacion",
+        "image":  "diagramas/cu06-comunicacion.png",
+        "guid":  "{2CBBDB4B-34D6-4c19-8696-59FCC60D2108}",
+        "kind":  "comunicacion",
+        "diagramId":  14,
+        "title":  "Diagrama de comunicación",
+        "caseId":  "CU-06"
+    },
+    {
+        "id":  "cu06-navegacion",
+        "image":  "diagramas/cu06-navegacion.png",
+        "guid":  "{FBA66559-7049-4537-B85E-5E8B41742458}",
+        "kind":  "navegacion",
+        "diagramId":  15,
+        "title":  "Diagrama de navegación",
+        "caseId":  "CU-06"
+    },
+    {
+        "id":  "cu06-secuencia",
+        "image":  "diagramas/cu06-secuencia.png",
+        "guid":  "{872B95C1-50E6-4a37-A3B8-59445FF0B3B0}",
+        "kind":  "secuencia",
+        "diagramId":  16,
+        "title":  "Diagrama de secuencia",
+        "caseId":  "CU-06"
+    },
+    {
+        "id":  "cu07-casos",
+        "image":  "diagramas/cu07-casos.png",
+        "guid":  "{75AB870C-3DEC-4e93-8ACE-6C280CC3015B}",
+        "kind":  "casos",
+        "diagramId":  17,
+        "title":  "Diagrama de casos de uso",
+        "caseId":  "CU-07"
+    },
+    {
+        "id":  "cu07-comunicacion",
+        "image":  "diagramas/cu07-comunicacion.png",
+        "guid":  "{F982A370-625A-49a1-B978-97780B218EEF}",
+        "kind":  "comunicacion",
+        "diagramId":  18,
+        "title":  "Diagrama de comunicación",
+        "caseId":  "CU-07"
+    },
+    {
+        "id":  "cu07-navegacion",
+        "image":  "diagramas/cu07-navegacion.png",
+        "guid":  "{E720F64C-4BB9-4fa9-B38C-19960A836DD8}",
+        "kind":  "navegacion",
+        "diagramId":  19,
+        "title":  "Diagrama de navegación",
+        "caseId":  "CU-07"
+    },
+    {
+        "id":  "cu07-secuencia",
+        "image":  "diagramas/cu07-secuencia.png",
+        "guid":  "{A0FB3085-41E5-421d-98CA-5DFCD29C3E1E}",
+        "kind":  "secuencia",
+        "diagramId":  20,
+        "title":  "Diagrama de secuencia",
+        "caseId":  "CU-07"
+    }
+]

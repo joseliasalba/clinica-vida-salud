@@ -36,7 +36,7 @@ class AsistenciaTest extends TestCase
             $this->post('/login', ['identificador' => $actor->correo, 'password' => 'password'])->assertRedirect(route('inicio'));
             $cita = $this->createAppointment();
             $this->get($this->url($cita))->assertOk()->assertSee($cita->codigo)->assertSee('Confirmar cambio de estado');
-            $this->patch($this->url($cita), $this->payload($cita))->assertSessionHasNoErrors()->assertRedirect(route('citas.index'));
+            $this->patch($this->url($cita), $this->payload($cita))->assertSessionHasNoErrors()->assertRedirect(route('citas.gestion'));
             $this->assertSame('confirmada', $cita->fresh()->estado);
             $this->assertDatabaseHas('cambios_cita', ['cita_id' => $cita->id, 'usuario_id' => $actor->id, 'accion' => 'CAMBIAR_ESTADO']);
             $this->post('/logout');
@@ -53,7 +53,7 @@ class AsistenciaTest extends TestCase
         $this->get($this->url($other))->assertForbidden();
         $this->patch($this->url($other), $this->payload($other))->assertForbidden();
         $this->get($this->url($own))->assertOk();
-        $this->patch($this->url($own), $this->payload($own, ['estado' => 'completada']))->assertSessionHasNoErrors()->assertRedirect(route('citas.index'));
+        $this->patch($this->url($own), $this->payload($own, ['estado' => 'completada']))->assertSessionHasNoErrors()->assertRedirect(route('citas.gestion'));
         $this->assertSame('completada', $own->fresh()->estado);
         $this->assertSame('programada', $other->fresh()->estado);
         $this->assertDatabaseCount('cambios_cita', 1);
@@ -65,7 +65,7 @@ class AsistenciaTest extends TestCase
         foreach (['completada', 'inasistencia'] as $estado) {
             $cita = $this->createAppointment(['estado' => 'confirmada', 'inicio' => now()->subHour(), 'fin' => now()->subMinutes(30)]);
             $before = $cita->snapshot();
-            $this->patch($this->url($cita), $this->payload($cita, ['estado' => $estado, 'motivo' => 'Resultado verificado']))->assertSessionHasNoErrors()->assertRedirect(route('citas.index'));
+            $this->patch($this->url($cita), $this->payload($cita, ['estado' => $estado, 'motivo' => 'Resultado verificado']))->assertSessionHasNoErrors()->assertRedirect(route('citas.gestion'));
             $this->assertSame($estado, $cita->fresh()->estado);
             $audit = DB::table('cambios_cita')->where('cita_id', $cita->id)->sole();
             $this->assertSame($actor->id, $audit->usuario_id);

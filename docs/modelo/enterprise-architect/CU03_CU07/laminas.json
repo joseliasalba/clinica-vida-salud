@@ -1,0 +1,162 @@
+[
+  {
+    "caseId": "CU-03",
+    "kind": "casos",
+    "page": 1,
+    "width": 1370,
+    "height": 952,
+    "image": "diagramas/cu03-casos.png"
+  },
+  {
+    "caseId": "CU-03",
+    "kind": "comunicacion",
+    "page": 2,
+    "width": 1535,
+    "height": 654,
+    "image": "diagramas/cu03-comunicacion.png"
+  },
+  {
+    "caseId": "CU-03",
+    "kind": "secuencia",
+    "page": 3,
+    "width": 1724,
+    "height": 1149,
+    "image": "diagramas/cu03-secuencia.png"
+  },
+  {
+    "caseId": "CU-03",
+    "kind": "navegacion",
+    "page": 4,
+    "width": 1544,
+    "height": 1082,
+    "image": "diagramas/cu03-navegacion.png"
+  },
+  {
+    "caseId": "CU-04",
+    "kind": "casos",
+    "page": 5,
+    "width": 1370,
+    "height": 952,
+    "image": "diagramas/cu04-casos.png"
+  },
+  {
+    "caseId": "CU-04",
+    "kind": "comunicacion",
+    "page": 6,
+    "width": 1535,
+    "height": 654,
+    "image": "diagramas/cu04-comunicacion.png"
+  },
+  {
+    "caseId": "CU-04",
+    "kind": "secuencia",
+    "page": 7,
+    "width": 1467,
+    "height": 1292,
+    "image": "diagramas/cu04-secuencia.png"
+  },
+  {
+    "caseId": "CU-04",
+    "kind": "navegacion",
+    "page": 8,
+    "width": 1544,
+    "height": 1082,
+    "image": "diagramas/cu04-navegacion.png"
+  },
+  {
+    "caseId": "CU-05",
+    "kind": "casos",
+    "page": 9,
+    "width": 1370,
+    "height": 999,
+    "image": "diagramas/cu05-casos.png"
+  },
+  {
+    "caseId": "CU-05",
+    "kind": "comunicacion",
+    "page": 10,
+    "width": 1535,
+    "height": 654,
+    "image": "diagramas/cu05-comunicacion.png"
+  },
+  {
+    "caseId": "CU-05",
+    "kind": "secuencia",
+    "page": 11,
+    "width": 1467,
+    "height": 1472,
+    "image": "diagramas/cu05-secuencia.png"
+  },
+  {
+    "caseId": "CU-05",
+    "kind": "navegacion",
+    "page": 12,
+    "width": 1544,
+    "height": 1082,
+    "image": "diagramas/cu05-navegacion.png"
+  },
+  {
+    "caseId": "CU-06",
+    "kind": "casos",
+    "page": 13,
+    "width": 1370,
+    "height": 952,
+    "image": "diagramas/cu06-casos.png"
+  },
+  {
+    "caseId": "CU-06",
+    "kind": "comunicacion",
+    "page": 14,
+    "width": 1535,
+    "height": 654,
+    "image": "diagramas/cu06-comunicacion.png"
+  },
+  {
+    "caseId": "CU-06",
+    "kind": "secuencia",
+    "page": 15,
+    "width": 1467,
+    "height": 1328,
+    "image": "diagramas/cu06-secuencia.png"
+  },
+  {
+    "caseId": "CU-06",
+    "kind": "navegacion",
+    "page": 16,
+    "width": 1544,
+    "height": 1082,
+    "image": "diagramas/cu06-navegacion.png"
+  },
+  {
+    "caseId": "CU-07",
+    "kind": "casos",
+    "page": 17,
+    "width": 1370,
+    "height": 952,
+    "image": "diagramas/cu07-casos.png"
+  },
+  {
+    "caseId": "CU-07",
+    "kind": "comunicacion",
+    "page": 18,
+    "width": 1535,
+    "height": 654,
+    "image": "diagramas/cu07-comunicacion.png"
+  },
+  {
+    "caseId": "CU-07",
+    "kind": "secuencia",
+    "page": 19,
+    "width": 1724,
+    "height": 1399,
+    "image": "diagramas/cu07-secuencia.png"
+  },
+  {
+    "caseId": "CU-07",
+    "kind": "navegacion",
+    "page": 20,
+    "width": 1544,
+    "height": 1152,
+    "image": "diagramas/cu07-navegacion.png"
+  }
+]

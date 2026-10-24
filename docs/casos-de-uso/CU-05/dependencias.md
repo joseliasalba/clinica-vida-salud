@@ -1,4 +1,20 @@
-# CU-05 — Dependencias y trazabilidad de especialidades
+# CU-05 — Dependencias y trazabilidad de médicos y especialidades
+
+## Gestión de médicos
+
+| Capa | Archivo respecto a la raíz |
+| --- | --- |
+| Rutas | `sistema/backend/routes/medicos.php`, incluido desde `routes/web.php` |
+| Controlador | `sistema/backend/app/Http/Controllers/Medicos/MedicoController.php` |
+| Validaciones | `sistema/backend/app/Http/Requests/Medicos/SaveDoctorRequest.php` y `ChangeDoctorStateRequest.php` |
+| Servicio | `sistema/backend/app/Services/Medicos/DoctorManagement.php` |
+| Modelo y factory | `sistema/backend/app/Models/Medico.php`, `database/factories/MedicoFactory.php` |
+| Migración | `sistema/backend/database/migrations/2026_10_22_181554_add_normalized_registration_index_to_medicos_table.php` |
+| Pantallas | `sistema/frontend/views/medicos/{index,form,estado}.blade.php`, `views/layouts/medicos.blade.php` |
+| Navegación | `sistema/backend/config/navegacion.php`, inicio y pestañas de especialidades |
+| Pruebas | `sistema/backend/tests/Feature/Medicos/DoctorManagementTest.php`, `ResponsiveLayoutTest.php`, `SidebarNavigationTest.php` |
+
+Las tablas `medicos` y `medico_especialidad` ya existían. No se cambian los contratos de citas ni sus estados. El vínculo opcional con `usuarios` prepara CU-11; no implementa la consulta de agenda. CU-06 deberá administrar horarios y CU-07 comprobar que médico, especialidad y asignación sigan activos al reservar.
 
 ## Archivos del módulo
 

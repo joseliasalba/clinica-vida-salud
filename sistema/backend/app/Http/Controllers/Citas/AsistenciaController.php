@@ -36,6 +36,6 @@ class AsistenciaController extends Controller
         $cita = $service->changeState($request->user(), $cita->id, $request->validated());
         $labels = ['confirmada' => 'confirmada', 'completada' => 'atendida', 'inasistencia' => 'inasistencia'];
 
-        return redirect()->route('citas.index')->with('status', 'Cita registrada como '.$labels[$cita->estado].' correctamente.');
+        return redirect()->route('citas.gestion')->with('status', 'Cita registrada como '.$labels[$cita->estado].' correctamente.');
     }
 }

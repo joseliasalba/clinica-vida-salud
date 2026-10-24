@@ -55,3 +55,7 @@ Los scripts modifican únicamente este modelo generado y sus exportaciones. Cerr
 4. `node docs/modelo/enterprise-architect/generar-informe.mjs` crea el PDF desde las imágenes de EA. Requiere Node y PDFKit en `.tools/pdf-reader/node_modules`; instalar allí con `npm install --prefix .tools/pdf-reader pdfkit --no-save`.
 
 La plantilla `Model` vacía que EA incluye por defecto no contiene trabajo funcional. El modelo general de dominio en StarUML se mantiene separado y no fue sustituido.
+
+## CU-03 a CU-07
+
+Los cuatro tipos solicitados para estos cinco casos están en [CU03_CU07](CU03_CU07/README.md): casos de uso, comunicación, navegación y secuencia. Incluye un modelo editable independiente, 20 imágenes y un PDF de consulta. El modelo CU-01/CU-02 se conserva.

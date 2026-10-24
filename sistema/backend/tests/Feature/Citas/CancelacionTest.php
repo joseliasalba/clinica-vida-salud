@@ -45,7 +45,7 @@ class CancelacionTest extends TestCase
         $this->assertDatabaseMissing('cambios_cita', ['cita_id' => $cita->id]);
 
         $this->patch($this->url($cita), $this->data($cita, ['motivo' => '  Paciente   solicitó cancelar  ', 'estado' => 'completada', 'paciente_id' => 999999999]))
-            ->assertSessionHasNoErrors()->assertRedirect(route('citas.index'))->assertSessionHas('status');
+            ->assertSessionHasNoErrors()->assertRedirect(route('citas.gestion'))->assertSessionHas('status');
 
         $cita->refresh();
         $this->assertSame('cancelada', $cita->estado);
@@ -69,7 +69,7 @@ class CancelacionTest extends TestCase
         $this->post('/login', ['identificador' => $user->correo, 'password' => 'password'])->assertRedirect(route('inicio'));
         $cita = $this->createAppointment(['estado' => 'confirmada']);
         $this->get($this->url($cita))->assertOk();
-        $this->patch($this->url($cita), $this->data($cita))->assertSessionHasNoErrors()->assertRedirect(route('citas.index'));
+        $this->patch($this->url($cita), $this->data($cita))->assertSessionHasNoErrors()->assertRedirect(route('citas.gestion'));
         $this->assertSame('cancelada', $cita->fresh()->estado);
     }
 

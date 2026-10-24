@@ -1,4 +1,23 @@
-# CU-05 — Resultados y reproducción del submódulo de especialidades
+# CU-05 — Pruebas de médicos y especialidades
+
+## Validación de gestión de médicos — 22/10/2026
+
+Batería completa: **147 pruebas y 1793 aserciones aprobadas**. Incluye 23 pruebas de gestión de médicos y la extensión de navegación y listado adaptable. Formato Pint y compilación Vite correctos. La migración del índice normalizado de registro profesional se aplicó correctamente al entorno local.
+
+Desde `sistema/backend`, usando el PHP del proyecto y el esquema aislado `clinica_testing`:
+
+```powershell
+php artisan test tests/Feature/Medicos/DoctorManagementTest.php --compact
+php artisan test --compact
+```
+
+Cobertura: acceso de invitados y roles sin permiso; siete rutas y ausencia de DELETE; alta y generación de código; entradas inválidas y normalización; asignaciones múltiples y especialidades inactivas; índice único de PostgreSQL y rollback; edición con conservación de identidad; versiones desactualizadas, incluyendo cambios exclusivos en las asignaciones; cuenta opcional elegible, única y no creada implícitamente; cuenta con permiso expirado; conservación de cuenta, horarios y citas al desactivar; reactivación condicionada; búsqueda, filtros, comodines literales y paginación; escape HTML; revocación de permisos y CSRF. Los tests de interfaz verifican también el menú por roles y todas las columnas del listado médico con datos extensos.
+
+Se usan transacciones y datos de factory; no se cargó un equipo médico ficticio en el esquema de trabajo. Las colisiones se verifican con escrituras que omiten el Form Request; no se presenta como una prueba multiproceso de altas de médicos.
+
+Pendientes: revisión visual autenticada en 320–1440px y zoom 200%, recorrido de teclado, aceptación manual y diagramas de gestión de médicos. Se reinició localhost y se comprobó en el navegador integrado que `/medicos` dirige al login sin sesión. El recorrido autenticado de médicos queda pendiente; la validación HTTP local y las pruebas estructurales no acreditan geometría visual.
+
+## Resultados históricos de especialidades
 
 **Fecha:** 22/10/2026, Bolivia. **Resultado:** 14 pruebas del módulo aprobadas (196 comprobaciones); suite completa aprobada, 85 pruebas y 813 comprobaciones. Build de Vite y formato Pint completados.
 

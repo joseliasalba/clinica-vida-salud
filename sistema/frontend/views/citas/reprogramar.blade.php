@@ -1,4 +1,4 @@
-@extends('layouts.citas')
+@extends('layouts.gestion-citas')
 @section('title', 'Reprogramar cita')
 @section('citas-title', 'Reprogramar cita')
 @section('citas-description', 'Selecciona un nuevo turno disponible. El paciente y la especialidad se conservan.')
@@ -22,7 +22,7 @@
 @endif
 @if(!$eligible)
     <div class="notice" role="status">Solo se pueden reprogramar citas programadas o confirmadas.</div>
-    <a class="button secondary" href="{{ route('citas.index') }}">Volver a citas</a>
+    <a class="button secondary" href="{{ route('citas.gestion') }}">Volver a citas</a>
 @else
 <section class="admin-panel">
     <h2>Buscar un nuevo turno</h2>
@@ -74,7 +74,7 @@
         <p class="panel-description">La disponibilidad se vuelve a comprobar al confirmar. Si el turno se ocupa, la cita conserva su reserva anterior.</p>
     </section>
     <div class="admin-form-footer">
-        <a class="button secondary" href="{{ route('citas.index') }}">Volver a citas</a>
+        <a class="button secondary" href="{{ route('citas.gestion') }}">Volver a citas</a>
         <button class="button primary" type="submit" @disabled($turnos === [])>Confirmar reprogramación</button>
     </div>
 </form>
