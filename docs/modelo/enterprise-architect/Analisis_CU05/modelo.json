@@ -1,0 +1,227 @@
+{
+  "title": "Clínica Vida Salud - Análisis de clases CU-05",
+  "date": "24/10/2026",
+  "caseId": "CU-05",
+  "caseTitle": "Gestionar médicos y especialidades",
+  "permission": "Sesión vigente y permiso efectivo medicos.gestionar.",
+  "sources": [
+    "sistema/backend/app/Http/Controllers/Medicos/MedicoController.php",
+    "sistema/backend/app/Http/Controllers/Especialidades/EspecialidadController.php",
+    "sistema/backend/app/Services/Medicos/DoctorManagement.php",
+    "sistema/backend/app/Services/Especialidades/SpecialtyManagement.php",
+    "sistema/backend/app/Http/Requests/Medicos/SaveDoctorRequest.php",
+    "sistema/backend/app/Http/Requests/Especialidades/SaveSpecialtyRequest.php",
+    "sistema/backend/app/Models/Medico.php",
+    "sistema/backend/app/Models/Especialidad.php",
+    "sistema/backend/app/Models/User.php"
+  ],
+  "notes": "Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas.",
+  "nodes": [
+    {
+      "id": "actor",
+      "name": "Administrador autorizado",
+      "type": "Actor",
+      "attrs": [],
+      "ops": [],
+      "x": 40,
+      "y": 610,
+      "w": 110,
+      "h": 130
+    },
+    {
+      "id": "vista",
+      "name": "V.Médicos y especialidades",
+      "type": "Class",
+      "stereotype": "boundary",
+      "attrs": [],
+      "ops": [
+        "mostrarListados(): Vista",
+        "buscarYFiltrar(): Solicitud",
+        "mostrarFormularioMedico(): Vista",
+        "mostrarFormularioEspecialidad(): Vista",
+        "seleccionarCuentaExistente(): Solicitud",
+        "confirmarCambioEstado(): Solicitud",
+        "enviarDatos(): Solicitud"
+      ],
+      "x": 225,
+      "y": 500,
+      "w": 345,
+      "h": 330
+    },
+    {
+      "id": "control",
+      "name": "C.Gestión de médicos y especialidades",
+      "type": "Class",
+      "stereotype": "control",
+      "attrs": [],
+      "ops": [
+        "autorizarGestion(): void",
+        "consultarCatalogos(): Coleccion",
+        "validarDatosYUnicidad(): void",
+        "guardarMedico(): Medico",
+        "guardarEspecialidad(): Especialidad",
+        "mantenerAsignaciones(): void",
+        "validarCuentaElegible(): bool",
+        "comprobarVersion(): void",
+        "cambiarEstado(): void"
+      ],
+      "x": 665,
+      "y": 460,
+      "w": 390,
+      "h": 410
+    },
+    {
+      "id": "medico",
+      "name": "E.Médico",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "codigo: string",
+        "registro_profesional: string",
+        "nombres: string",
+        "apellidos: string",
+        "telefono: string",
+        "correo: string",
+        "activo: bool"
+      ],
+      "ops": [
+        "identificarProfesional(): string",
+        "obtenerVersionEdicion(): string"
+      ],
+      "x": 1200,
+      "y": 50,
+      "w": 440,
+      "h": 320
+    },
+    {
+      "id": "especialidad",
+      "name": "E.Especialidad",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "nombre: string",
+        "nombre_normalizado: string",
+        "descripcion: string?",
+        "activo: bool"
+      ],
+      "ops": [
+        "normalizarNombre(): string",
+        "obtenerVersionEdicion(): string"
+      ],
+      "x": 1200,
+      "y": 440,
+      "w": 440,
+      "h": 240
+    },
+    {
+      "id": "asignacion",
+      "name": "E.Asignación de especialidad",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "medico: Medico",
+        "especialidad: Especialidad",
+        "activo: bool"
+      ],
+      "ops": [
+        "habilitarAsignacion(): void",
+        "retirarSinBorrar(): void"
+      ],
+      "x": 1200,
+      "y": 750,
+      "w": 440,
+      "h": 220
+    },
+    {
+      "id": "cuenta",
+      "name": "E.Cuenta de usuario",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "nombre_usuario: string",
+        "correo: string",
+        "activo: bool"
+      ],
+      "ops": [
+        "comprobarPermisoAgenda(): bool",
+        "identificarCuenta(): bigint"
+      ],
+      "x": 1200,
+      "y": 1050,
+      "w": 440,
+      "h": 240
+    }
+  ],
+  "edges": [
+    {
+      "from": "actor",
+      "to": "vista",
+      "label": "interactúa",
+      "type": "Association"
+    },
+    {
+      "from": "vista",
+      "to": "control",
+      "label": "solicita",
+      "type": "Association"
+    },
+    {
+      "from": "control",
+      "to": "medico",
+      "label": "",
+      "type": "Association",
+      "path": "1110:-665;1110:-210;"
+    },
+    {
+      "from": "control",
+      "to": "especialidad",
+      "label": "",
+      "type": "Association",
+      "path": "1110:-665;1110:-560;"
+    },
+    {
+      "from": "control",
+      "to": "asignacion",
+      "label": "",
+      "type": "Association",
+      "path": "1110:-665;1110:-860;"
+    },
+    {
+      "from": "control",
+      "to": "cuenta",
+      "label": "",
+      "type": "Association",
+      "path": "1110:-665;1110:-1170;"
+    },
+    {
+      "from": "medico",
+      "to": "asignacion",
+      "label": "",
+      "type": "Association",
+      "fromCardinality": "1",
+      "toCardinality": "0..*",
+      "path": "1750:-210;1750:-820;"
+    },
+    {
+      "from": "especialidad",
+      "to": "asignacion",
+      "label": "",
+      "type": "Association",
+      "fromCardinality": "1",
+      "toCardinality": "0..*",
+      "path": "1700:-560;1700:-900;"
+    },
+    {
+      "from": "medico",
+      "to": "cuenta",
+      "label": "",
+      "type": "Association",
+      "fromCardinality": "0..1",
+      "toCardinality": "0..1",
+      "path": "1820:-260;1820:-1170;"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+﻿{
+    "errors":  [
+
+               ],
+    "domainPackages":  8,
+    "useCases":  18,
+    "diagrams":  [
+                     {
+                         "elements":  6,
+                         "links":  0,
+                         "id":  "01-lista-actores",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  14,
+                         "links":  14,
+                         "id":  "02-estructura-acceso-catalogos",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  11,
+                         "links":  14,
+                         "id":  "03-estructura-citas-agenda",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  10,
+                         "links":  7,
+                         "id":  "04-estructura-evolucion",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  8,
+                         "links":  0,
+                         "id":  "05-identificar-paquetes",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  4,
+                         "links":  3,
+                         "id":  "06-relacion-seguridad",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  10,
+                         "links":  8,
+                         "id":  "14-vista-seguridad",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  4,
+                         "links":  3,
+                         "id":  "07-relacion-pacientes",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  9,
+                         "links":  5,
+                         "id":  "15-vista-pacientes",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  2,
+                         "links":  1,
+                         "id":  "08-relacion-medicos",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  3,
+                         "links":  1,
+                         "id":  "16-vista-medicos",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  2,
+                         "links":  1,
+                         "id":  "09-relacion-horarios",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  3,
+                         "links":  1,
+                         "id":  "17-vista-horarios",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  7,
+                         "links":  6,
+                         "id":  "10-relacion-citas",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  11,
+                         "links":  14,
+                         "id":  "18-vista-citas",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  2,
+                         "links":  1,
+                         "id":  "11-relacion-reportes",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  3,
+                         "links":  1,
+                         "id":  "19-vista-reportes",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  3,
+                         "links":  2,
+                         "id":  "12-relacion-atencion",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  5,
+                         "links":  3,
+                         "id":  "20-vista-atencion",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  2,
+                         "links":  1,
+                         "id":  "13-relacion-preferencias",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  4,
+                         "links":  2,
+                         "id":  "21-vista-preferencias",
+                         "notes":  0
+                     },
+                     {
+                         "elements":  8,
+                         "links":  17,
+                         "id":  "22-dependencias-paquetes",
+                         "notes":  0
+                     }
+                 ],
+    "visibleNotes":  0,
+    "actors":  6,
+    "date":  "24/10/2026",
+    "modelReopened":  true
+}

@@ -1,0 +1,50 @@
+{
+  "activities": 7,
+  "actors": 4,
+  "diagrams": 8,
+  "elements": 164,
+  "results": [
+    {
+      "case": "CU-01",
+      "nodes": 23,
+      "flows": 25,
+      "status": "passed"
+    },
+    {
+      "case": "CU-02",
+      "nodes": 25,
+      "flows": 26,
+      "status": "passed"
+    },
+    {
+      "case": "CU-03",
+      "nodes": 20,
+      "flows": 23,
+      "status": "passed"
+    },
+    {
+      "case": "CU-04",
+      "nodes": 18,
+      "flows": 19,
+      "status": "passed"
+    },
+    {
+      "case": "CU-05",
+      "nodes": 18,
+      "flows": 19,
+      "status": "passed"
+    },
+    {
+      "case": "CU-06",
+      "nodes": 20,
+      "flows": 22,
+      "status": "passed"
+    },
+    {
+      "case": "CU-07",
+      "nodes": 25,
+      "flows": 28,
+      "status": "passed"
+    }
+  ]
+}

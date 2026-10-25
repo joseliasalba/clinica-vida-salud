@@ -1,0 +1,805 @@
+{
+  "title": "Clínica Vida Salud - Clases de análisis CU-03 CU-04 CU-06 CU-07",
+  "version": 1,
+  "date": "2026-10-24",
+  "cases": [
+    {
+      "id": "CU-03",
+      "title": "Registrarse como paciente",
+      "permission": "Registro público; verificar correo exige sesión de la misma cuenta y enlace firmado vigente.",
+      "rules": "Realización: RegistrationController + PatientSelfRegistration y VerificationController. Cuenta y ficha se crean en una transacción, sin vincular fichas previas por coincidencia. Asignación de rol es un concepto persistido con Query Builder, no un modelo Eloquent adicional. El correo se solicita tras COMMIT; un fallo no elimina la cuenta. El registro no reserva citas.",
+      "sources": [
+        "docs/casos-de-uso/CU-03/especificacion.md",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php",
+        "sistema/backend/app/Http/Controllers/Pacientes/RegistrationController.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php"
+      ]
+    },
+    {
+      "id": "CU-04",
+      "title": "Registrar y gestionar pacientes en recepción",
+      "permission": "Sesión vigente y permiso efectivo pacientes.gestionar.",
+      "rules": "Realización: PacienteController + PatientRegistration; entidad: Paciente. La versión de edición es un HMAC calculado, no otra columna. Alta y edición son transaccionales; edición bloquea ficha y comprueba versión. CI normalizado único incluso entre inactivos. Cambiar estado conserva código, cuenta e historial. No hay borrado físico ni creación de historia clínica.",
+      "sources": [
+        "docs/casos-de-uso/CU-04/especificacion.md",
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php",
+        "sistema/backend/app/Models/Paciente.php"
+      ]
+    },
+    {
+      "id": "CU-06",
+      "title": "Configurar horarios de atención y bloqueos",
+      "permission": "Sesión vigente y permiso efectivo horarios.gestionar.",
+      "rules": "Realización: HorarioController e IndisponibilidadController + ScheduleManagement. Médico, HorarioAtencion, IndisponibilidadMedico y CitaMedica son entidades existentes. Franja, vigencia y periodo resumen sus campos temporales; no son columnas nuevas. Las operaciones expresan responsabilidades de análisis, realizadas también por servicios. Bloquear primero médico; validar versión, cruces y cobertura de citas. CU-06 no cancela ni reprograma.",
+      "sources": [
+        "sistema/backend/app/Http/Controllers/Horarios/HorarioController.php",
+        "sistema/backend/app/Http/Controllers/Horarios/IndisponibilidadController.php",
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php",
+        "sistema/backend/app/Models/HorarioAtencion.php",
+        "sistema/backend/app/Models/IndisponibilidadMedico.php"
+      ]
+    },
+    {
+      "id": "CU-07",
+      "title": "Consultar disponibilidad y reservar cita",
+      "permission": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.",
+      "rules": "Realización del control: CitaController + AppointmentAvailability + AppointmentBooking. Agenda médica agrupa Medico, Especialidad, HorarioAtencion, IndisponibilidadMedico y citas: concepto de análisis, no un modelo Eloquent nuevo. Registro de cambio representa cambios_cita (Query Builder). Revisar no aparta turno. Token cifrado ligado al actor, 30 min; reserva bloquea médico y paciente, revalida y guarda cita programada + auditoría de forma atómica. Reintento devuelve la misma cita. Comprobante solo para titular o gestor.",
+      "sources": [
+        "sistema/backend/app/Http/Controllers/Citas/CitaController.php",
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php",
+        "sistema/backend/app/Models/CitaMedica.php"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "cu03-actor",
+      "name": "Visitante / Paciente",
+      "type": "Actor"
+    },
+    {
+      "id": "cu03-vista",
+      "name": "V.Registro y verificación",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "mostrarRegistro(): Vista",
+        "enviarDatos(): Solicitud",
+        "mostrarAvisoCorreo(): Vista",
+        "solicitarReenvio(): Solicitud",
+        "abrirEnlaceFirmado(): Solicitud"
+      ]
+    },
+    {
+      "id": "cu03-control",
+      "name": "C.Autorregistro de paciente",
+      "type": "Class",
+      "stereotype": "control",
+      "ops": [
+        "validarDatos(): Resultado",
+        "registrarCuentaYFicha(): Cuenta",
+        "asignarRolPaciente(): void",
+        "solicitarCorreoTrasCommit(): void",
+        "verificarCorreoPropio(): void",
+        "limitarReenvio(): void"
+      ]
+    },
+    {
+      "id": "cu03-entidad-0",
+      "name": "E.Cuenta",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "nombre_usuario: string",
+        "correo: string",
+        "email_verified_at: datetime?",
+        "activo: bool"
+      ],
+      "ops": [
+        "verificarCorreo(): void",
+        "comprobarIdentidad(): bool"
+      ]
+    },
+    {
+      "id": "cu03-entidad-1",
+      "name": "E.Paciente",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "codigo: string",
+        "usuario_id: bigint?",
+        "ci: string?",
+        "activo: bool"
+      ],
+      "ops": [
+        "identificarFicha(): string",
+        "vincularCuentaNueva(): void"
+      ]
+    },
+    {
+      "id": "cu03-entidad-2",
+      "name": "E.Asignación de rol",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "usuario_id: bigint",
+        "rol_id: bigint",
+        "activo: bool",
+        "fecha_asignacion: datetime"
+      ],
+      "ops": [
+        "asignarRolPacienteActivo(): void"
+      ]
+    },
+    {
+      "id": "cu03-nota",
+      "name": "Realización: RegistrationController + PatientSelfRegistration y VerificationController. Cuenta y ficha se crean en una transacción, sin vincular fichas previas por coincidencia. Asignación de rol es un concepto persistido con Query Builder, no un modelo Eloquent adicional. El correo se solicita tras COMMIT; un fallo no elimina la cuenta. El registro no reserva citas.",
+      "type": "Note"
+    },
+    {
+      "id": "cu04-actor",
+      "name": "Recepción / Gestor autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu04-vista",
+      "name": "V.Fichas de pacientes",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "mostrarListado(): Vista",
+        "buscarYFiltrar(): Solicitud",
+        "mostrarFicha(): Vista",
+        "mostrarFormulario(): Vista",
+        "enviarAltaOEdicion(): Solicitud"
+      ]
+    },
+    {
+      "id": "cu04-control",
+      "name": "C.Gestión de pacientes",
+      "type": "Class",
+      "stereotype": "control",
+      "ops": [
+        "autorizarGestion(): void",
+        "consultarFichas(): Coleccion",
+        "validarDatosYCI(): void",
+        "guardarFicha(): Paciente",
+        "comprobarVersion(): void",
+        "cambiarEstadoEnEdicion(): void"
+      ]
+    },
+    {
+      "id": "cu04-entidad-0",
+      "name": "E.Paciente",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "codigo: string",
+        "ci: string?",
+        "nombres: string",
+        "apellidos: string",
+        "activo: bool"
+      ],
+      "ops": [
+        "identificarFicha(): string",
+        "obtenerVersionEdicion(): string",
+        "actualizarDatosAdministrativos(): void"
+      ]
+    },
+    {
+      "id": "cu04-nota",
+      "name": "Realización: PacienteController + PatientRegistration; entidad: Paciente. La versión de edición es un HMAC calculado, no otra columna. Alta y edición son transaccionales; edición bloquea ficha y comprueba versión. CI normalizado único incluso entre inactivos. Cambiar estado conserva código, cuenta e historial. No hay borrado físico ni creación de historia clínica.",
+      "type": "Note"
+    },
+    {
+      "id": "cu06-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu06-vista",
+      "name": "V.Horarios y bloqueos",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "mostrarHorarios(): Vista",
+        "mostrarBloqueos(): Vista",
+        "mostrarFormulario(): Vista",
+        "enviarAltaOEdicion(): Solicitud",
+        "confirmarEstado(): Solicitud"
+      ]
+    },
+    {
+      "id": "cu06-control",
+      "name": "C.Configuración de agenda",
+      "type": "Class",
+      "stereotype": "control",
+      "ops": [
+        "autorizarGestion(): void",
+        "guardarHorario(): Horario",
+        "guardarBloqueo(): Bloqueo",
+        "validarVersionYCruces(): void",
+        "protegerCitasPendientes(): void",
+        "cambiarEstado(): void"
+      ]
+    },
+    {
+      "id": "cu06-entidad-0",
+      "name": "E.Médico",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "codigo: string",
+        "activo: bool"
+      ],
+      "ops": [
+        "identificarProfesional(): string"
+      ]
+    },
+    {
+      "id": "cu06-entidad-1",
+      "name": "E.Horario de atención",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "medico_id: bigint",
+        "dia_semana: int",
+        "franja: intervalo",
+        "vigencia: intervalo",
+        "duracion_turno: minutos",
+        "activo: bool"
+      ],
+      "ops": [
+        "obtenerVersion(): string",
+        "delimitarTurnosCompletos(): Coleccion"
+      ]
+    },
+    {
+      "id": "cu06-entidad-2",
+      "name": "E.Bloqueo de agenda",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "medico_id: bigint",
+        "periodo: intervalo",
+        "motivo: string",
+        "activo: bool"
+      ],
+      "ops": [
+        "obtenerVersion(): string",
+        "delimitarIndisponibilidad(): Intervalo"
+      ]
+    },
+    {
+      "id": "cu06-entidad-3",
+      "name": "E.Cita médica",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "medico_id: bigint",
+        "paciente_id: bigint",
+        "periodo: intervalo",
+        "estado: string"
+      ],
+      "ops": [
+        "identificarOcupacionPendiente(): Intervalo"
+      ]
+    },
+    {
+      "id": "cu06-nota",
+      "name": "Realización: HorarioController e IndisponibilidadController + ScheduleManagement. Médico, HorarioAtencion, IndisponibilidadMedico y CitaMedica son entidades existentes. Franja, vigencia y periodo resumen sus campos temporales; no son columnas nuevas. Las operaciones expresan responsabilidades de análisis, realizadas también por servicios. Bloquear primero médico; validar versión, cruces y cobertura de citas. CU-06 no cancela ni reprograma.",
+      "type": "Note"
+    },
+    {
+      "id": "cu07-actor",
+      "name": "Paciente / Recepción autorizada",
+      "type": "Actor"
+    },
+    {
+      "id": "cu07-vista",
+      "name": "V.Disponibilidad y reserva",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "mostrarFiltros(): Vista",
+        "consultarTurnos(): Solicitud",
+        "mostrarRevision(): Vista",
+        "confirmarReserva(): Solicitud",
+        "mostrarComprobante(): Vista"
+      ]
+    },
+    {
+      "id": "cu07-control",
+      "name": "C.Consulta y reserva de citas",
+      "type": "Class",
+      "stereotype": "control",
+      "ops": [
+        "resolverPacienteAutorizado(): Paciente",
+        "consultarDisponibilidad(): Coleccion",
+        "revisarTurnoSinRetener(): Revision",
+        "emitirTokenCifrado(): string",
+        "reservarIdempotente(): Cita",
+        "autorizarComprobante(): void"
+      ]
+    },
+    {
+      "id": "cu07-entidad-0",
+      "name": "E.Paciente",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "id: bigint",
+        "usuario_id: bigint?",
+        "activo: bool"
+      ],
+      "ops": [
+        "identificarTitular(): bigint",
+        "comprobarFichaActiva(): bool"
+      ]
+    },
+    {
+      "id": "cu07-entidad-1",
+      "name": "E.Agenda médica",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "medico: Medico",
+        "especialidades: Coleccion",
+        "horarios: Coleccion",
+        "bloqueos: Coleccion",
+        "citas: Coleccion"
+      ],
+      "ops": [
+        "delimitarTurnosDisponibles(): Coleccion",
+        "excluirCruces(): Coleccion"
+      ]
+    },
+    {
+      "id": "cu07-entidad-2",
+      "name": "E.Cita médica",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "codigo: string",
+        "paciente_id: bigint",
+        "medico_id: bigint",
+        "horario_id: bigint",
+        "periodo: intervalo",
+        "estado: string"
+      ],
+      "ops": [
+        "identificarReserva(): string",
+        "recuperarReintento(): Cita"
+      ]
+    },
+    {
+      "id": "cu07-entidad-3",
+      "name": "E.Registro de cambio de cita",
+      "type": "Class",
+      "stereotype": "entity",
+      "attrs": [
+        "cita_id: bigint",
+        "actor: Usuario",
+        "accion: string",
+        "fecha: datetime"
+      ],
+      "ops": [
+        "registrarAltaConfirmada(): void"
+      ]
+    },
+    {
+      "id": "cu07-nota",
+      "name": "Realización del control: CitaController + AppointmentAvailability + AppointmentBooking. Agenda médica agrupa Medico, Especialidad, HorarioAtencion, IndisponibilidadMedico y citas: concepto de análisis, no un modelo Eloquent nuevo. Registro de cambio representa cambios_cita (Query Builder). Revisar no aparta turno. Token cifrado ligado al actor, 30 min; reserva bloquea médico y paciente, revalida y guarda cita programada + auditoría de forma atómica. Reintento devuelve la misma cita. Comprobante solo para titular o gestor.",
+      "type": "Note"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "cu03-clases-analisis",
+      "caseId": "CU-03",
+      "caseTitle": "Registrarse como paciente",
+      "title": "Diagrama de clases de análisis",
+      "type": "Logical",
+      "kind": "clases-analisis",
+      "referencePage": 6,
+      "permission": "Registro público; verificar correo exige sesión de la misma cuenta y enlace firmado vigente.",
+      "note": "Realización: RegistrationController + PatientSelfRegistration y VerificationController. Cuenta y ficha se crean en una transacción, sin vincular fichas previas por coincidencia. Asignación de rol es un concepto persistido con Query Builder, no un modelo Eloquent adicional. El correo se solicita tras COMMIT; un fallo no elimina la cuenta. El registro no reserva citas.",
+      "sources": [
+        "docs/casos-de-uso/CU-03/especificacion.md",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php",
+        "sistema/backend/app/Http/Controllers/Pacientes/RegistrationController.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu03-actor",
+          "x": 20,
+          "y": 317,
+          "w": 95,
+          "h": 130
+        },
+        {
+          "ref": "cu03-vista",
+          "x": 190,
+          "y": 227,
+          "w": 300,
+          "h": 280
+        },
+        {
+          "ref": "cu03-control",
+          "x": 580,
+          "y": 207,
+          "w": 330,
+          "h": 320
+        },
+        {
+          "ref": "cu03-entidad-0",
+          "x": 1010,
+          "y": 40,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu03-entidad-1",
+          "x": 1010,
+          "y": 285,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu03-entidad-2",
+          "x": 1010,
+          "y": 530,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu03-nota",
+          "x": 190,
+          "y": 835,
+          "w": 1200,
+          "h": 170
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu03-actor",
+          "to": "cu03-vista",
+          "label": "interactúa",
+          "type": "Association"
+        },
+        {
+          "from": "cu03-vista",
+          "to": "cu03-control",
+          "label": "solicita",
+          "type": "Association"
+        },
+        {
+          "from": "cu03-control",
+          "to": "cu03-entidad-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu03-control",
+          "to": "cu03-entidad-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu03-control",
+          "to": "cu03-entidad-2",
+          "label": "",
+          "type": "Association"
+        }
+      ]
+    },
+    {
+      "id": "cu04-clases-analisis",
+      "caseId": "CU-04",
+      "caseTitle": "Registrar y gestionar pacientes en recepción",
+      "title": "Diagrama de clases de análisis",
+      "type": "Logical",
+      "kind": "clases-analisis",
+      "referencePage": 6,
+      "permission": "Sesión vigente y permiso efectivo pacientes.gestionar.",
+      "note": "Realización: PacienteController + PatientRegistration; entidad: Paciente. La versión de edición es un HMAC calculado, no otra columna. Alta y edición son transaccionales; edición bloquea ficha y comprueba versión. CI normalizado único incluso entre inactivos. Cambiar estado conserva código, cuenta e historial. No hay borrado físico ni creación de historia clínica.",
+      "sources": [
+        "docs/casos-de-uso/CU-04/especificacion.md",
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php",
+        "sistema/backend/app/Models/Paciente.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu04-actor",
+          "x": 20,
+          "y": 170,
+          "w": 95,
+          "h": 130
+        },
+        {
+          "ref": "cu04-vista",
+          "x": 190,
+          "y": 80,
+          "w": 300,
+          "h": 280
+        },
+        {
+          "ref": "cu04-control",
+          "x": 580,
+          "y": 60,
+          "w": 330,
+          "h": 320
+        },
+        {
+          "ref": "cu04-entidad-0",
+          "x": 1010,
+          "y": 40,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu04-nota",
+          "x": 190,
+          "y": 500,
+          "w": 1200,
+          "h": 170
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu04-actor",
+          "to": "cu04-vista",
+          "label": "interactúa",
+          "type": "Association"
+        },
+        {
+          "from": "cu04-vista",
+          "to": "cu04-control",
+          "label": "solicita",
+          "type": "Association"
+        },
+        {
+          "from": "cu04-control",
+          "to": "cu04-entidad-0",
+          "label": "",
+          "type": "Association"
+        }
+      ]
+    },
+    {
+      "id": "cu06-clases-analisis",
+      "caseId": "CU-06",
+      "caseTitle": "Configurar horarios de atención y bloqueos",
+      "title": "Diagrama de clases de análisis",
+      "type": "Logical",
+      "kind": "clases-analisis",
+      "referencePage": 6,
+      "permission": "Sesión vigente y permiso efectivo horarios.gestionar.",
+      "note": "Realización: HorarioController e IndisponibilidadController + ScheduleManagement. Médico, HorarioAtencion, IndisponibilidadMedico y CitaMedica son entidades existentes. Franja, vigencia y periodo resumen sus campos temporales; no son columnas nuevas. Las operaciones expresan responsabilidades de análisis, realizadas también por servicios. Bloquear primero médico; validar versión, cruces y cobertura de citas. CU-06 no cancela ni reprograma.",
+      "sources": [
+        "sistema/backend/app/Http/Controllers/Horarios/HorarioController.php",
+        "sistema/backend/app/Http/Controllers/Horarios/IndisponibilidadController.php",
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php",
+        "sistema/backend/app/Models/HorarioAtencion.php",
+        "sistema/backend/app/Models/IndisponibilidadMedico.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu06-actor",
+          "x": 20,
+          "y": 440,
+          "w": 95,
+          "h": 130
+        },
+        {
+          "ref": "cu06-vista",
+          "x": 190,
+          "y": 350,
+          "w": 300,
+          "h": 280
+        },
+        {
+          "ref": "cu06-control",
+          "x": 580,
+          "y": 330,
+          "w": 330,
+          "h": 320
+        },
+        {
+          "ref": "cu06-entidad-0",
+          "x": 1010,
+          "y": 40,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu06-entidad-1",
+          "x": 1010,
+          "y": 285,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu06-entidad-2",
+          "x": 1010,
+          "y": 530,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu06-entidad-3",
+          "x": 1010,
+          "y": 775,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu06-nota",
+          "x": 190,
+          "y": 1080,
+          "w": 1200,
+          "h": 170
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu06-actor",
+          "to": "cu06-vista",
+          "label": "interactúa",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-vista",
+          "to": "cu06-control",
+          "label": "solicita",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-control",
+          "to": "cu06-entidad-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-control",
+          "to": "cu06-entidad-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-control",
+          "to": "cu06-entidad-2",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu06-control",
+          "to": "cu06-entidad-3",
+          "label": "",
+          "type": "Association"
+        }
+      ]
+    },
+    {
+      "id": "cu07-clases-analisis",
+      "caseId": "CU-07",
+      "caseTitle": "Consultar disponibilidad y reservar cita",
+      "title": "Diagrama de clases de análisis",
+      "type": "Logical",
+      "kind": "clases-analisis",
+      "referencePage": 6,
+      "permission": "citas.propias: ficha propia activa y correo verificado. citas.gestionar: paciente activo seleccionado.",
+      "note": "Realización del control: CitaController + AppointmentAvailability + AppointmentBooking. Agenda médica agrupa Medico, Especialidad, HorarioAtencion, IndisponibilidadMedico y citas: concepto de análisis, no un modelo Eloquent nuevo. Registro de cambio representa cambios_cita (Query Builder). Revisar no aparta turno. Token cifrado ligado al actor, 30 min; reserva bloquea médico y paciente, revalida y guarda cita programada + auditoría de forma atómica. Reintento devuelve la misma cita. Comprobante solo para titular o gestor.",
+      "sources": [
+        "sistema/backend/app/Http/Controllers/Citas/CitaController.php",
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php",
+        "sistema/backend/app/Models/CitaMedica.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu07-actor",
+          "x": 20,
+          "y": 440,
+          "w": 95,
+          "h": 130
+        },
+        {
+          "ref": "cu07-vista",
+          "x": 190,
+          "y": 350,
+          "w": 300,
+          "h": 280
+        },
+        {
+          "ref": "cu07-control",
+          "x": 580,
+          "y": 330,
+          "w": 330,
+          "h": 320
+        },
+        {
+          "ref": "cu07-entidad-0",
+          "x": 1010,
+          "y": 40,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu07-entidad-1",
+          "x": 1010,
+          "y": 285,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu07-entidad-2",
+          "x": 1010,
+          "y": 530,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu07-entidad-3",
+          "x": 1010,
+          "y": 775,
+          "w": 380,
+          "h": 205
+        },
+        {
+          "ref": "cu07-nota",
+          "x": 190,
+          "y": 1080,
+          "w": 1200,
+          "h": 170
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu07-actor",
+          "to": "cu07-vista",
+          "label": "interactúa",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-vista",
+          "to": "cu07-control",
+          "label": "solicita",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-control",
+          "to": "cu07-entidad-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-control",
+          "to": "cu07-entidad-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-control",
+          "to": "cu07-entidad-2",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu07-control",
+          "to": "cu07-entidad-3",
+          "label": "",
+          "type": "Association"
+        }
+      ]
+    }
+  ]
+}

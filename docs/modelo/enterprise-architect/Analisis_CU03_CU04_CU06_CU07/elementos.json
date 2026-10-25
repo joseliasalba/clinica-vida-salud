@@ -1,0 +1,142 @@
+﻿[
+    {
+        "guid":  "{F1F4B00E-F2DA-471f-8D35-B03B60CCBCF4}",
+        "id":  "cu03-actor",
+        "elementId":  5
+    },
+    {
+        "guid":  "{65F0ACF8-0B3F-4eb5-8D7C-B8DF27F5C3FF}",
+        "id":  "cu03-vista",
+        "elementId":  6
+    },
+    {
+        "guid":  "{912A7C33-1C28-49a2-AD8A-9074A9BB7323}",
+        "id":  "cu03-control",
+        "elementId":  7
+    },
+    {
+        "guid":  "{3F2D186F-6B72-4c27-A3BB-B0418849D2D2}",
+        "id":  "cu03-entidad-0",
+        "elementId":  8
+    },
+    {
+        "guid":  "{09963907-009A-4c45-B3BD-46AA215B9A5A}",
+        "id":  "cu03-entidad-1",
+        "elementId":  9
+    },
+    {
+        "guid":  "{ADA79765-4CC2-4721-A09D-50B7104913A7}",
+        "id":  "cu03-entidad-2",
+        "elementId":  10
+    },
+    {
+        "guid":  "{D6A3CD7D-7443-4e16-BA6D-6766967D95CD}",
+        "id":  "cu03-nota",
+        "elementId":  11
+    },
+    {
+        "guid":  "{13AE7020-03BD-4374-A75E-6525C3705888}",
+        "id":  "cu04-actor",
+        "elementId":  12
+    },
+    {
+        "guid":  "{85B2D31C-A885-46a1-B08C-C8246466B40A}",
+        "id":  "cu04-vista",
+        "elementId":  13
+    },
+    {
+        "guid":  "{58A5F671-3B49-4d4a-A53A-5F3B830FB04A}",
+        "id":  "cu04-control",
+        "elementId":  14
+    },
+    {
+        "guid":  "{7D14AB5B-F49B-402c-B995-9F420B40F3C2}",
+        "id":  "cu04-entidad-0",
+        "elementId":  15
+    },
+    {
+        "guid":  "{07D84087-E236-471d-AD38-D434A8D020D3}",
+        "id":  "cu04-nota",
+        "elementId":  16
+    },
+    {
+        "guid":  "{298838C8-EEAE-4515-9679-ECC184A80227}",
+        "id":  "cu06-actor",
+        "elementId":  17
+    },
+    {
+        "guid":  "{DEDF05DD-5295-491c-8B80-8D8EB6378D0B}",
+        "id":  "cu06-vista",
+        "elementId":  18
+    },
+    {
+        "guid":  "{8AAEF904-A529-4063-A1DE-093C5AF5C7E3}",
+        "id":  "cu06-control",
+        "elementId":  19
+    },
+    {
+        "guid":  "{8837698E-9F41-48ae-821F-A36F2007EEB6}",
+        "id":  "cu06-entidad-0",
+        "elementId":  20
+    },
+    {
+        "guid":  "{94947B22-D4B9-41be-BEBE-34655C05F437}",
+        "id":  "cu06-entidad-1",
+        "elementId":  21
+    },
+    {
+        "guid":  "{399E5A78-F209-4dd2-8381-24D462B6B350}",
+        "id":  "cu06-entidad-2",
+        "elementId":  22
+    },
+    {
+        "guid":  "{A58171DB-E2EE-4880-8793-AC120135128F}",
+        "id":  "cu06-entidad-3",
+        "elementId":  23
+    },
+    {
+        "guid":  "{C620E8B2-A577-4463-A2BC-9EFFBE0A2823}",
+        "id":  "cu06-nota",
+        "elementId":  24
+    },
+    {
+        "guid":  "{5CA2063D-F23D-45c9-8754-975BECAA1E11}",
+        "id":  "cu07-actor",
+        "elementId":  25
+    },
+    {
+        "guid":  "{1C11959C-A1BA-46c5-9118-9366D46398B0}",
+        "id":  "cu07-vista",
+        "elementId":  26
+    },
+    {
+        "guid":  "{B2A32275-7FAF-43cd-AC2A-2A61BC3823CD}",
+        "id":  "cu07-control",
+        "elementId":  27
+    },
+    {
+        "guid":  "{CAE6B76E-83E7-4623-817C-E84949A02249}",
+        "id":  "cu07-entidad-0",
+        "elementId":  28
+    },
+    {
+        "guid":  "{768A9056-D9E0-409c-9012-159D688C23EC}",
+        "id":  "cu07-entidad-1",
+        "elementId":  29
+    },
+    {
+        "guid":  "{9AF00763-5AE1-4b2c-9741-2B73F12464B1}",
+        "id":  "cu07-entidad-2",
+        "elementId":  30
+    },
+    {
+        "guid":  "{66AA463B-B2E7-4af2-87B2-19DE6CEB389C}",
+        "id":  "cu07-entidad-3",
+        "elementId":  31
+    },
+    {
+        "guid":  "{8D8DD2B5-3CC4-4d03-882C-93D8D26FF414}",
+        "id":  "cu07-nota",
+        "elementId":  32
+    }
+]

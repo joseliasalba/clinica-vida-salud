@@ -1,0 +1,822 @@
+﻿[
+    {
+        "guid":  "{A43CFFAC-271B-4e57-BACB-784B9A0FC6BA}",
+        "id":  "cu01-inicio",
+        "elementId":  9
+    },
+    {
+        "guid":  "{630C4587-4A54-45c0-8A09-342372528053}",
+        "id":  "cu01-form",
+        "elementId":  10
+    },
+    {
+        "guid":  "{7B001D20-FD5B-4892-ACB5-00C34C27D985}",
+        "id":  "cu01-input",
+        "elementId":  11
+    },
+    {
+        "guid":  "{A18F91D5-E5EF-4629-8E58-F5D49E717B90}",
+        "id":  "cu01-limit",
+        "elementId":  12
+    },
+    {
+        "guid":  "{86966391-B3B5-4ebd-8EA0-0C922037863A}",
+        "id":  "cu01-limit-alternativa",
+        "elementId":  13
+    },
+    {
+        "guid":  "{991B3F43-C5B0-416a-9A8E-80FC7BDE65CF}",
+        "id":  "cu01-auth",
+        "elementId":  14
+    },
+    {
+        "guid":  "{6185720F-99F6-4fb2-BEA9-27B67B7BE45A}",
+        "id":  "cu01-auth-alternativa",
+        "elementId":  15
+    },
+    {
+        "guid":  "{CAD2FAD8-FAFB-445c-8D9B-6791833CE0F3}",
+        "id":  "cu01-session",
+        "elementId":  16
+    },
+    {
+        "guid":  "{CFFF4F37-7D70-4e20-84C2-28EA85815182}",
+        "id":  "cu01-home",
+        "elementId":  17
+    },
+    {
+        "guid":  "{29C086AA-3C46-45c0-A552-6B1FD1B2359A}",
+        "id":  "cu01-request",
+        "elementId":  18
+    },
+    {
+        "guid":  "{AC9B1018-93E6-4e1e-BC2A-F646A813702B}",
+        "id":  "cu01-valid",
+        "elementId":  19
+    },
+    {
+        "guid":  "{D2A02BB6-C426-4b17-BFBA-33A5BB886E88}",
+        "id":  "cu01-valid-alternativa",
+        "elementId":  20
+    },
+    {
+        "guid":  "{5CF5A774-065E-4377-9C08-29BC264D61F3}",
+        "id":  "cu01-valid-fin",
+        "elementId":  21
+    },
+    {
+        "guid":  "{8ED75C14-249E-4e45-BF30-D6339B1AAE29}",
+        "id":  "cu01-permission",
+        "elementId":  22
+    },
+    {
+        "guid":  "{4A4F03C7-FB8C-4446-BD9D-0C2C7E4F048D}",
+        "id":  "cu01-permission-alternativa",
+        "elementId":  23
+    },
+    {
+        "guid":  "{68EEEE57-97C9-4a44-AD66-89CAAE9D7E8D}",
+        "id":  "cu01-permission-fin",
+        "elementId":  24
+    },
+    {
+        "guid":  "{47BBB505-FFB8-4624-9A71-B971922DC48A}",
+        "id":  "cu01-use",
+        "elementId":  25
+    },
+    {
+        "guid":  "{58C7F288-BA26-4497-8360-C895E7BCFAA5}",
+        "id":  "cu01-exit",
+        "elementId":  26
+    },
+    {
+        "guid":  "{36579E49-0349-42da-8FE0-B247B47646A3}",
+        "id":  "cu01-exit-alternativa",
+        "elementId":  27
+    },
+    {
+        "guid":  "{0E781C4B-661B-4b12-B0BA-0F85FE13C99C}",
+        "id":  "cu01-logout",
+        "elementId":  28
+    },
+    {
+        "guid":  "{7FAC78C9-3448-4578-9713-B2F80410629B}",
+        "id":  "cu01-fin",
+        "elementId":  29
+    },
+    {
+        "guid":  "{35BA53B4-975A-43fc-A259-0A638F501EC0}",
+        "id":  "cu01-nota",
+        "elementId":  30
+    },
+    {
+        "guid":  "{530905FE-8E49-4c3a-83DB-F8A811A07543}",
+        "id":  "cu02-inicio",
+        "elementId":  31
+    },
+    {
+        "guid":  "{FF22AFEA-5FCF-44df-A878-7E0B9E5F7541}",
+        "id":  "cu02-access",
+        "elementId":  32
+    },
+    {
+        "guid":  "{FD1C939E-FAD1-40a7-AE84-63390B10768C}",
+        "id":  "cu02-access-alternativa",
+        "elementId":  33
+    },
+    {
+        "guid":  "{3A00E120-3A28-48f0-A4CB-692604B84DBC}",
+        "id":  "cu02-access-fin",
+        "elementId":  34
+    },
+    {
+        "guid":  "{0E175951-49C7-45b1-8107-0B63BE4808C3}",
+        "id":  "cu02-list",
+        "elementId":  35
+    },
+    {
+        "guid":  "{7E100CD1-95E6-4671-89A6-5A42B8BFDBE7}",
+        "id":  "cu02-form",
+        "elementId":  36
+    },
+    {
+        "guid":  "{8D7D14F4-0820-4556-B7BF-FE91908859BA}",
+        "id":  "cu02-confirm",
+        "elementId":  37
+    },
+    {
+        "guid":  "{6096422F-72B8-4e1a-A72C-AEF55DE86AF6}",
+        "id":  "cu02-confirm-alternativa",
+        "elementId":  38
+    },
+    {
+        "guid":  "{DC0D9498-1C1C-468c-8AA0-62BCBB2F2673}",
+        "id":  "cu02-confirm-fin",
+        "elementId":  39
+    },
+    {
+        "guid":  "{57814A08-7325-47cf-AD55-2DE07E962FCF}",
+        "id":  "cu02-data",
+        "elementId":  40
+    },
+    {
+        "guid":  "{D8202874-28EC-47fe-A6EF-14A5EFBE8437}",
+        "id":  "cu02-data-alternativa",
+        "elementId":  41
+    },
+    {
+        "guid":  "{1E198E95-BD2E-46fd-BBB9-98403781F019}",
+        "id":  "cu02-begin",
+        "elementId":  42
+    },
+    {
+        "guid":  "{0B48BD1B-6DC3-4e0b-848D-10DCA6CEE57C}",
+        "id":  "cu02-authorized",
+        "elementId":  43
+    },
+    {
+        "guid":  "{A86F888B-FC4C-42d4-825F-6D9FE34B2288}",
+        "id":  "cu02-authorized-alternativa",
+        "elementId":  44
+    },
+    {
+        "guid":  "{AD6DB657-1C85-407d-871F-24798A6A4380}",
+        "id":  "cu02-authorized-fin",
+        "elementId":  45
+    },
+    {
+        "guid":  "{A031ABA5-3CA3-4835-953C-CBAD3F7400A8}",
+        "id":  "cu02-save",
+        "elementId":  46
+    },
+    {
+        "guid":  "{5802E2D4-D04F-4a09-8146-E2AE258BE1E5}",
+        "id":  "cu02-continuity",
+        "elementId":  47
+    },
+    {
+        "guid":  "{842847BB-9A9C-46b7-8D54-A6F7A7301C3E}",
+        "id":  "cu02-continuity-alternativa",
+        "elementId":  48
+    },
+    {
+        "guid":  "{A6EABC92-70C3-4a04-970A-9AB8BEF85EFB}",
+        "id":  "cu02-commit",
+        "elementId":  49
+    },
+    {
+        "guid":  "{2D9DB18B-96E8-43e0-BBE8-75D6EA8F6823}",
+        "id":  "cu02-ownsession",
+        "elementId":  50
+    },
+    {
+        "guid":  "{B649A5CE-4DEE-4702-84FE-E835A04FB3C7}",
+        "id":  "cu02-ownsession-alternativa",
+        "elementId":  51
+    },
+    {
+        "guid":  "{90487420-97CF-4a2b-AB3B-B95BD3A65866}",
+        "id":  "cu02-ownsession-fin",
+        "elementId":  52
+    },
+    {
+        "guid":  "{7576D220-7639-4dcd-9520-E2586ACC002F}",
+        "id":  "cu02-result",
+        "elementId":  53
+    },
+    {
+        "guid":  "{16E51C5D-2201-4564-BBAF-B0CB537AF0A4}",
+        "id":  "cu02-fin",
+        "elementId":  54
+    },
+    {
+        "guid":  "{687919DF-49DB-4002-AD2E-2961495B90B2}",
+        "id":  "cu02-nota",
+        "elementId":  55
+    },
+    {
+        "guid":  "{82FDA51A-A2BC-4e07-AC5D-200E3A7AB70E}",
+        "id":  "cu03-inicio",
+        "elementId":  56
+    },
+    {
+        "guid":  "{ECD9260D-2D06-4a46-AB2D-AFD8AC131D41}",
+        "id":  "cu03-form",
+        "elementId":  57
+    },
+    {
+        "guid":  "{FAF87EFC-641B-4b45-B7F8-EB3DBA64607D}",
+        "id":  "cu03-data",
+        "elementId":  58
+    },
+    {
+        "guid":  "{F6A962BC-86A5-47c0-9F8E-CEB962CA5064}",
+        "id":  "cu03-data-alternativa",
+        "elementId":  59
+    },
+    {
+        "guid":  "{C1B5D68C-35DC-4dcc-B3FE-9A38CF67AD9B}",
+        "id":  "cu03-begin",
+        "elementId":  60
+    },
+    {
+        "guid":  "{FB4F6695-A3C2-409c-B8C5-167309F47C37}",
+        "id":  "cu03-available",
+        "elementId":  61
+    },
+    {
+        "guid":  "{8719EF6E-5D9B-4270-8A42-48A1387E1FE1}",
+        "id":  "cu03-available-alternativa",
+        "elementId":  62
+    },
+    {
+        "guid":  "{9DF0BB94-E1E0-4afe-8D76-946A43383815}",
+        "id":  "cu03-commit",
+        "elementId":  63
+    },
+    {
+        "guid":  "{CAAA9F7B-8BA2-486e-973A-1DBB84814A56}",
+        "id":  "cu03-mail",
+        "elementId":  64
+    },
+    {
+        "guid":  "{53F828B5-7C89-43a2-9A28-8A05AEB95EA6}",
+        "id":  "cu03-delivery",
+        "elementId":  65
+    },
+    {
+        "guid":  "{F239935B-0783-4c18-A3ED-8F95DAC92CC8}",
+        "id":  "cu03-delivery-alternativa",
+        "elementId":  66
+    },
+    {
+        "guid":  "{67CEA525-7C70-4087-A28E-B548E9E10334}",
+        "id":  "cu03-login",
+        "elementId":  67
+    },
+    {
+        "guid":  "{81BBC966-C50E-4e5b-8040-A4FC43EE26FE}",
+        "id":  "cu03-link",
+        "elementId":  68
+    },
+    {
+        "guid":  "{D868D12B-306F-4757-BC49-03189395E679}",
+        "id":  "cu03-signed",
+        "elementId":  69
+    },
+    {
+        "guid":  "{F2F2CDF2-3A73-48fd-9C8C-596FC1172D1D}",
+        "id":  "cu03-signed-alternativa",
+        "elementId":  70
+    },
+    {
+        "guid":  "{B5A76CE4-DFE4-4024-A791-E8D0FFEB0A24}",
+        "id":  "cu03-verify",
+        "elementId":  71
+    },
+    {
+        "guid":  "{74F13B90-965D-4f4e-82E0-E7A2376A4C5B}",
+        "id":  "cu03-fin",
+        "elementId":  72
+    },
+    {
+        "guid":  "{0CBFCA82-6E8D-477b-9BD7-69FFFA1BF04D}",
+        "id":  "cu03-nota",
+        "elementId":  73
+    },
+    {
+        "guid":  "{6549AD73-2342-4965-BB60-9AAEA252344A}",
+        "id":  "cu04-inicio",
+        "elementId":  74
+    },
+    {
+        "guid":  "{75348D8C-4E0B-47ce-8B27-EFA62CCF0B9C}",
+        "id":  "cu04-access",
+        "elementId":  75
+    },
+    {
+        "guid":  "{8D8E0514-E4D1-43f2-ACA1-FA9A310F63D2}",
+        "id":  "cu04-access-alternativa",
+        "elementId":  76
+    },
+    {
+        "guid":  "{8D22D6F8-90AB-4a16-8A86-1267E74944EB}",
+        "id":  "cu04-access-fin",
+        "elementId":  77
+    },
+    {
+        "guid":  "{B57C5993-3627-47a4-B169-3C309F3FCED9}",
+        "id":  "cu04-list",
+        "elementId":  78
+    },
+    {
+        "guid":  "{8CF95835-26B0-4c2a-81A3-31CB6016AD16}",
+        "id":  "cu04-form",
+        "elementId":  79
+    },
+    {
+        "guid":  "{6C6240D5-7E53-4284-9738-1DD68D51BBC3}",
+        "id":  "cu04-confirm",
+        "elementId":  80
+    },
+    {
+        "guid":  "{C1F8ED74-B065-4ece-94F7-C199653A9543}",
+        "id":  "cu04-confirm-alternativa",
+        "elementId":  81
+    },
+    {
+        "guid":  "{4899E209-A6A7-45f8-9432-B873147AC626}",
+        "id":  "cu04-confirm-fin",
+        "elementId":  82
+    },
+    {
+        "guid":  "{C4BD6910-8813-4a42-9465-6BF1B89E2C86}",
+        "id":  "cu04-data",
+        "elementId":  83
+    },
+    {
+        "guid":  "{862200A8-32FC-44da-A0F7-182C8BBB0520}",
+        "id":  "cu04-data-alternativa",
+        "elementId":  84
+    },
+    {
+        "guid":  "{54F76C85-FFCA-41cb-B9AD-92C5D4337876}",
+        "id":  "cu04-begin",
+        "elementId":  85
+    },
+    {
+        "guid":  "{9CE9BF4A-AB13-46b0-BB6A-A1C6EDA05EE1}",
+        "id":  "cu04-version",
+        "elementId":  86
+    },
+    {
+        "guid":  "{9D02B912-5CB8-427a-BBBA-F0A6955EEC15}",
+        "id":  "cu04-version-alternativa",
+        "elementId":  87
+    },
+    {
+        "guid":  "{917B47EA-47F4-4f0c-B89F-2C8178701E1D}",
+        "id":  "cu04-save",
+        "elementId":  88
+    },
+    {
+        "guid":  "{3CF94648-B036-4421-9162-F2E527B743EA}",
+        "id":  "cu04-result",
+        "elementId":  89
+    },
+    {
+        "guid":  "{01C3B078-B7AA-422c-ACE8-048E7A3F5CC1}",
+        "id":  "cu04-fin",
+        "elementId":  90
+    },
+    {
+        "guid":  "{1F093C5D-353F-4e1c-9D9F-053F202EC44C}",
+        "id":  "cu04-nota",
+        "elementId":  91
+    },
+    {
+        "guid":  "{0192103B-4E84-4301-910F-822D91B82997}",
+        "id":  "cu05-inicio",
+        "elementId":  92
+    },
+    {
+        "guid":  "{C9F89EBB-8049-4683-9936-339E80B27E64}",
+        "id":  "cu05-access",
+        "elementId":  93
+    },
+    {
+        "guid":  "{5CD0B616-149D-478e-811F-95E913E2EAAA}",
+        "id":  "cu05-access-alternativa",
+        "elementId":  94
+    },
+    {
+        "guid":  "{9922E5E2-7D0F-4af9-BBC3-29016026986B}",
+        "id":  "cu05-access-fin",
+        "elementId":  95
+    },
+    {
+        "guid":  "{95F6C36A-9D35-4d94-910A-12DD437B8987}",
+        "id":  "cu05-list",
+        "elementId":  96
+    },
+    {
+        "guid":  "{CE754835-21AE-4cb2-97EC-3070AC0E9290}",
+        "id":  "cu05-form",
+        "elementId":  97
+    },
+    {
+        "guid":  "{ABAD6702-0710-4cce-B9EC-78F8E2E08CAE}",
+        "id":  "cu05-confirm",
+        "elementId":  98
+    },
+    {
+        "guid":  "{8B685BB2-B6CF-4b97-9E13-F78F01C5F935}",
+        "id":  "cu05-confirm-alternativa",
+        "elementId":  99
+    },
+    {
+        "guid":  "{30C3A61A-6386-473f-AC8B-29F7398B75FF}",
+        "id":  "cu05-confirm-fin",
+        "elementId":  100
+    },
+    {
+        "guid":  "{5FB23196-08C5-49e3-92D0-66B943FAF9B1}",
+        "id":  "cu05-data",
+        "elementId":  101
+    },
+    {
+        "guid":  "{37701411-EE16-4d9e-81DD-A62AD74B3C39}",
+        "id":  "cu05-data-alternativa",
+        "elementId":  102
+    },
+    {
+        "guid":  "{548212C5-68A1-4ab1-B209-C0D90546F1FF}",
+        "id":  "cu05-begin",
+        "elementId":  103
+    },
+    {
+        "guid":  "{ED303DA9-C817-445e-ABAE-A198DBD2BDB3}",
+        "id":  "cu05-version",
+        "elementId":  104
+    },
+    {
+        "guid":  "{2698A81F-2F86-4b49-B168-6435CC920EE2}",
+        "id":  "cu05-version-alternativa",
+        "elementId":  105
+    },
+    {
+        "guid":  "{A527A0C4-12F6-426b-8D1B-151AD2835EDB}",
+        "id":  "cu05-save",
+        "elementId":  106
+    },
+    {
+        "guid":  "{FDE2B2B5-0CDD-40c9-A2E9-664FA29AE204}",
+        "id":  "cu05-commit",
+        "elementId":  107
+    },
+    {
+        "guid":  "{E9776DD0-1961-4ea2-84A1-8C4AF8A804FA}",
+        "id":  "cu05-fin",
+        "elementId":  108
+    },
+    {
+        "guid":  "{097DEF37-3429-4345-AC5A-9DEB12762ED0}",
+        "id":  "cu05-nota",
+        "elementId":  109
+    },
+    {
+        "guid":  "{23901237-3F73-4230-AD1D-163B9DD6F81B}",
+        "id":  "cu06-inicio",
+        "elementId":  110
+    },
+    {
+        "guid":  "{66592468-0E77-4c41-9F20-5AFA211F03C1}",
+        "id":  "cu06-access",
+        "elementId":  111
+    },
+    {
+        "guid":  "{50FDBADA-9AFE-4803-A2F3-2E8AA87EC3E5}",
+        "id":  "cu06-access-alternativa",
+        "elementId":  112
+    },
+    {
+        "guid":  "{BF5E80BF-3B08-4294-B50D-967A90A72920}",
+        "id":  "cu06-access-fin",
+        "elementId":  113
+    },
+    {
+        "guid":  "{CDDCF8AD-FEEA-426e-B535-D3ECCA273AAC}",
+        "id":  "cu06-list",
+        "elementId":  114
+    },
+    {
+        "guid":  "{5A8AAB26-B393-4949-A142-F3C3B339C30B}",
+        "id":  "cu06-form",
+        "elementId":  115
+    },
+    {
+        "guid":  "{04EAEBFA-AAFA-4360-9CEE-ABBFAFD7EA71}",
+        "id":  "cu06-confirm",
+        "elementId":  116
+    },
+    {
+        "guid":  "{2E73872C-4B74-46ec-A515-83381638E59A}",
+        "id":  "cu06-confirm-alternativa",
+        "elementId":  117
+    },
+    {
+        "guid":  "{88C10566-8231-4ef3-969F-07136E35BF37}",
+        "id":  "cu06-confirm-fin",
+        "elementId":  118
+    },
+    {
+        "guid":  "{BA04F34B-0BD0-4b18-A254-952ACC8FD6DC}",
+        "id":  "cu06-data",
+        "elementId":  119
+    },
+    {
+        "guid":  "{E872BB6F-E422-4575-8E50-0A9BA52F6DDA}",
+        "id":  "cu06-data-alternativa",
+        "elementId":  120
+    },
+    {
+        "guid":  "{F52533C4-CAB8-46e5-9A9B-F3D0462F0419}",
+        "id":  "cu06-begin",
+        "elementId":  121
+    },
+    {
+        "guid":  "{56C85EFC-85BE-435d-B987-2D895F4217F1}",
+        "id":  "cu06-version",
+        "elementId":  122
+    },
+    {
+        "guid":  "{B564E86D-3F26-41bd-B535-0CBD5BA0DA2C}",
+        "id":  "cu06-version-alternativa",
+        "elementId":  123
+    },
+    {
+        "guid":  "{FBFC6B17-37CB-4bf1-ACB5-9C86EA5ADF6E}",
+        "id":  "cu06-appointments",
+        "elementId":  124
+    },
+    {
+        "guid":  "{70E7366B-292D-4b14-8521-401123C3758E}",
+        "id":  "cu06-appointments-alternativa",
+        "elementId":  125
+    },
+    {
+        "guid":  "{64FE66A3-675E-4a59-BAEA-6884E0B4AAD9}",
+        "id":  "cu06-save",
+        "elementId":  126
+    },
+    {
+        "guid":  "{9C378A54-4118-4b44-8B5F-278CF9038623}",
+        "id":  "cu06-result",
+        "elementId":  127
+    },
+    {
+        "guid":  "{D0A6C36A-81F3-4cc8-A1A8-E01A47381250}",
+        "id":  "cu06-fin",
+        "elementId":  128
+    },
+    {
+        "guid":  "{0727BE40-64E3-4ae7-B78F-452DB78A1FAA}",
+        "id":  "cu06-nota",
+        "elementId":  129
+    },
+    {
+        "guid":  "{3B320FF0-2E2F-48ae-8627-3906D7B87566}",
+        "id":  "cu07-inicio",
+        "elementId":  130
+    },
+    {
+        "guid":  "{B20019A4-EA1F-41d1-A40F-C6D5680F451F}",
+        "id":  "cu07-access",
+        "elementId":  131
+    },
+    {
+        "guid":  "{A32B75DF-6F34-42f7-83D6-321D07CF61EF}",
+        "id":  "cu07-access-alternativa",
+        "elementId":  132
+    },
+    {
+        "guid":  "{06A7EE07-2969-4448-9638-D4C76F7FBCE2}",
+        "id":  "cu07-access-fin",
+        "elementId":  133
+    },
+    {
+        "guid":  "{7BABCECC-419B-4dfe-85D3-5708794860E5}",
+        "id":  "cu07-filters",
+        "elementId":  134
+    },
+    {
+        "guid":  "{096EA05C-A2F9-47ea-9083-05AE1573EA64}",
+        "id":  "cu07-slots",
+        "elementId":  135
+    },
+    {
+        "guid":  "{A29B3802-DEF1-450a-A705-5340B0531AA3}",
+        "id":  "cu07-available",
+        "elementId":  136
+    },
+    {
+        "guid":  "{C2396A11-BC50-4314-95A4-663314276820}",
+        "id":  "cu07-available-alternativa",
+        "elementId":  137
+    },
+    {
+        "guid":  "{48102B7A-5119-4cce-9738-235A6D7E2D13}",
+        "id":  "cu07-review",
+        "elementId":  138
+    },
+    {
+        "guid":  "{DB667364-DDEF-45ae-8626-73E648E9FFBB}",
+        "id":  "cu07-confirm",
+        "elementId":  139
+    },
+    {
+        "guid":  "{FE996BCA-E861-487b-B1B9-E545F683FBC5}",
+        "id":  "cu07-confirm-alternativa",
+        "elementId":  140
+    },
+    {
+        "guid":  "{DCD54041-4B57-461b-A467-B245FF5D8080}",
+        "id":  "cu07-confirm-fin",
+        "elementId":  141
+    },
+    {
+        "guid":  "{243BC0C0-FC68-4dfa-B0FB-5BA73C742AC9}",
+        "id":  "cu07-begin",
+        "elementId":  142
+    },
+    {
+        "guid":  "{6FFB1F9D-0B49-4bee-857F-8CB80598BA8F}",
+        "id":  "cu07-token",
+        "elementId":  143
+    },
+    {
+        "guid":  "{4108EEB8-476D-448c-A8B9-B05008FC732C}",
+        "id":  "cu07-token-alternativa",
+        "elementId":  144
+    },
+    {
+        "guid":  "{021FD4AF-D370-4be8-855B-B3AFA3E5A331}",
+        "id":  "cu07-new",
+        "elementId":  145
+    },
+    {
+        "guid":  "{B3580FA3-0987-4ba5-A56E-EBC3AFFD1435}",
+        "id":  "cu07-new-alternativa",
+        "elementId":  146
+    },
+    {
+        "guid":  "{715200D0-16E7-4f17-AE6D-54C025EDF3E1}",
+        "id":  "cu07-recheck",
+        "elementId":  147
+    },
+    {
+        "guid":  "{9123F12C-E376-4b6b-A9B9-6C952508B491}",
+        "id":  "cu07-free",
+        "elementId":  148
+    },
+    {
+        "guid":  "{18007A37-6065-4879-BB45-ABD01A4B8FCC}",
+        "id":  "cu07-free-alternativa",
+        "elementId":  149
+    },
+    {
+        "guid":  "{919DA111-751B-4208-BE48-B837A6D1FA4A}",
+        "id":  "cu07-save",
+        "elementId":  150
+    },
+    {
+        "guid":  "{E09622D7-59DA-45ae-8908-DAC0BF498904}",
+        "id":  "cu07-receipt",
+        "elementId":  151
+    },
+    {
+        "guid":  "{D4901E81-ED53-4a8f-90E6-99125E421AB3}",
+        "id":  "cu07-fin",
+        "elementId":  152
+    },
+    {
+        "guid":  "{DD82023F-C0AE-44a4-B6C4-CD108E6290CE}",
+        "id":  "cu07-nota",
+        "elementId":  153
+    },
+    {
+        "guid":  "{B3F3AE54-1BF6-4de1-B095-C41C5E527750}",
+        "id":  "act-admin",
+        "elementId":  154
+    },
+    {
+        "guid":  "{46EFE2F8-7262-49be-A7C4-06611147AA8F}",
+        "id":  "nota-admin",
+        "elementId":  155
+    },
+    {
+        "guid":  "{3E37AF51-AE19-4021-B333-4D82A1CA24C2}",
+        "id":  "act-recepcion",
+        "elementId":  156
+    },
+    {
+        "guid":  "{9358BB89-4449-4660-9046-B0EFD5ED072D}",
+        "id":  "nota-recepcion",
+        "elementId":  157
+    },
+    {
+        "guid":  "{4D6416CD-785C-415e-B7AB-87D090261273}",
+        "id":  "act-medico",
+        "elementId":  158
+    },
+    {
+        "guid":  "{0F1F25A5-7C9B-4dad-8E59-27A7D9367135}",
+        "id":  "nota-medico",
+        "elementId":  159
+    },
+    {
+        "guid":  "{C7F4EE92-CDD5-4d86-A9F6-9DF7339B627C}",
+        "id":  "act-paciente",
+        "elementId":  160
+    },
+    {
+        "guid":  "{C79D44D1-A0A7-46d4-B6BF-26D7EDC8CF81}",
+        "id":  "nota-paciente",
+        "elementId":  161
+    },
+    {
+        "guid":  "{028D2608-3CDC-4268-943F-9696410E5C7A}",
+        "id":  "cu01-form-mezcla",
+        "elementId":  162
+    },
+    {
+        "guid":  "{DBE96204-B48B-4f2e-9223-F7E1822ACE58}",
+        "id":  "cu01-request-mezcla",
+        "elementId":  163
+    },
+    {
+        "guid":  "{103BC71C-6F78-4cb9-9620-DE013BCE052D}",
+        "id":  "cu02-form-mezcla",
+        "elementId":  164
+    },
+    {
+        "guid":  "{61ADACE3-2CE9-4a92-A134-5E20366541AD}",
+        "id":  "cu03-form-mezcla",
+        "elementId":  165
+    },
+    {
+        "guid":  "{4B52A5F5-3F5E-49ea-9FB3-765E32C516F3}",
+        "id":  "cu03-login-mezcla",
+        "elementId":  166
+    },
+    {
+        "guid":  "{CED2C2AE-EE2B-45f0-AB02-9FFE3FBA0626}",
+        "id":  "cu03-link-mezcla",
+        "elementId":  167
+    },
+    {
+        "guid":  "{8FB78ABE-7B02-46c6-BDAE-FA154632094F}",
+        "id":  "cu04-form-mezcla",
+        "elementId":  168
+    },
+    {
+        "guid":  "{03687788-9DD4-4b5e-9ECA-25B559E36BC7}",
+        "id":  "cu05-form-mezcla",
+        "elementId":  169
+    },
+    {
+        "guid":  "{1D45D027-5600-4681-8153-40A82D1E50D8}",
+        "id":  "cu06-form-mezcla",
+        "elementId":  170
+    },
+    {
+        "guid":  "{58D0E0B7-0560-4fcb-A933-D377C3A74380}",
+        "id":  "cu07-filters-mezcla",
+        "elementId":  171
+    },
+    {
+        "guid":  "{DFB4C30A-56FC-4388-8253-60D2D2D63AEB}",
+        "id":  "cu07-receipt-mezcla",
+        "elementId":  172
+    }
+]

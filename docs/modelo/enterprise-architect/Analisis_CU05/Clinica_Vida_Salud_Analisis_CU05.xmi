@@ -1,0 +1,1698 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:thecustomprofile="http://www.sparxsystems.com/profiles/thecustomprofile/1.0">
+	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5"/>
+	<uml:Model xmi:type="uml:Model" name="EA_Model" visibility="public">
+		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_7AF23C36_4650_480e_A92C_72AC7CD25C1C" name="Clínica Vida Salud - Análisis de clases CU-05" visibility="public">
+			<packagedElement xmi:type="uml:Package" xmi:id="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" name="CU-05 Gestionar medicos y especialidades" visibility="public">
+				<packagedElement xmi:type="uml:Actor" xmi:id="EAID_55FBE4F6_8A04_43c8_B35B_59BF10C21897" name="Administrador autorizado" visibility="public"/>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_AE79B4AB_FEA1_4c51_B567_0877087F4403" name="interactúa" visibility="public">
+					<memberEnd xmi:idref="EAID_dst79B4AB_FEA1_4c51_B567_0877087F4403"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dst79B4AB_FEA1_4c51_B567_0877087F4403" visibility="public" association="EAID_AE79B4AB_FEA1_4c51_B567_0877087F4403" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85"/>
+					</ownedEnd>
+					<memberEnd xmi:idref="EAID_src79B4AB_FEA1_4c51_B567_0877087F4403"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_src79B4AB_FEA1_4c51_B567_0877087F4403" visibility="public" association="EAID_AE79B4AB_FEA1_4c51_B567_0877087F4403" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_55FBE4F6_8A04_43c8_B35B_59BF10C21897"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Class" xmi:id="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" name="C.Gestión de médicos y especialidades" visibility="public">
+					<ownedOperation xmi:id="EAID_B133E87D_0B14_43a8_9E77_B7F7F24814C2" name="autorizarGestion" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_0B14_43a8_9E77_B7F7F24814C2" name="return" direction="return" type="EAJava_void"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_1A5AFD5C_3E5F_41c0_A58A_EAABA75160BF" name="cambiarEstado" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_3E5F_41c0_A58A_EAABA75160BF" name="return" direction="return" type="EAJava_void"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_B78FB2EE_227D_4b58_BBB0_68A3F4E70854" name="comprobarVersion" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_227D_4b58_BBB0_68A3F4E70854" name="return" direction="return" type="EAJava_void"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_6CFA374D_EE4A_4f65_94F3_7E97CBE02EB1" name="consultarCatalogos" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_EE4A_4f65_94F3_7E97CBE02EB1" name="return" direction="return" type="EAJava_Coleccion"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_7C6881B2_FA6A_49d7_BD63_D69CBB997A12" name="guardarEspecialidad" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_FA6A_49d7_BD63_D69CBB997A12" name="return" direction="return" type="EAJava_Especialidad"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_731B8891_196A_4059_83BE_A85EB5CBBC47" name="guardarMedico" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_196A_4059_83BE_A85EB5CBBC47" name="return" direction="return" type="EAJava_Medico"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_16A5C4DD_2617_4874_9D4F_6C48E844B2C0" name="mantenerAsignaciones" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_2617_4874_9D4F_6C48E844B2C0" name="return" direction="return" type="EAJava_void"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_8AC3E1A6_6361_4af5_8E4B_0A72D7040550" name="validarCuentaElegible" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_6361_4af5_8E4B_0A72D7040550" name="return" direction="return" type="EAJava_bool"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_CB282417_6820_41b1_8B00_826E0256DF89" name="validarDatosYUnicidad" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_6820_41b1_8B00_826E0256DF89" name="return" direction="return" type="EAJava_void"/>
+					</ownedOperation>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_90CCE933_C773_4d8c_915D_96EC2E696E1C" visibility="public">
+					<memberEnd xmi:idref="EAID_dstCCE933_C773_4d8c_915D_96EC2E696E1C"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dstCCE933_C773_4d8c_915D_96EC2E696E1C" visibility="public" association="EAID_90CCE933_C773_4d8c_915D_96EC2E696E1C" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3"/>
+					</ownedEnd>
+					<memberEnd xmi:idref="EAID_srcCCE933_C773_4d8c_915D_96EC2E696E1C"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_srcCCE933_C773_4d8c_915D_96EC2E696E1C" visibility="public" association="EAID_90CCE933_C773_4d8c_915D_96EC2E696E1C" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_91CB2B73_3EC6_4b26_B862_F149CE3E0E79" visibility="public">
+					<memberEnd xmi:idref="EAID_dstCB2B73_3EC6_4b26_B862_F149CE3E0E79"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dstCB2B73_3EC6_4b26_B862_F149CE3E0E79" visibility="public" association="EAID_91CB2B73_3EC6_4b26_B862_F149CE3E0E79" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+					</ownedEnd>
+					<memberEnd xmi:idref="EAID_srcCB2B73_3EC6_4b26_B862_F149CE3E0E79"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_srcCB2B73_3EC6_4b26_B862_F149CE3E0E79" visibility="public" association="EAID_91CB2B73_3EC6_4b26_B862_F149CE3E0E79" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_D9A6F0D4_0EFC_44f0_8284_E62F83C1FD07" visibility="public">
+					<memberEnd xmi:idref="EAID_dstA6F0D4_0EFC_44f0_8284_E62F83C1FD07"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dstA6F0D4_0EFC_44f0_8284_E62F83C1FD07" visibility="public" association="EAID_D9A6F0D4_0EFC_44f0_8284_E62F83C1FD07" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF"/>
+					</ownedEnd>
+					<memberEnd xmi:idref="EAID_srcA6F0D4_0EFC_44f0_8284_E62F83C1FD07"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_srcA6F0D4_0EFC_44f0_8284_E62F83C1FD07" visibility="public" association="EAID_D9A6F0D4_0EFC_44f0_8284_E62F83C1FD07" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_DF231661_6439_496c_87FF_A1CF7E337E9C" visibility="public">
+					<memberEnd xmi:idref="EAID_dst231661_6439_496c_87FF_A1CF7E337E9C"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dst231661_6439_496c_87FF_A1CF7E337E9C" visibility="public" association="EAID_DF231661_6439_496c_87FF_A1CF7E337E9C" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B"/>
+					</ownedEnd>
+					<memberEnd xmi:idref="EAID_src231661_6439_496c_87FF_A1CF7E337E9C"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_src231661_6439_496c_87FF_A1CF7E337E9C" visibility="public" association="EAID_DF231661_6439_496c_87FF_A1CF7E337E9C" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_F5F2EC85_ABA0_45a9_94BC_9250C0C55F27" name="solicita" visibility="public">
+					<memberEnd xmi:idref="EAID_dstF2EC85_ABA0_45a9_94BC_9250C0C55F27"/>
+					<memberEnd xmi:idref="EAID_srcF2EC85_ABA0_45a9_94BC_9250C0C55F27"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_srcF2EC85_ABA0_45a9_94BC_9250C0C55F27" visibility="public" association="EAID_F5F2EC85_ABA0_45a9_94BC_9250C0C55F27" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85"/>
+					</ownedEnd>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dstF2EC85_ABA0_45a9_94BC_9250C0C55F27" visibility="public" association="EAID_F5F2EC85_ABA0_45a9_94BC_9250C0C55F27" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Class" xmi:id="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46" name="E.Asignación de especialidad" visibility="public">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_93F55845_828A_4e5b_A780_F7C42446B435" name="activo" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001_828A_4e5b_A780_F7C42446B435" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000002_828A_4e5b_A780_F7C42446B435" value="1"/>
+						<type xmi:idref="EAJava_bool"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_54669C46_9B14_4567_AB90_8FF07723CE1C" name="especialidad" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000003_9B14_4567_AB90_8FF07723CE1C" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000004_9B14_4567_AB90_8FF07723CE1C" value="1"/>
+						<type xmi:idref="EAJava_Especialidad"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_567C0B1B_9E7A_4eb2_AD75_11D0894B42C0" name="medico" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000005_9E7A_4eb2_AD75_11D0894B42C0" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000006_9E7A_4eb2_AD75_11D0894B42C0" value="1"/>
+						<type xmi:idref="EAJava_Medico"/>
+					</ownedAttribute>
+					<ownedOperation xmi:id="EAID_66BF63D5_D563_4813_9A87_638F13AD954C" name="habilitarAsignacion" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_D563_4813_9A87_638F13AD954C" name="return" direction="return" type="EAJava_void"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_6F8115D4_2ED4_400b_B8FC_A2D2D7D7187F" name="retirarSinBorrar" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_2ED4_400b_B8FC_A2D2D7D7187F" name="return" direction="return" type="EAJava_void"/>
+					</ownedOperation>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_3B29566F_6D1D_40a5_A804_B46E24C0F36A" visibility="public">
+					<memberEnd xmi:idref="EAID_dst29566F_6D1D_40a5_A804_B46E24C0F36A"/>
+					<memberEnd xmi:idref="EAID_src29566F_6D1D_40a5_A804_B46E24C0F36A"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_src29566F_6D1D_40a5_A804_B46E24C0F36A" visibility="public" association="EAID_3B29566F_6D1D_40a5_A804_B46E24C0F36A" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF"/>
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000007__6D1D_40a5_A804_B46E24C0F36A" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000008__6D1D_40a5_A804_B46E24C0F36A" value="1"/>
+					</ownedEnd>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dst29566F_6D1D_40a5_A804_B46E24C0F36A" visibility="public" association="EAID_3B29566F_6D1D_40a5_A804_B46E24C0F36A" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000031__6D1D_40a5_A804_B46E24C0F36A" value="0"/>
+						<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000032__6D1D_40a5_A804_B46E24C0F36A" value="-1"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_B91C1E79_89C8_4dce_9579_1DF6285C1FE7" visibility="public">
+					<memberEnd xmi:idref="EAID_dst1C1E79_89C8_4dce_9579_1DF6285C1FE7"/>
+					<memberEnd xmi:idref="EAID_src1C1E79_89C8_4dce_9579_1DF6285C1FE7"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_src1C1E79_89C8_4dce_9579_1DF6285C1FE7" visibility="public" association="EAID_B91C1E79_89C8_4dce_9579_1DF6285C1FE7" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B"/>
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000009__89C8_4dce_9579_1DF6285C1FE7" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000010__89C8_4dce_9579_1DF6285C1FE7" value="1"/>
+					</ownedEnd>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dst1C1E79_89C8_4dce_9579_1DF6285C1FE7" visibility="public" association="EAID_B91C1E79_89C8_4dce_9579_1DF6285C1FE7" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000051__89C8_4dce_9579_1DF6285C1FE7" value="0"/>
+						<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000052__89C8_4dce_9579_1DF6285C1FE7" value="-1"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Class" xmi:id="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3" name="E.Cuenta de usuario" visibility="public">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_1227DF71_F610_4492_9A7E_112CFA75A3FE" name="activo" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000011_F610_4492_9A7E_112CFA75A3FE" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000012_F610_4492_9A7E_112CFA75A3FE" value="1"/>
+						<type xmi:idref="EAJava_bool"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_E42A2DC2_6698_417a_A77D_43C9E89135A5" name="correo" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000013_6698_417a_A77D_43C9E89135A5" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000014_6698_417a_A77D_43C9E89135A5" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_54EA3818_AA14_401b_8203_F037E9091B22" name="id" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000015_AA14_401b_8203_F037E9091B22" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000016_AA14_401b_8203_F037E9091B22" value="1"/>
+						<type xmi:idref="EAJava_bigint"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_E8980064_269B_4d1c_94DA_A34457A2F1C5" name="nombre_usuario" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000017_269B_4d1c_94DA_A34457A2F1C5" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000018_269B_4d1c_94DA_A34457A2F1C5" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedOperation xmi:id="EAID_D24E4381_CF8A_4a8b_B231_F459FA23A915" name="comprobarPermisoAgenda" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_CF8A_4a8b_B231_F459FA23A915" name="return" direction="return" type="EAJava_bool"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_AA7DAC87_6968_4525_BBA8_F29B66E7D339" name="identificarCuenta" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_6968_4525_BBA8_F29B66E7D339" name="return" direction="return" type="EAJava_bigint"/>
+					</ownedOperation>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Association" xmi:id="EAID_2D7756AA_D6D0_4b14_B113_6D5ED1F174F1" visibility="public">
+					<memberEnd xmi:idref="EAID_dst7756AA_D6D0_4b14_B113_6D5ED1F174F1"/>
+					<memberEnd xmi:idref="EAID_src7756AA_D6D0_4b14_B113_6D5ED1F174F1"/>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_src7756AA_D6D0_4b14_B113_6D5ED1F174F1" visibility="public" association="EAID_2D7756AA_D6D0_4b14_B113_6D5ED1F174F1" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B"/>
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000019__D6D0_4b14_B113_6D5ED1F174F1" value="0"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000020__D6D0_4b14_B113_6D5ED1F174F1" value="1"/>
+					</ownedEnd>
+					<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dst7756AA_D6D0_4b14_B113_6D5ED1F174F1" visibility="public" association="EAID_2D7756AA_D6D0_4b14_B113_6D5ED1F174F1" isStatic="false" isReadOnly="true" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
+						<type xmi:idref="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3"/>
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000049__D6D0_4b14_B113_6D5ED1F174F1" value="0"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000050__D6D0_4b14_B113_6D5ED1F174F1" value="1"/>
+					</ownedEnd>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Class" xmi:id="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF" name="E.Especialidad" visibility="public">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_5994142B_2A63_4c9a_9C70_9B459FB0A4C9" name="activo" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000021_2A63_4c9a_9C70_9B459FB0A4C9" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000022_2A63_4c9a_9C70_9B459FB0A4C9" value="1"/>
+						<type xmi:idref="EAJava_bool"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_D42AA4AB_AA43_4d34_ABD2_4AE3BAA47893" name="descripcion" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000023_AA43_4d34_ABD2_4AE3BAA47893" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000024_AA43_4d34_ABD2_4AE3BAA47893" value="1"/>
+						<type xmi:idref="EAJava_string_"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_0EDD6741_EDDB_407b_BC2B_C22C82728324" name="id" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000025_EDDB_407b_BC2B_C22C82728324" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000026_EDDB_407b_BC2B_C22C82728324" value="1"/>
+						<type xmi:idref="EAJava_bigint"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_A7426AD2_E6C1_444d_8EF3_770FB711C846" name="nombre" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000027_E6C1_444d_8EF3_770FB711C846" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000028_E6C1_444d_8EF3_770FB711C846" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_304B1A29_4741_4a0f_BFB5_B0CABD8C5972" name="nombre_normalizado" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000029_4741_4a0f_BFB5_B0CABD8C5972" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000030_4741_4a0f_BFB5_B0CABD8C5972" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedOperation xmi:id="EAID_B681C7D8_2558_442a_BF5A_12F66B4C3083" name="normalizarNombre" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_2558_442a_BF5A_12F66B4C3083" name="return" direction="return" type="EAJava_string"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_90B02851_7B23_47b8_8E79_33B6EF14128E" name="obtenerVersionEdicion" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_7B23_47b8_8E79_33B6EF14128E" name="return" direction="return" type="EAJava_string"/>
+					</ownedOperation>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Class" xmi:id="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B" name="E.Médico" visibility="public">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_48D7D2FE_07E9_4305_B816_9E30CAA61A72" name="activo" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000033_07E9_4305_B816_9E30CAA61A72" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000034_07E9_4305_B816_9E30CAA61A72" value="1"/>
+						<type xmi:idref="EAJava_bool"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_557AFFB2_26F0_4990_BF3A_BB5F5F51536E" name="apellidos" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000035_26F0_4990_BF3A_BB5F5F51536E" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000036_26F0_4990_BF3A_BB5F5F51536E" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_53D14664_AA42_47e8_A021_816D2518C048" name="codigo" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000037_AA42_47e8_A021_816D2518C048" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000038_AA42_47e8_A021_816D2518C048" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_A8A83342_9EC7_4a2a_9309_6C100711A378" name="correo" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000039_9EC7_4a2a_9309_6C100711A378" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000040_9EC7_4a2a_9309_6C100711A378" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_B1D2FA65_F0FA_4f55_8E1F_AC20B7CD8A2F" name="id" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000041_F0FA_4f55_8E1F_AC20B7CD8A2F" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000042_F0FA_4f55_8E1F_AC20B7CD8A2F" value="1"/>
+						<type xmi:idref="EAJava_bigint"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_8ED5BC4C_EDA2_4c18_A1F8_BE9DCC772A0C" name="nombres" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000043_EDA2_4c18_A1F8_BE9DCC772A0C" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000044_EDA2_4c18_A1F8_BE9DCC772A0C" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_7FBE957E_5CC6_4752_A13D_8CE8CCE1A450" name="registro_profesional" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000045_5CC6_4752_A13D_8CE8CCE1A450" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000046_5CC6_4752_A13D_8CE8CCE1A450" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_8B83496A_5D81_48b3_BE73_A6A99D5A2C4D" name="telefono" visibility="public" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000047_5D81_48b3_BE73_A6A99D5A2C4D" value="1"/>
+						<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000048_5D81_48b3_BE73_A6A99D5A2C4D" value="1"/>
+						<type xmi:idref="EAJava_string"/>
+					</ownedAttribute>
+					<ownedOperation xmi:id="EAID_A392C29B_6B1B_41d6_BD6B_1259B48DAE2C" name="identificarProfesional" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_6B1B_41d6_BD6B_1259B48DAE2C" name="return" direction="return" type="EAJava_string"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_49A7F1BA_FA85_4044_B811_31CAFB3A97B5" name="obtenerVersionEdicion" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_FA85_4044_B811_31CAFB3A97B5" name="return" direction="return" type="EAJava_string"/>
+					</ownedOperation>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Class" xmi:id="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85" name="V.Médicos y especialidades" visibility="public">
+					<ownedOperation xmi:id="EAID_3575A731_344D_41bd_808F_004A4F4559C7" name="buscarYFiltrar" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_344D_41bd_808F_004A4F4559C7" name="return" direction="return" type="EAJava_Solicitud"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_E495CCA6_21EC_4204_A9DA_9E699E8E95FE" name="confirmarCambioEstado" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_21EC_4204_A9DA_9E699E8E95FE" name="return" direction="return" type="EAJava_Solicitud"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_DB991FF7_ABE1_4fdf_B35F_29661601E6B3" name="enviarDatos" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_ABE1_4fdf_B35F_29661601E6B3" name="return" direction="return" type="EAJava_Solicitud"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_D2CB4D5E_AB65_4f6f_938D_C4A12B01324A" name="mostrarFormularioEspecialidad" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_AB65_4f6f_938D_C4A12B01324A" name="return" direction="return" type="EAJava_Vista"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_5E3037D8_3FFC_4b7e_B789_B4B8A8FCF23E" name="mostrarFormularioMedico" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_3FFC_4b7e_B789_B4B8A8FCF23E" name="return" direction="return" type="EAJava_Vista"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_A20E173B_3853_409e_8537_3CB8ECC92CCE" name="mostrarListados" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_3853_409e_8537_3CB8ECC92CCE" name="return" direction="return" type="EAJava_Vista"/>
+					</ownedOperation>
+					<ownedOperation xmi:id="EAID_330B41AD_9C0B_4e74_910D_22AE91810FF3" name="seleccionarCuentaExistente" visibility="public" concurrency="sequential">
+						<ownedParameter xmi:id="EAID_RT000000_9C0B_4e74_910D_22AE91810FF3" name="return" direction="return" type="EAJava_Solicitud"/>
+					</ownedOperation>
+				</packagedElement>
+			</packagedElement>
+		</packagedElement>
+		<thecustomprofile:control base_Class="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+		<thecustomprofile:entity base_Class="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+		<thecustomprofile:entity base_Class="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3"/>
+		<thecustomprofile:entity base_Class="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF"/>
+		<thecustomprofile:entity base_Class="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B"/>
+		<thecustomprofile:boundary base_Class="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85"/>
+	</uml:Model>
+	<xmi:Extension extender="Enterprise Architect" extenderID="6.5">
+		<elements>
+			<element xmi:idref="EAPK_7AF23C36_4650_480e_A92C_72AC7CD25C1C">
+				<packageproperties tpos="0"/>
+				<paths/>
+				<times created="2026-10-24 21:27:53" modified="2026-10-24 21:27:53"/>
+				<flags iscontrolled="FALSE" isprotected="FALSE" batchsave="0" batchload="0" usedtd="FALSE" logxml="FALSE" packageFlags="isModel=1;"/>
+			</element>
+			<element xmi:idref="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" xmi:type="uml:Package" name="CU-05 Gestionar medicos y especialidades" scope="public">
+				<model package2="EAID_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" package="EAPK_7AF23C36_4650_480e_A92C_72AC7CD25C1C" tpos="0" ea_localid="3" ea_eleType="package"/>
+				<properties documentation="Sesión vigente y permiso efectivo medicos.gestionar." isSpecification="false" sType="Package" nType="0" scope="public"/>
+				<project author="llx21" phase="1.0" created="2026-10-24 21:27:54" modified="2026-10-24 21:27:54" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="Clínica Vida Salud - Análisis de clases CU-05"/>
+				<packageproperties tpos="0"/>
+				<paths/>
+				<times created="2026-10-24 21:27:54" modified="2026-10-24 21:27:54"/>
+				<flags iscontrolled="FALSE" isprotected="FALSE" batchsave="0" batchload="0" usedtd="FALSE" logxml="FALSE"/>
+			</element>
+			<element xmi:idref="EAID_55FBE4F6_8A04_43c8_B35B_59BF10C21897" xmi:type="uml:Actor" name="Administrador autorizado" scope="public">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0" ea_localid="2" ea_eleType="element"/>
+				<properties documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas." isSpecification="false" sType="Actor" nType="0" alias="actor" scope="public" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<project author="llx21" version="1.0" phase="1.0" created="2026-10-24 21:27:55" modified="2026-10-24 21:27:55" complexity="1" status="Proposed"/>
+				<code gentype="&lt;none&gt;"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="CU-05 Gestionar medicos y especialidades"/>
+				<links>
+					<Association xmi:id="EAID_AE79B4AB_FEA1_4c51_B567_0877087F4403" start="EAID_55FBE4F6_8A04_43c8_B35B_59BF10C21897" end="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" xmi:type="uml:Class" name="C.Gestión de médicos y especialidades" scope="public">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0" ea_localid="4" ea_eleType="element"/>
+				<properties documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas." isSpecification="false" sType="Class" nType="0" alias="control" scope="public" stereotype="control" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="llx21" version="1.0" phase="1.0" created="2026-10-24 21:27:55" modified="2026-10-24 21:27:55" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={F5F1E494-24EA-46d9-9350-060CB7404508}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=control;GUID={ADFDEA84-B27E-444e-A8C4-50E15DF6CF25};@ENDSTEREO;$DES;$CLT={B52DC936-F428-476f-9A4A-79E59E101CB4}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="CU-05 Gestionar medicos y especialidades"/>
+				<operations>
+					<operation xmi:idref="EAID_B133E87D_0B14_43a8_9E77_B7F7F24814C2" name="autorizarGestion" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{B133E87D-0B14-43a8-9E77-B7F7F24814C2}" ea_localid="8"/>
+						<type type="void" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_0B14_43a8_9E77_B7F7F24814C2" visibility="public">
+								<properties pos="0" type="void" const="false" ea_guid="{RETURNID-0B14-43a8-9E77-B7F7F24814C2}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_1A5AFD5C_3E5F_41c0_A58A_EAABA75160BF" name="cambiarEstado" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{1A5AFD5C-3E5F-41c0-A58A-EAABA75160BF}" ea_localid="16"/>
+						<type type="void" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_3E5F_41c0_A58A_EAABA75160BF" visibility="public">
+								<properties pos="0" type="void" const="false" ea_guid="{RETURNID-3E5F-41c0-A58A-EAABA75160BF}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_B78FB2EE_227D_4b58_BBB0_68A3F4E70854" name="comprobarVersion" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{B78FB2EE-227D-4b58-BBB0-68A3F4E70854}" ea_localid="15"/>
+						<type type="void" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_227D_4b58_BBB0_68A3F4E70854" visibility="public">
+								<properties pos="0" type="void" const="false" ea_guid="{RETURNID-227D-4b58-BBB0-68A3F4E70854}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_6CFA374D_EE4A_4f65_94F3_7E97CBE02EB1" name="consultarCatalogos" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{6CFA374D-EE4A-4f65-94F3-7E97CBE02EB1}" ea_localid="9"/>
+						<type type="Coleccion" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_EE4A_4f65_94F3_7E97CBE02EB1" visibility="public">
+								<properties pos="0" type="Coleccion" const="false" ea_guid="{RETURNID-EE4A-4f65-94F3-7E97CBE02EB1}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_7C6881B2_FA6A_49d7_BD63_D69CBB997A12" name="guardarEspecialidad" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{7C6881B2-FA6A-49d7-BD63-D69CBB997A12}" ea_localid="12"/>
+						<type type="Especialidad" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_FA6A_49d7_BD63_D69CBB997A12" visibility="public">
+								<properties pos="0" type="Especialidad" const="false" ea_guid="{RETURNID-FA6A-49d7-BD63-D69CBB997A12}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_731B8891_196A_4059_83BE_A85EB5CBBC47" name="guardarMedico" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{731B8891-196A-4059-83BE-A85EB5CBBC47}" ea_localid="11"/>
+						<type type="Medico" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_196A_4059_83BE_A85EB5CBBC47" visibility="public">
+								<properties pos="0" type="Medico" const="false" ea_guid="{RETURNID-196A-4059-83BE-A85EB5CBBC47}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_16A5C4DD_2617_4874_9D4F_6C48E844B2C0" name="mantenerAsignaciones" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{16A5C4DD-2617-4874-9D4F-6C48E844B2C0}" ea_localid="13"/>
+						<type type="void" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_2617_4874_9D4F_6C48E844B2C0" visibility="public">
+								<properties pos="0" type="void" const="false" ea_guid="{RETURNID-2617-4874-9D4F-6C48E844B2C0}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_8AC3E1A6_6361_4af5_8E4B_0A72D7040550" name="validarCuentaElegible" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{8AC3E1A6-6361-4af5-8E4B-0A72D7040550}" ea_localid="14"/>
+						<type type="bool" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_6361_4af5_8E4B_0A72D7040550" visibility="public">
+								<properties pos="0" type="bool" const="false" ea_guid="{RETURNID-6361-4af5-8E4B-0A72D7040550}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_CB282417_6820_41b1_8B00_826E0256DF89" name="validarDatosYUnicidad" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{CB282417-6820-41b1-8B00-826E0256DF89}" ea_localid="10"/>
+						<type type="void" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_6820_41b1_8B00_826E0256DF89" visibility="public">
+								<properties pos="0" type="void" const="false" ea_guid="{RETURNID-6820-41b1-8B00-826E0256DF89}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+				</operations>
+				<links>
+					<Association xmi:id="EAID_90CCE933_C773_4d8c_915D_96EC2E696E1C" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3"/>
+					<Association xmi:id="EAID_91CB2B73_3EC6_4b26_B862_F149CE3E0E79" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+					<Association xmi:id="EAID_D9A6F0D4_0EFC_44f0_8284_E62F83C1FD07" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF"/>
+					<Association xmi:id="EAID_DF231661_6439_496c_87FF_A1CF7E337E9C" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B"/>
+					<Association xmi:id="EAID_F5F2EC85_ABA0_45a9_94BC_9250C0C55F27" start="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85" end="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46" xmi:type="uml:Class" name="E.Asignación de especialidad" scope="public">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0" ea_localid="7" ea_eleType="element"/>
+				<properties documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas." isSpecification="false" sType="Class" nType="0" alias="asignacion" scope="public" stereotype="entity" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="llx21" version="1.0" phase="1.0" created="2026-10-24 21:27:59" modified="2026-10-24 21:27:59" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={A8B30538-21F7-4d30-A939-FB904F3FCCAE}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=entity;GUID={66F314BF-200A-479a-ACD1-6DC0B77B09FB};@ENDSTEREO;$DES;$CLT={C6871B8F-B865-4dec-BEC1-95CE648D0E46}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="CU-05 Gestionar medicos y especialidades"/>
+				<attributes>
+					<attribute xmi:idref="EAID_93F55845_828A_4e5b_A780_F7C42446B435" name="activo" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="16" ea_guid="{93F55845-828A-4e5b-A780-F7C42446B435}"/>
+						<properties type="bool" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={3601B633-7B86-48d3-A1B9-958C34A3B2A1}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={93F55845-828A-4e5b-A780-F7C42446B435}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_54669C46_9B14_4567_AB90_8FF07723CE1C" name="especialidad" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="15" ea_guid="{54669C46-9B14-4567-AB90-8FF07723CE1C}"/>
+						<properties type="Especialidad" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={F5909CCC-F219-4e7a-AB95-7F889916E03E}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={54669C46-9B14-4567-AB90-8FF07723CE1C}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_567C0B1B_9E7A_4eb2_AD75_11D0894B42C0" name="medico" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="14" ea_guid="{567C0B1B-9E7A-4eb2-AD75-11D0894B42C0}"/>
+						<properties type="Medico" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={25F86471-E30C-4c65-8236-7C7AC729DA87}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={567C0B1B-9E7A-4eb2-AD75-11D0894B42C0}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+				</attributes>
+				<operations>
+					<operation xmi:idref="EAID_66BF63D5_D563_4813_9A87_638F13AD954C" name="habilitarAsignacion" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{66BF63D5-D563-4813-9A87-638F13AD954C}" ea_localid="21"/>
+						<type type="void" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_D563_4813_9A87_638F13AD954C" visibility="public">
+								<properties pos="0" type="void" const="false" ea_guid="{RETURNID-D563-4813-9A87-638F13AD954C}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_6F8115D4_2ED4_400b_B8FC_A2D2D7D7187F" name="retirarSinBorrar" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{6F8115D4-2ED4-400b-B8FC-A2D2D7D7187F}" ea_localid="22"/>
+						<type type="void" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_2ED4_400b_B8FC_A2D2D7D7187F" visibility="public">
+								<properties pos="0" type="void" const="false" ea_guid="{RETURNID-2ED4-400b-B8FC-A2D2D7D7187F}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+				</operations>
+				<links>
+					<Association xmi:id="EAID_3B29566F_6D1D_40a5_A804_B46E24C0F36A" start="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF" end="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+					<Association xmi:id="EAID_91CB2B73_3EC6_4b26_B862_F149CE3E0E79" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+					<Association xmi:id="EAID_B91C1E79_89C8_4dce_9579_1DF6285C1FE7" start="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B" end="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3" xmi:type="uml:Class" name="E.Cuenta de usuario" scope="public">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0" ea_localid="8" ea_eleType="element"/>
+				<properties documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas." isSpecification="false" sType="Class" nType="0" alias="cuenta" scope="public" stereotype="entity" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="llx21" version="1.0" phase="1.0" created="2026-10-24 21:28:00" modified="2026-10-24 21:28:00" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={5B128B79-53CD-45a1-B612-611628B20601}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=entity;GUID={66F314BF-200A-479a-ACD1-6DC0B77B09FB};@ENDSTEREO;$DES;$CLT={93B4E9C0-697F-493d-8481-CAAD031D09E3}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="CU-05 Gestionar medicos y especialidades"/>
+				<attributes>
+					<attribute xmi:idref="EAID_1227DF71_F610_4492_9A7E_112CFA75A3FE" name="activo" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="20" ea_guid="{1227DF71-F610-4492-9A7E-112CFA75A3FE}"/>
+						<properties type="bool" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={BCF463BE-41D4-4e83-B638-F297A69EE4FD}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={1227DF71-F610-4492-9A7E-112CFA75A3FE}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_E42A2DC2_6698_417a_A77D_43C9E89135A5" name="correo" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="19" ea_guid="{E42A2DC2-6698-417a-A77D-43C9E89135A5}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={4EA6E358-0FA7-4637-AA3F-0CE44D8DCDC0}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={E42A2DC2-6698-417a-A77D-43C9E89135A5}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_54EA3818_AA14_401b_8203_F037E9091B22" name="id" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="17" ea_guid="{54EA3818-AA14-401b-8203-F037E9091B22}"/>
+						<properties type="bigint" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={22CDB38C-31CD-4e30-813A-4922F71EBE0C}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={54EA3818-AA14-401b-8203-F037E9091B22}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_E8980064_269B_4d1c_94DA_A34457A2F1C5" name="nombre_usuario" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="18" ea_guid="{E8980064-269B-4d1c-94DA-A34457A2F1C5}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={61C13F1D-84AC-401a-B1CB-9165BD82C970}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={E8980064-269B-4d1c-94DA-A34457A2F1C5}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+				</attributes>
+				<operations>
+					<operation xmi:idref="EAID_D24E4381_CF8A_4a8b_B231_F459FA23A915" name="comprobarPermisoAgenda" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{D24E4381-CF8A-4a8b-B231-F459FA23A915}" ea_localid="23"/>
+						<type type="bool" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_CF8A_4a8b_B231_F459FA23A915" visibility="public">
+								<properties pos="0" type="bool" const="false" ea_guid="{RETURNID-CF8A-4a8b-B231-F459FA23A915}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_AA7DAC87_6968_4525_BBA8_F29B66E7D339" name="identificarCuenta" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{AA7DAC87-6968-4525-BBA8-F29B66E7D339}" ea_localid="24"/>
+						<type type="bigint" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_6968_4525_BBA8_F29B66E7D339" visibility="public">
+								<properties pos="0" type="bigint" const="false" ea_guid="{RETURNID-6968-4525-BBA8-F29B66E7D339}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+				</operations>
+				<links>
+					<Association xmi:id="EAID_2D7756AA_D6D0_4b14_B113_6D5ED1F174F1" start="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B" end="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3"/>
+					<Association xmi:id="EAID_90CCE933_C773_4d8c_915D_96EC2E696E1C" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF" xmi:type="uml:Class" name="E.Especialidad" scope="public">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0" ea_localid="6" ea_eleType="element"/>
+				<properties documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas." isSpecification="false" sType="Class" nType="0" alias="especialidad" scope="public" stereotype="entity" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="llx21" version="1.0" phase="1.0" created="2026-10-24 21:27:57" modified="2026-10-24 21:27:57" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={B6E70C51-5277-441f-B495-2E2F35F9717F}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=entity;GUID={66F314BF-200A-479a-ACD1-6DC0B77B09FB};@ENDSTEREO;$DES;$CLT={142C7E4D-9AF1-4994-B578-9D83742F72FF}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="CU-05 Gestionar medicos y especialidades"/>
+				<attributes>
+					<attribute xmi:idref="EAID_5994142B_2A63_4c9a_9C70_9B459FB0A4C9" name="activo" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="13" ea_guid="{5994142B-2A63-4c9a-9C70-9B459FB0A4C9}"/>
+						<properties type="bool" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={1DC0B30E-F922-49ae-BD7F-B1F5E952FE1F}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={5994142B-2A63-4c9a-9C70-9B459FB0A4C9}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_D42AA4AB_AA43_4d34_ABD2_4AE3BAA47893" name="descripcion" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="12" ea_guid="{D42AA4AB-AA43-4d34-ABD2-4AE3BAA47893}"/>
+						<properties type="string?" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={E799462B-1E9D-4418-BA9A-EA90B66A654B}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={D42AA4AB-AA43-4d34-ABD2-4AE3BAA47893}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_0EDD6741_EDDB_407b_BC2B_C22C82728324" name="id" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="9" ea_guid="{0EDD6741-EDDB-407b-BC2B-C22C82728324}"/>
+						<properties type="bigint" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={3884C40D-00EF-4ec2-8AF4-280C49E42F6E}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={0EDD6741-EDDB-407b-BC2B-C22C82728324}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_A7426AD2_E6C1_444d_8EF3_770FB711C846" name="nombre" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="10" ea_guid="{A7426AD2-E6C1-444d-8EF3-770FB711C846}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={2CFD09A0-23FE-4083-9232-E20F2B4F1D35}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={A7426AD2-E6C1-444d-8EF3-770FB711C846}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_304B1A29_4741_4a0f_BFB5_B0CABD8C5972" name="nombre_normalizado" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="11" ea_guid="{304B1A29-4741-4a0f-BFB5-B0CABD8C5972}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={6E922F67-BAD8-4411-824B-9A48351C6ED4}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={304B1A29-4741-4a0f-BFB5-B0CABD8C5972}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+				</attributes>
+				<operations>
+					<operation xmi:idref="EAID_B681C7D8_2558_442a_BF5A_12F66B4C3083" name="normalizarNombre" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{B681C7D8-2558-442a-BF5A-12F66B4C3083}" ea_localid="19"/>
+						<type type="string" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_2558_442a_BF5A_12F66B4C3083" visibility="public">
+								<properties pos="0" type="string" const="false" ea_guid="{RETURNID-2558-442a-BF5A-12F66B4C3083}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_90B02851_7B23_47b8_8E79_33B6EF14128E" name="obtenerVersionEdicion" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{90B02851-7B23-47b8-8E79-33B6EF14128E}" ea_localid="20"/>
+						<type type="string" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_7B23_47b8_8E79_33B6EF14128E" visibility="public">
+								<properties pos="0" type="string" const="false" ea_guid="{RETURNID-7B23-47b8-8E79-33B6EF14128E}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+				</operations>
+				<links>
+					<Association xmi:id="EAID_3B29566F_6D1D_40a5_A804_B46E24C0F36A" start="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF" end="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+					<Association xmi:id="EAID_D9A6F0D4_0EFC_44f0_8284_E62F83C1FD07" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B" xmi:type="uml:Class" name="E.Médico" scope="public">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0" ea_localid="5" ea_eleType="element"/>
+				<properties documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas." isSpecification="false" sType="Class" nType="0" alias="medico" scope="public" stereotype="entity" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="llx21" version="1.0" phase="1.0" created="2026-10-24 21:27:55" modified="2026-10-24 21:27:55" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={E2FB71D1-EA4C-4245-A88E-F17707946DC8}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=entity;GUID={66F314BF-200A-479a-ACD1-6DC0B77B09FB};@ENDSTEREO;$DES;$CLT={64DBAB90-13CC-48b2-B6C7-03EA98E7855B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="CU-05 Gestionar medicos y especialidades"/>
+				<attributes>
+					<attribute xmi:idref="EAID_48D7D2FE_07E9_4305_B816_9E30CAA61A72" name="activo" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="8" ea_guid="{48D7D2FE-07E9-4305-B816-9E30CAA61A72}"/>
+						<properties type="bool" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={ACE2EFE5-4ED5-4eb4-A649-5AA1EB102005}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={48D7D2FE-07E9-4305-B816-9E30CAA61A72}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_557AFFB2_26F0_4990_BF3A_BB5F5F51536E" name="apellidos" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="5" ea_guid="{557AFFB2-26F0-4990-BF3A-BB5F5F51536E}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={E1CDE4FE-B869-4cf6-8D99-BF5C31778031}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={557AFFB2-26F0-4990-BF3A-BB5F5F51536E}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_53D14664_AA42_47e8_A021_816D2518C048" name="codigo" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="2" ea_guid="{53D14664-AA42-47e8-A021-816D2518C048}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={92CCBF58-5FE7-4542-AB87-AC51712C47C7}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={53D14664-AA42-47e8-A021-816D2518C048}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_A8A83342_9EC7_4a2a_9309_6C100711A378" name="correo" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="7" ea_guid="{A8A83342-9EC7-4a2a-9309-6C100711A378}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={0A8693DA-6492-492a-A021-8BE558664161}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={A8A83342-9EC7-4a2a-9309-6C100711A378}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_B1D2FA65_F0FA_4f55_8E1F_AC20B7CD8A2F" name="id" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="1" ea_guid="{B1D2FA65-F0FA-4f55-8E1F-AC20B7CD8A2F}"/>
+						<properties type="bigint" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={316DDAF5-58B9-4711-86AF-93572E26D58E}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={B1D2FA65-F0FA-4f55-8E1F-AC20B7CD8A2F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_8ED5BC4C_EDA2_4c18_A1F8_BE9DCC772A0C" name="nombres" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="4" ea_guid="{8ED5BC4C-EDA2-4c18-A1F8-BE9DCC772A0C}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={20194673-64A7-42c9-833A-ED2BAC04184F}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={8ED5BC4C-EDA2-4c18-A1F8-BE9DCC772A0C}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_7FBE957E_5CC6_4752_A13D_8CE8CCE1A450" name="registro_profesional" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="3" ea_guid="{7FBE957E-5CC6-4752-A13D-8CE8CCE1A450}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={1D3D435D-796C-4805-9F66-8BCCADA1DA0C}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={7FBE957E-5CC6-4752-A13D-8CE8CCE1A450}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+					<attribute xmi:idref="EAID_8B83496A_5D81_48b3_BE73_A6A99D5A2C4D" name="telefono" scope="Public">
+						<initial/>
+						<documentation/>
+						<model ea_localid="6" ea_guid="{8B83496A-5D81-48b3-BE73-A6A99D5A2C4D}"/>
+						<properties type="string" derived="0" collection="false" static="0" duplicates="0" changeability="changeable"/>
+						<coords ordered="0"/>
+						<containment containment="Not Specified" position="0"/>
+						<stereotype/>
+						<bounds lower="1" upper="1"/>
+						<options/>
+						<style/>
+						<styleex/>
+						<tags/>
+						<xrefs value="$XREFPROP=$XID={7608D836-45F0-4403-B4AA-1C80A1B0B36C}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={8B83496A-5D81-48b3-BE73-A6A99D5A2C4D}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+					</attribute>
+				</attributes>
+				<operations>
+					<operation xmi:idref="EAID_A392C29B_6B1B_41d6_BD6B_1259B48DAE2C" name="identificarProfesional" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{A392C29B-6B1B-41d6-BD6B-1259B48DAE2C}" ea_localid="17"/>
+						<type type="string" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_6B1B_41d6_BD6B_1259B48DAE2C" visibility="public">
+								<properties pos="0" type="string" const="false" ea_guid="{RETURNID-6B1B-41d6-BD6B-1259B48DAE2C}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_49A7F1BA_FA85_4044_B811_31CAFB3A97B5" name="obtenerVersionEdicion" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{49A7F1BA-FA85-4044-B811-31CAFB3A97B5}" ea_localid="18"/>
+						<type type="string" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_FA85_4044_B811_31CAFB3A97B5" visibility="public">
+								<properties pos="0" type="string" const="false" ea_guid="{RETURNID-FA85-4044-B811-31CAFB3A97B5}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+				</operations>
+				<links>
+					<Association xmi:id="EAID_2D7756AA_D6D0_4b14_B113_6D5ED1F174F1" start="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B" end="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3"/>
+					<Association xmi:id="EAID_B91C1E79_89C8_4dce_9579_1DF6285C1FE7" start="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B" end="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46"/>
+					<Association xmi:id="EAID_DF231661_6439_496c_87FF_A1CF7E337E9C" start="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" end="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85" xmi:type="uml:Class" name="V.Médicos y especialidades" scope="public">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0" ea_localid="3" ea_eleType="element"/>
+				<properties documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas." isSpecification="false" sType="Class" nType="0" alias="vista" scope="public" stereotype="boundary" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="llx21" version="1.0" phase="1.0" created="2026-10-24 21:27:55" modified="2026-10-24 21:27:55" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={D3CA4F58-A5AF-401d-9ED7-54C12B16E5DB}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=boundary;GUID={65611561-8EA7-47e1-A393-40932DD5006C};@ENDSTEREO;$DES;$CLT={6BA7FF23-2C88-4b08-87C1-207EE20C1E85}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="CU-05 Gestionar medicos y especialidades"/>
+				<operations>
+					<operation xmi:idref="EAID_3575A731_344D_41bd_808F_004A4F4559C7" name="buscarYFiltrar" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{3575A731-344D-41bd-808F-004A4F4559C7}" ea_localid="2"/>
+						<type type="Solicitud" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_344D_41bd_808F_004A4F4559C7" visibility="public">
+								<properties pos="0" type="Solicitud" const="false" ea_guid="{RETURNID-344D-41bd-808F-004A4F4559C7}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_E495CCA6_21EC_4204_A9DA_9E699E8E95FE" name="confirmarCambioEstado" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{E495CCA6-21EC-4204-A9DA-9E699E8E95FE}" ea_localid="6"/>
+						<type type="Solicitud" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_21EC_4204_A9DA_9E699E8E95FE" visibility="public">
+								<properties pos="0" type="Solicitud" const="false" ea_guid="{RETURNID-21EC-4204-A9DA-9E699E8E95FE}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_DB991FF7_ABE1_4fdf_B35F_29661601E6B3" name="enviarDatos" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{DB991FF7-ABE1-4fdf-B35F-29661601E6B3}" ea_localid="7"/>
+						<type type="Solicitud" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_ABE1_4fdf_B35F_29661601E6B3" visibility="public">
+								<properties pos="0" type="Solicitud" const="false" ea_guid="{RETURNID-ABE1-4fdf-B35F-29661601E6B3}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_D2CB4D5E_AB65_4f6f_938D_C4A12B01324A" name="mostrarFormularioEspecialidad" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{D2CB4D5E-AB65-4f6f-938D-C4A12B01324A}" ea_localid="4"/>
+						<type type="Vista" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_AB65_4f6f_938D_C4A12B01324A" visibility="public">
+								<properties pos="0" type="Vista" const="false" ea_guid="{RETURNID-AB65-4f6f-938D-C4A12B01324A}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_5E3037D8_3FFC_4b7e_B789_B4B8A8FCF23E" name="mostrarFormularioMedico" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{5E3037D8-3FFC-4b7e-B789-B4B8A8FCF23E}" ea_localid="3"/>
+						<type type="Vista" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_3FFC_4b7e_B789_B4B8A8FCF23E" visibility="public">
+								<properties pos="0" type="Vista" const="false" ea_guid="{RETURNID-3FFC-4b7e-B789-B4B8A8FCF23E}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_A20E173B_3853_409e_8537_3CB8ECC92CCE" name="mostrarListados" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{A20E173B-3853-409e-8537-3CB8ECC92CCE}" ea_localid="1"/>
+						<type type="Vista" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_3853_409e_8537_3CB8ECC92CCE" visibility="public">
+								<properties pos="0" type="Vista" const="false" ea_guid="{RETURNID-3853-409e-8537-3CB8ECC92CCE}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+					<operation xmi:idref="EAID_330B41AD_9C0B_4e74_910D_22AE91810FF3" name="seleccionarCuentaExistente" scope="Public">
+						<properties position="0"/>
+						<stereotype/>
+						<model ea_guid="{330B41AD-9C0B-4e74-910D-22AE91810FF3}" ea_localid="5"/>
+						<type type="Solicitud" const="false" static="false" isAbstract="false" synchronised="0" concurrency="Sequential" returnarray="0" pure="0" isQuery="false"/>
+						<behaviour/>
+						<code/>
+						<style/>
+						<styleex/>
+						<documentation/>
+						<tags/>
+						<parameters>
+							<parameter xmi:idref="EAID_RETURNID_9C0B_4e74_910D_22AE91810FF3" visibility="public">
+								<properties pos="0" type="Solicitud" const="false" ea_guid="{RETURNID-9C0B-4e74-910D-22AE91810FF3}"/>
+								<style/>
+								<styleex/>
+								<documentation/>
+								<tags/>
+								<xrefs/>
+							</parameter>
+						</parameters>
+						<xrefs/>
+					</operation>
+				</operations>
+				<links>
+					<Association xmi:id="EAID_F5F2EC85_ABA0_45a9_94BC_9250C0C55F27" start="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85" end="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4"/>
+					<Association xmi:id="EAID_AE79B4AB_FEA1_4c51_B567_0877087F4403" start="EAID_55FBE4F6_8A04_43c8_B35B_59BF10C21897" end="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85"/>
+				</links>
+			</element>
+		</elements>
+		<connectors>
+			<connector xmi:idref="EAID_AE79B4AB_FEA1_4c51_B567_0877087F4403" name="interactúa">
+				<source xmi:idref="EAID_55FBE4F6_8A04_43c8_B35B_59BF10C21897">
+					<model ea_localid="2" type="Actor" name="Administrador autorizado"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85">
+					<model ea_localid="3" type="Class" name="V.Médicos y especialidades"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="1"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels mt="interactúa"/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_90CCE933_C773_4d8c_915D_96EC2E696E1C">
+				<source xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4">
+					<model ea_localid="4" type="Class" name="C.Gestión de médicos y especialidades"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3">
+					<model ea_localid="8" type="Class" name="E.Cuenta de usuario"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="6"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_91CB2B73_3EC6_4b26_B862_F149CE3E0E79">
+				<source xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4">
+					<model ea_localid="4" type="Class" name="C.Gestión de médicos y especialidades"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46">
+					<model ea_localid="7" type="Class" name="E.Asignación de especialidad"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="5"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_D9A6F0D4_0EFC_44f0_8284_E62F83C1FD07">
+				<source xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4">
+					<model ea_localid="4" type="Class" name="C.Gestión de médicos y especialidades"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF">
+					<model ea_localid="6" type="Class" name="E.Especialidad"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="4"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_DF231661_6439_496c_87FF_A1CF7E337E9C">
+				<source xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4">
+					<model ea_localid="4" type="Class" name="C.Gestión de médicos y especialidades"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B">
+					<model ea_localid="5" type="Class" name="E.Médico"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="3"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_F5F2EC85_ABA0_45a9_94BC_9250C0C55F27" name="solicita">
+				<source xmi:idref="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85">
+					<model ea_localid="3" type="Class" name="V.Médicos y especialidades"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4">
+					<model ea_localid="4" type="Class" name="C.Gestión de médicos y especialidades"/>
+					<role visibility="Public"/>
+					<type aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="2"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels mt="solicita"/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_3B29566F_6D1D_40a5_A804_B46E24C0F36A">
+				<source xmi:idref="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF">
+					<model ea_localid="6" type="Class" name="E.Especialidad"/>
+					<role visibility="Public"/>
+					<type multiplicity="1" aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46">
+					<model ea_localid="7" type="Class" name="E.Asignación de especialidad"/>
+					<role visibility="Public"/>
+					<type multiplicity="0..*" aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="8"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels lb="1" rb="0..*"/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_B91C1E79_89C8_4dce_9579_1DF6285C1FE7">
+				<source xmi:idref="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B">
+					<model ea_localid="5" type="Class" name="E.Médico"/>
+					<role visibility="Public"/>
+					<type multiplicity="1" aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46">
+					<model ea_localid="7" type="Class" name="E.Asignación de especialidad"/>
+					<role visibility="Public"/>
+					<type multiplicity="0..*" aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="7"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels lb="1" rb="0..*"/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_2D7756AA_D6D0_4b14_B113_6D5ED1F174F1">
+				<source xmi:idref="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B">
+					<model ea_localid="5" type="Class" name="E.Médico"/>
+					<role visibility="Public"/>
+					<type multiplicity="0..1" aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3">
+					<model ea_localid="8" type="Class" name="E.Cuenta de usuario"/>
+					<role visibility="Public"/>
+					<type multiplicity="0..1" aggregation="none"/>
+					<constraints/>
+					<modifiers isOrdered="false" isNavigable="false"/>
+					<style value="Navigable=Non-Navigable;Owned=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="9"/>
+				<properties ea_type="Association" direction="Unspecified"/>
+				<modifiers isRoot="false" isLeaf="false"/>
+				<parameterSubstitutions/>
+				<documentation/>
+				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels lb="0..1" rb="0..1"/>
+				<extendedProperties/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+		</connectors>
+		<primitivetypes>
+			<packagedElement xmi:type="uml:Package" xmi:id="EAPrimitiveTypesPackage" name="EA_PrimitiveTypes_Package" visibility="public">
+				<packagedElement xmi:type="uml:Package" xmi:id="EAJavaTypesPackage" name="EA_Java_Types_Package" visibility="public">
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_void" name="void" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_Coleccion" name="Coleccion" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_Especialidad" name="Especialidad" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_Medico" name="Medico" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_bool" name="bool" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_string" name="string" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_bigint" name="bigint" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_string_" name="string?" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_Solicitud" name="Solicitud" visibility="public"/>
+					<packagedElement xmi:type="uml:PrimitiveType" xmi:id="EAJava_Vista" name="Vista" visibility="public"/>
+				</packagedElement>
+			</packagedElement>
+		</primitivetypes>
+		<profiles>
+			<uml:Profile xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1/" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:id="thecustomprofile" nsPrefix="thecustomprofile" name="thecustomprofile" metamodelReference="mmref01">
+				<ownedComment xmi:type="uml:Comment" xmi:id="comment01" annotatedElement="thecustomprofile">
+					<body> Version:1.0</body>
+				</ownedComment>
+				<packageImport xmi:id="mmref01">
+					<importedPackage href="http://schema.omg.org/spec/UML/2.1/"/>
+				</packageImport>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="control" name="control">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="control-base_Class" name="base_Class" association="Class_control">
+						<type href="http://schema.omg.org/spec/UML/2.1/Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_control" name="A_Class_control" memberEnd="extension_control control-base_Class">
+					<ownedEnd xmi:id="extension_control" name="extension_control" type="control" isComposite="true" lower="0" upper="1" memberEnd="extension_control control-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="boundary" name="boundary">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="boundary-base_Class" name="base_Class" association="Class_boundary">
+						<type href="http://schema.omg.org/spec/UML/2.1/Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_boundary" name="A_Class_boundary" memberEnd="extension_boundary boundary-base_Class">
+					<ownedEnd xmi:id="extension_boundary" name="extension_boundary" type="boundary" isComposite="true" lower="0" upper="1" memberEnd="extension_boundary boundary-base_Class"/>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Stereotype" xmi:id="entity" name="entity">
+					<ownedAttribute xmi:type="uml:Property" xmi:id="entity-base_Class" name="base_Class" association="Class_entity">
+						<type href="http://schema.omg.org/spec/UML/2.1/Class"/>
+					</ownedAttribute>
+				</packagedElement>
+				<packagedElement xmi:type="uml:Extension" xmi:id="Class_entity" name="A_Class_entity" memberEnd="extension_entity entity-base_Class">
+					<ownedEnd xmi:id="extension_entity" name="extension_entity" type="entity" isComposite="true" lower="0" upper="1" memberEnd="extension_entity entity-base_Class"/>
+				</packagedElement>
+			</uml:Profile>
+		</profiles>
+		<diagrams>
+			<diagram xmi:id="EAID_42909C0F_DF17_4443_AF0D_64851028E400">
+				<model package="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" localID="1" owner="EAPK_0B70787D_A839_4a0f_AD99_8BAAA259EDDB" tpos="0"/>
+				<properties name="CU-05 Diagrama de clases de análisis" type="Logical" documentation="Clases conceptuales de análisis, no nuevas clases PHP. La frontera agrupa las vistas de médicos y especialidades. El control se realiza con MedicoController, EspecialidadController, Form Requests, DoctorManagement y SpecialtyManagement. Asignación de especialidad representa el pivote medico_especialidad operado con Query Builder; no se afirma la existencia de un modelo Eloquent específico. Médico-Cuenta es un vínculo opcional y único en ambos extremos; no crea cuentas. Guardado transaccional, unicidad normalizada, firma de edición y desactivación sin borrado. El alta y la reactivación de médico comprueban especialidades activas. No se dibujan notas explicativas.&#xA;Sesión vigente y permiso efectivo medicos.gestionar."/>
+				<project version="1" created="2026-10-24 21:28:02" modified="2026-10-24 21:28:02"/>
+				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=0;PackageContents=0;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=800;DocSize.cy=1100;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=0;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;ShowShape=1;AllDockable=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<style2/>
+				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;ufCol=-1;hl=1;ufh=0;hh=0;cls=0;bw=0;hli=0;SwimlaneFont=lfh:-13,lfw:0,lfi:0,lfu:0,lfs:0,lfface:Calibri,lfe:0,lfo:0,lfchar:1,lfop:0,lfcp:0,lfq:0,lfpf=0,lfWidth=0;"/>
+				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;clrLine=0;"/>
+				<extendedProperties/>
+				<elements>
+					<element geometry="Left=40;Top=610;Right=105;Bottom=740;imgL=60;imgT=595;imgR=125;imgB=725;" subject="EAID_55FBE4F6_8A04_43c8_B35B_59BF10C21897" seqno="1" style="font=Arial;fontsz=120;UseAlias=0;BCol=14150399;DUID=91B420E8;"/>
+					<element geometry="Left=225;Top=500;Right=570;Bottom=830;imgL=245;imgT=485;imgR=590;imgB=815;" subject="EAID_6BA7FF23_2C88_4b08_87C1_207EE20C1E85" seqno="2" style="font=Arial;fontsz=120;UseAlias=0;BCol=14150399;UCRect=1;DUID=30B9EB3E;"/>
+					<element geometry="Left=665;Top=460;Right=1055;Bottom=870;imgL=685;imgT=445;imgR=1075;imgB=855;" subject="EAID_B52DC936_F428_476f_9A4A_79E59E101CB4" seqno="3" style="font=Arial;fontsz=120;UseAlias=0;BCol=14150399;UCRect=1;DUID=5CB090D3;"/>
+					<element geometry="Left=1200;Top=50;Right=1640;Bottom=370;imgL=1220;imgT=35;imgR=1660;imgB=355;" subject="EAID_64DBAB90_13CC_48b2_B6C7_03EA98E7855B" seqno="4" style="font=Arial;fontsz=120;UseAlias=0;BCol=14150399;UCRect=1;DUID=E235B1DC;"/>
+					<element geometry="Left=1200;Top=440;Right=1640;Bottom=680;imgL=1220;imgT=425;imgR=1660;imgB=665;" subject="EAID_142C7E4D_9AF1_4994_B578_9D83742F72FF" seqno="5" style="font=Arial;fontsz=120;UseAlias=0;BCol=14150399;UCRect=1;DUID=E7888016;"/>
+					<element geometry="Left=1200;Top=750;Right=1640;Bottom=970;imgL=1220;imgT=735;imgR=1660;imgB=955;" subject="EAID_C6871B8F_B865_4dec_BEC1_95CE648D0E46" seqno="6" style="font=Arial;fontsz=120;UseAlias=0;BCol=14150399;UCRect=1;DUID=8C4B8862;"/>
+					<element geometry="Left=1200;Top=1050;Right=1640;Bottom=1290;imgL=1220;imgT=1035;imgR=1660;imgB=1275;" subject="EAID_93B4E9C0_697F_493d_8481_CAAD031D09E3" seqno="7" style="font=Arial;fontsz=120;UseAlias=0;BCol=14150399;UCRect=1;DUID=777C9405;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=1820:-260$1820:-1170$;" subject="EAID_2D7756AA_D6D0_4b14_B113_6D5ED1F174F1" style="Mode=3;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=1110:-665$1110:-1170$;" subject="EAID_90CCE933_C773_4d8c_915D_96EC2E696E1C" style="Mode=3;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=1700:-560$1700:-900$;" subject="EAID_3B29566F_6D1D_40a5_A804_B46E24C0F36A" style="Mode=3;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=1750:-210$1750:-820$;" subject="EAID_B91C1E79_89C8_4dce_9579_1DF6285C1FE7" style="Mode=3;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=1110:-665$1110:-860$;" subject="EAID_91CB2B73_3EC6_4b26_B862_F149CE3E0E79" style="Mode=3;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=1110:-665$1110:-560$;" subject="EAID_D9A6F0D4_0EFC_44f0_8284_E62F83C1FD07" style="Mode=3;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=1110:-665$1110:-210$;" subject="EAID_DF231661_6439_496c_87FF_A1CF7E337E9C" style="Mode=3;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=;" subject="EAID_F5F2EC85_ABA0_45a9_94BC_9250C0C55F27" style="Mode=1;Hidden=0;"/>
+					<element geometry="SX=0;SY=0;EX=0;EY=0;Path=;" subject="EAID_AE79B4AB_FEA1_4c51_B567_0877087F4403" style="Mode=1;Hidden=0;"/>
+				</elements>
+			</diagram>
+		</diagrams>
+	</xmi:Extension>
+</xmi:XMI>

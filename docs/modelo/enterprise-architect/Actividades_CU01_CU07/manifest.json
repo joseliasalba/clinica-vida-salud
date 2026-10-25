@@ -1,0 +1,74 @@
+﻿[
+    {
+        "id":  "cu01-actividad",
+        "image":  "diagramas/cu01-actividad.png",
+        "guid":  "{048D557D-282F-45f9-BBB2-CA64659E418B}",
+        "kind":  "actividad",
+        "diagramId":  1,
+        "title":  "Diagrama de actividad",
+        "caseId":  "CU-01"
+    },
+    {
+        "id":  "cu02-actividad",
+        "image":  "diagramas/cu02-actividad.png",
+        "guid":  "{4A4E6B8E-2988-4f02-8C34-E88C297811D4}",
+        "kind":  "actividad",
+        "diagramId":  2,
+        "title":  "Diagrama de actividad",
+        "caseId":  "CU-02"
+    },
+    {
+        "id":  "cu03-actividad",
+        "image":  "diagramas/cu03-actividad.png",
+        "guid":  "{D372B38D-0A0B-4bc2-BA28-8FF702D7487B}",
+        "kind":  "actividad",
+        "diagramId":  3,
+        "title":  "Diagrama de actividad",
+        "caseId":  "CU-03"
+    },
+    {
+        "id":  "cu04-actividad",
+        "image":  "diagramas/cu04-actividad.png",
+        "guid":  "{492935AD-95BD-47b9-9BFC-9F640B26D3F7}",
+        "kind":  "actividad",
+        "diagramId":  4,
+        "title":  "Diagrama de actividad",
+        "caseId":  "CU-04"
+    },
+    {
+        "id":  "cu05-actividad",
+        "image":  "diagramas/cu05-actividad.png",
+        "guid":  "{601BB06F-A906-4fd5-ADC1-E486DCD8D5D5}",
+        "kind":  "actividad",
+        "diagramId":  5,
+        "title":  "Diagrama de actividad",
+        "caseId":  "CU-05"
+    },
+    {
+        "id":  "cu06-actividad",
+        "image":  "diagramas/cu06-actividad.png",
+        "guid":  "{70E82C86-45A3-4c2e-820D-90E553DEA5C6}",
+        "kind":  "actividad",
+        "diagramId":  6,
+        "title":  "Diagrama de actividad",
+        "caseId":  "CU-06"
+    },
+    {
+        "id":  "cu07-actividad",
+        "image":  "diagramas/cu07-actividad.png",
+        "guid":  "{8EC910F1-1E73-4988-9A9D-61D3AD9BB26E}",
+        "kind":  "actividad",
+        "diagramId":  7,
+        "title":  "Diagrama de actividad",
+        "caseId":  "CU-07"
+    },
+    {
+        "id":  "actores-corregidos",
+        "image":  "diagramas/actores-corregidos.png",
+        "guid":  "{228A68B7-0C87-4ea4-98A3-2FB2886D1BEC}",
+        "kind":  "actores",
+        "diagramId":  8,
+        "title":  "Actores y límites de acceso",
+        "caseId":  "ACTORES"
+    }
+]

@@ -1,0 +1,2496 @@
+{
+  "title": "Clínica Vida Salud - Modelo general de actores, casos y paquetes",
+  "date": "24/10/2026",
+  "revision": "7dc59ab",
+  "sources": [
+    "docs/casos-de-uso/README.md",
+    "sistema/backend/config/permisos.php",
+    "sistema/backend/routes/web.php",
+    "docs/casos-de-uso/CU-01 a CU-12",
+    "docs/supuestos.md",
+    "todos los diagramas.pdf: páginas 2, 4, 5, 6 y 7",
+    "Documento guía HOUSE OF CUT y capturas aportadas"
+  ],
+  "actors": [
+    {
+      "id": "admin",
+      "name": "Administrador",
+      "notes": "<p><b>Responsabilidad:</b> Configurar usuarios, médicos, especialidades y horarios; supervisar operaciones autorizadas</p><p><b>Límite de acceso:</b> Actúa según permisos efectivos; no se presume acceso irrestricto a datos clínicos</p>"
+    },
+    {
+      "id": "recepcion",
+      "name": "Recepcionista",
+      "notes": "<p><b>Responsabilidad:</b> Identificar pacientes y registrar o gestionar citas de acuerdo con su autorización</p><p><b>Límite de acceso:</b> No configura médicos ni horarios con el conjunto inicial de permisos</p>"
+    },
+    {
+      "id": "medico",
+      "name": "Médico",
+      "notes": "<p><b>Responsabilidad:</b> Consultar su agenda y los datos básicos necesarios para atender</p><p><b>Límite de acceso:</b> CU-11 se limitará al profesional vinculado y requerirá una política explícita para consultas administrativas</p>"
+    },
+    {
+      "id": "paciente",
+      "name": "Paciente",
+      "notes": "<p><b>Responsabilidad:</b> Acceder a su cuenta, verificar correo y reservar para su ficha vinculada</p><p><b>Límite de acceso:</b> No puede escoger la identidad de otro paciente ni consultar comprobantes ajenos</p>"
+    },
+    {
+      "id": "visitante",
+      "name": "Visitante",
+      "notes": "Persona sin sesión que utiliza el registro público o inicia recuperación de acceso. Es un contexto de interacción, no un quinto rol almacenado del negocio."
+    },
+    {
+      "id": "correo",
+      "name": "Servicio de correo",
+      "notes": "Actor externo secundario para recuperación y verificación. Laravel genera notificaciones; la entrega SMTP real sigue pendiente. Los recordatorios de CU-17 son futuros."
+    }
+  ],
+  "cases": [
+    {
+      "id": "cu01",
+      "code": "CU-01",
+      "title": "Iniciar y cerrar sesión",
+      "pkg": "seguridad",
+      "actors": [
+        "admin",
+        "recepcion",
+        "medico",
+        "paciente"
+      ],
+      "status": "Implementado",
+      "sources": "RF01; rutas/auth.php; SessionController; ProtectSession."
+    },
+    {
+      "id": "cu011",
+      "code": "CU-01.1",
+      "title": "Recuperar contraseña",
+      "pkg": "seguridad",
+      "actors": [
+        "visitante",
+        "correo"
+      ],
+      "status": "Implementado",
+      "sources": "Complemento de CU-01; Password Broker y PasswordRecoveryTest. SMTP real pendiente."
+    },
+    {
+      "id": "cu02",
+      "code": "CU-02",
+      "title": "Administrar usuarios, roles y permisos",
+      "pkg": "seguridad",
+      "actors": [
+        "admin"
+      ],
+      "status": "Implementado",
+      "sources": "RF01 y roles; rutas/usuarios.php; UserAdministration."
+    },
+    {
+      "id": "cu03",
+      "code": "CU-03",
+      "title": "Registrarse como paciente",
+      "pkg": "pacientes",
+      "actors": [
+        "visitante",
+        "correo"
+      ],
+      "status": "Implementado",
+      "sources": "Autorregistro y verificación; RegistrationController; PatientSelfRegistration. SMTP real pendiente."
+    },
+    {
+      "id": "cu04",
+      "code": "CU-04",
+      "title": "Registrar y gestionar pacientes en recepción",
+      "pkg": "pacientes",
+      "actors": [
+        "admin",
+        "recepcion"
+      ],
+      "status": "Implementado",
+      "sources": "RF02; rutas/pacientes.php; PatientRegistration."
+    },
+    {
+      "id": "cu05",
+      "code": "CU-05",
+      "title": "Gestionar médicos y especialidades",
+      "pkg": "medicos",
+      "actors": [
+        "admin"
+      ],
+      "status": "Implementado",
+      "sources": "RF03-RF04; rutas/medicos.php y especialidades.php; DoctorManagement y SpecialtyManagement."
+    },
+    {
+      "id": "cu06",
+      "code": "CU-06",
+      "title": "Configurar horarios de atención",
+      "pkg": "horarios",
+      "actors": [
+        "admin"
+      ],
+      "status": "Implementado",
+      "sources": "RF05; rutas/horarios.php; ScheduleManagement. Incluye bloqueos."
+    },
+    {
+      "id": "cu07",
+      "code": "CU-07",
+      "title": "Consultar disponibilidad y reservar cita",
+      "pkg": "citas",
+      "actors": [
+        "admin",
+        "recepcion",
+        "paciente"
+      ],
+      "status": "Implementado",
+      "sources": "RF06-RF07; rutas/citas.php; AppointmentAvailability y AppointmentBooking."
+    },
+    {
+      "id": "cu08",
+      "code": "CU-08",
+      "title": "Reprogramar una cita",
+      "pkg": "citas",
+      "actors": [
+        "admin",
+        "recepcion"
+      ],
+      "status": "Implementado",
+      "sources": "RF08; rutas/reprogramacion.php; implementación de Lucas integrada."
+    },
+    {
+      "id": "cu09",
+      "code": "CU-09",
+      "title": "Cancelar una cita",
+      "pkg": "citas",
+      "actors": [
+        "admin",
+        "recepcion"
+      ],
+      "status": "Implementado",
+      "sources": "RF09; rutas/cancelacion.php; implementación de Lucas integrada."
+    },
+    {
+      "id": "cu10",
+      "code": "CU-10",
+      "title": "Confirmar y registrar atención o inasistencia",
+      "pkg": "citas",
+      "actors": [
+        "admin",
+        "recepcion",
+        "medico"
+      ],
+      "status": "Implementado",
+      "sources": "RF10; rutas/asistencia.php; médico limitado a citas propias."
+    },
+    {
+      "id": "cu11",
+      "code": "CU-11",
+      "title": "Consultar agenda médica",
+      "pkg": "citas",
+      "actors": [
+        "medico"
+      ],
+      "status": "Pendiente",
+      "sources": "RF11; especificación y permiso agenda.propia. El listado auxiliar de CU-10 no acredita CU-11 terminado."
+    },
+    {
+      "id": "cu12",
+      "code": "CU-12",
+      "title": "Consultar historial de citas",
+      "pkg": "citas",
+      "actors": [
+        "admin",
+        "recepcion",
+        "paciente"
+      ],
+      "status": "Implementado",
+      "sources": "RF12; rutas/historial.php; paciente limitado a su ficha. Médico con solo agenda.propia no accede."
+    },
+    {
+      "id": "cu13",
+      "code": "CU-13",
+      "title": "Generar reportes administrativos",
+      "pkg": "reportes",
+      "actors": [
+        "admin"
+      ],
+      "status": "Pendiente",
+      "sources": "RF13; alcance futuro del catálogo. Autorizaciones adicionales por definir."
+    },
+    {
+      "id": "cu14",
+      "code": "CU-14",
+      "title": "Actualizar perfil, salud declarada y contacto de emergencia",
+      "pkg": "pacientes",
+      "actors": [
+        "paciente"
+      ],
+      "status": "Pendiente",
+      "sources": "Perfil del paciente; alcance futuro. El permiso perfil.propio no acredita el flujo completo."
+    },
+    {
+      "id": "cu15",
+      "code": "CU-15",
+      "title": "Registrar consulta y tratamiento",
+      "pkg": "atencion",
+      "actors": [
+        "medico"
+      ],
+      "status": "Pendiente",
+      "sources": "Contexto clínico ampliado del catálogo; no implementado."
+    },
+    {
+      "id": "cu16",
+      "code": "CU-16",
+      "title": "Solicitar estudios y consultar/publicar resultados",
+      "pkg": "atencion",
+      "actors": [
+        "medico",
+        "paciente"
+      ],
+      "status": "Pendiente",
+      "sources": "Alcance futuro; médico solicita estudios y paciente consulta lo autorizado. Responsable de publicación por definir."
+    },
+    {
+      "id": "cu17",
+      "code": "CU-17",
+      "title": "Gestionar preferencias y recordatorios",
+      "pkg": "preferencias",
+      "actors": [
+        "paciente",
+        "correo"
+      ],
+      "status": "Pendiente",
+      "sources": "Alcance futuro; reglas de programación y consentimiento por definir; no hay proceso operativo acreditado."
+    }
+  ],
+  "packages": [
+    {
+      "id": "seguridad",
+      "name": "seguridad_usuarios",
+      "notes": "Acceso y administración de usuarios, roles y permisos; recuperación de contraseña. Módulo actual Auth. Permisos efectivos y sesiones protegidas. CU-01, CU-01.1 y CU-02 implementados; entrega SMTP real pendiente.",
+      "status": "actual"
+    },
+    {
+      "id": "pacientes",
+      "name": "gestion_pacientes",
+      "notes": "Autorregistro y ficha administrativa de pacientes, con identidad y vínculos conservados. Módulo actual Pacientes. CU-03 y CU-04 implementados; CU-14 de perfil y salud declarada pendiente.",
+      "status": "mixto"
+    },
+    {
+      "id": "medicos",
+      "name": "medicos_especialidades",
+      "notes": "Catálogo de profesionales y especialidades, asignaciones y cuenta opcional. Módulos actuales Medicos y Especialidades. CU-05 implementado; no crea cuentas ni elimina antecedentes.",
+      "status": "actual"
+    },
+    {
+      "id": "horarios",
+      "name": "horarios_atencion",
+      "notes": "Franjas semanales, duración, vigencias y bloqueos por médico. Módulo actual Horarios. CU-06 implementado; protege citas pendientes y alimenta el cálculo de disponibilidad.",
+      "status": "actual"
+    },
+    {
+      "id": "citas",
+      "name": "citas_agenda",
+      "notes": "Disponibilidad, reserva, comprobante, reprogramación, cancelación, asistencia e historial. Módulo actual Citas. CU-07, CU-08, CU-09, CU-10 y CU-12 implementados; CU-11 agenda médica pendiente.",
+      "status": "mixto"
+    },
+    {
+      "id": "reportes",
+      "name": "reportes",
+      "notes": "Consolidación administrativa de citas para gestión y toma de decisiones. Paquete lógico propuesto para CU-13. No hay pantallas ni servicio de reportes implementados; permisos por precisar.",
+      "status": "propuesto"
+    },
+    {
+      "id": "atencion",
+      "name": "atencion_clinica",
+      "notes": "Consulta, tratamiento, estudios y resultados vinculados a pacientes y profesionales. Paquete lógico propuesto para CU-15 y CU-16. No confundir tablas de dominio con funciones implementadas.",
+      "status": "propuesto"
+    },
+    {
+      "id": "preferencias",
+      "name": "preferencias_recordatorios",
+      "notes": "Preferencias del paciente y futuras notificaciones o recordatorios. Paquete lógico propuesto para CU-17. Programación, envío, consentimiento y alcance de destinatarios pendientes de definición.",
+      "status": "propuesto"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "pkg_seguridad",
+      "name": "seguridad_usuarios",
+      "type": "Package",
+      "status": "actual",
+      "notes": "Acceso y administración de usuarios, roles y permisos; recuperación de contraseña. Módulo actual Auth. Permisos efectivos y sesiones protegidas. CU-01, CU-01.1 y CU-02 implementados; entrega SMTP real pendiente."
+    },
+    {
+      "id": "pkg_pacientes",
+      "name": "gestion_pacientes",
+      "type": "Package",
+      "status": "mixto",
+      "notes": "Autorregistro y ficha administrativa de pacientes, con identidad y vínculos conservados. Módulo actual Pacientes. CU-03 y CU-04 implementados; CU-14 de perfil y salud declarada pendiente."
+    },
+    {
+      "id": "pkg_medicos",
+      "name": "medicos_especialidades",
+      "type": "Package",
+      "status": "actual",
+      "notes": "Catálogo de profesionales y especialidades, asignaciones y cuenta opcional. Módulos actuales Medicos y Especialidades. CU-05 implementado; no crea cuentas ni elimina antecedentes."
+    },
+    {
+      "id": "pkg_horarios",
+      "name": "horarios_atencion",
+      "type": "Package",
+      "status": "actual",
+      "notes": "Franjas semanales, duración, vigencias y bloqueos por médico. Módulo actual Horarios. CU-06 implementado; protege citas pendientes y alimenta el cálculo de disponibilidad."
+    },
+    {
+      "id": "pkg_citas",
+      "name": "citas_agenda",
+      "type": "Package",
+      "status": "mixto",
+      "notes": "Disponibilidad, reserva, comprobante, reprogramación, cancelación, asistencia e historial. Módulo actual Citas. CU-07, CU-08, CU-09, CU-10 y CU-12 implementados; CU-11 agenda médica pendiente."
+    },
+    {
+      "id": "pkg_reportes",
+      "name": "reportes",
+      "type": "Package",
+      "status": "propuesto",
+      "notes": "Consolidación administrativa de citas para gestión y toma de decisiones. Paquete lógico propuesto para CU-13. No hay pantallas ni servicio de reportes implementados; permisos por precisar.",
+      "stereotype": "propuesto"
+    },
+    {
+      "id": "pkg_atencion",
+      "name": "atencion_clinica",
+      "type": "Package",
+      "status": "propuesto",
+      "notes": "Consulta, tratamiento, estudios y resultados vinculados a pacientes y profesionales. Paquete lógico propuesto para CU-15 y CU-16. No confundir tablas de dominio con funciones implementadas.",
+      "stereotype": "propuesto"
+    },
+    {
+      "id": "pkg_preferencias",
+      "name": "preferencias_recordatorios",
+      "type": "Package",
+      "status": "propuesto",
+      "notes": "Preferencias del paciente y futuras notificaciones o recordatorios. Paquete lógico propuesto para CU-17. Programación, envío, consentimiento y alcance de destinatarios pendientes de definición.",
+      "stereotype": "propuesto"
+    },
+    {
+      "id": "act_admin",
+      "name": "Administrador",
+      "type": "Actor",
+      "notes": "<p><b>Responsabilidad:</b> Configurar usuarios, médicos, especialidades y horarios; supervisar operaciones autorizadas</p><p><b>Límite de acceso:</b> Actúa según permisos efectivos; no se presume acceso irrestricto a datos clínicos</p>"
+    },
+    {
+      "id": "act_recepcion",
+      "name": "Recepcionista",
+      "type": "Actor",
+      "notes": "<p><b>Responsabilidad:</b> Identificar pacientes y registrar o gestionar citas de acuerdo con su autorización</p><p><b>Límite de acceso:</b> No configura médicos ni horarios con el conjunto inicial de permisos</p>"
+    },
+    {
+      "id": "act_medico",
+      "name": "Médico",
+      "type": "Actor",
+      "notes": "<p><b>Responsabilidad:</b> Consultar su agenda y los datos básicos necesarios para atender</p><p><b>Límite de acceso:</b> CU-11 se limitará al profesional vinculado y requerirá una política explícita para consultas administrativas</p>"
+    },
+    {
+      "id": "act_paciente",
+      "name": "Paciente",
+      "type": "Actor",
+      "notes": "<p><b>Responsabilidad:</b> Acceder a su cuenta, verificar correo y reservar para su ficha vinculada</p><p><b>Límite de acceso:</b> No puede escoger la identidad de otro paciente ni consultar comprobantes ajenos</p>"
+    },
+    {
+      "id": "act_visitante",
+      "name": "Visitante",
+      "type": "Actor",
+      "notes": "Persona sin sesión que utiliza el registro público o inicia recuperación de acceso. Es un contexto de interacción, no un quinto rol almacenado del negocio."
+    },
+    {
+      "id": "act_correo",
+      "name": "Servicio de correo",
+      "type": "Actor",
+      "notes": "Actor externo secundario para recuperación y verificación. Laravel genera notificaciones; la entrega SMTP real sigue pendiente. Los recordatorios de CU-17 son futuros."
+    },
+    {
+      "id": "cu01",
+      "name": "CU-01\nIniciar y cerrar sesión",
+      "type": "UseCase",
+      "owner": "seguridad",
+      "status": "Implementado",
+      "notes": "RF01; rutas/auth.php; SessionController; ProtectSession.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-01"
+    },
+    {
+      "id": "cu011",
+      "name": "CU-01.1\nRecuperar contraseña",
+      "type": "UseCase",
+      "owner": "seguridad",
+      "status": "Implementado",
+      "notes": "Complemento de CU-01; Password Broker y PasswordRecoveryTest. SMTP real pendiente.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-01.1"
+    },
+    {
+      "id": "cu02",
+      "name": "CU-02\nAdministrar usuarios, roles y permisos",
+      "type": "UseCase",
+      "owner": "seguridad",
+      "status": "Implementado",
+      "notes": "RF01 y roles; rutas/usuarios.php; UserAdministration.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-02"
+    },
+    {
+      "id": "cu03",
+      "name": "CU-03\nRegistrarse como paciente",
+      "type": "UseCase",
+      "owner": "pacientes",
+      "status": "Implementado",
+      "notes": "Autorregistro y verificación; RegistrationController; PatientSelfRegistration. SMTP real pendiente.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-03"
+    },
+    {
+      "id": "cu04",
+      "name": "CU-04\nRegistrar y gestionar pacientes en recepción",
+      "type": "UseCase",
+      "owner": "pacientes",
+      "status": "Implementado",
+      "notes": "RF02; rutas/pacientes.php; PatientRegistration.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-04"
+    },
+    {
+      "id": "cu05",
+      "name": "CU-05\nGestionar médicos y especialidades",
+      "type": "UseCase",
+      "owner": "medicos",
+      "status": "Implementado",
+      "notes": "RF03-RF04; rutas/medicos.php y especialidades.php; DoctorManagement y SpecialtyManagement.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-05"
+    },
+    {
+      "id": "cu06",
+      "name": "CU-06\nConfigurar horarios de atención",
+      "type": "UseCase",
+      "owner": "horarios",
+      "status": "Implementado",
+      "notes": "RF05; rutas/horarios.php; ScheduleManagement. Incluye bloqueos.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-06"
+    },
+    {
+      "id": "cu07",
+      "name": "CU-07\nConsultar disponibilidad y reservar cita",
+      "type": "UseCase",
+      "owner": "citas",
+      "status": "Implementado",
+      "notes": "RF06-RF07; rutas/citas.php; AppointmentAvailability y AppointmentBooking.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-07"
+    },
+    {
+      "id": "cu08",
+      "name": "CU-08\nReprogramar una cita",
+      "type": "UseCase",
+      "owner": "citas",
+      "status": "Implementado",
+      "notes": "RF08; rutas/reprogramacion.php; implementación de Lucas integrada.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-08"
+    },
+    {
+      "id": "cu09",
+      "name": "CU-09\nCancelar una cita",
+      "type": "UseCase",
+      "owner": "citas",
+      "status": "Implementado",
+      "notes": "RF09; rutas/cancelacion.php; implementación de Lucas integrada.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-09"
+    },
+    {
+      "id": "cu10",
+      "name": "CU-10\nConfirmar y registrar atención o inasistencia",
+      "type": "UseCase",
+      "owner": "citas",
+      "status": "Implementado",
+      "notes": "RF10; rutas/asistencia.php; médico limitado a citas propias.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-10"
+    },
+    {
+      "id": "cu11",
+      "name": "CU-11\nConsultar agenda médica",
+      "type": "UseCase",
+      "owner": "citas",
+      "status": "Pendiente",
+      "notes": "RF11; especificación y permiso agenda.propia. El listado auxiliar de CU-10 no acredita CU-11 terminado.\nEstado al 24/10/2026: Pendiente",
+      "code": "CU-11",
+      "stereotype": "pendiente"
+    },
+    {
+      "id": "cu12",
+      "name": "CU-12\nConsultar historial de citas",
+      "type": "UseCase",
+      "owner": "citas",
+      "status": "Implementado",
+      "notes": "RF12; rutas/historial.php; paciente limitado a su ficha. Médico con solo agenda.propia no accede.\nEstado al 24/10/2026: Implementado",
+      "code": "CU-12"
+    },
+    {
+      "id": "cu13",
+      "name": "CU-13\nGenerar reportes administrativos",
+      "type": "UseCase",
+      "owner": "reportes",
+      "status": "Pendiente",
+      "notes": "RF13; alcance futuro del catálogo. Autorizaciones adicionales por definir.\nEstado al 24/10/2026: Pendiente",
+      "code": "CU-13",
+      "stereotype": "pendiente"
+    },
+    {
+      "id": "cu14",
+      "name": "CU-14\nActualizar perfil, salud declarada y contacto de emergencia",
+      "type": "UseCase",
+      "owner": "pacientes",
+      "status": "Pendiente",
+      "notes": "Perfil del paciente; alcance futuro. El permiso perfil.propio no acredita el flujo completo.\nEstado al 24/10/2026: Pendiente",
+      "code": "CU-14",
+      "stereotype": "pendiente"
+    },
+    {
+      "id": "cu15",
+      "name": "CU-15\nRegistrar consulta y tratamiento",
+      "type": "UseCase",
+      "owner": "atencion",
+      "status": "Pendiente",
+      "notes": "Contexto clínico ampliado del catálogo; no implementado.\nEstado al 24/10/2026: Pendiente",
+      "code": "CU-15",
+      "stereotype": "pendiente"
+    },
+    {
+      "id": "cu16",
+      "name": "CU-16\nSolicitar estudios y consultar/publicar resultados",
+      "type": "UseCase",
+      "owner": "atencion",
+      "status": "Pendiente",
+      "notes": "Alcance futuro; médico solicita estudios y paciente consulta lo autorizado. Responsable de publicación por definir.\nEstado al 24/10/2026: Pendiente",
+      "code": "CU-16",
+      "stereotype": "pendiente"
+    },
+    {
+      "id": "cu17",
+      "name": "CU-17\nGestionar preferencias y recordatorios",
+      "type": "UseCase",
+      "owner": "preferencias",
+      "status": "Pendiente",
+      "notes": "Alcance futuro; reglas de programación y consentimiento por definir; no hay proceso operativo acreditado.\nEstado al 24/10/2026: Pendiente",
+      "code": "CU-17",
+      "stereotype": "pendiente"
+    },
+    {
+      "id": "02-estructura-acceso-catalogos_sistema",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "03-estructura-citas-agenda_sistema",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "04-estructura-evolucion_sistema",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "limite_actor_admin",
+      "name": "<p><b>Responsabilidad:</b> Configurar usuarios, médicos, especialidades y horarios; supervisar operaciones autorizadas</p><p><b>Límite de acceso:</b> Actúa según permisos efectivos; no se presume acceso irrestricto a datos clínicos</p>",
+      "type": "Note"
+    },
+    {
+      "id": "limite_actor_recepcion",
+      "name": "<p><b>Responsabilidad:</b> Identificar pacientes y registrar o gestionar citas de acuerdo con su autorización</p><p><b>Límite de acceso:</b> No configura médicos ni horarios con el conjunto inicial de permisos</p>",
+      "type": "Note"
+    },
+    {
+      "id": "limite_actor_medico",
+      "name": "<p><b>Responsabilidad:</b> Consultar su agenda y los datos básicos necesarios para atender</p><p><b>Límite de acceso:</b> CU-11 se limitará al profesional vinculado y requerirá una política explícita para consultas administrativas</p>",
+      "type": "Note"
+    },
+    {
+      "id": "limite_actor_paciente",
+      "name": "<p><b>Responsabilidad:</b> Acceder a su cuenta, verificar correo y reservar para su ficha vinculada</p><p><b>Límite de acceso:</b> No puede escoger la identidad de otro paciente ni consultar comprobantes ajenos</p>",
+      "type": "Note"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "01-lista-actores",
+      "title": "Lista de actores",
+      "phase": "01 Captura de requisitos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "act_admin",
+          "x": 70,
+          "y": 95,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "limite_actor_admin",
+          "x": 330,
+          "y": 70,
+          "w": 950,
+          "h": 215
+        },
+        {
+          "ref": "act_recepcion",
+          "x": 70,
+          "y": 365,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "limite_actor_recepcion",
+          "x": 330,
+          "y": 340,
+          "w": 950,
+          "h": 215
+        },
+        {
+          "ref": "act_medico",
+          "x": 70,
+          "y": 635,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "limite_actor_medico",
+          "x": 330,
+          "y": 610,
+          "w": 950,
+          "h": 215
+        },
+        {
+          "ref": "act_paciente",
+          "x": 70,
+          "y": 905,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "limite_actor_paciente",
+          "x": 330,
+          "y": 880,
+          "w": 950,
+          "h": 215
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "limite_actor_admin",
+          "type": "NoteLink",
+          "label": ""
+        },
+        {
+          "from": "act_recepcion",
+          "to": "limite_actor_recepcion",
+          "type": "NoteLink",
+          "label": ""
+        },
+        {
+          "from": "act_medico",
+          "to": "limite_actor_medico",
+          "type": "NoteLink",
+          "label": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "limite_actor_paciente",
+          "type": "NoteLink",
+          "label": ""
+        }
+      ],
+      "notes": "Cuatro roles de negocio según la tabla acordada. Visitante y correo se conservan como auxiliares en otras vistas. CU-11 pendiente, limitado al profesional vinculado y sujeto a política administrativa explícita."
+    },
+    {
+      "id": "02-estructura-acceso-catalogos",
+      "title": "2.5 Estructurar casos de uso - Acceso y catálogos",
+      "phase": "01 Captura de requisitos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "02-estructura-acceso-catalogos_sistema",
+          "x": 300,
+          "y": 60,
+          "w": 650,
+          "h": 1510,
+          "background": true
+        },
+        {
+          "ref": "cu01",
+          "x": 445,
+          "y": 115,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu011",
+          "x": 445,
+          "y": 305,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu02",
+          "x": 445,
+          "y": 495,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu03",
+          "x": 445,
+          "y": 685,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu04",
+          "x": 445,
+          "y": 875,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu05",
+          "x": 445,
+          "y": 1065,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu06",
+          "x": 445,
+          "y": 1255,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 90,
+          "y": 338.33333333333337,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_recepcion",
+          "x": 90,
+          "y": 775,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_visitante",
+          "x": 90,
+          "y": 1211.6666666666667,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_medico",
+          "x": 1080,
+          "y": 338.33333333333337,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1080,
+          "y": 775,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_correo",
+          "x": 1080,
+          "y": 1211.6666666666667,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_medico",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_visitante",
+          "to": "cu011",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_correo",
+          "to": "cu011",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_admin",
+          "to": "cu02",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_visitante",
+          "to": "cu03",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_correo",
+          "to": "cu03",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_admin",
+          "to": "cu04",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu04",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_admin",
+          "to": "cu05",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_admin",
+          "to": "cu06",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "cu011",
+          "to": "cu01",
+          "type": "Dependency",
+          "stereotype": "extend"
+        }
+      ],
+      "notes": "Parte 1 de 3 del modelo estructurado. CU-01 a CU-06 y complemento CU-01.1. El acceso es precondición de las funciones protegidas; no se ejecuta un include de login por cada acción. La verificación forma parte de CU-03."
+    },
+    {
+      "id": "03-estructura-citas-agenda",
+      "title": "2.5 Estructurar casos de uso - Citas y agenda",
+      "phase": "01 Captura de requisitos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "03-estructura-citas-agenda_sistema",
+          "x": 300,
+          "y": 60,
+          "w": 650,
+          "h": 1320,
+          "background": true
+        },
+        {
+          "ref": "cu07",
+          "x": 445,
+          "y": 115,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu08",
+          "x": 445,
+          "y": 305,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu09",
+          "x": 445,
+          "y": 495,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu10",
+          "x": 445,
+          "y": 685,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu11",
+          "x": 445,
+          "y": 875,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu12",
+          "x": 445,
+          "y": 1065,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 90,
+          "y": 400,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_recepcion",
+          "x": 90,
+          "y": 960,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_medico",
+          "x": 1080,
+          "y": 400,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1080,
+          "y": 960,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu07",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-455;310:-179;425:-179;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu07",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1015;340:-197;425:-197;"
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu07",
+          "type": "Association",
+          "stereotype": "",
+          "path": "930:-1015;930:-188;830:-188;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu08",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-455;310:-369;425:-369;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu08",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1015;340:-387;425:-387;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu09",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-455;310:-559;425:-559;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu09",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1015;340:-577;425:-577;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu10",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-455;310:-749;425:-749;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu10",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1015;340:-767;425:-767;"
+        },
+        {
+          "from": "act_medico",
+          "to": "cu10",
+          "type": "Association",
+          "stereotype": "",
+          "path": "900:-455;900:-758;830:-758;"
+        },
+        {
+          "from": "act_medico",
+          "to": "cu11",
+          "type": "Association",
+          "stereotype": "",
+          "path": "900:-455;900:-948;830:-948;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu12",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-455;310:-1129;425:-1129;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu12",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1015;340:-1147;425:-1147;"
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu12",
+          "type": "Association",
+          "stereotype": "",
+          "path": "930:-1015;930:-1138;830:-1138;"
+        }
+      ],
+      "notes": "Parte 2 de 3. Ciclo 1: reserva y operación de citas. CU-11 sigue pendiente; CU-08/CU-09/CU-10/CU-12 ya están integrados. No se introduce include/extend entre reserva, reprogramación y cancelación: cada caso tiene su propia solicitud y precondiciones."
+    },
+    {
+      "id": "04-estructura-evolucion",
+      "title": "2.5 Estructurar casos de uso - Alcance futuro",
+      "phase": "01 Captura de requisitos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "04-estructura-evolucion_sistema",
+          "x": 300,
+          "y": 60,
+          "w": 650,
+          "h": 1130,
+          "background": true
+        },
+        {
+          "ref": "cu13",
+          "x": 445,
+          "y": 115,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu14",
+          "x": 445,
+          "y": 305,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu15",
+          "x": 445,
+          "y": 495,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu16",
+          "x": 445,
+          "y": 685,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu17",
+          "x": 445,
+          "y": 875,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 90,
+          "y": 585,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_medico",
+          "x": 1080,
+          "y": 275,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1080,
+          "y": 585,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_correo",
+          "x": 1080,
+          "y": 895,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu13",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu14",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_medico",
+          "to": "cu15",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_medico",
+          "to": "cu16",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu16",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu17",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_correo",
+          "to": "cu17",
+          "type": "Association",
+          "stereotype": ""
+        }
+      ],
+      "notes": "Parte 3 de 3. Casos futuros del catálogo, sin implementación acreditada. Asociaciones propuestas para planificación; permisos y responsable de publicar resultados por precisar. El paciente consulta sus resultados autorizados; no los publica por esta asociación."
+    },
+    {
+      "id": "05-identificar-paquetes",
+      "title": "3.1.1 Identificar Paquetes",
+      "phase": "02 Análisis",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_seguridad",
+          "x": 100,
+          "y": 100,
+          "w": 350,
+          "h": 130
+        },
+        {
+          "ref": "pkg_pacientes",
+          "x": 600,
+          "y": 100,
+          "w": 350,
+          "h": 130
+        },
+        {
+          "ref": "pkg_medicos",
+          "x": 100,
+          "y": 340,
+          "w": 350,
+          "h": 130
+        },
+        {
+          "ref": "pkg_horarios",
+          "x": 600,
+          "y": 340,
+          "w": 350,
+          "h": 130
+        },
+        {
+          "ref": "pkg_citas",
+          "x": 100,
+          "y": 580,
+          "w": 350,
+          "h": 130
+        },
+        {
+          "ref": "pkg_reportes",
+          "x": 600,
+          "y": 580,
+          "w": 350,
+          "h": 130
+        },
+        {
+          "ref": "pkg_atencion",
+          "x": 100,
+          "y": 820,
+          "w": 350,
+          "h": 130
+        },
+        {
+          "ref": "pkg_preferencias",
+          "x": 600,
+          "y": 820,
+          "w": 350,
+          "h": 130
+        }
+      ],
+      "edges": [],
+      "notes": "Formato de paquete a la izquierda y responsabilidad a la derecha. Paquetes lógicos del proyecto completo, con estado de implementación."
+    },
+    {
+      "id": "06-relacion-seguridad",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - seguridad_usuarios",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_seguridad",
+          "x": 95,
+          "y": 294.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu01",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu011",
+          "x": 650,
+          "y": 290,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu02",
+          "x": 650,
+          "y": 480,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_seguridad",
+          "to": "cu01",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_seguridad",
+          "to": "cu011",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_seguridad",
+          "to": "cu02",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Acceso y administración de usuarios, roles y permisos; recuperación de contraseña. Módulo actual Auth. Permisos efectivos y sesiones protegidas. CU-01, CU-01.1 y CU-02 implementados; entrega SMTP real pendiente."
+    },
+    {
+      "id": "14-vista-seguridad",
+      "title": "3.1.3 Vista de Paquetes - seguridad_usuarios",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_seguridad",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 695,
+          "background": true
+        },
+        {
+          "ref": "cu01",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu011",
+          "x": 455,
+          "y": 340,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu02",
+          "x": 455,
+          "y": 530,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 130,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_recepcion",
+          "x": 130,
+          "y": 340,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_visitante",
+          "x": 130,
+          "y": 530,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_medico",
+          "x": 1005,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1005,
+          "y": 340,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_correo",
+          "x": 1005,
+          "y": 530,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_medico",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu01",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_visitante",
+          "to": "cu011",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_correo",
+          "to": "cu011",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_admin",
+          "to": "cu02",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "cu011",
+          "to": "cu01",
+          "type": "Dependency",
+          "stereotype": "extend"
+        }
+      ],
+      "notes": "Acceso y administración de usuarios, roles y permisos; recuperación de contraseña. Módulo actual Auth. Permisos efectivos y sesiones protegidas. CU-01, CU-01.1 y CU-02 implementados; entrega SMTP real pendiente."
+    },
+    {
+      "id": "07-relacion-pacientes",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - gestion_pacientes",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_pacientes",
+          "x": 95,
+          "y": 294.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu03",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu04",
+          "x": 650,
+          "y": 290,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu14",
+          "x": 650,
+          "y": 480,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_pacientes",
+          "to": "cu03",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_pacientes",
+          "to": "cu04",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_pacientes",
+          "to": "cu14",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Autorregistro y ficha administrativa de pacientes, con identidad y vínculos conservados. Módulo actual Pacientes. CU-03 y CU-04 implementados; CU-14 de perfil y salud declarada pendiente."
+    },
+    {
+      "id": "15-vista-pacientes",
+      "title": "3.1.3 Vista de Paquetes - gestion_pacientes",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_pacientes",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 695,
+          "background": true
+        },
+        {
+          "ref": "cu03",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu04",
+          "x": 455,
+          "y": 340,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu14",
+          "x": 455,
+          "y": 530,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_visitante",
+          "x": 130,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_admin",
+          "x": 130,
+          "y": 340,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_recepcion",
+          "x": 130,
+          "y": 530,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_correo",
+          "x": 1005,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1005,
+          "y": 530,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_visitante",
+          "to": "cu03",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_correo",
+          "to": "cu03",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_admin",
+          "to": "cu04",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu04",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu14",
+          "type": "Association",
+          "stereotype": ""
+        }
+      ],
+      "notes": "Autorregistro y ficha administrativa de pacientes, con identidad y vínculos conservados. Módulo actual Pacientes. CU-03 y CU-04 implementados; CU-14 de perfil y salud declarada pendiente."
+    },
+    {
+      "id": "08-relacion-medicos",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - medicos_especialidades",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_medicos",
+          "x": 95,
+          "y": 104.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu05",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_medicos",
+          "to": "cu05",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Catálogo de profesionales y especialidades, asignaciones y cuenta opcional. Módulos actuales Medicos y Especialidades. CU-05 implementado; no crea cuentas ni elimina antecedentes."
+    },
+    {
+      "id": "16-vista-medicos",
+      "title": "3.1.3 Vista de Paquetes - medicos_especialidades",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_medicos",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 315,
+          "background": true
+        },
+        {
+          "ref": "cu05",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 130,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu05",
+          "type": "Association",
+          "stereotype": ""
+        }
+      ],
+      "notes": "Catálogo de profesionales y especialidades, asignaciones y cuenta opcional. Módulos actuales Medicos y Especialidades. CU-05 implementado; no crea cuentas ni elimina antecedentes."
+    },
+    {
+      "id": "09-relacion-horarios",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - horarios_atencion",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_horarios",
+          "x": 95,
+          "y": 104.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu06",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_horarios",
+          "to": "cu06",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Franjas semanales, duración, vigencias y bloqueos por médico. Módulo actual Horarios. CU-06 implementado; protege citas pendientes y alimenta el cálculo de disponibilidad."
+    },
+    {
+      "id": "17-vista-horarios",
+      "title": "3.1.3 Vista de Paquetes - horarios_atencion",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_horarios",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 315,
+          "background": true
+        },
+        {
+          "ref": "cu06",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 130,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu06",
+          "type": "Association",
+          "stereotype": ""
+        }
+      ],
+      "notes": "Franjas semanales, duración, vigencias y bloqueos por médico. Módulo actual Horarios. CU-06 implementado; protege citas pendientes y alimenta el cálculo de disponibilidad."
+    },
+    {
+      "id": "10-relacion-citas",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - citas_agenda",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_citas",
+          "x": 95,
+          "y": 579.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu07",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu08",
+          "x": 650,
+          "y": 290,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu09",
+          "x": 650,
+          "y": 480,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu10",
+          "x": 650,
+          "y": 670,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu11",
+          "x": 650,
+          "y": 860,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu12",
+          "x": 650,
+          "y": 1050,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_citas",
+          "to": "cu07",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "cu08",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "cu09",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "cu10",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "cu11",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "cu12",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Disponibilidad, reserva, comprobante, reprogramación, cancelación, asistencia e historial. Módulo actual Citas. CU-07, CU-08, CU-09, CU-10 y CU-12 implementados; CU-11 agenda médica pendiente."
+    },
+    {
+      "id": "18-vista-citas",
+      "title": "3.1.3 Vista de Paquetes - citas_agenda",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_citas",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 1265,
+          "background": true
+        },
+        {
+          "ref": "cu07",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu08",
+          "x": 455,
+          "y": 340,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu09",
+          "x": 455,
+          "y": 530,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu10",
+          "x": 455,
+          "y": 720,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu11",
+          "x": 455,
+          "y": 910,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu12",
+          "x": 455,
+          "y": 1100,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 130,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_recepcion",
+          "x": 130,
+          "y": 1100,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1005,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_medico",
+          "x": 1005,
+          "y": 1100,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu07",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-205;310:-214;435:-214;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu07",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1155;340:-232;435:-232;"
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu07",
+          "type": "Association",
+          "stereotype": "",
+          "path": "900:-205;900:-223;840:-223;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu08",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-205;310:-404;435:-404;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu08",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1155;340:-422;435:-422;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu09",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-205;310:-594;435:-594;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu09",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1155;340:-612;435:-612;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu10",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-205;310:-784;435:-784;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu10",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1155;340:-802;435:-802;"
+        },
+        {
+          "from": "act_medico",
+          "to": "cu10",
+          "type": "Association",
+          "stereotype": "",
+          "path": "930:-1155;930:-793;840:-793;"
+        },
+        {
+          "from": "act_medico",
+          "to": "cu11",
+          "type": "Association",
+          "stereotype": "",
+          "path": "930:-1155;930:-983;840:-983;"
+        },
+        {
+          "from": "act_admin",
+          "to": "cu12",
+          "type": "Association",
+          "stereotype": "",
+          "path": "310:-205;310:-1164;435:-1164;"
+        },
+        {
+          "from": "act_recepcion",
+          "to": "cu12",
+          "type": "Association",
+          "stereotype": "",
+          "path": "340:-1155;340:-1182;435:-1182;"
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu12",
+          "type": "Association",
+          "stereotype": "",
+          "path": "900:-205;900:-1173;840:-1173;"
+        }
+      ],
+      "notes": "Disponibilidad, reserva, comprobante, reprogramación, cancelación, asistencia e historial. Módulo actual Citas. CU-07, CU-08, CU-09, CU-10 y CU-12 implementados; CU-11 agenda médica pendiente."
+    },
+    {
+      "id": "11-relacion-reportes",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - reportes",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_reportes",
+          "x": 95,
+          "y": 104.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu13",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_reportes",
+          "to": "cu13",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Consolidación administrativa de citas para gestión y toma de decisiones. Paquete lógico propuesto para CU-13. No hay pantallas ni servicio de reportes implementados; permisos por precisar."
+    },
+    {
+      "id": "19-vista-reportes",
+      "title": "3.1.3 Vista de Paquetes - reportes",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_reportes",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 315,
+          "background": true
+        },
+        {
+          "ref": "cu13",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_admin",
+          "x": 130,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_admin",
+          "to": "cu13",
+          "type": "Association",
+          "stereotype": ""
+        }
+      ],
+      "notes": "Consolidación administrativa de citas para gestión y toma de decisiones. Paquete lógico propuesto para CU-13. No hay pantallas ni servicio de reportes implementados; permisos por precisar."
+    },
+    {
+      "id": "12-relacion-atencion",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - atencion_clinica",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_atencion",
+          "x": 95,
+          "y": 199.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu15",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        },
+        {
+          "ref": "cu16",
+          "x": 650,
+          "y": 290,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_atencion",
+          "to": "cu15",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        },
+        {
+          "from": "pkg_atencion",
+          "to": "cu16",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Consulta, tratamiento, estudios y resultados vinculados a pacientes y profesionales. Paquete lógico propuesto para CU-15 y CU-16. No confundir tablas de dominio con funciones implementadas."
+    },
+    {
+      "id": "20-vista-atencion",
+      "title": "3.1.3 Vista de Paquetes - atencion_clinica",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_atencion",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 505,
+          "background": true
+        },
+        {
+          "ref": "cu15",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "cu16",
+          "x": 455,
+          "y": 340,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_medico",
+          "x": 1005,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1005,
+          "y": 340,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_medico",
+          "to": "cu15",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_medico",
+          "to": "cu16",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_paciente",
+          "to": "cu16",
+          "type": "Association",
+          "stereotype": ""
+        }
+      ],
+      "notes": "Consulta, tratamiento, estudios y resultados vinculados a pacientes y profesionales. Paquete lógico propuesto para CU-15 y CU-16. No confundir tablas de dominio con funciones implementadas."
+    },
+    {
+      "id": "13-relacion-preferencias",
+      "title": "3.1.2 Relacionar Paquetes y Casos de Uso - preferencias_recordatorios",
+      "phase": "03 Relacionar paquetes y casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "pkg_preferencias",
+          "x": 95,
+          "y": 104.5,
+          "w": 335,
+          "h": 135
+        },
+        {
+          "ref": "cu17",
+          "x": 650,
+          "y": 100,
+          "w": 390,
+          "h": 145
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_preferencias",
+          "to": "cu17",
+          "type": "Abstraction",
+          "stereotype": "trace"
+        }
+      ],
+      "notes": "Preferencias del paciente y futuras notificaciones o recordatorios. Paquete lógico propuesto para CU-17. Programación, envío, consentimiento y alcance de destinatarios pendientes de definición."
+    },
+    {
+      "id": "21-vista-preferencias",
+      "title": "3.1.3 Vista de Paquetes - preferencias_recordatorios",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_preferencias",
+          "x": 40,
+          "y": 70,
+          "w": 1190,
+          "h": 460,
+          "background": true
+        },
+        {
+          "ref": "cu17",
+          "x": 455,
+          "y": 150,
+          "w": 365,
+          "h": 145
+        },
+        {
+          "ref": "act_paciente",
+          "x": 1005,
+          "y": 150,
+          "w": 100,
+          "h": 125
+        },
+        {
+          "ref": "act_correo",
+          "x": 1005,
+          "y": 315,
+          "w": 100,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "act_paciente",
+          "to": "cu17",
+          "type": "Association",
+          "stereotype": ""
+        },
+        {
+          "from": "act_correo",
+          "to": "cu17",
+          "type": "Association",
+          "stereotype": ""
+        }
+      ],
+      "notes": "Preferencias del paciente y futuras notificaciones o recordatorios. Paquete lógico propuesto para CU-17. Programación, envío, consentimiento y alcance de destinatarios pendientes de definición."
+    },
+    {
+      "id": "22-dependencias-paquetes",
+      "title": "Vista general de dependencias entre paquetes",
+      "phase": "04 Vista de paquetes",
+      "type": "Package",
+      "placements": [
+        {
+          "ref": "pkg_seguridad",
+          "x": 100,
+          "y": 100,
+          "w": 335,
+          "h": 125
+        },
+        {
+          "ref": "pkg_pacientes",
+          "x": 560,
+          "y": 100,
+          "w": 335,
+          "h": 125
+        },
+        {
+          "ref": "pkg_medicos",
+          "x": 1020,
+          "y": 100,
+          "w": 335,
+          "h": 125
+        },
+        {
+          "ref": "pkg_horarios",
+          "x": 100,
+          "y": 380,
+          "w": 335,
+          "h": 125
+        },
+        {
+          "ref": "pkg_citas",
+          "x": 560,
+          "y": 380,
+          "w": 335,
+          "h": 125
+        },
+        {
+          "ref": "pkg_reportes",
+          "x": 1020,
+          "y": 380,
+          "w": 335,
+          "h": 125
+        },
+        {
+          "ref": "pkg_atencion",
+          "x": 100,
+          "y": 660,
+          "w": 335,
+          "h": 125
+        },
+        {
+          "ref": "pkg_preferencias",
+          "x": 560,
+          "y": 660,
+          "w": 335,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "pkg_pacientes",
+          "to": "pkg_seguridad",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "525:-162.5;470:-162.5;"
+        },
+        {
+          "from": "pkg_medicos",
+          "to": "pkg_seguridad",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "985:-162.5;930:-162.5;930:-65;470:-65;470:-162.5;"
+        },
+        {
+          "from": "pkg_horarios",
+          "to": "pkg_medicos",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "470:-442.5;525:-442.5;525:-345;985:-345;985:-162.5;"
+        },
+        {
+          "from": "pkg_horarios",
+          "to": "pkg_seguridad",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "267.5:-345;267.5:-260;"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "pkg_pacientes",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "727.5:-345;727.5:-260;"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "pkg_medicos",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "930:-442.5;985:-442.5;985:-162.5;"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "pkg_horarios",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "525:-442.5;470:-442.5;"
+        },
+        {
+          "from": "pkg_citas",
+          "to": "pkg_seguridad",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "525:-442.5;470:-442.5;470:-162.5;"
+        },
+        {
+          "from": "pkg_reportes",
+          "to": "pkg_citas",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "985:-442.5;930:-442.5;"
+        },
+        {
+          "from": "pkg_reportes",
+          "to": "pkg_pacientes",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "985:-442.5;930:-442.5;930:-162.5;"
+        },
+        {
+          "from": "pkg_reportes",
+          "to": "pkg_medicos",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "1187.5:-345;1187.5:-260;"
+        },
+        {
+          "from": "pkg_atencion",
+          "to": "pkg_citas",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "470:-722.5;525:-722.5;525:-442.5;"
+        },
+        {
+          "from": "pkg_atencion",
+          "to": "pkg_pacientes",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "470:-722.5;525:-722.5;525:-162.5;"
+        },
+        {
+          "from": "pkg_atencion",
+          "to": "pkg_medicos",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "470:-722.5;525:-722.5;525:-625;985:-625;985:-162.5;"
+        },
+        {
+          "from": "pkg_preferencias",
+          "to": "pkg_pacientes",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "930:-722.5;930:-162.5;"
+        },
+        {
+          "from": "pkg_preferencias",
+          "to": "pkg_citas",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "727.5:-625;727.5:-540;"
+        },
+        {
+          "from": "pkg_preferencias",
+          "to": "pkg_seguridad",
+          "type": "Dependency",
+          "stereotype": "",
+          "path": "525:-722.5;470:-722.5;470:-162.5;"
+        }
+      ],
+      "notes": "Vista complementaria. El catálogo, las identidades y los horarios son proveedores de la reserva; reportes y atención son consumidores futuros."
+    }
+  ]
+}

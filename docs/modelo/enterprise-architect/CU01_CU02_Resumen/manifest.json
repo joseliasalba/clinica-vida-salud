@@ -1,0 +1,74 @@
+﻿[
+    {
+        "id":  "cu01-casos",
+        "image":  "diagramas/cu01-casos.png",
+        "guid":  "{A30DC189-FDE7-456f-B3FB-80516B8538B1}",
+        "kind":  "casos",
+        "diagramId":  1,
+        "title":  "Diagrama de casos de uso",
+        "caseId":  "CU-01"
+    },
+    {
+        "id":  "cu01-comunicacion",
+        "image":  "diagramas/cu01-comunicacion.png",
+        "guid":  "{26F5AD25-236D-4872-BC4E-8B593B442610}",
+        "kind":  "comunicacion",
+        "diagramId":  2,
+        "title":  "Diagrama de comunicación",
+        "caseId":  "CU-01"
+    },
+    {
+        "id":  "cu01-navegacion",
+        "image":  "diagramas/cu01-navegacion.png",
+        "guid":  "{EC2E8EE7-17B7-4704-816E-54280AF5FA9B}",
+        "kind":  "navegacion",
+        "diagramId":  3,
+        "title":  "Diagrama de navegación",
+        "caseId":  "CU-01"
+    },
+    {
+        "id":  "cu01-secuencia",
+        "image":  "diagramas/cu01-secuencia.png",
+        "guid":  "{959D8423-B0C0-4ad7-A27B-579E6C083A17}",
+        "kind":  "secuencia",
+        "diagramId":  4,
+        "title":  "Diagrama de secuencia",
+        "caseId":  "CU-01"
+    },
+    {
+        "id":  "cu02-casos",
+        "image":  "diagramas/cu02-casos.png",
+        "guid":  "{CAD9D55F-C9E2-4676-9CA8-81EC7669FC63}",
+        "kind":  "casos",
+        "diagramId":  5,
+        "title":  "Diagrama de casos de uso",
+        "caseId":  "CU-02"
+    },
+    {
+        "id":  "cu02-comunicacion",
+        "image":  "diagramas/cu02-comunicacion.png",
+        "guid":  "{7EDCA99A-1451-4e94-8A49-12DD16B757CA}",
+        "kind":  "comunicacion",
+        "diagramId":  6,
+        "title":  "Diagrama de comunicación",
+        "caseId":  "CU-02"
+    },
+    {
+        "id":  "cu02-navegacion",
+        "image":  "diagramas/cu02-navegacion.png",
+        "guid":  "{BB0B1AAE-0A48-491d-9903-5D9A309FE3EE}",
+        "kind":  "navegacion",
+        "diagramId":  7,
+        "title":  "Diagrama de navegación",
+        "caseId":  "CU-02"
+    },
+    {
+        "id":  "cu02-secuencia",
+        "image":  "diagramas/cu02-secuencia.png",
+        "guid":  "{205859F5-C970-45ec-9E24-D7D4C347C389}",
+        "kind":  "secuencia",
+        "diagramId":  8,
+        "title":  "Diagrama de secuencia",
+        "caseId":  "CU-02"
+    }
+]

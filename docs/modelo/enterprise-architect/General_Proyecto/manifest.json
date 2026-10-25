@@ -1,0 +1,222 @@
+﻿[
+    {
+        "id":  "01-lista-actores",
+        "links":  4,
+        "elements":  8,
+        "title":  "Lista de actores",
+        "guid":  "{F07EE0BB-45BE-4b35-93EC-378AEC831A1D}",
+        "phase":  "01 Captura de requisitos",
+        "image":  "diagramas/01-lista-actores.png",
+        "diagramId":  1
+    },
+    {
+        "id":  "02-estructura-acceso-catalogos",
+        "links":  14,
+        "elements":  14,
+        "title":  "2.5 Estructurar casos de uso - Acceso y catálogos",
+        "guid":  "{5555B9FB-53C9-41e5-A77C-23140082A325}",
+        "phase":  "01 Captura de requisitos",
+        "image":  "diagramas/02-estructura-acceso-catalogos.png",
+        "diagramId":  2
+    },
+    {
+        "id":  "03-estructura-citas-agenda",
+        "links":  14,
+        "elements":  11,
+        "title":  "2.5 Estructurar casos de uso - Citas y agenda",
+        "guid":  "{5F10FE62-9712-4de9-8CCD-7CC53B641098}",
+        "phase":  "01 Captura de requisitos",
+        "image":  "diagramas/03-estructura-citas-agenda.png",
+        "diagramId":  3
+    },
+    {
+        "id":  "04-estructura-evolucion",
+        "links":  7,
+        "elements":  10,
+        "title":  "2.5 Estructurar casos de uso - Alcance futuro",
+        "guid":  "{08D428CF-906B-4174-848A-DF2E4898BB00}",
+        "phase":  "01 Captura de requisitos",
+        "image":  "diagramas/04-estructura-evolucion.png",
+        "diagramId":  4
+    },
+    {
+        "id":  "05-identificar-paquetes",
+        "links":  0,
+        "elements":  8,
+        "title":  "3.1.1 Identificar Paquetes",
+        "guid":  "{5008A051-FB5A-47c5-8DEE-4DDC1856434D}",
+        "phase":  "02 Análisis",
+        "image":  "diagramas/05-identificar-paquetes.png",
+        "diagramId":  5
+    },
+    {
+        "id":  "06-relacion-seguridad",
+        "links":  3,
+        "elements":  4,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - seguridad_usuarios",
+        "guid":  "{4C9181AB-C6FB-432f-ABD4-88D9FE2EA4B0}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/06-relacion-seguridad.png",
+        "diagramId":  6
+    },
+    {
+        "id":  "14-vista-seguridad",
+        "links":  8,
+        "elements":  10,
+        "title":  "3.1.3 Vista de Paquetes - seguridad_usuarios",
+        "guid":  "{353B933F-D2D3-4fc1-8133-5996D5C3A84E}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/14-vista-seguridad.png",
+        "diagramId":  7
+    },
+    {
+        "id":  "07-relacion-pacientes",
+        "links":  3,
+        "elements":  4,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - gestion_pacientes",
+        "guid":  "{5E2B9D1B-921D-4eeb-B34B-BE24F039EE4D}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/07-relacion-pacientes.png",
+        "diagramId":  8
+    },
+    {
+        "id":  "15-vista-pacientes",
+        "links":  5,
+        "elements":  9,
+        "title":  "3.1.3 Vista de Paquetes - gestion_pacientes",
+        "guid":  "{69537760-6F91-4669-95C2-27B4D2B0E4DD}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/15-vista-pacientes.png",
+        "diagramId":  9
+    },
+    {
+        "id":  "08-relacion-medicos",
+        "links":  1,
+        "elements":  2,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - medicos_especialidades",
+        "guid":  "{3FE66FD4-BB9F-4f11-B57D-391AFE7CE737}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/08-relacion-medicos.png",
+        "diagramId":  10
+    },
+    {
+        "id":  "16-vista-medicos",
+        "links":  1,
+        "elements":  3,
+        "title":  "3.1.3 Vista de Paquetes - medicos_especialidades",
+        "guid":  "{81091DDD-A3B2-40c6-ACD8-1363EC7ACF5B}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/16-vista-medicos.png",
+        "diagramId":  11
+    },
+    {
+        "id":  "09-relacion-horarios",
+        "links":  1,
+        "elements":  2,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - horarios_atencion",
+        "guid":  "{E9C56DE6-C3C1-4614-B715-FE7BFAAF74BA}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/09-relacion-horarios.png",
+        "diagramId":  12
+    },
+    {
+        "id":  "17-vista-horarios",
+        "links":  1,
+        "elements":  3,
+        "title":  "3.1.3 Vista de Paquetes - horarios_atencion",
+        "guid":  "{5FFBF1AB-9FB0-4bcc-9C6C-B22BC59216E2}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/17-vista-horarios.png",
+        "diagramId":  13
+    },
+    {
+        "id":  "10-relacion-citas",
+        "links":  6,
+        "elements":  7,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - citas_agenda",
+        "guid":  "{187F29B6-6940-41f9-82B4-4797BEC756D2}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/10-relacion-citas.png",
+        "diagramId":  14
+    },
+    {
+        "id":  "18-vista-citas",
+        "links":  14,
+        "elements":  11,
+        "title":  "3.1.3 Vista de Paquetes - citas_agenda",
+        "guid":  "{F8780760-6AF1-48b4-88AE-26B2B922AF0F}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/18-vista-citas.png",
+        "diagramId":  15
+    },
+    {
+        "id":  "11-relacion-reportes",
+        "links":  1,
+        "elements":  2,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - reportes",
+        "guid":  "{B025283B-9636-49ef-8A46-6D4BC3F64E05}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/11-relacion-reportes.png",
+        "diagramId":  16
+    },
+    {
+        "id":  "19-vista-reportes",
+        "links":  1,
+        "elements":  3,
+        "title":  "3.1.3 Vista de Paquetes - reportes",
+        "guid":  "{13FD592E-9B84-4acb-8C14-2A94EE57C981}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/19-vista-reportes.png",
+        "diagramId":  17
+    },
+    {
+        "id":  "12-relacion-atencion",
+        "links":  2,
+        "elements":  3,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - atencion_clinica",
+        "guid":  "{3887DF2D-FEE2-43e5-9B9A-ED7FA3DD5554}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/12-relacion-atencion.png",
+        "diagramId":  18
+    },
+    {
+        "id":  "20-vista-atencion",
+        "links":  3,
+        "elements":  5,
+        "title":  "3.1.3 Vista de Paquetes - atencion_clinica",
+        "guid":  "{B11B3846-D932-4210-AC23-C8C95FC80B30}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/20-vista-atencion.png",
+        "diagramId":  19
+    },
+    {
+        "id":  "13-relacion-preferencias",
+        "links":  1,
+        "elements":  2,
+        "title":  "3.1.2 Relacionar Paquetes y Casos de Uso - preferencias_recordatorios",
+        "guid":  "{AD9BF9C2-5660-4e4a-AA50-7BBEBE42A83F}",
+        "phase":  "03 Relacionar paquetes y casos",
+        "image":  "diagramas/13-relacion-preferencias.png",
+        "diagramId":  20
+    },
+    {
+        "id":  "21-vista-preferencias",
+        "links":  2,
+        "elements":  4,
+        "title":  "3.1.3 Vista de Paquetes - preferencias_recordatorios",
+        "guid":  "{46372445-5822-4aa9-B073-AF21540CC9A5}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/21-vista-preferencias.png",
+        "diagramId":  21
+    },
+    {
+        "id":  "22-dependencias-paquetes",
+        "links":  17,
+        "elements":  8,
+        "title":  "Vista general de dependencias entre paquetes",
+        "guid":  "{B5CFAF68-A597-4de3-BDD7-B1FD9578E39A}",
+        "phase":  "04 Vista de paquetes",
+        "image":  "diagramas/22-dependencias-paquetes.png",
+        "diagramId":  22
+    }
+]

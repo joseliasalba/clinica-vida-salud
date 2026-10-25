@@ -1,0 +1,38 @@
+﻿[
+    {
+        "id":  "cu03-clases-analisis",
+        "image":  "diagramas/cu03-clases-analisis.png",
+        "guid":  "{E4FB37BE-5CC0-442a-A82A-7A38EA83795B}",
+        "kind":  "clases-analisis",
+        "diagramId":  1,
+        "title":  "Diagrama de clases de análisis",
+        "caseId":  "CU-03"
+    },
+    {
+        "id":  "cu04-clases-analisis",
+        "image":  "diagramas/cu04-clases-analisis.png",
+        "guid":  "{24E506AC-BDEB-4613-BC07-B724FEF9CEB3}",
+        "kind":  "clases-analisis",
+        "diagramId":  2,
+        "title":  "Diagrama de clases de análisis",
+        "caseId":  "CU-04"
+    },
+    {
+        "id":  "cu06-clases-analisis",
+        "image":  "diagramas/cu06-clases-analisis.png",
+        "guid":  "{CF6A20E9-9F17-49f9-9E87-74F23928A61C}",
+        "kind":  "clases-analisis",
+        "diagramId":  3,
+        "title":  "Diagrama de clases de análisis",
+        "caseId":  "CU-06"
+    },
+    {
+        "id":  "cu07-clases-analisis",
+        "image":  "diagramas/cu07-clases-analisis.png",
+        "guid":  "{66135B60-F789-4379-AA6B-9C097494AD15}",
+        "kind":  "clases-analisis",
+        "diagramId":  4,
+        "title":  "Diagrama de clases de análisis",
+        "caseId":  "CU-07"
+    }
+]

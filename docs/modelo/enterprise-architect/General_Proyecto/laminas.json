@@ -1,0 +1,156 @@
+[
+  {
+    "page": 1,
+    "id": "01-lista-actores",
+    "image": "diagramas/01-lista-actores.png",
+    "width": 963,
+    "height": 717
+  },
+  {
+    "page": 2,
+    "id": "02-estructura-acceso-catalogos",
+    "image": "diagramas/02-estructura-acceso-catalogos.png",
+    "width": 1355,
+    "height": 1782
+  },
+  {
+    "page": 3,
+    "id": "03-estructura-citas-agenda",
+    "image": "diagramas/03-estructura-citas-agenda.png",
+    "width": 1355,
+    "height": 1587
+  },
+  {
+    "page": 4,
+    "id": "04-estructura-evolucion",
+    "image": "diagramas/04-estructura-evolucion.png",
+    "width": 1355,
+    "height": 1391
+  },
+  {
+    "page": 5,
+    "id": "05-identificar-paquetes",
+    "image": "diagramas/05-identificar-paquetes.png",
+    "width": 1035,
+    "height": 1105
+  },
+  {
+    "page": 6,
+    "id": "06-relacion-seguridad",
+    "image": "diagramas/06-relacion-seguridad.png",
+    "width": 1134,
+    "height": 770
+  },
+  {
+    "page": 7,
+    "id": "07-relacion-pacientes",
+    "image": "diagramas/07-relacion-pacientes.png",
+    "width": 1134,
+    "height": 770
+  },
+  {
+    "page": 8,
+    "id": "08-relacion-medicos",
+    "image": "diagramas/08-relacion-medicos.png",
+    "width": 1134,
+    "height": 380
+  },
+  {
+    "page": 9,
+    "id": "09-relacion-horarios",
+    "image": "diagramas/09-relacion-horarios.png",
+    "width": 1134,
+    "height": 380
+  },
+  {
+    "page": 10,
+    "id": "10-relacion-citas",
+    "image": "diagramas/10-relacion-citas.png",
+    "width": 1134,
+    "height": 1355
+  },
+  {
+    "page": 11,
+    "id": "11-relacion-reportes",
+    "image": "diagramas/11-relacion-reportes.png",
+    "width": 1134,
+    "height": 380
+  },
+  {
+    "page": 12,
+    "id": "12-relacion-atencion",
+    "image": "diagramas/12-relacion-atencion.png",
+    "width": 1134,
+    "height": 575
+  },
+  {
+    "page": 13,
+    "id": "13-relacion-preferencias",
+    "image": "diagramas/13-relacion-preferencias.png",
+    "width": 1134,
+    "height": 380
+  },
+  {
+    "page": 14,
+    "id": "14-vista-seguridad",
+    "image": "diagramas/14-vista-seguridad.png",
+    "width": 1385,
+    "height": 944
+  },
+  {
+    "page": 15,
+    "id": "15-vista-pacientes",
+    "image": "diagramas/15-vista-pacientes.png",
+    "width": 1385,
+    "height": 944
+  },
+  {
+    "page": 16,
+    "id": "16-vista-medicos",
+    "image": "diagramas/16-vista-medicos.png",
+    "width": 1385,
+    "height": 554
+  },
+  {
+    "page": 17,
+    "id": "17-vista-horarios",
+    "image": "diagramas/17-vista-horarios.png",
+    "width": 1385,
+    "height": 554
+  },
+  {
+    "page": 18,
+    "id": "18-vista-citas",
+    "image": "diagramas/18-vista-citas.png",
+    "width": 1385,
+    "height": 1530
+  },
+  {
+    "page": 19,
+    "id": "19-vista-reportes",
+    "image": "diagramas/19-vista-reportes.png",
+    "width": 1385,
+    "height": 554
+  },
+  {
+    "page": 20,
+    "id": "20-vista-atencion",
+    "image": "diagramas/20-vista-atencion.png",
+    "width": 1385,
+    "height": 750
+  },
+  {
+    "page": 21,
+    "id": "21-vista-preferencias",
+    "image": "diagramas/21-vista-preferencias.png",
+    "width": 1385,
+    "height": 703
+  },
+  {
+    "page": 22,
+    "id": "22-dependencias-paquetes",
+    "image": "diagramas/22-dependencias-paquetes.png",
+    "width": 1452,
+    "height": 971
+  }
+]

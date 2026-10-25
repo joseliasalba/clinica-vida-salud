@@ -1,0 +1,3423 @@
+{
+  "title": "Clínica Vida Salud - Actividades CU-01 a CU-07 y actores",
+  "date": "2026-10-24",
+  "roles": [
+    [
+      "admin",
+      "Administrador",
+      "Configurar usuarios, médicos, especialidades y horarios; supervisar operaciones autorizadas",
+      "Actúa según permisos efectivos; no se presume acceso irrestricto a datos clínicos"
+    ],
+    [
+      "recepcion",
+      "Recepcionista",
+      "Identificar pacientes y registrar o gestionar citas de acuerdo con su autorización",
+      "No configura médicos ni horarios con el conjunto inicial de permisos"
+    ],
+    [
+      "medico",
+      "Médico",
+      "Consultar su agenda y los datos básicos necesarios para atender",
+      "CU-11 se limitará al profesional vinculado y requerirá una política explícita para consultas administrativas"
+    ],
+    [
+      "paciente",
+      "Paciente",
+      "Acceder a su cuenta, verificar correo y reservar para su ficha vinculada",
+      "No puede escoger la identidad de otro paciente ni consultar comprobantes ajenos"
+    ]
+  ],
+  "cases": [
+    {
+      "id": "CU-01",
+      "title": "Iniciar y cerrar sesión",
+      "permission": "Acceso para invitados; funciones internas según sesión vigente y permisos efectivos.",
+      "rules": "Límites: 5 fallos por identificador/IP, espera 15 min y límite adicional por IP. Inactividad: 30 min. Credenciales inexistentes, inactivas e incorrectas reciben mensaje genérico. El acceso normal va a /inicio; booking.continue permite continuar en /citas. Recuperación corresponde a CU-01.1."
+    },
+    {
+      "id": "CU-02",
+      "title": "Administrar usuarios, roles y permisos",
+      "permission": "Sesión vigente y usuarios.gestionar efectivo.",
+      "rules": "Sin sesión: login; sin permiso: 403. Usuarios y roles se crean/editan; permisos solo cambian de estado dentro del catálogo. No hay borrado físico. Se preservan vínculos inactivos. Datos de contraseña nunca se repueblan. No se crean fichas clínicas ni se envía correo al crear cuentas."
+    },
+    {
+      "id": "CU-03",
+      "title": "Registrarse como paciente",
+      "permission": "Registro público. Verificación: cuenta autenticada y enlace firmado de la misma cuenta.",
+      "rules": "Cuenta y ficha se crean juntas, con rol paciente activo. No se vinculan fichas previas por coincidencia. Un fallo de correo no revierte el registro. El reenvío exige sesión y espera de 60 s. Verificar correo no reserva una cita. En modo log/array no se entrega a la bandeja."
+    },
+    {
+      "id": "CU-04",
+      "title": "Registrar y gestionar pacientes en recepción",
+      "permission": "Sesión vigente y pacientes.gestionar efectivo.",
+      "rules": "Consultar una ficha no la modifica. Estado se cambia dentro de edición. CI opcional, normalizado y único incluso entre inactivos. En edición se bloquea ficha y comprueba HMAC de versión. No borrar físicamente ni crear automáticamente cuenta o historia clínica."
+    },
+    {
+      "id": "CU-05",
+      "title": "Gestionar médicos y especialidades",
+      "permission": "Sesión vigente y medicos.gestionar efectivo.",
+      "rules": "Médicos: especialidades activas obligatorias; cuenta existente opcional y elegible. Reactivar exige especialidad activa. El estado tiene confirmación separada. Especialidades: nombre único normalizado. Conservar vínculos, horarios y citas. No crear cuentas automáticamente ni modificar roles."
+    },
+    {
+      "id": "CU-06",
+      "title": "Configurar horarios de atención y bloqueos",
+      "permission": "Sesión vigente y horarios.gestionar efectivo.",
+      "rules": "Franja semanal y vigencia deben producir turnos completos; duración divide la franja. Los bloqueos restan disponibilidad. No solapar registros activos del mismo tipo. No dejar citas pendientes sin cobertura ni bloquearlas. Toda mutación bloquea primero al médico. CU-06 no cancela ni reprograma citas."
+    },
+    {
+      "id": "CU-07",
+      "title": "Consultar disponibilidad y reservar cita",
+      "permission": "Paciente: citas.propias, ficha propia activa y correo verificado. Personal: citas.gestionar y paciente activo elegido.",
+      "rules": "El paciente no elige otra identidad. El personal autorizado puede seleccionar paciente sin exigir que tenga cuenta o correo verificado. Consulta hasta 30 días. Revisar no retiene turno. Token cifrado ligado al actor, 30 min. Cita programada y auditoría son atómicas; el comprobante requiere titularidad o permiso de gestión."
+    },
+    {
+      "id": "ACTORES",
+      "title": "Actores y límites de acceso",
+      "permission": "Tabla acordada",
+      "rules": "Aplicar permisos efectivos y titularidad; CU-11 pendiente."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "cu01-inicio",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-01",
+      "subtype": 100
+    },
+    {
+      "id": "cu01-form",
+      "name": "Sistema: mostrar formulario de acceso",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-input",
+      "name": "Usuario: enviar identificador y contraseña; CSRF",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-limit",
+      "name": "¿Intento permitido?",
+      "type": "Decision",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-limit-alternativa",
+      "name": "Sistema: informar espera temporal; no autenticar",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-auth",
+      "name": "¿Credenciales válidas y cuenta activa?",
+      "type": "Decision",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-auth-alternativa",
+      "name": "Sistema: registrar fallo sin secretos; sumar intento; error genérico",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-session",
+      "name": "Sistema: limpiar contador; regenerar sesión; guardar actividad, hash y token",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-home",
+      "name": "Sistema: mostrar inicio o continuar reserva autorizada",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-request",
+      "name": "Usuario: solicitar una función interna",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-valid",
+      "name": "¿Sesión y cuenta siguen vigentes?",
+      "type": "Decision",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-valid-alternativa",
+      "name": "Sistema: invalidar sesión; renovar CSRF; volver a login",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-valid-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-01",
+      "subtype": 101
+    },
+    {
+      "id": "cu01-permission",
+      "name": "¿Tiene permiso para la función?",
+      "type": "Decision",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-permission-alternativa",
+      "name": "Sistema: rechazar la función con 403",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-permission-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-01",
+      "subtype": 101
+    },
+    {
+      "id": "cu01-use",
+      "name": "Sistema: mostrar contenido autorizado; actualizar actividad",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-exit",
+      "name": "¿Solicita cerrar sesión?",
+      "type": "Decision",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-exit-alternativa",
+      "name": "Usuario: continuar navegando",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-logout",
+      "name": "Usuario/Sistema: POST /logout con CSRF; invalidar sesión; renovar CSRF; mostrar login",
+      "type": "Action",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu01-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-01",
+      "subtype": 101
+    },
+    {
+      "id": "cu01-nota",
+      "name": "Acceso para invitados; funciones internas según sesión vigente y permisos efectivos.\n\nLímites: 5 fallos por identificador/IP, espera 15 min y límite adicional por IP. Inactividad: 30 min. Credenciales inexistentes, inactivas e incorrectas reciben mensaje genérico. El acceso normal va a /inicio; booking.continue permite continuar en /citas. Recuperación corresponde a CU-01.1.",
+      "type": "Note",
+      "caseId": "CU-01"
+    },
+    {
+      "id": "cu02-inicio",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-02",
+      "subtype": 100
+    },
+    {
+      "id": "cu02-access",
+      "name": "¿Sesión vigente y permiso efectivo?",
+      "type": "Decision",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-access-alternativa",
+      "name": "Sistema: login o 403; no modificar datos",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-access-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-02",
+      "subtype": 101
+    },
+    {
+      "id": "cu02-list",
+      "name": "Gestor: listar y elegir usuario, rol o permiso",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-form",
+      "name": "Gestor: completar datos/asignaciones o elegir estado",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-confirm",
+      "name": "¿Confirma la operación?",
+      "type": "Decision",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-confirm-alternativa",
+      "name": "Sistema: cancelar; volver al listado sin guardar",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-confirm-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-02",
+      "subtype": 101
+    },
+    {
+      "id": "cu02-data",
+      "name": "¿Datos y selecciones válidos?",
+      "type": "Decision",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-data-alternativa",
+      "name": "Sistema: mostrar errores de identidad, clave, rol o catálogo",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-begin",
+      "name": "Sistema: BEGIN; bloqueo global; volver a comprobar autorización",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-authorized",
+      "name": "¿Mantiene autorización?",
+      "type": "Decision",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-authorized-alternativa",
+      "name": "Sistema: ROLLBACK; responder 403",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-authorized-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-02",
+      "subtype": 101
+    },
+    {
+      "id": "cu02-save",
+      "name": "Sistema: guardar cuenta/rol/estado y vínculos; rotar token y revocar recuperación si corresponde",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-continuity",
+      "name": "¿Se conserva el último gestor y la administración propia?",
+      "type": "Decision",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-continuity-alternativa",
+      "name": "Sistema: ROLLBACK; explicar rechazo",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-commit",
+      "name": "Sistema: COMMIT; registrar auditoría sin secretos",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-ownsession",
+      "name": "¿La sesión actual puede continuar?",
+      "type": "Decision",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-ownsession-alternativa",
+      "name": "Sistema: cerrar sesión por cambio de clave propia; volver a login",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-ownsession-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-02",
+      "subtype": 101
+    },
+    {
+      "id": "cu02-result",
+      "name": "Sistema: mostrar listado y confirmación",
+      "type": "Action",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu02-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-02",
+      "subtype": 101
+    },
+    {
+      "id": "cu02-nota",
+      "name": "Sesión vigente y usuarios.gestionar efectivo.\n\nSin sesión: login; sin permiso: 403. Usuarios y roles se crean/editan; permisos solo cambian de estado dentro del catálogo. No hay borrado físico. Se preservan vínculos inactivos. Datos de contraseña nunca se repueblan. No se crean fichas clínicas ni se envía correo al crear cuentas.",
+      "type": "Note",
+      "caseId": "CU-02"
+    },
+    {
+      "id": "cu03-inicio",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-03",
+      "subtype": 100
+    },
+    {
+      "id": "cu03-form",
+      "name": "Visitante: abrir registro y completar datos personales y de acceso",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-data",
+      "name": "¿Formulario válido?",
+      "type": "Decision",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-data-alternativa",
+      "name": "Sistema: devolver errores sin repoblar contraseña",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-begin",
+      "name": "Sistema: BEGIN; bloqueo administrativo; comprobar rol paciente activo",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-available",
+      "name": "¿Alta disponible y sin duplicados?",
+      "type": "Decision",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-available-alternativa",
+      "name": "Sistema: ROLLBACK; informar rechazo sin vincular fichas previas",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-commit",
+      "name": "Sistema: crear cuenta, asignación y ficha PAC-ID; COMMIT",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-mail",
+      "name": "Sistema: solicitar correo de verificación después del COMMIT",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-delivery",
+      "name": "¿Solicitud de envío aceptada?",
+      "type": "Decision",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-delivery-alternativa",
+      "name": "Sistema: conservar cuenta; avisar fallo o modo local y opción de reenvío",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-login",
+      "name": "Paciente: iniciar sesión; abrir aviso de verificación",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-link",
+      "name": "Paciente: abrir enlace recibido o solicitar reenvío permitido",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-signed",
+      "name": "¿Misma cuenta, hash, firma y vigencia válidos?",
+      "type": "Decision",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-signed-alternativa",
+      "name": "Sistema: rechazar enlace; ofrecer nuevo envío con límite",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-verify",
+      "name": "Sistema: marcar correo verificado; mostrar confirmación en inicio",
+      "type": "Action",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu03-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-03",
+      "subtype": 101
+    },
+    {
+      "id": "cu03-nota",
+      "name": "Registro público. Verificación: cuenta autenticada y enlace firmado de la misma cuenta.\n\nCuenta y ficha se crean juntas, con rol paciente activo. No se vinculan fichas previas por coincidencia. Un fallo de correo no revierte el registro. El reenvío exige sesión y espera de 60 s. Verificar correo no reserva una cita. En modo log/array no se entrega a la bandeja.",
+      "type": "Note",
+      "caseId": "CU-03"
+    },
+    {
+      "id": "cu04-inicio",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-04",
+      "subtype": 100
+    },
+    {
+      "id": "cu04-access",
+      "name": "¿Sesión y permiso válidos?",
+      "type": "Decision",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-access-alternativa",
+      "name": "Sistema: login o 403; no acceder a fichas",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-access-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-04",
+      "subtype": 101
+    },
+    {
+      "id": "cu04-list",
+      "name": "Recepcionista: buscar, filtrar y consultar ficha administrativa",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-form",
+      "name": "Recepcionista: elegir alta o edición; completar datos y estado si edita",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-confirm",
+      "name": "¿Desea guardar?",
+      "type": "Decision",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-confirm-alternativa",
+      "name": "Sistema: cancelar; conservar ficha previa",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-confirm-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-04",
+      "subtype": 101
+    },
+    {
+      "id": "cu04-data",
+      "name": "¿Datos válidos?",
+      "type": "Decision",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-data-alternativa",
+      "name": "Sistema: mostrar errores del formulario",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-begin",
+      "name": "Sistema: BEGIN; revalidar permiso; bloquear ficha existente",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-version",
+      "name": "¿Versión vigente y CI disponible?",
+      "type": "Decision",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-version-alternativa",
+      "name": "Sistema: ROLLBACK; informar conflicto o duplicado",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-save",
+      "name": "Sistema: guardar ficha; generar PAC-ID solo en alta; COMMIT",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-result",
+      "name": "Sistema: mostrar ficha y confirmación; conservar cuenta e historial",
+      "type": "Action",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu04-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-04",
+      "subtype": 101
+    },
+    {
+      "id": "cu04-nota",
+      "name": "Sesión vigente y pacientes.gestionar efectivo.\n\nConsultar una ficha no la modifica. Estado se cambia dentro de edición. CI opcional, normalizado y único incluso entre inactivos. En edición se bloquea ficha y comprueba HMAC de versión. No borrar físicamente ni crear automáticamente cuenta o historia clínica.",
+      "type": "Note",
+      "caseId": "CU-04"
+    },
+    {
+      "id": "cu05-inicio",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-05",
+      "subtype": 100
+    },
+    {
+      "id": "cu05-access",
+      "name": "¿Sesión y permiso válidos?",
+      "type": "Decision",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-access-alternativa",
+      "name": "Sistema: login o 403; no modificar catálogo",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-access-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-05",
+      "subtype": 101
+    },
+    {
+      "id": "cu05-list",
+      "name": "Administrador: consultar médicos o especialidades; elegir acción",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-form",
+      "name": "Administrador: completar alta/edición o revisar confirmación de estado",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-confirm",
+      "name": "¿Confirma guardar o cambiar estado?",
+      "type": "Decision",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-confirm-alternativa",
+      "name": "Sistema: cancelar sin guardar",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-confirm-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-05",
+      "subtype": 101
+    },
+    {
+      "id": "cu05-data",
+      "name": "¿Datos y selecciones válidos?",
+      "type": "Decision",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-data-alternativa",
+      "name": "Sistema: mostrar errores de nombre, matrícula, especialidad o cuenta",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-begin",
+      "name": "Sistema: BEGIN; bloqueo administrativo y registro; revalidar permiso",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-version",
+      "name": "¿Versión, unicidad y relaciones aún válidas?",
+      "type": "Decision",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-version-alternativa",
+      "name": "Sistema: ROLLBACK; informar conflicto o reactivación inválida",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-save",
+      "name": "Sistema: guardar médico MED-ID, especialidad, vínculos o estado según acción",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-commit",
+      "name": "Sistema: COMMIT; conservar identidad y relaciones; mostrar listado confirmado",
+      "type": "Action",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu05-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-05",
+      "subtype": 101
+    },
+    {
+      "id": "cu05-nota",
+      "name": "Sesión vigente y medicos.gestionar efectivo.\n\nMédicos: especialidades activas obligatorias; cuenta existente opcional y elegible. Reactivar exige especialidad activa. El estado tiene confirmación separada. Especialidades: nombre único normalizado. Conservar vínculos, horarios y citas. No crear cuentas automáticamente ni modificar roles.",
+      "type": "Note",
+      "caseId": "CU-05"
+    },
+    {
+      "id": "cu06-inicio",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-06",
+      "subtype": 100
+    },
+    {
+      "id": "cu06-access",
+      "name": "¿Sesión y permiso válidos?",
+      "type": "Decision",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-access-alternativa",
+      "name": "Sistema: login o 403",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-access-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-06",
+      "subtype": 101
+    },
+    {
+      "id": "cu06-list",
+      "name": "Administrador: consultar horarios o bloqueos del médico",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-form",
+      "name": "Administrador: elegir alta/edición/estado y completar franja, vigencia o periodo",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-confirm",
+      "name": "¿Confirma la operación?",
+      "type": "Decision",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-confirm-alternativa",
+      "name": "Sistema: cancelar; no cambiar agenda",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-confirm-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-06",
+      "subtype": 101
+    },
+    {
+      "id": "cu06-data",
+      "name": "¿Duración, periodo y vigencia válidos?",
+      "type": "Decision",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-data-alternativa",
+      "name": "Sistema: mostrar errores de formato o turnos incompletos",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-begin",
+      "name": "Sistema: BEGIN; bloquear médico primero y luego registro; revalidar permiso",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-version",
+      "name": "¿Versión vigente y sin cruces incompatibles?",
+      "type": "Decision",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-version-alternativa",
+      "name": "Sistema: ROLLBACK; informar conflicto de versión o cruce",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-appointments",
+      "name": "¿Se conservan cobertura y disponibilidad de citas pendientes?",
+      "type": "Decision",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-appointments-alternativa",
+      "name": "Sistema: ROLLBACK; exigir resolver las citas por sus casos correspondientes",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-save",
+      "name": "Sistema: guardar horario, bloqueo o estado; COMMIT",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-result",
+      "name": "Sistema: mostrar listado actualizado y confirmación",
+      "type": "Action",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu06-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-06",
+      "subtype": 101
+    },
+    {
+      "id": "cu06-nota",
+      "name": "Sesión vigente y horarios.gestionar efectivo.\n\nFranja semanal y vigencia deben producir turnos completos; duración divide la franja. Los bloqueos restan disponibilidad. No solapar registros activos del mismo tipo. No dejar citas pendientes sin cobertura ni bloquearlas. Toda mutación bloquea primero al médico. CU-06 no cancela ni reprograma citas.",
+      "type": "Note",
+      "caseId": "CU-06"
+    },
+    {
+      "id": "cu07-inicio",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-07",
+      "subtype": 100
+    },
+    {
+      "id": "cu07-access",
+      "name": "¿Sesión y acceso al paciente válidos?",
+      "type": "Decision",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-access-alternativa",
+      "name": "Sistema: login, verificación o rechazo; no acceder a otra ficha",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-access-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-07",
+      "subtype": 101
+    },
+    {
+      "id": "cu07-filters",
+      "name": "Actor: elegir especialidad, fecha y médico opcional; personal selecciona paciente autorizado",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-slots",
+      "name": "Sistema: calcular turnos futuros completos; excluir bloqueos y citas de médico/paciente",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-available",
+      "name": "¿Hay turnos disponibles?",
+      "type": "Decision",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-available-alternativa",
+      "name": "Sistema: informar sin disponibilidad; permitir otros filtros",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-review",
+      "name": "Actor/Sistema: elegir y revisar turno; revalidar; emitir token cifrado",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-confirm",
+      "name": "¿Confirma la reserva?",
+      "type": "Decision",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-confirm-alternativa",
+      "name": "Sistema: cancelar revisión sin crear cita",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-confirm-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-07",
+      "subtype": 101
+    },
+    {
+      "id": "cu07-begin",
+      "name": "Sistema: validar token; BEGIN; bloquear médico y luego paciente",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-token",
+      "name": "¿Token vigente y actor/ficha aún autorizados?",
+      "type": "Decision",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-token-alternativa",
+      "name": "Sistema: ROLLBACK; exigir nueva revisión",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-new",
+      "name": "¿Token aún sin reserva confirmada?",
+      "type": "Decision",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-new-alternativa",
+      "name": "Sistema: recuperar la misma cita; no duplicar auditoría",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-recheck",
+      "name": "Sistema: revalidar horario, médico, especialidad, bloqueos y citas",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-free",
+      "name": "¿Turno sigue libre y sin cruces?",
+      "type": "Decision",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-free-alternativa",
+      "name": "Sistema: ROLLBACK; informar conflicto; volver a consultar",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-save",
+      "name": "Sistema: insertar cita programada, CIT-ID y auditoría; COMMIT",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-receipt",
+      "name": "Sistema: autorizar y mostrar comprobante del titular o gestor",
+      "type": "Action",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "cu07-fin",
+      "name": "",
+      "type": "StateNode",
+      "caseId": "CU-07",
+      "subtype": 101
+    },
+    {
+      "id": "cu07-nota",
+      "name": "Paciente: citas.propias, ficha propia activa y correo verificado. Personal: citas.gestionar y paciente activo elegido.\n\nEl paciente no elige otra identidad. El personal autorizado puede seleccionar paciente sin exigir que tenga cuenta o correo verificado. Consulta hasta 30 días. Revisar no retiene turno. Token cifrado ligado al actor, 30 min. Cita programada y auditoría son atómicas; el comprobante requiere titularidad o permiso de gestión.",
+      "type": "Note",
+      "caseId": "CU-07"
+    },
+    {
+      "id": "act-admin",
+      "name": "Administrador",
+      "type": "Actor",
+      "caseId": "ACTORES",
+      "notes": "Responsabilidad: Configurar usuarios, médicos, especialidades y horarios; supervisar operaciones autorizadas\nLímite de acceso: Actúa según permisos efectivos; no se presume acceso irrestricto a datos clínicos"
+    },
+    {
+      "id": "nota-admin",
+      "name": "<p><b>Responsabilidad:</b> Configurar usuarios, médicos, especialidades y horarios; supervisar operaciones autorizadas</p><p><b>Límite de acceso:</b> Actúa según permisos efectivos; no se presume acceso irrestricto a datos clínicos</p>",
+      "type": "Note",
+      "caseId": "ACTORES"
+    },
+    {
+      "id": "act-recepcion",
+      "name": "Recepcionista",
+      "type": "Actor",
+      "caseId": "ACTORES",
+      "notes": "Responsabilidad: Identificar pacientes y registrar o gestionar citas de acuerdo con su autorización\nLímite de acceso: No configura médicos ni horarios con el conjunto inicial de permisos"
+    },
+    {
+      "id": "nota-recepcion",
+      "name": "<p><b>Responsabilidad:</b> Identificar pacientes y registrar o gestionar citas de acuerdo con su autorización</p><p><b>Límite de acceso:</b> No configura médicos ni horarios con el conjunto inicial de permisos</p>",
+      "type": "Note",
+      "caseId": "ACTORES"
+    },
+    {
+      "id": "act-medico",
+      "name": "Médico",
+      "type": "Actor",
+      "caseId": "ACTORES",
+      "notes": "Responsabilidad: Consultar su agenda y los datos básicos necesarios para atender\nLímite de acceso: CU-11 se limitará al profesional vinculado y requerirá una política explícita para consultas administrativas"
+    },
+    {
+      "id": "nota-medico",
+      "name": "<p><b>Responsabilidad:</b> Consultar su agenda y los datos básicos necesarios para atender</p><p><b>Límite de acceso:</b> CU-11 se limitará al profesional vinculado y requerirá una política explícita para consultas administrativas</p>",
+      "type": "Note",
+      "caseId": "ACTORES"
+    },
+    {
+      "id": "act-paciente",
+      "name": "Paciente",
+      "type": "Actor",
+      "caseId": "ACTORES",
+      "notes": "Responsabilidad: Acceder a su cuenta, verificar correo y reservar para su ficha vinculada\nLímite de acceso: No puede escoger la identidad de otro paciente ni consultar comprobantes ajenos"
+    },
+    {
+      "id": "nota-paciente",
+      "name": "<p><b>Responsabilidad:</b> Acceder a su cuenta, verificar correo y reservar para su ficha vinculada</p><p><b>Límite de acceso:</b> No puede escoger la identidad de otro paciente ni consultar comprobantes ajenos</p>",
+      "type": "Note",
+      "caseId": "ACTORES"
+    },
+    {
+      "id": "cu01-form-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-01",
+      "merge": true
+    },
+    {
+      "id": "cu01-request-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-01",
+      "merge": true
+    },
+    {
+      "id": "cu02-form-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-02",
+      "merge": true
+    },
+    {
+      "id": "cu03-form-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-03",
+      "merge": true
+    },
+    {
+      "id": "cu03-login-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-03",
+      "merge": true
+    },
+    {
+      "id": "cu03-link-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-03",
+      "merge": true
+    },
+    {
+      "id": "cu04-form-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-04",
+      "merge": true
+    },
+    {
+      "id": "cu05-form-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-05",
+      "merge": true
+    },
+    {
+      "id": "cu06-form-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-06",
+      "merge": true
+    },
+    {
+      "id": "cu07-filters-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-07",
+      "merge": true
+    },
+    {
+      "id": "cu07-receipt-mezcla",
+      "name": "",
+      "type": "Decision",
+      "caseId": "CU-07",
+      "merge": true
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "cu01-actividad",
+      "caseId": "CU-01",
+      "caseTitle": "Iniciar y cerrar sesión",
+      "title": "Diagrama de actividad",
+      "type": "Activity",
+      "kind": "actividad",
+      "permission": "Acceso para invitados; funciones internas según sesión vigente y permisos efectivos.",
+      "note": "Límites: 5 fallos por identificador/IP, espera 15 min y límite adicional por IP. Inactividad: 30 min. Credenciales inexistentes, inactivas e incorrectas reciben mensaje genérico. El acceso normal va a /inicio; booking.continue permite continuar en /citas. Recuperación corresponde a CU-01.1.",
+      "sources": [
+        "sistema/backend/app/Http/Controllers/Auth/SessionController.php",
+        "sistema/backend/app/Http/Middleware/ProtectSession.php",
+        "sistema/backend/config/seguridad.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu01-inicio",
+          "x": 650,
+          "y": 40,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "ref": "cu01-form",
+          "x": 410,
+          "y": 130,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu01-input",
+          "x": 410,
+          "y": 300,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu01-limit",
+          "x": 585,
+          "y": 470,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu01-limit-alternativa",
+          "x": 1100,
+          "y": 470,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu01-auth",
+          "x": 585,
+          "y": 640,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu01-auth-alternativa",
+          "x": 1100,
+          "y": 640,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu01-session",
+          "x": 410,
+          "y": 810,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu01-home",
+          "x": 410,
+          "y": 980,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu01-request",
+          "x": 410,
+          "y": 1150,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu01-valid",
+          "x": 585,
+          "y": 1320,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu01-valid-alternativa",
+          "x": 1100,
+          "y": 1320,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu01-valid-fin",
+          "x": 1325,
+          "y": 1440,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu01-permission",
+          "x": 585,
+          "y": 1490,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu01-permission-alternativa",
+          "x": 1100,
+          "y": 1490,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu01-permission-fin",
+          "x": 1325,
+          "y": 1610,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu01-use",
+          "x": 410,
+          "y": 1660,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu01-exit",
+          "x": 585,
+          "y": 1830,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu01-exit-alternativa",
+          "x": 1100,
+          "y": 1830,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu01-logout",
+          "x": 410,
+          "y": 2000,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu01-fin",
+          "x": 650,
+          "y": 2170,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "ref": "cu01-nota",
+          "x": 410,
+          "y": 2270,
+          "w": 1170,
+          "h": 210
+        },
+        {
+          "ref": "cu01-form-mezcla",
+          "x": 655,
+          "y": 105,
+          "w": 20,
+          "h": 20
+        },
+        {
+          "ref": "cu01-request-mezcla",
+          "x": 655,
+          "y": 1125,
+          "w": 20,
+          "h": 20
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu01-limit",
+          "to": "cu01-limit-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-limit-alternativa",
+          "to": "cu01-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-522;1660:-115;"
+        },
+        {
+          "from": "cu01-auth",
+          "to": "cu01-auth-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-auth-alternativa",
+          "to": "cu01-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-692;1660:-115;"
+        },
+        {
+          "from": "cu01-valid",
+          "to": "cu01-valid-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-valid-alternativa",
+          "to": "cu01-valid-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-permission",
+          "to": "cu01-permission-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-permission-alternativa",
+          "to": "cu01-permission-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-exit",
+          "to": "cu01-exit-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-exit-alternativa",
+          "to": "cu01-request-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1882;1660:-1135;"
+        },
+        {
+          "from": "cu01-inicio",
+          "to": "cu01-form-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-form",
+          "to": "cu01-input",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-input",
+          "to": "cu01-limit",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-limit",
+          "to": "cu01-auth",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-auth",
+          "to": "cu01-session",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-session",
+          "to": "cu01-home",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-home",
+          "to": "cu01-request-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-request",
+          "to": "cu01-valid",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-valid",
+          "to": "cu01-permission",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-permission",
+          "to": "cu01-use",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-use",
+          "to": "cu01-exit",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-exit",
+          "to": "cu01-logout",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-logout",
+          "to": "cu01-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-form-mezcla",
+          "to": "cu01-form",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu01-request-mezcla",
+          "to": "cu01-request",
+          "label": "",
+          "type": "ControlFlow"
+        }
+      ]
+    },
+    {
+      "id": "cu02-actividad",
+      "caseId": "CU-02",
+      "caseTitle": "Administrar usuarios, roles y permisos",
+      "title": "Diagrama de actividad",
+      "type": "Activity",
+      "kind": "actividad",
+      "permission": "Sesión vigente y usuarios.gestionar efectivo.",
+      "note": "Sin sesión: login; sin permiso: 403. Usuarios y roles se crean/editan; permisos solo cambian de estado dentro del catálogo. No hay borrado físico. Se preservan vínculos inactivos. Datos de contraseña nunca se repueblan. No se crean fichas clínicas ni se envía correo al crear cuentas.",
+      "sources": [
+        "sistema/backend/routes/usuarios.php",
+        "sistema/backend/app/Services/Auth/UserAdministration.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu02-inicio",
+          "x": 650,
+          "y": 40,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "ref": "cu02-access",
+          "x": 585,
+          "y": 130,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu02-access-alternativa",
+          "x": 1100,
+          "y": 130,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu02-access-fin",
+          "x": 1325,
+          "y": 250,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu02-list",
+          "x": 410,
+          "y": 300,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu02-form",
+          "x": 410,
+          "y": 470,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu02-confirm",
+          "x": 585,
+          "y": 640,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu02-confirm-alternativa",
+          "x": 1100,
+          "y": 640,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu02-confirm-fin",
+          "x": 1325,
+          "y": 760,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu02-data",
+          "x": 585,
+          "y": 810,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu02-data-alternativa",
+          "x": 1100,
+          "y": 810,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu02-begin",
+          "x": 410,
+          "y": 980,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu02-authorized",
+          "x": 585,
+          "y": 1150,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu02-authorized-alternativa",
+          "x": 1100,
+          "y": 1150,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu02-authorized-fin",
+          "x": 1325,
+          "y": 1270,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu02-save",
+          "x": 410,
+          "y": 1320,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu02-continuity",
+          "x": 585,
+          "y": 1490,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu02-continuity-alternativa",
+          "x": 1100,
+          "y": 1490,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu02-commit",
+          "x": 410,
+          "y": 1660,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu02-ownsession",
+          "x": 585,
+          "y": 1830,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu02-ownsession-alternativa",
+          "x": 1100,
+          "y": 1830,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu02-ownsession-fin",
+          "x": 1325,
+          "y": 1950,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu02-result",
+          "x": 410,
+          "y": 2000,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu02-fin",
+          "x": 650,
+          "y": 2170,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "ref": "cu02-nota",
+          "x": 410,
+          "y": 2270,
+          "w": 1170,
+          "h": 210
+        },
+        {
+          "ref": "cu02-form-mezcla",
+          "x": 655,
+          "y": 445,
+          "w": 20,
+          "h": 20
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu02-access",
+          "to": "cu02-access-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-access-alternativa",
+          "to": "cu02-access-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-confirm",
+          "to": "cu02-confirm-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-confirm-alternativa",
+          "to": "cu02-confirm-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-data",
+          "to": "cu02-data-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-data-alternativa",
+          "to": "cu02-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-862;1660:-455;"
+        },
+        {
+          "from": "cu02-authorized",
+          "to": "cu02-authorized-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-authorized-alternativa",
+          "to": "cu02-authorized-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-continuity",
+          "to": "cu02-continuity-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-continuity-alternativa",
+          "to": "cu02-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1542;1660:-455;"
+        },
+        {
+          "from": "cu02-ownsession",
+          "to": "cu02-ownsession-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-ownsession-alternativa",
+          "to": "cu02-ownsession-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-inicio",
+          "to": "cu02-access",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-access",
+          "to": "cu02-list",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-list",
+          "to": "cu02-form-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-form",
+          "to": "cu02-confirm",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-confirm",
+          "to": "cu02-data",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-data",
+          "to": "cu02-begin",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-begin",
+          "to": "cu02-authorized",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-authorized",
+          "to": "cu02-save",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-save",
+          "to": "cu02-continuity",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-continuity",
+          "to": "cu02-commit",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-commit",
+          "to": "cu02-ownsession",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-ownsession",
+          "to": "cu02-result",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-result",
+          "to": "cu02-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu02-form-mezcla",
+          "to": "cu02-form",
+          "label": "",
+          "type": "ControlFlow"
+        }
+      ]
+    },
+    {
+      "id": "cu03-actividad",
+      "caseId": "CU-03",
+      "caseTitle": "Registrarse como paciente",
+      "title": "Diagrama de actividad",
+      "type": "Activity",
+      "kind": "actividad",
+      "permission": "Registro público. Verificación: cuenta autenticada y enlace firmado de la misma cuenta.",
+      "note": "Cuenta y ficha se crean juntas, con rol paciente activo. No se vinculan fichas previas por coincidencia. Un fallo de correo no revierte el registro. El reenvío exige sesión y espera de 60 s. Verificar correo no reserva una cita. En modo log/array no se entrega a la bandeja.",
+      "sources": [
+        "sistema/backend/app/Http/Controllers/Pacientes/RegistrationController.php",
+        "sistema/backend/app/Services/Pacientes/PatientSelfRegistration.php",
+        "sistema/backend/app/Http/Controllers/Auth/VerificationController.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu03-inicio",
+          "x": 650,
+          "y": 40,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "ref": "cu03-form",
+          "x": 410,
+          "y": 130,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu03-data",
+          "x": 585,
+          "y": 300,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu03-data-alternativa",
+          "x": 1100,
+          "y": 300,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu03-begin",
+          "x": 410,
+          "y": 470,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu03-available",
+          "x": 585,
+          "y": 640,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu03-available-alternativa",
+          "x": 1100,
+          "y": 640,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu03-commit",
+          "x": 410,
+          "y": 810,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu03-mail",
+          "x": 410,
+          "y": 980,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu03-delivery",
+          "x": 585,
+          "y": 1150,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu03-delivery-alternativa",
+          "x": 1100,
+          "y": 1150,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu03-login",
+          "x": 410,
+          "y": 1320,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu03-link",
+          "x": 410,
+          "y": 1490,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu03-signed",
+          "x": 585,
+          "y": 1660,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu03-signed-alternativa",
+          "x": 1100,
+          "y": 1660,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu03-verify",
+          "x": 410,
+          "y": 1830,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu03-fin",
+          "x": 650,
+          "y": 2000,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "ref": "cu03-nota",
+          "x": 410,
+          "y": 2100,
+          "w": 1170,
+          "h": 210
+        },
+        {
+          "ref": "cu03-form-mezcla",
+          "x": 655,
+          "y": 105,
+          "w": 20,
+          "h": 20
+        },
+        {
+          "ref": "cu03-login-mezcla",
+          "x": 655,
+          "y": 1295,
+          "w": 20,
+          "h": 20
+        },
+        {
+          "ref": "cu03-link-mezcla",
+          "x": 655,
+          "y": 1465,
+          "w": 20,
+          "h": 20
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu03-data",
+          "to": "cu03-data-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-data-alternativa",
+          "to": "cu03-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-352;1660:-115;"
+        },
+        {
+          "from": "cu03-available",
+          "to": "cu03-available-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-available-alternativa",
+          "to": "cu03-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-692;1660:-115;"
+        },
+        {
+          "from": "cu03-delivery",
+          "to": "cu03-delivery-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-delivery-alternativa",
+          "to": "cu03-login-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1202;1660:-1305;"
+        },
+        {
+          "from": "cu03-signed",
+          "to": "cu03-signed-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-signed-alternativa",
+          "to": "cu03-link-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1712;1660:-1475;"
+        },
+        {
+          "from": "cu03-inicio",
+          "to": "cu03-form-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-form",
+          "to": "cu03-data",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-data",
+          "to": "cu03-begin",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-begin",
+          "to": "cu03-available",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-available",
+          "to": "cu03-commit",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-commit",
+          "to": "cu03-mail",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-mail",
+          "to": "cu03-delivery",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-delivery",
+          "to": "cu03-login-mezcla",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-login",
+          "to": "cu03-link-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-link",
+          "to": "cu03-signed",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-signed",
+          "to": "cu03-verify",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-verify",
+          "to": "cu03-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-form-mezcla",
+          "to": "cu03-form",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-login-mezcla",
+          "to": "cu03-login",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu03-link-mezcla",
+          "to": "cu03-link",
+          "label": "",
+          "type": "ControlFlow"
+        }
+      ]
+    },
+    {
+      "id": "cu04-actividad",
+      "caseId": "CU-04",
+      "caseTitle": "Registrar y gestionar pacientes en recepción",
+      "title": "Diagrama de actividad",
+      "type": "Activity",
+      "kind": "actividad",
+      "permission": "Sesión vigente y pacientes.gestionar efectivo.",
+      "note": "Consultar una ficha no la modifica. Estado se cambia dentro de edición. CI opcional, normalizado y único incluso entre inactivos. En edición se bloquea ficha y comprueba HMAC de versión. No borrar físicamente ni crear automáticamente cuenta o historia clínica.",
+      "sources": [
+        "sistema/backend/app/Http/Controllers/Pacientes/PacienteController.php",
+        "sistema/backend/app/Services/Pacientes/PatientRegistration.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu04-inicio",
+          "x": 650,
+          "y": 40,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "ref": "cu04-access",
+          "x": 585,
+          "y": 130,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu04-access-alternativa",
+          "x": 1100,
+          "y": 130,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu04-access-fin",
+          "x": 1325,
+          "y": 250,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu04-list",
+          "x": 410,
+          "y": 300,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu04-form",
+          "x": 410,
+          "y": 470,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu04-confirm",
+          "x": 585,
+          "y": 640,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu04-confirm-alternativa",
+          "x": 1100,
+          "y": 640,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu04-confirm-fin",
+          "x": 1325,
+          "y": 760,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu04-data",
+          "x": 585,
+          "y": 810,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu04-data-alternativa",
+          "x": 1100,
+          "y": 810,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu04-begin",
+          "x": 410,
+          "y": 980,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu04-version",
+          "x": 585,
+          "y": 1150,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu04-version-alternativa",
+          "x": 1100,
+          "y": 1150,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu04-save",
+          "x": 410,
+          "y": 1320,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu04-result",
+          "x": 410,
+          "y": 1490,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu04-fin",
+          "x": 650,
+          "y": 1660,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "ref": "cu04-nota",
+          "x": 410,
+          "y": 1760,
+          "w": 1170,
+          "h": 210
+        },
+        {
+          "ref": "cu04-form-mezcla",
+          "x": 655,
+          "y": 445,
+          "w": 20,
+          "h": 20
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu04-access",
+          "to": "cu04-access-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-access-alternativa",
+          "to": "cu04-access-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-confirm",
+          "to": "cu04-confirm-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-confirm-alternativa",
+          "to": "cu04-confirm-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-data",
+          "to": "cu04-data-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-data-alternativa",
+          "to": "cu04-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-862;1660:-455;"
+        },
+        {
+          "from": "cu04-version",
+          "to": "cu04-version-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-version-alternativa",
+          "to": "cu04-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1202;1660:-455;"
+        },
+        {
+          "from": "cu04-inicio",
+          "to": "cu04-access",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-access",
+          "to": "cu04-list",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-list",
+          "to": "cu04-form-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-form",
+          "to": "cu04-confirm",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-confirm",
+          "to": "cu04-data",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-data",
+          "to": "cu04-begin",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-begin",
+          "to": "cu04-version",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-version",
+          "to": "cu04-save",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-save",
+          "to": "cu04-result",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-result",
+          "to": "cu04-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu04-form-mezcla",
+          "to": "cu04-form",
+          "label": "",
+          "type": "ControlFlow"
+        }
+      ]
+    },
+    {
+      "id": "cu05-actividad",
+      "caseId": "CU-05",
+      "caseTitle": "Gestionar médicos y especialidades",
+      "title": "Diagrama de actividad",
+      "type": "Activity",
+      "kind": "actividad",
+      "permission": "Sesión vigente y medicos.gestionar efectivo.",
+      "note": "Médicos: especialidades activas obligatorias; cuenta existente opcional y elegible. Reactivar exige especialidad activa. El estado tiene confirmación separada. Especialidades: nombre único normalizado. Conservar vínculos, horarios y citas. No crear cuentas automáticamente ni modificar roles.",
+      "sources": [
+        "sistema/backend/app/Services/Medicos/DoctorManagement.php",
+        "sistema/backend/app/Services/Especialidades/SpecialtyManagement.php",
+        "sistema/backend/routes/medicos.php",
+        "sistema/backend/routes/especialidades.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu05-inicio",
+          "x": 650,
+          "y": 40,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "ref": "cu05-access",
+          "x": 585,
+          "y": 130,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu05-access-alternativa",
+          "x": 1100,
+          "y": 130,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu05-access-fin",
+          "x": 1325,
+          "y": 250,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu05-list",
+          "x": 410,
+          "y": 300,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu05-form",
+          "x": 410,
+          "y": 470,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu05-confirm",
+          "x": 585,
+          "y": 640,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu05-confirm-alternativa",
+          "x": 1100,
+          "y": 640,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu05-confirm-fin",
+          "x": 1325,
+          "y": 760,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu05-data",
+          "x": 585,
+          "y": 810,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu05-data-alternativa",
+          "x": 1100,
+          "y": 810,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu05-begin",
+          "x": 410,
+          "y": 980,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu05-version",
+          "x": 585,
+          "y": 1150,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu05-version-alternativa",
+          "x": 1100,
+          "y": 1150,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu05-save",
+          "x": 410,
+          "y": 1320,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu05-commit",
+          "x": 410,
+          "y": 1490,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu05-fin",
+          "x": 650,
+          "y": 1660,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "ref": "cu05-nota",
+          "x": 410,
+          "y": 1760,
+          "w": 1170,
+          "h": 210
+        },
+        {
+          "ref": "cu05-form-mezcla",
+          "x": 655,
+          "y": 445,
+          "w": 20,
+          "h": 20
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu05-access",
+          "to": "cu05-access-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-access-alternativa",
+          "to": "cu05-access-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-confirm",
+          "to": "cu05-confirm-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-confirm-alternativa",
+          "to": "cu05-confirm-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-data",
+          "to": "cu05-data-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-data-alternativa",
+          "to": "cu05-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-862;1660:-455;"
+        },
+        {
+          "from": "cu05-version",
+          "to": "cu05-version-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-version-alternativa",
+          "to": "cu05-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1202;1660:-455;"
+        },
+        {
+          "from": "cu05-inicio",
+          "to": "cu05-access",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-access",
+          "to": "cu05-list",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-list",
+          "to": "cu05-form-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-form",
+          "to": "cu05-confirm",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-confirm",
+          "to": "cu05-data",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-data",
+          "to": "cu05-begin",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-begin",
+          "to": "cu05-version",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-version",
+          "to": "cu05-save",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-save",
+          "to": "cu05-commit",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-commit",
+          "to": "cu05-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu05-form-mezcla",
+          "to": "cu05-form",
+          "label": "",
+          "type": "ControlFlow"
+        }
+      ]
+    },
+    {
+      "id": "cu06-actividad",
+      "caseId": "CU-06",
+      "caseTitle": "Configurar horarios de atención y bloqueos",
+      "title": "Diagrama de actividad",
+      "type": "Activity",
+      "kind": "actividad",
+      "permission": "Sesión vigente y horarios.gestionar efectivo.",
+      "note": "Franja semanal y vigencia deben producir turnos completos; duración divide la franja. Los bloqueos restan disponibilidad. No solapar registros activos del mismo tipo. No dejar citas pendientes sin cobertura ni bloquearlas. Toda mutación bloquea primero al médico. CU-06 no cancela ni reprograma citas.",
+      "sources": [
+        "sistema/backend/app/Services/Horarios/ScheduleManagement.php",
+        "sistema/backend/routes/horarios.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu06-inicio",
+          "x": 650,
+          "y": 40,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "ref": "cu06-access",
+          "x": 585,
+          "y": 130,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu06-access-alternativa",
+          "x": 1100,
+          "y": 130,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu06-access-fin",
+          "x": 1325,
+          "y": 250,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu06-list",
+          "x": 410,
+          "y": 300,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu06-form",
+          "x": 410,
+          "y": 470,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu06-confirm",
+          "x": 585,
+          "y": 640,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu06-confirm-alternativa",
+          "x": 1100,
+          "y": 640,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu06-confirm-fin",
+          "x": 1325,
+          "y": 760,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu06-data",
+          "x": 585,
+          "y": 810,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu06-data-alternativa",
+          "x": 1100,
+          "y": 810,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu06-begin",
+          "x": 410,
+          "y": 980,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu06-version",
+          "x": 585,
+          "y": 1150,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu06-version-alternativa",
+          "x": 1100,
+          "y": 1150,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu06-appointments",
+          "x": 585,
+          "y": 1320,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu06-appointments-alternativa",
+          "x": 1100,
+          "y": 1320,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu06-save",
+          "x": 410,
+          "y": 1490,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu06-result",
+          "x": 410,
+          "y": 1660,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu06-fin",
+          "x": 650,
+          "y": 1830,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "ref": "cu06-nota",
+          "x": 410,
+          "y": 1930,
+          "w": 1170,
+          "h": 210
+        },
+        {
+          "ref": "cu06-form-mezcla",
+          "x": 655,
+          "y": 445,
+          "w": 20,
+          "h": 20
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu06-access",
+          "to": "cu06-access-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-access-alternativa",
+          "to": "cu06-access-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-confirm",
+          "to": "cu06-confirm-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-confirm-alternativa",
+          "to": "cu06-confirm-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-data",
+          "to": "cu06-data-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-data-alternativa",
+          "to": "cu06-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-862;1660:-455;"
+        },
+        {
+          "from": "cu06-version",
+          "to": "cu06-version-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-version-alternativa",
+          "to": "cu06-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1202;1660:-455;"
+        },
+        {
+          "from": "cu06-appointments",
+          "to": "cu06-appointments-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-appointments-alternativa",
+          "to": "cu06-form-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1372;1660:-455;"
+        },
+        {
+          "from": "cu06-inicio",
+          "to": "cu06-access",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-access",
+          "to": "cu06-list",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-list",
+          "to": "cu06-form-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-form",
+          "to": "cu06-confirm",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-confirm",
+          "to": "cu06-data",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-data",
+          "to": "cu06-begin",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-begin",
+          "to": "cu06-version",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-version",
+          "to": "cu06-appointments",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-appointments",
+          "to": "cu06-save",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-save",
+          "to": "cu06-result",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-result",
+          "to": "cu06-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu06-form-mezcla",
+          "to": "cu06-form",
+          "label": "",
+          "type": "ControlFlow"
+        }
+      ]
+    },
+    {
+      "id": "cu07-actividad",
+      "caseId": "CU-07",
+      "caseTitle": "Consultar disponibilidad y reservar cita",
+      "title": "Diagrama de actividad",
+      "type": "Activity",
+      "kind": "actividad",
+      "permission": "Paciente: citas.propias, ficha propia activa y correo verificado. Personal: citas.gestionar y paciente activo elegido.",
+      "note": "El paciente no elige otra identidad. El personal autorizado puede seleccionar paciente sin exigir que tenga cuenta o correo verificado. Consulta hasta 30 días. Revisar no retiene turno. Token cifrado ligado al actor, 30 min. Cita programada y auditoría son atómicas; el comprobante requiere titularidad o permiso de gestión.",
+      "sources": [
+        "sistema/backend/app/Services/Citas/AppointmentAvailability.php",
+        "sistema/backend/app/Services/Citas/AppointmentBooking.php",
+        "sistema/backend/app/Http/Controllers/Citas/CitaController.php"
+      ],
+      "placements": [
+        {
+          "ref": "cu07-inicio",
+          "x": 650,
+          "y": 40,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "ref": "cu07-access",
+          "x": 585,
+          "y": 130,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu07-access-alternativa",
+          "x": 1100,
+          "y": 130,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu07-access-fin",
+          "x": 1325,
+          "y": 250,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu07-filters",
+          "x": 410,
+          "y": 300,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu07-slots",
+          "x": 410,
+          "y": 470,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu07-available",
+          "x": 585,
+          "y": 640,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu07-available-alternativa",
+          "x": 1100,
+          "y": 640,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu07-review",
+          "x": 410,
+          "y": 810,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu07-confirm",
+          "x": 585,
+          "y": 980,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu07-confirm-alternativa",
+          "x": 1100,
+          "y": 980,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu07-confirm-fin",
+          "x": 1325,
+          "y": 1100,
+          "w": 24,
+          "h": 24
+        },
+        {
+          "ref": "cu07-begin",
+          "x": 410,
+          "y": 1150,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu07-token",
+          "x": 585,
+          "y": 1320,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu07-token-alternativa",
+          "x": 1100,
+          "y": 1320,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu07-new",
+          "x": 585,
+          "y": 1490,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu07-new-alternativa",
+          "x": 1100,
+          "y": 1490,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu07-recheck",
+          "x": 410,
+          "y": 1660,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu07-free",
+          "x": 585,
+          "y": 1830,
+          "w": 160,
+          "h": 105
+        },
+        {
+          "ref": "cu07-free-alternativa",
+          "x": 1100,
+          "y": 1830,
+          "w": 480,
+          "h": 105
+        },
+        {
+          "ref": "cu07-save",
+          "x": 410,
+          "y": 2000,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu07-receipt",
+          "x": 410,
+          "y": 2170,
+          "w": 510,
+          "h": 95
+        },
+        {
+          "ref": "cu07-fin",
+          "x": 650,
+          "y": 2340,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "ref": "cu07-nota",
+          "x": 410,
+          "y": 2440,
+          "w": 1170,
+          "h": 210
+        },
+        {
+          "ref": "cu07-filters-mezcla",
+          "x": 655,
+          "y": 275,
+          "w": 20,
+          "h": 20
+        },
+        {
+          "ref": "cu07-receipt-mezcla",
+          "x": 655,
+          "y": 2145,
+          "w": 20,
+          "h": 20
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu07-access",
+          "to": "cu07-access-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-access-alternativa",
+          "to": "cu07-access-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-available",
+          "to": "cu07-available-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-available-alternativa",
+          "to": "cu07-filters-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-692;1660:-285;"
+        },
+        {
+          "from": "cu07-confirm",
+          "to": "cu07-confirm-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-confirm-alternativa",
+          "to": "cu07-confirm-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-token",
+          "to": "cu07-token-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-token-alternativa",
+          "to": "cu07-filters-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1372;1660:-285;"
+        },
+        {
+          "from": "cu07-new",
+          "to": "cu07-new-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-new-alternativa",
+          "to": "cu07-receipt-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1542;1660:-2155;"
+        },
+        {
+          "from": "cu07-free",
+          "to": "cu07-free-alternativa",
+          "label": "[no]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-free-alternativa",
+          "to": "cu07-filters-mezcla",
+          "label": "",
+          "type": "ControlFlow",
+          "path": "1660:-1882;1660:-285;"
+        },
+        {
+          "from": "cu07-inicio",
+          "to": "cu07-access",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-access",
+          "to": "cu07-filters-mezcla",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-filters",
+          "to": "cu07-slots",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-slots",
+          "to": "cu07-available",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-available",
+          "to": "cu07-review",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-review",
+          "to": "cu07-confirm",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-confirm",
+          "to": "cu07-begin",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-begin",
+          "to": "cu07-token",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-token",
+          "to": "cu07-new",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-new",
+          "to": "cu07-recheck",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-recheck",
+          "to": "cu07-free",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-free",
+          "to": "cu07-save",
+          "label": "[sí]",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-save",
+          "to": "cu07-receipt-mezcla",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-receipt",
+          "to": "cu07-fin",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-filters-mezcla",
+          "to": "cu07-filters",
+          "label": "",
+          "type": "ControlFlow"
+        },
+        {
+          "from": "cu07-receipt-mezcla",
+          "to": "cu07-receipt",
+          "label": "",
+          "type": "ControlFlow"
+        }
+      ]
+    },
+    {
+      "id": "actores-corregidos",
+      "caseId": "ACTORES",
+      "caseTitle": "Actores y límites de acceso",
+      "title": "Actores y límites de acceso",
+      "type": "Use Case",
+      "kind": "actores",
+      "permission": "Tabla de actores indicada por el usuario.",
+      "note": "Cuatro roles de negocio. Visitante y correo son auxiliares en otros contextos; no se añaden como roles de esta tabla. CU-11 permanece pendiente.",
+      "sources": [
+        "sistema/backend/config/permisos.php"
+      ],
+      "placements": [
+        {
+          "ref": "act-admin",
+          "x": 70,
+          "y": 95,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "nota-admin",
+          "x": 330,
+          "y": 70,
+          "w": 950,
+          "h": 215
+        },
+        {
+          "ref": "act-recepcion",
+          "x": 70,
+          "y": 365,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "nota-recepcion",
+          "x": 330,
+          "y": 340,
+          "w": 950,
+          "h": 215
+        },
+        {
+          "ref": "act-medico",
+          "x": 70,
+          "y": 635,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "nota-medico",
+          "x": 330,
+          "y": 610,
+          "w": 950,
+          "h": 215
+        },
+        {
+          "ref": "act-paciente",
+          "x": 70,
+          "y": 905,
+          "w": 130,
+          "h": 160
+        },
+        {
+          "ref": "nota-paciente",
+          "x": 330,
+          "y": 880,
+          "w": 950,
+          "h": 215
+        }
+      ],
+      "edges": [
+        {
+          "from": "act-admin",
+          "to": "nota-admin",
+          "label": "",
+          "type": "NoteLink"
+        },
+        {
+          "from": "act-recepcion",
+          "to": "nota-recepcion",
+          "label": "",
+          "type": "NoteLink"
+        },
+        {
+          "from": "act-medico",
+          "to": "nota-medico",
+          "label": "",
+          "type": "NoteLink"
+        },
+        {
+          "from": "act-paciente",
+          "to": "nota-paciente",
+          "label": "",
+          "type": "NoteLink"
+        }
+      ]
+    }
+  ]
+}

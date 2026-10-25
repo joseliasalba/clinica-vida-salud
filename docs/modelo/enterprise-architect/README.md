@@ -1,5 +1,9 @@
 # CU-01 y CU-02 en Enterprise Architect
 
+## Modelo general actualizado
+
+La [entrega general de actores, casos y paquetes](General_Proyecto/README.md) contiene un modelo EA independiente y 22 diagramas del alcance completo: lista de actores, modelo estructurado, identificación de paquetes, trazabilidad paquete-caso y vistas por paquete. Incluye CU-01 a CU-12 con su estado actual y CU-13 a CU-17 como evolución pendiente. Las imágenes se presentan sin notas explicativas; se conservan los modelos anteriores.
+
 Abrir **Clinica_Vida_Salud_CU01_CU02.eapx** en Enterprise Architect 15 o compatible. Es un modelo UML editable: elementos, atributos, operaciones, relaciones y diagramas; no son capturas pegadas en un proyecto vacío.
 
 El informe **Diagramas_CU01_CU02.pdf** permite revisar las especificaciones y todos los diagramas. Las 30 imágenes exportadas por EA están en `diagramas/`. `manifest.json` relaciona sus nombres con los identificadores del modelo.
@@ -59,3 +63,7 @@ La plantilla `Model` vacía que EA incluye por defecto no contiene trabajo funci
 ## CU-03 a CU-07
 
 Los cuatro tipos solicitados para estos cinco casos están en [CU03_CU07](CU03_CU07/README.md): casos de uso, comunicación, navegación y secuencia. Incluye un modelo editable independiente, 20 imágenes y un PDF de consulta. El modelo CU-01/CU-02 se conserva.
+
+## Análisis de clases de CU-05
+
+El [modelo de análisis de CU-05](Analisis_CU05/README.md) contiene el actor, la frontera, el control y las entidades Médico, Especialidad, Asignación de especialidad y Cuenta de usuario. Incluye el proyecto editable, la exportación XMI y la imagen PNG, sin notas explicativas visibles. Los modelos anteriores se conservan.

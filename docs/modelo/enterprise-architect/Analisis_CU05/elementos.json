@@ -1,0 +1,37 @@
+﻿[
+    {
+        "guid":  "{55FBE4F6-8A04-43c8-B35B-59BF10C21897}",
+        "id":  "actor",
+        "elementId":  2
+    },
+    {
+        "guid":  "{6BA7FF23-2C88-4b08-87C1-207EE20C1E85}",
+        "id":  "vista",
+        "elementId":  3
+    },
+    {
+        "guid":  "{B52DC936-F428-476f-9A4A-79E59E101CB4}",
+        "id":  "control",
+        "elementId":  4
+    },
+    {
+        "guid":  "{64DBAB90-13CC-48b2-B6C7-03EA98E7855B}",
+        "id":  "medico",
+        "elementId":  5
+    },
+    {
+        "guid":  "{142C7E4D-9AF1-4994-B578-9D83742F72FF}",
+        "id":  "especialidad",
+        "elementId":  6
+    },
+    {
+        "guid":  "{C6871B8F-B865-4dec-BEC1-95CE648D0E46}",
+        "id":  "asignacion",
+        "elementId":  7
+    },
+    {
+        "guid":  "{93B4E9C0-697F-493d-8481-CAAD031D09E3}",
+        "id":  "cuenta",
+        "elementId":  8
+    }
+]

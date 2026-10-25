@@ -1,0 +1,1601 @@
+{
+  "title": "Clínica Vida Salud - CU-01 y CU-02",
+  "version": 1,
+  "reference": "todos los diagramas.pdf, páginas 3, 6, 9 y 14",
+  "scope": "Dos casos implementados; cuatro diagramas por caso. Fuentes: código y reglas vigentes al 24/10/2026.",
+  "cases": [
+    {
+      "id": "CU-01",
+      "title": "Iniciar y cerrar sesión",
+      "permission": "Acceso público para invitados. Rutas internas: sesión vigente, cuenta activa y permisos efectivos.",
+      "rules": "Acceso por usuario o correo y contraseña sin normalizar. Cinco fallos por identificador/IP: espera de 15 minutos; límite adicional por IP. Inactividad: 30 minutos. Autorización comprobada en servidor. Sin recordar sesión.",
+      "sources": [
+        "docs/casos-de-uso/CU-01/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/SessionController.php",
+        "sistema/backend/app/Http/Middleware/ProtectSession.php",
+        "sistema/backend/config/seguridad.php"
+      ]
+    },
+    {
+      "id": "CU-02",
+      "title": "Administrar usuarios, roles y permisos",
+      "permission": "Sesión vigente y permiso efectivo usuarios.gestionar. Cada mutación vuelve a comprobar autorización dentro de la transacción.",
+      "rules": "Usuarios con varios roles y roles con varios permisos. Conservar vínculos retirados como inactivos. No borrar físicamente ni crear personas clínicas automáticamente. Proteger la propia administración y conservar al menos un gestor efectivo.",
+      "sources": [
+        "docs/casos-de-uso/CU-02/especificacion.md",
+        "sistema/backend/routes/usuarios.php",
+        "sistema/backend/app/Services/Auth/UserAdministration.php",
+        "sistema/backend/app/Http/Controllers/Auth/UserController.php",
+        "sistema/backend/app/Http/Controllers/Auth/RoleController.php",
+        "sistema/backend/app/Http/Controllers/Auth/PermissionController.php"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "cu01-actor",
+      "name": "Usuario de la clínica",
+      "type": "Actor"
+    },
+    {
+      "id": "cu01-limite",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "cu01-reglas",
+      "name": "Acceso público para invitados. Rutas internas: sesión vigente, cuenta activa y permisos efectivos.\n\nAcceso por usuario o correo y contraseña sin normalizar. Cinco fallos por identificador/IP: espera de 15 minutos; límite adicional por IP. Inactividad: 30 minutos. Autorización comprobada en servidor. Sin recordar sesión.",
+      "type": "Note"
+    },
+    {
+      "id": "cu01-objetivo-0",
+      "name": "Iniciar sesión",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu01-objetivo-1",
+      "name": "Consultar inicio autorizado",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu01-objetivo-2",
+      "name": "Cerrar sesión",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu01-com-0",
+      "name": "UI_acceso / inicio",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "cu01-com-1",
+      "name": "SessionController /\nProtectSession",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "cu01-com-2",
+      "name": "User / sesión / caché",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "cu01-com-actor",
+      "name": "Usuario de la clínica",
+      "type": "Actor"
+    },
+    {
+      "id": "cu01-com-nota",
+      "name": "El control agrupa controlador de sesión y middleware. Los permisos se evalúan por cuenta, roles, asignaciones, estado y vigencia. El acceso fallido no distingue cuenta inexistente, inactiva ni clave incorrecta.",
+      "type": "Note"
+    },
+    {
+      "id": "cu01-nav-0",
+      "name": "Portada pública",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /",
+        "Iniciar sesión"
+      ]
+    },
+    {
+      "id": "cu01-nav-1",
+      "name": "Formulario de acceso",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /login",
+        "POST /login; CSRF"
+      ]
+    },
+    {
+      "id": "cu01-nav-2",
+      "name": "Inicio autorizado",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /inicio",
+        "Opciones según permisos"
+      ]
+    },
+    {
+      "id": "cu01-nav-3",
+      "name": "Función protegida",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET según módulo",
+        "Permiso efectivo obligatorio"
+      ]
+    },
+    {
+      "id": "cu01-nav-4",
+      "name": "Salida de la sesión",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "POST /logout; sin GET",
+        "Redirigir a /login"
+      ]
+    },
+    {
+      "id": "cu01-nav-5",
+      "name": "Recuperación (CU-01.1)",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /recuperar-contrasena",
+        "Flujo independiente de recuperación"
+      ]
+    },
+    {
+      "id": "cu01-nav-actor",
+      "name": "Usuario de la clínica",
+      "type": "Actor"
+    },
+    {
+      "id": "cu01-nav-nota",
+      "name": "Sin sesión vigente: volver al acceso; sin permiso: 403. La recuperación se referencia como CU-01.1, fuera de estos ocho diagramas. Desde el acceso normal se va a /inicio; si existe booking.continue se continúa en /citas. No se aceptan URLs externas de retorno.",
+      "type": "Note"
+    },
+    {
+      "id": "cu01-seq-0",
+      "name": "Usuario",
+      "type": "Actor"
+    },
+    {
+      "id": "cu01-seq-1",
+      "name": "V.Acceso / Inicio",
+      "type": "Object"
+    },
+    {
+      "id": "cu01-seq-2",
+      "name": "SessionController /\nProtectSession",
+      "type": "Object"
+    },
+    {
+      "id": "cu01-seq-3",
+      "name": "User / Auth / permisos",
+      "type": "Object"
+    },
+    {
+      "id": "cu01-seq-4",
+      "name": "Sesión / caché",
+      "type": "Object"
+    },
+    {
+      "id": "cu01-seq-nota",
+      "name": "Fallo de credenciales: mensaje genérico y sumar intento. Límite alcanzado: rechazar temporalmente. Cuenta inactiva, hash/token cambiado o inactividad: invalidar sesión y volver al login. Sin permiso: 403. Las contraseñas y tokens no se escriben en los diagramas ni en auditoría.",
+      "type": "Note"
+    },
+    {
+      "id": "cu01-frag-0",
+      "name": "opt [credenciales válidas y límite no superado]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu01-frag-1",
+      "name": "opt [petición con sesión vigente]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu01-frag-2",
+      "name": "opt [cierre solicitado]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu02-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu02-limite",
+      "name": "Clínica Vida Salud",
+      "type": "Boundary"
+    },
+    {
+      "id": "cu02-reglas",
+      "name": "Sesión vigente y permiso efectivo usuarios.gestionar. Cada mutación vuelve a comprobar autorización dentro de la transacción.\n\nUsuarios con varios roles y roles con varios permisos. Conservar vínculos retirados como inactivos. No borrar físicamente ni crear personas clínicas automáticamente. Proteger la propia administración y conservar al menos un gestor efectivo.",
+      "type": "Note"
+    },
+    {
+      "id": "cu02-objetivo-0",
+      "name": "Consultar, crear y editar usuarios",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu02-objetivo-1",
+      "name": "Asignar roles y estado de cuenta",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu02-objetivo-2",
+      "name": "Crear y editar roles y permisos asignados",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu02-objetivo-3",
+      "name": "Activar o desactivar permisos del catálogo",
+      "type": "UseCase"
+    },
+    {
+      "id": "cu02-com-0",
+      "name": "UI_usuarios / roles / permisos",
+      "type": "Object",
+      "stereotype": "boundary"
+    },
+    {
+      "id": "cu02-com-1",
+      "name": "Controllers de acceso /\nUserAdministration",
+      "type": "Object",
+      "stereotype": "control"
+    },
+    {
+      "id": "cu02-com-2",
+      "name": "User / roles / permisos / DB",
+      "type": "Object",
+      "stereotype": "entity"
+    },
+    {
+      "id": "cu02-com-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu02-com-nota",
+      "name": "UserAdministration centraliza saveUser(), saveRole() y setPermissionState(). Roles y permisos usan Query Builder; no se inventan modelos Eloquent separados. Los cambios se auditan después de COMMIT, sin contraseñas ni tokens.",
+      "type": "Note"
+    },
+    {
+      "id": "cu02-nav-0",
+      "name": "Inicio / Menú",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /inicio",
+        "Usuarios y permisos"
+      ]
+    },
+    {
+      "id": "cu02-nav-1",
+      "name": "Listado de usuarios",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /usuarios",
+        "Buscar / filtrar estado"
+      ]
+    },
+    {
+      "id": "cu02-nav-2",
+      "name": "Crear o editar usuario",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET crear o /{id}/editar",
+        "POST /usuarios o PUT /{id}"
+      ]
+    },
+    {
+      "id": "cu02-nav-3",
+      "name": "Listado de roles",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /roles",
+        "Consultar roles y estado"
+      ]
+    },
+    {
+      "id": "cu02-nav-4",
+      "name": "Crear o editar rol",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET crear o /{id}/editar",
+        "POST /roles o PUT /{id}"
+      ]
+    },
+    {
+      "id": "cu02-nav-5",
+      "name": "Catálogo de permisos",
+      "type": "Class",
+      "stereotype": "boundary",
+      "ops": [
+        "GET /permisos",
+        "PATCH /permisos/{permiso}"
+      ]
+    },
+    {
+      "id": "cu02-nav-actor",
+      "name": "Administrador autorizado",
+      "type": "Actor"
+    },
+    {
+      "id": "cu02-nav-nota",
+      "name": "Estado de usuario y rol: en su formulario de edición, sin ruta independiente. Permisos: cambio con PATCH. Todas las acciones de escritura requieren CSRF. Sin sesión: login; sin permiso: 403. Cancelar no guarda. El catálogo funcional no admite códigos arbitrarios.",
+      "type": "Note"
+    },
+    {
+      "id": "cu02-seq-0",
+      "name": "Administrador",
+      "type": "Actor"
+    },
+    {
+      "id": "cu02-seq-1",
+      "name": "V.Usuarios / Roles / Permisos",
+      "type": "Object"
+    },
+    {
+      "id": "cu02-seq-2",
+      "name": "UserController / RoleController /\nPermissionController",
+      "type": "Object"
+    },
+    {
+      "id": "cu02-seq-3",
+      "name": "UserAdministration",
+      "type": "Object"
+    },
+    {
+      "id": "cu02-seq-4",
+      "name": "User / Query Builder / PostgreSQL",
+      "type": "Object"
+    },
+    {
+      "id": "cu02-seq-nota",
+      "name": "Duplicado, selección inválida o retirada de administración: ROLLBACK sin cambios parciales. Contraseña vacía en edición conserva hash; cambio de clave o desactivación rota token. Cambiar correo limpia verificación. Clave/correo/estado pueden revocar enlaces de recuperación. No enviar correo al crear una cuenta desde CU-02.",
+      "type": "Note"
+    },
+    {
+      "id": "cu02-frag-0",
+      "name": "opt [consulta autorizada]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu02-frag-1",
+      "name": "opt [alta o edición de usuario]",
+      "type": "InteractionFragment",
+      "fragment": true
+    },
+    {
+      "id": "cu02-frag-2",
+      "name": "opt [rol o permiso del catálogo]",
+      "type": "InteractionFragment",
+      "fragment": true
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "cu01-casos",
+      "caseId": "CU-01",
+      "caseTitle": "Iniciar y cerrar sesión",
+      "title": "Diagrama de casos de uso",
+      "kind": "casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "cu01-limite",
+          "x": 230,
+          "y": 40,
+          "w": 950,
+          "h": 650,
+          "background": true
+        },
+        {
+          "ref": "cu01-actor",
+          "x": 40,
+          "y": 265,
+          "w": 100,
+          "h": 120
+        },
+        {
+          "ref": "cu01-reglas",
+          "x": 850,
+          "y": 135,
+          "w": 280,
+          "h": 350
+        },
+        {
+          "ref": "cu01-objetivo-0",
+          "x": 390,
+          "y": 95,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu01-objetivo-1",
+          "x": 390,
+          "y": 220,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu01-objetivo-2",
+          "x": 390,
+          "y": 345,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu01-actor",
+          "to": "cu01-objetivo-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu01-actor",
+          "to": "cu01-objetivo-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu01-actor",
+          "to": "cu01-objetivo-2",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "note": "Acceso por usuario o correo y contraseña sin normalizar. Cinco fallos por identificador/IP: espera de 15 minutos; límite adicional por IP. Inactividad: 30 minutos. Autorización comprobada en servidor. Sin recordar sesión.",
+      "sources": [
+        "docs/casos-de-uso/CU-01/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/SessionController.php",
+        "sistema/backend/app/Http/Middleware/ProtectSession.php",
+        "sistema/backend/config/seguridad.php"
+      ],
+      "permission": "Acceso público para invitados. Rutas internas: sesión vigente, cuenta activa y permisos efectivos.",
+      "referencePage": 3
+    },
+    {
+      "id": "cu01-comunicacion",
+      "caseId": "CU-01",
+      "caseTitle": "Iniciar y cerrar sesión",
+      "title": "Diagrama de comunicación",
+      "kind": "comunicacion",
+      "type": "Analysis",
+      "placements": [
+        {
+          "ref": "cu01-com-actor",
+          "x": 55,
+          "y": 300,
+          "w": 80,
+          "h": 110
+        },
+        {
+          "ref": "cu01-com-0",
+          "x": 390,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu01-com-1",
+          "x": 815,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu01-com-2",
+          "x": 1240,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu01-com-nota",
+          "x": 285,
+          "y": 525,
+          "w": 1070,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu01-com-actor",
+          "to": "cu01-com-0",
+          "label": "1: enviar credenciales\n2: consultar inicio\n3: cerrar sesión",
+          "type": "Association",
+          "messageGroup": 0
+        },
+        {
+          "from": "cu01-com-0",
+          "to": "cu01-com-1",
+          "label": "1.1: POST /login con CSRF\n2.1: GET /inicio protegido\n3.1: POST /logout con CSRF",
+          "type": "Association",
+          "messageGroup": 1
+        },
+        {
+          "from": "cu01-com-1",
+          "to": "cu01-com-2",
+          "label": "1.2: verificar cuenta y hash\n2.2: validar sesión y permisos\n3.2: invalidar sesión y renovar CSRF",
+          "type": "Association",
+          "messageGroup": 2
+        }
+      ],
+      "note": "El control agrupa controlador de sesión y middleware. Los permisos se evalúan por cuenta, roles, asignaciones, estado y vigencia. El acceso fallido no distingue cuenta inexistente, inactiva ni clave incorrecta.",
+      "sources": [
+        "docs/casos-de-uso/CU-01/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/SessionController.php",
+        "sistema/backend/app/Http/Middleware/ProtectSession.php",
+        "sistema/backend/config/seguridad.php"
+      ],
+      "permission": "Acceso público para invitados. Rutas internas: sesión vigente, cuenta activa y permisos efectivos.",
+      "referencePage": 6
+    },
+    {
+      "id": "cu01-navegacion",
+      "caseId": "CU-01",
+      "caseTitle": "Iniciar y cerrar sesión",
+      "title": "Diagrama de navegación",
+      "kind": "navegacion",
+      "type": "Logical",
+      "placements": [
+        {
+          "ref": "cu01-nav-actor",
+          "x": 45,
+          "y": 105,
+          "w": 90,
+          "h": 125
+        },
+        {
+          "ref": "cu01-nav-0",
+          "x": 240,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu01-nav-1",
+          "x": 650,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu01-nav-2",
+          "x": 1060,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu01-nav-3",
+          "x": 1060,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu01-nav-4",
+          "x": 650,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu01-nav-5",
+          "x": 240,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu01-nav-nota",
+          "x": 265,
+          "y": 750,
+          "w": 1040,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu01-nav-actor",
+          "to": "cu01-nav-0",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "cu01-nav-0",
+          "to": "cu01-nav-1",
+          "label": "Ingresar",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 1
+        },
+        {
+          "from": "cu01-nav-1",
+          "to": "cu01-nav-2",
+          "label": "[credenciales válidas]",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 2
+        },
+        {
+          "from": "cu01-nav-2",
+          "to": "cu01-nav-3",
+          "label": "Elegir función",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 3
+        },
+        {
+          "from": "cu01-nav-3",
+          "to": "cu01-nav-2",
+          "label": "Volver al inicio",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 2
+        },
+        {
+          "from": "cu01-nav-2",
+          "to": "cu01-nav-4",
+          "label": "Cerrar sesión",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 4
+        },
+        {
+          "from": "cu01-nav-4",
+          "to": "cu01-nav-1",
+          "label": "[sesión invalidada]",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 1
+        },
+        {
+          "from": "cu01-nav-1",
+          "to": "cu01-nav-1",
+          "label": "[datos inválidos / espera]",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 1
+        },
+        {
+          "from": "cu01-nav-1",
+          "to": "cu01-nav-5",
+          "label": "Olvidé mi contraseña",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 5
+        },
+        {
+          "from": "cu01-nav-5",
+          "to": "cu01-nav-1",
+          "label": "Volver al acceso",
+          "type": "Dependency",
+          "navFrom": 5,
+          "navTo": 1
+        }
+      ],
+      "note": "Sin sesión vigente: volver al acceso; sin permiso: 403. La recuperación se referencia como CU-01.1, fuera de estos ocho diagramas. Desde el acceso normal se va a /inicio; si existe booking.continue se continúa en /citas. No se aceptan URLs externas de retorno.",
+      "sources": [
+        "docs/casos-de-uso/CU-01/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/SessionController.php",
+        "sistema/backend/app/Http/Middleware/ProtectSession.php",
+        "sistema/backend/config/seguridad.php"
+      ],
+      "permission": "Acceso público para invitados. Rutas internas: sesión vigente, cuenta activa y permisos efectivos.",
+      "referencePage": 14
+    },
+    {
+      "id": "cu01-secuencia",
+      "caseId": "CU-01",
+      "caseTitle": "Iniciar y cerrar sesión",
+      "title": "Diagrama de secuencia",
+      "kind": "secuencia",
+      "type": "Sequence",
+      "placements": [
+        {
+          "ref": "cu01-seq-0",
+          "x": 45,
+          "y": 65,
+          "w": 205,
+          "h": 1148
+        },
+        {
+          "ref": "cu01-seq-1",
+          "x": 295,
+          "y": 65,
+          "w": 205,
+          "h": 1148
+        },
+        {
+          "ref": "cu01-seq-2",
+          "x": 545,
+          "y": 65,
+          "w": 205,
+          "h": 1148
+        },
+        {
+          "ref": "cu01-seq-3",
+          "x": 795,
+          "y": 65,
+          "w": 205,
+          "h": 1148
+        },
+        {
+          "ref": "cu01-seq-4",
+          "x": 1045,
+          "y": 65,
+          "w": 205,
+          "h": 1148
+        },
+        {
+          "ref": "cu01-seq-nota",
+          "x": 70,
+          "y": 1308,
+          "w": 1150,
+          "h": 140
+        },
+        {
+          "ref": "cu01-frag-0",
+          "x": 20,
+          "y": 180,
+          "w": 1270,
+          "h": 431,
+          "background": true
+        },
+        {
+          "ref": "cu01-frag-1",
+          "x": 20,
+          "y": 596,
+          "w": 1270,
+          "h": 327,
+          "background": true
+        },
+        {
+          "ref": "cu01-frag-2",
+          "x": 20,
+          "y": 908,
+          "w": 1270,
+          "h": 275,
+          "background": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu01-seq-0",
+          "to": "cu01-seq-1",
+          "label": "Ingresar usuario o correo y contraseña",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-1",
+          "to": "cu01-seq-2",
+          "label": "POST /login; validar LoginRequest y CSRF",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-4",
+          "label": "Comprobar límites por IP e identificador",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-3",
+          "label": "Buscar cuenta activa; Auth::attempt(id, password)",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-3",
+          "to": "cu01-seq-2",
+          "label": "Autenticación válida",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": true
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-4",
+          "label": "Limpiar contador; regenerar ID de sesión",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-4",
+          "label": "Guardar actividad, hash y token; borrar url.intended",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-1",
+          "label": "Redirigir a /inicio o /citas si booking.continue",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": true
+        },
+        {
+          "from": "cu01-seq-0",
+          "to": "cu01-seq-1",
+          "label": "Abrir inicio o una función autorizada",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-1",
+          "to": "cu01-seq-2",
+          "label": "Petición protegida",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-3",
+          "label": "Recargar cuenta y comprobar estado, hash y token",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-4",
+          "label": "Validar inactividad menor a 30 min; actualizar actividad",
+          "type": "Sequence",
+          "sequence": 12,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-3",
+          "label": "Evaluar permisos efectivos para la función",
+          "type": "Sequence",
+          "sequence": 13,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-1",
+          "label": "Mostrar contenido autorizado",
+          "type": "Sequence",
+          "sequence": 14,
+          "return": true
+        },
+        {
+          "from": "cu01-seq-0",
+          "to": "cu01-seq-1",
+          "label": "Seleccionar Cerrar sesión",
+          "type": "Sequence",
+          "sequence": 15,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-1",
+          "to": "cu01-seq-2",
+          "label": "POST /logout con CSRF",
+          "type": "Sequence",
+          "sequence": 16,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-3",
+          "label": "Auth::logout()",
+          "type": "Sequence",
+          "sequence": 17,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-4",
+          "label": "Invalidar sesión y regenerar token CSRF",
+          "type": "Sequence",
+          "sequence": 18,
+          "return": false
+        },
+        {
+          "from": "cu01-seq-2",
+          "to": "cu01-seq-1",
+          "label": "Redirigir a /login con confirmación",
+          "type": "Sequence",
+          "sequence": 19,
+          "return": true
+        }
+      ],
+      "note": "Fallo de credenciales: mensaje genérico y sumar intento. Límite alcanzado: rechazar temporalmente. Cuenta inactiva, hash/token cambiado o inactividad: invalidar sesión y volver al login. Sin permiso: 403. Las contraseñas y tokens no se escriben en los diagramas ni en auditoría.",
+      "sources": [
+        "docs/casos-de-uso/CU-01/especificacion.md",
+        "sistema/backend/routes/auth.php",
+        "sistema/backend/app/Http/Controllers/Auth/SessionController.php",
+        "sistema/backend/app/Http/Middleware/ProtectSession.php",
+        "sistema/backend/config/seguridad.php"
+      ],
+      "permission": "Acceso público para invitados. Rutas internas: sesión vigente, cuenta activa y permisos efectivos.",
+      "referencePage": 9,
+      "sections": [
+        {
+          "name": "opt [credenciales válidas y límite no superado]",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "name": "opt [petición con sesión vigente]",
+          "start": 9,
+          "end": 14
+        },
+        {
+          "name": "opt [cierre solicitado]",
+          "start": 15,
+          "end": 19
+        }
+      ]
+    },
+    {
+      "id": "cu02-casos",
+      "caseId": "CU-02",
+      "caseTitle": "Administrar usuarios, roles y permisos",
+      "title": "Diagrama de casos de uso",
+      "kind": "casos",
+      "type": "Use Case",
+      "placements": [
+        {
+          "ref": "cu02-limite",
+          "x": 230,
+          "y": 40,
+          "w": 950,
+          "h": 650,
+          "background": true
+        },
+        {
+          "ref": "cu02-actor",
+          "x": 40,
+          "y": 265,
+          "w": 100,
+          "h": 120
+        },
+        {
+          "ref": "cu02-reglas",
+          "x": 850,
+          "y": 135,
+          "w": 280,
+          "h": 350
+        },
+        {
+          "ref": "cu02-objetivo-0",
+          "x": 390,
+          "y": 95,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu02-objetivo-1",
+          "x": 390,
+          "y": 220,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu02-objetivo-2",
+          "x": 390,
+          "y": 345,
+          "w": 350,
+          "h": 90
+        },
+        {
+          "ref": "cu02-objetivo-3",
+          "x": 390,
+          "y": 470,
+          "w": 350,
+          "h": 90
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu02-actor",
+          "to": "cu02-objetivo-0",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu02-actor",
+          "to": "cu02-objetivo-1",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu02-actor",
+          "to": "cu02-objetivo-2",
+          "label": "",
+          "type": "Association"
+        },
+        {
+          "from": "cu02-actor",
+          "to": "cu02-objetivo-3",
+          "label": "",
+          "type": "Association"
+        }
+      ],
+      "note": "Usuarios con varios roles y roles con varios permisos. Conservar vínculos retirados como inactivos. No borrar físicamente ni crear personas clínicas automáticamente. Proteger la propia administración y conservar al menos un gestor efectivo.",
+      "sources": [
+        "docs/casos-de-uso/CU-02/especificacion.md",
+        "sistema/backend/routes/usuarios.php",
+        "sistema/backend/app/Services/Auth/UserAdministration.php",
+        "sistema/backend/app/Http/Controllers/Auth/UserController.php",
+        "sistema/backend/app/Http/Controllers/Auth/RoleController.php",
+        "sistema/backend/app/Http/Controllers/Auth/PermissionController.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo usuarios.gestionar. Cada mutación vuelve a comprobar autorización dentro de la transacción.",
+      "referencePage": 3
+    },
+    {
+      "id": "cu02-comunicacion",
+      "caseId": "CU-02",
+      "caseTitle": "Administrar usuarios, roles y permisos",
+      "title": "Diagrama de comunicación",
+      "kind": "comunicacion",
+      "type": "Analysis",
+      "placements": [
+        {
+          "ref": "cu02-com-actor",
+          "x": 55,
+          "y": 300,
+          "w": 80,
+          "h": 110
+        },
+        {
+          "ref": "cu02-com-0",
+          "x": 390,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu02-com-1",
+          "x": 815,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu02-com-2",
+          "x": 1240,
+          "y": 320,
+          "w": 80,
+          "h": 80
+        },
+        {
+          "ref": "cu02-com-nota",
+          "x": 285,
+          "y": 525,
+          "w": 1070,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu02-com-actor",
+          "to": "cu02-com-0",
+          "label": "1: listar / buscar\n2: crear o editar\n3: cambiar estado / asignaciones",
+          "type": "Association",
+          "messageGroup": 0
+        },
+        {
+          "from": "cu02-com-0",
+          "to": "cu02-com-1",
+          "label": "1.1: index()\n2.1: store() / update()\n3.1: PUT usuario/rol; PATCH permiso",
+          "type": "Association",
+          "messageGroup": 1
+        },
+        {
+          "from": "cu02-com-1",
+          "to": "cu02-com-2",
+          "label": "2.2: transacción + bloqueo global\n2.3: guardar cuenta / rol / vínculos\n3.2: verificar continuidad; confirmar",
+          "type": "Association",
+          "messageGroup": 2
+        }
+      ],
+      "note": "UserAdministration centraliza saveUser(), saveRole() y setPermissionState(). Roles y permisos usan Query Builder; no se inventan modelos Eloquent separados. Los cambios se auditan después de COMMIT, sin contraseñas ni tokens.",
+      "sources": [
+        "docs/casos-de-uso/CU-02/especificacion.md",
+        "sistema/backend/routes/usuarios.php",
+        "sistema/backend/app/Services/Auth/UserAdministration.php",
+        "sistema/backend/app/Http/Controllers/Auth/UserController.php",
+        "sistema/backend/app/Http/Controllers/Auth/RoleController.php",
+        "sistema/backend/app/Http/Controllers/Auth/PermissionController.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo usuarios.gestionar. Cada mutación vuelve a comprobar autorización dentro de la transacción.",
+      "referencePage": 6
+    },
+    {
+      "id": "cu02-navegacion",
+      "caseId": "CU-02",
+      "caseTitle": "Administrar usuarios, roles y permisos",
+      "title": "Diagrama de navegación",
+      "kind": "navegacion",
+      "type": "Logical",
+      "placements": [
+        {
+          "ref": "cu02-nav-actor",
+          "x": 45,
+          "y": 105,
+          "w": 90,
+          "h": 125
+        },
+        {
+          "ref": "cu02-nav-0",
+          "x": 240,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu02-nav-1",
+          "x": 650,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu02-nav-2",
+          "x": 1060,
+          "y": 100,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu02-nav-3",
+          "x": 240,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu02-nav-4",
+          "x": 650,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu02-nav-5",
+          "x": 1060,
+          "y": 430,
+          "w": 295,
+          "h": 145
+        },
+        {
+          "ref": "cu02-nav-nota",
+          "x": 265,
+          "y": 750,
+          "w": 1040,
+          "h": 125
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu02-nav-actor",
+          "to": "cu02-nav-0",
+          "label": "abrir",
+          "type": "Association"
+        },
+        {
+          "from": "cu02-nav-0",
+          "to": "cu02-nav-1",
+          "label": "Usuarios",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 1
+        },
+        {
+          "from": "cu02-nav-1",
+          "to": "cu02-nav-2",
+          "label": "Crear / editar",
+          "type": "Dependency",
+          "navFrom": 1,
+          "navTo": 2
+        },
+        {
+          "from": "cu02-nav-2",
+          "to": "cu02-nav-1",
+          "label": "Guardar o cancelar",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 1
+        },
+        {
+          "from": "cu02-nav-0",
+          "to": "cu02-nav-3",
+          "label": "Roles",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 3
+        },
+        {
+          "from": "cu02-nav-3",
+          "to": "cu02-nav-4",
+          "label": "Crear / editar",
+          "type": "Dependency",
+          "navFrom": 3,
+          "navTo": 4
+        },
+        {
+          "from": "cu02-nav-4",
+          "to": "cu02-nav-3",
+          "label": "Guardar o cancelar",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 3
+        },
+        {
+          "from": "cu02-nav-0",
+          "to": "cu02-nav-5",
+          "label": "Permisos",
+          "type": "Dependency",
+          "navFrom": 0,
+          "navTo": 5
+        },
+        {
+          "from": "cu02-nav-5",
+          "to": "cu02-nav-5",
+          "label": "Activar / desactivar",
+          "type": "Dependency",
+          "navFrom": 5,
+          "navTo": 5
+        },
+        {
+          "from": "cu02-nav-2",
+          "to": "cu02-nav-2",
+          "label": "[validación rechazada]",
+          "type": "Dependency",
+          "navFrom": 2,
+          "navTo": 2
+        },
+        {
+          "from": "cu02-nav-4",
+          "to": "cu02-nav-4",
+          "label": "[validación rechazada]",
+          "type": "Dependency",
+          "navFrom": 4,
+          "navTo": 4
+        }
+      ],
+      "note": "Estado de usuario y rol: en su formulario de edición, sin ruta independiente. Permisos: cambio con PATCH. Todas las acciones de escritura requieren CSRF. Sin sesión: login; sin permiso: 403. Cancelar no guarda. El catálogo funcional no admite códigos arbitrarios.",
+      "sources": [
+        "docs/casos-de-uso/CU-02/especificacion.md",
+        "sistema/backend/routes/usuarios.php",
+        "sistema/backend/app/Services/Auth/UserAdministration.php",
+        "sistema/backend/app/Http/Controllers/Auth/UserController.php",
+        "sistema/backend/app/Http/Controllers/Auth/RoleController.php",
+        "sistema/backend/app/Http/Controllers/Auth/PermissionController.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo usuarios.gestionar. Cada mutación vuelve a comprobar autorización dentro de la transacción.",
+      "referencePage": 14
+    },
+    {
+      "id": "cu02-secuencia",
+      "caseId": "CU-02",
+      "caseTitle": "Administrar usuarios, roles y permisos",
+      "title": "Diagrama de secuencia",
+      "kind": "secuencia",
+      "type": "Sequence",
+      "placements": [
+        {
+          "ref": "cu02-seq-0",
+          "x": 45,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu02-seq-1",
+          "x": 295,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu02-seq-2",
+          "x": 545,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu02-seq-3",
+          "x": 795,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu02-seq-4",
+          "x": 1045,
+          "y": 65,
+          "w": 205,
+          "h": 1356
+        },
+        {
+          "ref": "cu02-seq-nota",
+          "x": 70,
+          "y": 1516,
+          "w": 1150,
+          "h": 140
+        },
+        {
+          "ref": "cu02-frag-0",
+          "x": 20,
+          "y": 180,
+          "w": 1270,
+          "h": 223,
+          "background": true
+        },
+        {
+          "ref": "cu02-frag-1",
+          "x": 20,
+          "y": 388,
+          "w": 1270,
+          "h": 535,
+          "background": true
+        },
+        {
+          "ref": "cu02-frag-2",
+          "x": 20,
+          "y": 908,
+          "w": 1270,
+          "h": 483,
+          "background": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "cu02-seq-0",
+          "to": "cu02-seq-1",
+          "label": "Consultar cuentas, roles o permisos",
+          "type": "Sequence",
+          "sequence": 1,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-1",
+          "to": "cu02-seq-2",
+          "label": "GET /usuarios, /roles o /permisos",
+          "type": "Sequence",
+          "sequence": 2,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-2",
+          "to": "cu02-seq-4",
+          "label": "Consultar listados y asignaciones autorizadas",
+          "type": "Sequence",
+          "sequence": 3,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-2",
+          "to": "cu02-seq-1",
+          "label": "Mostrar listado con filtros",
+          "type": "Sequence",
+          "sequence": 4,
+          "return": true
+        },
+        {
+          "from": "cu02-seq-0",
+          "to": "cu02-seq-1",
+          "label": "Enviar alta o edición de cuenta",
+          "type": "Sequence",
+          "sequence": 5,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-1",
+          "to": "cu02-seq-2",
+          "label": "POST /usuarios o PUT /usuarios/{id}",
+          "type": "Sequence",
+          "sequence": 6,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-2",
+          "to": "cu02-seq-3",
+          "label": "saveUser(actor, datos validados, id?)",
+          "type": "Sequence",
+          "sequence": 7,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-4",
+          "label": "BEGIN; pg_advisory_xact_lock; revalidar permiso",
+          "type": "Sequence",
+          "sequence": 8,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-4",
+          "label": "Validar unicidad, roles activos y propia cuenta",
+          "type": "Sequence",
+          "sequence": 9,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-4",
+          "label": "Guardar usuario y vínculos; rotar token si corresponde",
+          "type": "Sequence",
+          "sequence": 10,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-4",
+          "label": "Comprobar gestor restante y permiso del actor",
+          "type": "Sequence",
+          "sequence": 11,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-4",
+          "to": "cu02-seq-3",
+          "label": "COMMIT; auditoría posterior",
+          "type": "Sequence",
+          "sequence": 12,
+          "return": true
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-2",
+          "label": "Cuenta guardada o sesión propia a cerrar",
+          "type": "Sequence",
+          "sequence": 13,
+          "return": true
+        },
+        {
+          "from": "cu02-seq-2",
+          "to": "cu02-seq-1",
+          "label": "Listado o login si cambió la clave propia",
+          "type": "Sequence",
+          "sequence": 14,
+          "return": true
+        },
+        {
+          "from": "cu02-seq-0",
+          "to": "cu02-seq-1",
+          "label": "Guardar rol o cambiar estado de permiso",
+          "type": "Sequence",
+          "sequence": 15,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-1",
+          "to": "cu02-seq-2",
+          "label": "POST /roles, PUT /roles/{id} o PATCH /permisos/{id}",
+          "type": "Sequence",
+          "sequence": 16,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-2",
+          "to": "cu02-seq-3",
+          "label": "saveRole() o setPermissionState()",
+          "type": "Sequence",
+          "sequence": 17,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-4",
+          "label": "BEGIN; bloqueo global; revalidar autorización",
+          "type": "Sequence",
+          "sequence": 18,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-4",
+          "label": "Validar catálogo / rol base; guardar estado y vínculos",
+          "type": "Sequence",
+          "sequence": 19,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-4",
+          "label": "Proteger administración del actor y último gestor",
+          "type": "Sequence",
+          "sequence": 20,
+          "return": false
+        },
+        {
+          "from": "cu02-seq-4",
+          "to": "cu02-seq-3",
+          "label": "COMMIT y registrar auditoría sin secretos",
+          "type": "Sequence",
+          "sequence": 21,
+          "return": true
+        },
+        {
+          "from": "cu02-seq-3",
+          "to": "cu02-seq-2",
+          "label": "Operación confirmada",
+          "type": "Sequence",
+          "sequence": 22,
+          "return": true
+        },
+        {
+          "from": "cu02-seq-2",
+          "to": "cu02-seq-1",
+          "label": "Volver a listado correspondiente",
+          "type": "Sequence",
+          "sequence": 23,
+          "return": true
+        }
+      ],
+      "note": "Duplicado, selección inválida o retirada de administración: ROLLBACK sin cambios parciales. Contraseña vacía en edición conserva hash; cambio de clave o desactivación rota token. Cambiar correo limpia verificación. Clave/correo/estado pueden revocar enlaces de recuperación. No enviar correo al crear una cuenta desde CU-02.",
+      "sources": [
+        "docs/casos-de-uso/CU-02/especificacion.md",
+        "sistema/backend/routes/usuarios.php",
+        "sistema/backend/app/Services/Auth/UserAdministration.php",
+        "sistema/backend/app/Http/Controllers/Auth/UserController.php",
+        "sistema/backend/app/Http/Controllers/Auth/RoleController.php",
+        "sistema/backend/app/Http/Controllers/Auth/PermissionController.php"
+      ],
+      "permission": "Sesión vigente y permiso efectivo usuarios.gestionar. Cada mutación vuelve a comprobar autorización dentro de la transacción.",
+      "referencePage": 9,
+      "sections": [
+        {
+          "name": "opt [consulta autorizada]",
+          "start": 1,
+          "end": 4
+        },
+        {
+          "name": "opt [alta o edición de usuario]",
+          "start": 5,
+          "end": 14
+        },
+        {
+          "name": "opt [rol o permiso del catálogo]",
+          "start": 15,
+          "end": 23
+        }
+      ]
+    }
+  ]
+}

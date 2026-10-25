@@ -1,0 +1,267 @@
+﻿[
+    {
+        "value":  [
+                      {
+                          "value":  [
+                                        {
+                                            "guid":  "{289B54FA-A106-4764-8F0D-246A2D671980}",
+                                            "id":  "pkg_seguridad",
+                                            "elementId":  4
+                                        },
+                                        {
+                                            "guid":  "{B2C4CC8C-36B8-4f5c-918E-B0CACC5EBE1A}",
+                                            "id":  "pkg_pacientes",
+                                            "elementId":  5
+                                        },
+                                        {
+                                            "guid":  "{2A6609A6-C6FA-45c0-B97F-B9488CE7F2B8}",
+                                            "id":  "pkg_medicos",
+                                            "elementId":  6
+                                        },
+                                        {
+                                            "guid":  "{FE5DA7EC-94D9-4416-98E9-FA0E1F3C7F0C}",
+                                            "id":  "pkg_horarios",
+                                            "elementId":  7
+                                        },
+                                        {
+                                            "guid":  "{539918C4-39EB-427b-A8D0-0650B47D939D}",
+                                            "id":  "pkg_citas",
+                                            "elementId":  8
+                                        },
+                                        {
+                                            "guid":  "{16EF137F-FA82-41a4-AE7E-C0158828DA7F}",
+                                            "id":  "pkg_reportes",
+                                            "elementId":  9
+                                        },
+                                        {
+                                            "guid":  "{FBDE253D-8090-4136-9662-96494FE15CE3}",
+                                            "id":  "pkg_atencion",
+                                            "elementId":  10
+                                        },
+                                        {
+                                            "guid":  "{503E96CB-4D8F-4990-B528-3ED1783B1DDD}",
+                                            "id":  "pkg_preferencias",
+                                            "elementId":  11
+                                        },
+                                        {
+                                            "guid":  "{B56D2C22-AE1B-42e4-989F-AA56E03B042E}",
+                                            "id":  "act_admin",
+                                            "elementId":  12
+                                        },
+                                        {
+                                            "guid":  "{2017C74E-A359-4273-ACDF-E410C34E001C}",
+                                            "id":  "act_recepcion",
+                                            "elementId":  13
+                                        },
+                                        {
+                                            "guid":  "{EA0C419C-B602-4788-B518-BA3483ED751E}",
+                                            "id":  "act_medico",
+                                            "elementId":  14
+                                        },
+                                        {
+                                            "guid":  "{667BE0A2-DB0D-40f7-8527-F8FEB57C419A}",
+                                            "id":  "act_paciente",
+                                            "elementId":  15
+                                        },
+                                        {
+                                            "guid":  "{561A9C31-584C-4204-AB66-4A2C85851F7E}",
+                                            "id":  "act_visitante",
+                                            "elementId":  16
+                                        },
+                                        {
+                                            "guid":  "{90B5D779-6516-44de-9E45-5B29382C1157}",
+                                            "id":  "act_correo",
+                                            "elementId":  17
+                                        },
+                                        {
+                                            "guid":  "{16C49B41-0220-4134-86CC-564AB17ACBED}",
+                                            "id":  "cu01",
+                                            "elementId":  18
+                                        },
+                                        {
+                                            "guid":  "{26268057-F5E3-4e24-BEA6-16835968C335}",
+                                            "id":  "cu011",
+                                            "elementId":  19
+                                        },
+                                        {
+                                            "guid":  "{F0C8226C-A1D7-4bbc-B12E-3CC87040C3F0}",
+                                            "id":  "cu02",
+                                            "elementId":  20
+                                        },
+                                        {
+                                            "guid":  "{62B05344-8ABA-4809-B74E-DE71FB2B002B}",
+                                            "id":  "cu03",
+                                            "elementId":  21
+                                        },
+                                        {
+                                            "guid":  "{53D74ECE-4F7D-45a8-8CD0-9859CEDBDB03}",
+                                            "id":  "cu04",
+                                            "elementId":  22
+                                        },
+                                        {
+                                            "guid":  "{82562617-1DF8-44c3-9254-3D65983E7614}",
+                                            "id":  "cu05",
+                                            "elementId":  23
+                                        },
+                                        {
+                                            "guid":  "{967173EB-3C3C-492f-BB08-BB5EBC2E8F8F}",
+                                            "id":  "cu06",
+                                            "elementId":  24
+                                        },
+                                        {
+                                            "guid":  "{13EFBEC7-7F30-41ae-AA04-9A1E970DBC1C}",
+                                            "id":  "cu07",
+                                            "elementId":  25
+                                        },
+                                        {
+                                            "guid":  "{51C48C05-7A01-4518-9C8D-1AB8A7B0BF79}",
+                                            "id":  "cu08",
+                                            "elementId":  26
+                                        },
+                                        {
+                                            "guid":  "{C792B069-002D-41a7-8244-845E4A6573DF}",
+                                            "id":  "cu09",
+                                            "elementId":  27
+                                        },
+                                        {
+                                            "guid":  "{01B2E729-7D28-4dbb-8A71-11A8B17E0F7A}",
+                                            "id":  "cu10",
+                                            "elementId":  28
+                                        },
+                                        {
+                                            "guid":  "{7972507A-8E88-48d2-AF53-AEBA8973D6E0}",
+                                            "id":  "cu11",
+                                            "elementId":  29
+                                        },
+                                        {
+                                            "guid":  "{CAD4079E-FC2C-4607-AE85-06B340339E9C}",
+                                            "id":  "cu12",
+                                            "elementId":  30
+                                        },
+                                        {
+                                            "guid":  "{1DB4D935-51A0-4967-A2B6-62EBA6131070}",
+                                            "id":  "cu13",
+                                            "elementId":  31
+                                        },
+                                        {
+                                            "guid":  "{50B7FD10-BA40-49a1-912F-028673FF3A4A}",
+                                            "id":  "cu14",
+                                            "elementId":  32
+                                        },
+                                        {
+                                            "guid":  "{12C87F9C-C7AF-415e-8DAB-B4659ABD6AE5}",
+                                            "id":  "cu15",
+                                            "elementId":  33
+                                        },
+                                        {
+                                            "guid":  "{AD57AEC0-5D65-4a48-A3BE-6F3606C9AD43}",
+                                            "id":  "cu16",
+                                            "elementId":  34
+                                        },
+                                        {
+                                            "guid":  "{501CC217-E147-4c5d-8E29-DE1641B5FE6B}",
+                                            "id":  "cu17",
+                                            "elementId":  35
+                                        },
+                                        {
+                                            "guid":  "{675522A3-13ED-444f-8DEC-760B47A156B5}",
+                                            "id":  "02-estructura-acceso-catalogos_sistema",
+                                            "elementId":  42
+                                        },
+                                        {
+                                            "guid":  "{6376CDA6-ABE2-4fcf-9EAB-4D5A25420A6B}",
+                                            "id":  "03-estructura-citas-agenda_sistema",
+                                            "elementId":  44
+                                        },
+                                        {
+                                            "guid":  "{8F88E9D1-9876-4151-ADA5-39587BC84DEF}",
+                                            "id":  "04-estructura-evolucion_sistema",
+                                            "elementId":  46
+                                        }
+                                    ],
+                          "Count":  35
+                      },
+                      {
+                          "guid":  "{24456781-CD9A-4aa4-983A-0705F0943C02}",
+                          "id":  "act_admin",
+                          "elementId":  78
+                      },
+                      {
+                          "guid":  "{15E77ACA-E04B-48a2-86C7-FD15E6AE1AD1}",
+                          "id":  "limite_actor_admin",
+                          "elementId":  79
+                      },
+                      {
+                          "guid":  "{D76B21AC-CF87-4aa3-99E2-A2C06053D182}",
+                          "id":  "act_recepcion",
+                          "elementId":  80
+                      },
+                      {
+                          "guid":  "{FC4BFB8D-608F-4dcd-B6E5-AA79FC88016F}",
+                          "id":  "limite_actor_recepcion",
+                          "elementId":  81
+                      },
+                      {
+                          "guid":  "{3C884089-331F-4ef1-8E4C-0A029B4D099C}",
+                          "id":  "act_medico",
+                          "elementId":  82
+                      },
+                      {
+                          "guid":  "{6D2C1CF4-7224-4053-8EEB-28A7F062784F}",
+                          "id":  "limite_actor_medico",
+                          "elementId":  83
+                      },
+                      {
+                          "guid":  "{10DD7C9D-3BE9-4d62-BC92-C1947D57DCBA}",
+                          "id":  "act_paciente",
+                          "elementId":  84
+                      },
+                      {
+                          "guid":  "{F2A6C66C-1EC5-4f8a-9C95-77328A17C239}",
+                          "id":  "limite_actor_paciente",
+                          "elementId":  85
+                      }
+                  ],
+        "Count":  9
+    },
+    {
+        "guid":  "{97678C5B-3D33-4bce-ABD7-94D51DF5E328}",
+        "id":  "act_admin",
+        "elementId":  86
+    },
+    {
+        "guid":  "{F903440C-DA99-4767-9120-77ABCB5AD23B}",
+        "id":  "limite_actor_admin",
+        "elementId":  87
+    },
+    {
+        "guid":  "{59E74F9D-D483-49b7-9BA3-A29DA05368CA}",
+        "id":  "act_recepcion",
+        "elementId":  88
+    },
+    {
+        "guid":  "{0ECA06F5-4144-44e3-AED1-B3EE02E2057D}",
+        "id":  "limite_actor_recepcion",
+        "elementId":  89
+    },
+    {
+        "guid":  "{41A170C3-CD79-47d7-A289-522C337A3719}",
+        "id":  "act_medico",
+        "elementId":  90
+    },
+    {
+        "guid":  "{41CCC5B5-B833-4452-80F5-4CF6AA9F43A6}",
+        "id":  "limite_actor_medico",
+        "elementId":  91
+    },
+    {
+        "guid":  "{921DEE5E-9B29-455c-A753-ED35494CB087}",
+        "id":  "act_paciente",
+        "elementId":  92
+    },
+    {
+        "guid":  "{6E4CD3F3-2978-4639-A7C9-04101DE63F05}",
+        "id":  "limite_actor_paciente",
+        "elementId":  93
+    }
+]
