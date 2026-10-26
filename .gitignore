@@ -9,6 +9,9 @@ auth.json
 
 # Dependencias y archivos generados
 /.tools/
+/.vercel/
+/public/
+/vendor/
 vendor/
 node_modules/
 /sistema/backend/public/build/
