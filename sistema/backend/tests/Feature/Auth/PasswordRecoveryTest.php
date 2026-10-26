@@ -52,6 +52,19 @@ class PasswordRecoveryTest extends TestCase
         });
     }
 
+    public function test_recovery_sends_the_link_without_a_worker_when_deferred_queue_is_configured(): void
+    {
+        config(['queue.default' => 'deferred']);
+        Notification::fake();
+        $user = User::factory()->create();
+
+        $this->post('/recuperar-contrasena', ['correo' => $user->correo])
+            ->assertRedirect()
+            ->assertSessionHas('status', 'Si el correo corresponde a una cuenta activa, recibirás un enlace para restablecer tu contraseña.');
+
+        Notification::assertSentToTimes($user, ResetPassword::class, 1);
+    }
+
     public function test_reset_changes_password_consumes_token_and_does_not_authenticate(): void
     {
         Notification::fake();

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci --prefix sistema/frontend --include=dev",
+  "buildCommand": "npm --prefix sistema/frontend run build && node scripts/vercel-assets.mjs",
+  "outputDirectory": "public",
+  "regions": ["iad1"],
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.8.0",
+      "maxDuration": 60,
+      "excludeFiles": "{.git/**,.tools/**,node_modules/**,vendor/**,sistema/frontend/node_modules/**,sistema/backend/tests/**,docs/**,output/**,public/**}"
+    }
+  },
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
+  ],
+  "env": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "APP_LOCALE": "es",
+    "APP_FALLBACK_LOCALE": "es",
+    "DB_CONNECTION": "pgsql",
+    "DB_SSLMODE": "require",
+    "SESSION_DRIVER": "database",
+    "SESSION_SECURE_COOKIE": "true",
+    "CACHE_STORE": "database",
+    "QUEUE_CONNECTION": "deferred",
+    "LOG_CHANNEL": "stderr",
+    "LOG_LEVEL": "warning",
+    "TRUSTED_PROXIES": "*",
+    "APP_CONFIG_CACHE": "/tmp/clinica/config.php",
+    "APP_EVENTS_CACHE": "/tmp/clinica/events.php",
+    "APP_PACKAGES_CACHE": "/tmp/clinica/packages.php",
+    "APP_ROUTES_CACHE": "/tmp/clinica/routes.php",
+    "APP_SERVICES_CACHE": "/tmp/clinica/services.php",
+    "VIEW_COMPILED_PATH": "/tmp/clinica/views"
+  }
+}

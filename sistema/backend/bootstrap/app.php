@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo('/login');
         $middleware->redirectUsersTo('/inicio');
         $middleware->prependToPriorityList(AuthenticatesRequests::class, ProtectSession::class);
+        $middleware->trustProxies(
+            at: env('TRUSTED_PROXIES'),
+            headers: Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO,
+        );
         $middleware->trustHosts(at: fn () => [parse_url(config('app.url', 'http://127.0.0.1:8000'), PHP_URL_HOST)], subdomains: false);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
