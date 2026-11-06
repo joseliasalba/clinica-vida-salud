@@ -1,0 +1,28 @@
+name: Conciliar pagos de prueba
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: conciliacion-pagos
+  cancel-in-progress: false
+
+jobs:
+  conciliar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Consultar pagos pendientes
+        env:
+          CONCILIACION_TOKEN: ${{ secrets.PAGOS_CONCILIACION_SECRET }}
+        run: |
+          test -n "$CONCILIACION_TOKEN"
+          curl --fail --silent --show-error --max-time 65 \
+            --request POST \
+            --header "Authorization: Bearer $CONCILIACION_TOKEN" \
+            --header 'Accept: application/json' \
+            https://clinica-vida-salud-five.vercel.app/pagos/conciliar
