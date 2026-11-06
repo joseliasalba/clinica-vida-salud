@@ -1,0 +1,16 @@
+{
+  "name": "clinica-vida-salud/deployment",
+  "description": "Build entrypoint for the Vercel PHP runtime",
+  "type": "project",
+  "license": "MIT",
+  "require": {},
+  "scripts": {
+    "vercel": [
+      "@composer --working-dir=sistema/backend install --no-dev --prefer-dist --no-interaction --no-progress",
+      "@composer --working-dir=sistema/backend check-platform-reqs --no-dev"
+    ]
+  },
+  "config": {
+    "allow-plugins": false
+  }
+}

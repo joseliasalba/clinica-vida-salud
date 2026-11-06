@@ -34,7 +34,7 @@ class PasswordController extends Controller
     public function send(Request $request): RedirectResponse
     {
         $data = $request->validate(['correo' => ['required', 'email', 'max:255']], ['correo.required' => 'Ingresa tu correo.', 'correo.email' => 'Ingresa un correo válido.']);
-        SendPasswordResetLink::dispatch(mb_strtolower($data['correo']))->onConnection('database');
+        SendPasswordResetLink::dispatch(mb_strtolower($data['correo']));
 
         return back()->with('status', 'Si el correo corresponde a una cuenta activa, recibirás un enlace para restablecer tu contraseña.');
     }
@@ -53,7 +53,7 @@ class PasswordController extends Controller
             ], function (User $user, string $password): void {
                 $user->forceFill(['contrasena_hash' => $password, 'remember_token' => Str::random(60)])->save();
                 event(new PasswordReset($user));
-                $user->notify((new PasswordChanged)->onConnection('database')->afterCommit());
+                $user->notify((new PasswordChanged)->afterCommit());
             });
         });
 
