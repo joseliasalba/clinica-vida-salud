@@ -25,11 +25,12 @@
     <h2>Catálogo de especialidades</h2>
     <span>{{ $especialidades->total() }} {{ $especialidades->total() === 1 ? 'especialidad' : 'especialidades' }}</span>
 </div>
-<x-responsive-table label="Lista de especialidades médicas" :columns="['especialidad' => 'Especialidad', 'descripcion' => 'Descripción', 'estado' => 'Estado', 'acciones' => 'Acciones']">
+<x-responsive-table label="Lista de especialidades médicas" :columns="['especialidad' => 'Especialidad', 'descripcion' => 'Descripción', 'tarifa' => 'Tarifa de consulta', 'estado' => 'Estado', 'acciones' => 'Acciones']">
         @forelse($especialidades as $especialidad)
             <tr role="row">
                 <x-table-cell column="especialidad" heading><span class="user-label">{{ $especialidad->nombre }}</span></x-table-cell>
                 <x-table-cell column="descripcion"><span class="specialty-description">{{ $especialidad->descripcion ?? 'Sin descripción' }}</span></x-table-cell>
+                <x-table-cell column="tarifa">{{ $especialidad->consultationFee() === null ? 'Sin configurar' : 'Bs '.$especialidad->consultationFee() }}</x-table-cell>
                 <x-table-cell column="estado"><span class="state {{ $especialidad->activo ? 'active' : 'inactive' }}">{{ $especialidad->activo ? 'Activa' : 'Inactiva' }}</span></x-table-cell>
                 <x-table-cell column="acciones">
                     <div class="record-actions">

@@ -8,6 +8,7 @@ return [
             'opciones' => [
                 ['titulo' => 'Pacientes', 'icono' => 'personas', 'permiso' => 'pacientes.gestionar', 'ruta' => 'pacientes.index', 'activo' => ['pacientes.index', 'pacientes.create', 'pacientes.show', 'pacientes.edit']],
                 ['titulo' => 'Historial de citas', 'icono' => 'reloj', 'permiso' => 'pacientes.gestionar', 'ruta' => 'historial.index', 'activo' => ['historial.*', 'pacientes.historial']],
+                ['titulo' => 'Estudios solicitados', 'icono' => 'salud', 'permiso' => 'estudios.solicitar', 'ruta' => 'estudios.index', 'activo' => 'estudios.*'],
                 ['titulo' => 'Especialidades', 'icono' => 'salud', 'permiso' => 'medicos.gestionar', 'ruta' => 'especialidades.index', 'activo' => 'especialidades.*'],
                 ['titulo' => 'Médicos', 'icono' => 'persona', 'permiso' => 'medicos.gestionar', 'ruta' => 'medicos.index', 'activo' => 'medicos.*'],
             ],
@@ -38,7 +39,10 @@ return [
             'titulo' => 'Mi cuenta',
             'icono' => 'persona',
             'opciones' => [
+                ['titulo' => 'Mis pagos', 'icono' => 'reloj', 'permiso' => 'citas.propias', 'ruta' => 'pagos.index', 'activo' => 'pagos.*'],
+                ['titulo' => 'Mis estudios y resultados', 'icono' => 'salud', 'permiso' => 'estudios.propios', 'ruta' => 'estudios.index', 'activo' => 'estudios.*'],
                 ['titulo' => 'Mi perfil', 'icono' => 'persona', 'permiso' => 'perfil.propio', 'ruta' => null],
+                ['titulo' => 'Preferencias y recordatorios', 'icono' => 'reloj', 'permiso' => 'recordatorios.propios', 'ruta' => 'recordatorios.edit', 'activo' => 'recordatorios.*'],
             ],
         ],
     ],

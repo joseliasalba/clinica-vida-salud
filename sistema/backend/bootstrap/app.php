@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
+        $middleware->preventRequestForgery(except: ['pagos/stripe/webhook']);
         $middleware->redirectUsersTo('/inicio');
         $middleware->prependToPriorityList(AuthenticatesRequests::class, ProtectSession::class);
         $middleware->trustHosts(at: fn () => [parse_url(config('app.url', 'http://127.0.0.1:8000'), PHP_URL_HOST)], subdomains: false);

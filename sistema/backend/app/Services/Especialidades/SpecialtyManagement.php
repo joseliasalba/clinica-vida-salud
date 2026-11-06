@@ -22,11 +22,23 @@ class SpecialtyManagement
             return DB::transaction(function () use ($actor, $data, $id): Especialidad {
                 $this->authorize($actor);
                 $especialidad = $id ? $this->lockForEditing($id, $data) : new Especialidad;
+                $previousFee = $especialidad->tarifa_centavos;
+                if (array_key_exists('tarifa_consulta', $data)) {
+                    $especialidad->tarifa_centavos = $this->feeInCents($data['tarifa_consulta']);
+                }
                 $especialidad->fill(['nombre' => $data['nombre'], 'descripcion' => $data['descripcion'] ?? null]);
                 if (! $id) {
                     $especialidad->activo = true;
                 }
                 $especialidad->save();
+                if ($previousFee !== $especialidad->tarifa_centavos) {
+                    DB::table('cambios_tarifa_especialidad')->insert([
+                        'especialidad_id' => $especialidad->id,
+                        'usuario_id' => $actor->id,
+                        'anterior_centavos' => $previousFee,
+                        'nueva_centavos' => $especialidad->tarifa_centavos,
+                    ]);
+                }
                 DB::afterCommit(fn () => Log::info($id ? 'especialidad.actualizada' : 'especialidad.creada', ['actor_id' => $actor->id, 'especialidad_id' => $especialidad->id]));
 
                 return $especialidad;
@@ -56,6 +68,23 @@ class SpecialtyManagement
     private function authorize(User $actor): void
     {
         abort_unless($actor->fresh()?->tienePermiso('medicos.gestionar'), 403);
+    }
+
+    private function feeInCents(mixed $value): ?int
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+        if (! is_string($value) || ! preg_match('/\A(?:0|[1-9][0-9]{0,5})(?:\.[0-9]{1,2})?\z/', $value)) {
+            throw ValidationException::withMessages(['tarifa_consulta' => 'Ingresa un importe de 0.01 a 999999.99 Bs con punto decimal.']);
+        }
+        [$units, $decimals] = array_pad(explode('.', $value), 2, '');
+        $cents = ((int) $units * 100) + (int) str_pad($decimals, 2, '0');
+        if ($cents < 1) {
+            throw ValidationException::withMessages(['tarifa_consulta' => 'La tarifa debe ser mayor que cero.']);
+        }
+
+        return $cents;
     }
 
     /**

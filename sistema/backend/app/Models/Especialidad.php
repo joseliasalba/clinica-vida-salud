@@ -22,7 +22,16 @@ class Especialidad extends Model
 
     protected function casts(): array
     {
-        return ['activo' => 'boolean'];
+        return ['activo' => 'boolean', 'tarifa_centavos' => 'integer'];
+    }
+
+    public function consultationFee(): ?string
+    {
+        if ($this->tarifa_centavos === null) {
+            return null;
+        }
+
+        return intdiv($this->tarifa_centavos, 100).'.'.str_pad((string) ($this->tarifa_centavos % 100), 2, '0', STR_PAD_LEFT);
     }
 
     protected static function booted(): void

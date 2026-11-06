@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'omitir_verificacion_local' => (bool) env('OMITIR_VERIFICACION_CORREO_LOCAL', false),
+    'despliegue_vercel' => env('VERCEL') === '1',
     'intentos_login' => 5,
     'espera_login' => 900,
     'inactividad' => 1800,

@@ -1,7 +1,7 @@
 @extends('layouts.especialidades')
 @section('title', $especialidad->exists ? 'Editar especialidad' : 'Registrar especialidad')
 @section('specialty-title', $especialidad->exists ? 'Mantén el catálogo actualizado.' : 'Una nueva especialidad para la clínica.')
-@section('specialty-description', $especialidad->exists ? 'Actualiza el nombre y la descripción de la especialidad.' : 'Comprueba que la especialidad no exista antes de registrarla.')
+@section('specialty-description', $especialidad->exists ? 'Actualiza los datos y la tarifa de consulta de la especialidad.' : 'Comprueba que la especialidad no exista antes de registrarla.')
 
 @section('specialty-content')
 @php
@@ -26,6 +26,12 @@
                 <input id="nombre" name="nombre" required maxlength="255" value="{{ $text('nombre', $especialidad->nombre) }}" aria-describedby="nombre-help{{ $errors->has('nombre') ? ' nombre-error' : '' }}" @error('nombre') aria-invalid="true" @enderror>
                 <small id="nombre-help">Por ejemplo, Cardiología o Medicina General.</small>
                 @error('nombre')<small class="specialty-field-error" id="nombre-error">{{ $message }}</small>@enderror
+            </div>
+            <div class="field specialty-wide">
+                <label for="tarifa_consulta">Tarifa de consulta (Bs)</label>
+                <input id="tarifa_consulta" name="tarifa_consulta" type="text" inputmode="decimal" maxlength="9" placeholder="Ej. 150.00" value="{{ $text('tarifa_consulta', $especialidad->consultationFee()) }}" aria-describedby="tarifa-help{{ $errors->has('tarifa_consulta') ? ' tarifa-error' : '' }}" @error('tarifa_consulta') aria-invalid="true" @enderror>
+                <small id="tarifa-help">Bolivianos (BOB). Usa punto decimal y hasta dos decimales, sin separadores de miles. Déjala vacía si aún no está definida; esto no significa que la consulta sea gratuita. Configurar la tarifa todavía no habilita los cobros en línea.</small>
+                @error('tarifa_consulta')<small class="specialty-field-error" id="tarifa-error">{{ $message }}</small>@enderror
             </div>
             <div class="field specialty-wide">
                 <label for="descripcion">Descripción (opcional)</label>

@@ -19,8 +19,8 @@ class RolesPermisosTest extends TestCase
         DB::table('permisos')->where('codigo', 'usuarios.gestionar')->update(['activo' => false]);
         $this->seed(RolesPermisosSeeder::class);
         $this->assertDatabaseCount('roles', 4);
-        $this->assertDatabaseCount('permisos', 8);
-        $this->assertDatabaseCount('rol_permiso', 10);
+        $this->assertDatabaseCount('permisos', 12);
+        $this->assertDatabaseCount('rol_permiso', 14);
         $this->assertDatabaseHas('permisos', ['codigo' => 'usuarios.gestionar', 'activo' => false]);
         $this->assertDatabaseCount('usuarios', 0);
     }

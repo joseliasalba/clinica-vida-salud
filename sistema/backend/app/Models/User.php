@@ -41,6 +41,14 @@ class User extends Authenticatable implements MustVerifyEmailContract
         return $this->correo;
     }
 
+    public function cumpleVerificacionParaAcceso(): bool
+    {
+        return $this->hasVerifiedEmail()
+            || (app()->environment('local')
+                && config('seguridad.omitir_verificacion_local', false)
+                && ! config('seguridad.despliegue_vercel', false));
+    }
+
     public function tienePermiso(string $codigo): bool
     {
         if (! $this->activo) {

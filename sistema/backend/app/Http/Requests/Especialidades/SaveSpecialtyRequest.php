@@ -16,7 +16,7 @@ class SaveSpecialtyRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        foreach (['nombre', 'descripcion'] as $field) {
+        foreach (['nombre', 'descripcion', 'tarifa_consulta'] as $field) {
             if (is_string($this->input($field))) {
                 $value = $field === 'nombre' ? Str::squish($this->input($field)) : trim($this->input($field));
                 $this->merge([$field => $value === '' ? null : $value]);
@@ -44,6 +44,7 @@ class SaveSpecialtyRequest extends FormRequest
                 }
             }],
             'descripcion' => ['nullable', 'string', 'max:255'],
+            'tarifa_consulta' => ['bail', 'nullable', 'string', 'regex:/\A(?:0|[1-9][0-9]{0,5})(?:\.[0-9]{1,2})?\z/', 'numeric', 'gt:0'],
             'version' => [$this->route('especialidad') ? 'required' : 'nullable', 'string', 'size:64'],
         ];
     }
@@ -53,6 +54,8 @@ class SaveSpecialtyRequest extends FormRequest
     {
         return [
             'nombre.required' => 'Ingresa el nombre de la especialidad.',
+            'tarifa_consulta.regex' => 'Ingresa un importe de 0.01 a 999999.99 Bs, con punto decimal y sin separadores de miles.',
+            'tarifa_consulta.gt' => 'La tarifa debe ser mayor que cero; deja el campo vacío si todavía no está definida.',
             'string' => 'Ingresa un texto válido.',
             'max' => 'El valor ingresado no puede superar los 255 caracteres.',
             'version.required' => 'Recarga la especialidad antes de guardar los cambios.',

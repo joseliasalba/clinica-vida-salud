@@ -65,7 +65,7 @@ class CitaMedica extends Model
     public function estadoLabel(): string
     {
         return match ($this->estado) {
-            'programada' => 'Programada', 'confirmada' => 'Confirmada',
+            'programada' => 'Programada', 'confirmada' => 'Confirmada', 'pendiente_pago' => 'Pendiente de pago',
             'en_curso' => 'En atención', 'completada', 'atendida' => 'Atendida',
             'cancelada' => 'Cancelada', 'inasistencia' => 'Inasistencia',
             default => 'Estado no reconocido',

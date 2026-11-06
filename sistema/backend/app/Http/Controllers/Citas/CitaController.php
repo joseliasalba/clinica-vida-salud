@@ -9,6 +9,7 @@ use App\Models\CitaMedica;
 use App\Models\Especialidad;
 use App\Models\Medico;
 use App\Models\Paciente;
+use App\Models\PagoConsulta;
 use App\Services\Citas\AppointmentAvailability;
 use App\Services\Citas\AppointmentBooking;
 use Illuminate\Http\RedirectResponse;
@@ -32,7 +33,7 @@ class CitaController extends Controller
     public function index(FindAppointmentRequest $request, AppointmentAvailability $availability, AppointmentBooking $booking): View|RedirectResponse
     {
         $manager = $request->user()->tienePermiso('citas.gestionar');
-        if (! $manager && ! $request->user()->hasVerifiedEmail()) {
+        if (! $manager && ! $request->user()->cumpleVerificacionParaAcceso()) {
             return redirect()->route('verification.notice');
         }
         $filters = $request->validated();
@@ -66,7 +67,7 @@ class CitaController extends Controller
 
     public function review(FindAppointmentRequest $request, AppointmentBooking $booking): View|RedirectResponse
     {
-        if (! $request->user()->tienePermiso('citas.gestionar') && ! $request->user()->hasVerifiedEmail()) {
+        if (! $request->user()->tienePermiso('citas.gestionar') && ! $request->user()->cumpleVerificacionParaAcceso()) {
             return redirect()->route('verification.notice');
         }
 
@@ -85,13 +86,25 @@ class CitaController extends Controller
             return redirect()->route('citas.index')->withErrors($exception->errors());
         }
 
+        $payment = PagoConsulta::query()->where('cita_id', $appointment->id)->first();
+        if ($payment) {
+            return redirect()->route('pagos.show', $payment)->with('status', 'Cupo retenido temporalmente. Completa el pago para confirmar la cita.');
+        }
+
         return redirect()->route('citas.receipt', $appointment)->with('status', 'Reserva registrada correctamente.');
     }
 
-    public function receipt(Request $request, CitaMedica $cita): View
+    public function receipt(Request $request, CitaMedica $cita): View|RedirectResponse
     {
         $manager = $request->user()->tienePermiso('citas.gestionar');
         abort_unless($manager || ($request->user()->tienePermiso('citas.propias') && $cita->paciente()->where('usuario_id', $request->user()->id)->exists()), 403);
+
+        if ($cita->estado === 'pendiente_pago') {
+            $payment = PagoConsulta::query()->where('cita_id', $cita->id)->firstOrFail();
+            abort_if($manager, 409, 'Esta cita está pendiente de pago.');
+
+            return redirect()->route('pagos.show', $payment);
+        }
 
         return view('citas.receipt', ['cita' => $cita->load(['paciente', 'medico', 'especialidad'])]);
     }
