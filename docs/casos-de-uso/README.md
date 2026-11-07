@@ -26,8 +26,8 @@ Los códigos CU son propios del proyecto y no sustituyen los RF del enunciado. C
 | CU-16 | Solicitar estudios y consultar/publicar resultados | Médico solicitante / paciente vinculado | Contexto de continuidad y decisión del equipo | 2 |
 | CU-17 | Gestionar preferencias y recordatorios | Paciente / proceso programado | Perfil paciente | 2 |
 | CU-18 | Pagar una consulta en línea | Paciente / pasarela de pago | Ampliación acordada por el equipo | Por definir |
-| CU-19 | Gestionar reembolsos de consultas | Paciente / personal autorizado / pasarela | Ampliación acordada por el equipo | Implementado en local; publicación y prueba visual pendientes |
-| CU-20 | Recibir aviso de resultados de laboratorio disponibles | Paciente / servicio de correo | Ampliación acordada por el equipo | Por definir |
+| CU-19 | Gestionar reembolsos de consultas | Paciente / personal autorizado / pasarela | Ampliación acordada por el equipo | Publicado; prueba integral en nube pendiente |
+| CU-20 | Recibir aviso de resultados de laboratorio disponibles | Paciente / servicio de correo | Ampliación acordada por el equipo | Implementado; entrega real pendiente de verificación |
 | CU-21 | Inscribirse en una lista de espera para citas | Paciente / recepción | Ampliación acordada por el equipo | Por definir |
 | CU-22 | Registrar llegada y consultar turno de atención | Paciente / recepción / médico | Ampliación acordada por el equipo | Por definir |
 
@@ -70,7 +70,7 @@ La copia integra el autorregistro CU-03, la portada pública, el menú lateral, 
 - Resultado: descripción o PDF de hasta 2 MB. El borrador solo es visible para el médico solicitante. Publicar identifica al usuario y la fecha; retirar exige motivo, oculta inmediatamente el resultado al paciente y devuelve el estudio a «en proceso» para corregirlo. Un resultado publicado no se sobrescribe directamente.
 - Acceso a archivos mediante controlador autenticado; el disco `estudios` no tiene URL pública. Las rutas no aceptan una ruta de archivo suministrada por el cliente.
 - Cambios transaccionales con bloqueo de solicitud, comprobación de formulario vigente, un resultado por solicitud y registro en `eventos_estudio`. Si falla una carga, se revierte la operación y se elimina el archivo nuevo.
-- **PENDIENTE CU-20:** los correos que avisan resultados disponibles. CU-16 no envía esos avisos.
+- **CU-20:** los correos de resultados disponibles requieren consentimiento independiente y correo verificado.
 
 **Contrato con CU-15:** se conservan las tablas `consultas_medicas`, `historias_clinicas` y `citas_medicas`; este módulo no crea consultas ni modifica su flujo. CU-15 puede enlazar con `route('estudios.create', ['consulta_id' => $consulta->id])`. La autorización se verifica nuevamente al guardar. Sin consultas registradas, la pantalla muestra un estado vacío; no se crean atenciones ficticias en la base de desarrollo.
 
@@ -110,7 +110,7 @@ Durante el desarrollo se probaron notificaciones simuladas y se ejecutó la simu
 
 **Tarifas:** importe opcional en bolivianos en creación/edición y listado de especialidades. Se guarda como entero de centavos, entre 0.01 y 999999.99 Bs, sin floats. Vacío significa sin configurar, nunca gratuito. Las especialidades existentes conservan tarifa nula; hay que configurar el precio antes de reservar con pago. El permiso `medicos.gestionar` controla la edición y cada cambio deja actor, fecha y valores anterior/nuevo en `cambios_tarifa_especialidad`. La reserva guarda una copia del precio; un cambio posterior no modifica el importe pendiente.
 
-**QR con revisión manual (implementación local):** el administrador autorizado puede cargar una imagen PNG o JPEG de hasta 2 MB; se guarda en PostgreSQL y cada pago conserva la versión seleccionada. El paciente informa un número de operación y recepción verifica por separado en la cuenta bancaria el importe y el destinatario antes de aprobar o rechazar. El reporte por sí solo no confirma la cita. Una vez reportado, el cupo permanece retenido hasta la revisión; un reporte tardío cuyo cupo se liberó queda en revisión, sin volver a ocuparlo. No se permite cambiar entre Stripe y QR después de iniciar un método y los números de operación no pueden duplicarse. Un QR asociado a una cuenta personal puede recibir dinero real. Pendiente cargar la imagen del usuario y publicar esta versión y su migración en la nube.
+**QR con revisión manual:** el administrador autorizado puede cargar una imagen PNG o JPEG de hasta 2 MB; se guarda en PostgreSQL y cada pago conserva la versión seleccionada. El paciente informa un número de operación y recepción verifica por separado en la cuenta bancaria el importe y el destinatario antes de aprobar o rechazar. El reporte por sí solo no confirma la cita. Una vez reportado, el cupo permanece retenido hasta la revisión; un reporte tardío cuyo cupo se liberó queda en revisión, sin volver a ocuparlo. No se permite cambiar entre Stripe y QR después de iniciar un método y los números de operación no pueden duplicarse. Un QR asociado a una cuenta personal puede recibir dinero real. El código y su migración se publicaron en Vercel y Neon; queda pendiente cargar el QR y una prueba funcional en la nube.
 
 **Flujo implementado:** con `PAGOS_HABILITADOS=true`, las nuevas reservas del paciente quedan en `pendiente_pago`. El cupo se conserva mediante los bloqueos de médico/paciente y las restricciones de solapamiento existentes. Hay 30 minutos para iniciar Checkout; al iniciarlo por primera vez se fija un plazo de 31 minutos, compatible con su mínimo de expiración y el tiempo de red. Los reintentos conservan el mismo cuerpo y clave de idempotencia. La reserva solo se confirma con una respuesta de Stripe que coincida en sesión, referencia, moneda BOB, importe y modo de prueba. El retorno del navegador no acredita un pago. Las reservas de recepción y las anteriores no se cobran retroactivamente.
 
@@ -120,7 +120,7 @@ Durante el desarrollo se probaron notificaciones simuladas y se ejecutó la simu
 
 **Verificación (06/11/2026):** pruebas de pagos, concurrencia, reservas, navegación y estructura adaptable: 53 aprobadas, 1307 aserciones y una prueba externa omitida en la ejecución ordinaria. La prueba externa se ejecutó por separado contra Stripe sandbox y aprobó 9 aserciones: autenticación, creación en BOB, repetición idempotente, consulta y expiración de Checkout. No se completó todavía un pago interactivo con tarjeta ni la generación real del comprobante. Revisión general: 339 aprobadas, una omitida y un fallo previo de deadlock en la prueba SQL concurrente de horarios. Pint y compilación frontend aprobados; migración local de pagos aplicada.
 
-**Estado en la nube:** Stripe sandbox, el webhook de Checkout, las migraciones anteriores y una conciliación periódica mediante GitHub Actions ya están configurados. Se completó una reserva y un pago de prueba en Vercel. La conciliación revisa un pago por ejecución cada cinco minutos y puede retrasarse; no garantiza liberación inmediata. CU-16 todavía utiliza almacenamiento privado local y requiere adaptar su disco antes de cargar estudios en Vercel. El QR y CU-19 siguen pendientes de publicación y migración en la nube. La geometría móvil y el zoom de las pantallas nuevas quedan pendientes de inspección visual.
+**Estado en la nube:** Stripe sandbox, el webhook de Checkout y devoluciones, las migraciones hasta CU-19 y una conciliación periódica mediante GitHub Actions ya están configurados. Se completó una reserva y un pago de prueba en Vercel. La conciliación revisa un pago por ejecución cada cinco minutos y puede retrasarse; no garantiza liberación inmediata. CU-16 todavía utiliza almacenamiento privado local y requiere adaptar su disco antes de cargar estudios en Vercel. La geometría móvil y el zoom de las pantallas nuevas quedan pendientes de inspección visual.
 
 ## CU-19: gestión de reembolsos
 
@@ -128,7 +128,15 @@ Durante el desarrollo se probaron notificaciones simuladas y se ejecutó la simu
 
 **Implementación local:** cada solicitud guarda pago, importe, motivo, solicitante y eventos de auditoría; un índice impide solicitudes activas duplicadas. La aprobación requiere rol administrador activo y permiso efectivo. Para QR, el registro de devolución exige confirmación y una referencia de operación; no ejecuta una transferencia. Para Stripe, exclusivamente sandbox, la aprobación y la ejecución son pasos separados; el intento usa idempotencia estable, comprueba importe, moneda, transacción y estado en Stripe y conserva los intentos inciertos para consulta. El sistema acepta eventos firmados `refund.created`, `refund.updated` y `refund.failed`, y permite consultar manualmente el intento.
 
-**Pendiente para la nube:** publicar ambos casos y aplicar sus migraciones; añadir los tres eventos de devolución al webhook Stripe de prueba y verificar una devolución completa en el despliegue. La implementación QR no verifica transferencias por sí sola, no ejecuta devoluciones bancarias y puede recibir dinero real si se configura una cuenta personal.
+**Pendiente para la nube:** verificar una devolución completa desde el despliegue. El webhook de Stripe sandbox incluye los tres eventos de devolución. La implementación QR no verifica transferencias por sí sola, no ejecuta devoluciones bancarias y puede recibir dinero real si se configura una cuenta personal.
+
+## CU-20: avisos de resultados
+
+**Decisión del usuario:** solo se envían cuando el paciente activa esta preferencia; requiere un correo verificado. La preferencia es independiente de los recordatorios de citas y se aplica a publicaciones posteriores a la activación.
+
+**Implementación:** la publicación encola el aviso en la misma transacción. El procesamiento comprueba nuevamente la vinculación del paciente, correo verificado, permisos, consentimiento y vigencia de la publicación; omite avisos de resultados retirados o sustituidos. El correo es genérico y enlaza al acceso de la cuenta sin incluir datos clínicos. Una reserva atómica impide envíos duplicados; los fallos y resultados inciertos no se reintentan automáticamente. Log y array se identifican como simulación.
+
+**Operación:** la tarea de GitHub está preparada para una ejecución cada cinco minutos y procesa como máximo un aviso por ejecución; puede sufrir retrasos. La entrega real de CU-20 debe verificarse. CU-16 necesita almacenamiento persistente para archivos adjuntos en Vercel.
 
 ## Convenciones de documentación
 

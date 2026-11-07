@@ -18,6 +18,7 @@ class SaveReminderPreferencesRequest extends FormRequest
             'recordatorios_activos' => ['required', 'boolean'],
             'anticipacion_horas' => ['required', 'integer', Rule::in([2, 24, 48])],
             'incluir_detalles' => ['required', 'boolean'],
+            'avisos_resultados_activos' => ['sometimes', 'required', 'boolean'],
             'version' => ['required', 'string', 'size:64'],
         ];
     }

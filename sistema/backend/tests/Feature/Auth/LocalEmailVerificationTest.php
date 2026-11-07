@@ -10,6 +10,7 @@ use App\Services\Recordatorios\ReminderManagement;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\HttpFoundation\Request;
 use Tests\Support\CreatesAdministrativeUsers;
 use Tests\Support\CreatesAppointments;
 use Tests\TestCase;
@@ -17,6 +18,12 @@ use Tests\TestCase;
 class LocalEmailVerificationTest extends TestCase
 {
     use CreatesAdministrativeUsers, CreatesAppointments, DatabaseTransactions;
+
+    protected function tearDown(): void
+    {
+        Request::setTrustedHosts([]);
+        parent::tearDown();
+    }
 
     public function test_bypass_requires_local_environment_an_explicit_flag_and_no_vercel_deployment(): void
     {

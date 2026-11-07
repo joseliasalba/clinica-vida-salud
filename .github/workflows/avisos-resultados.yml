@@ -1,0 +1,28 @@
+name: Procesar avisos de resultados
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: avisos-resultados
+  cancel-in-progress: false
+
+jobs:
+  procesar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Procesar un aviso
+        env:
+          AVISOS_TOKEN: ${{ secrets.AVISOS_RESULTADOS_SECRET }}
+        run: |
+          test -n "$AVISOS_TOKEN"
+          curl --fail --silent --show-error --max-time 65 \
+            --request POST \
+            --header "Authorization: Bearer $AVISOS_TOKEN" \
+            --header 'Accept: application/json' \
+            https://clinica-vida-salud-five.vercel.app/interno/avisos-resultados

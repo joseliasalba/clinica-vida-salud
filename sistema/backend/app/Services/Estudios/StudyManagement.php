@@ -124,7 +124,13 @@ class StudyManagement
                     'fecha_publicacion' => $published ? now() : null,
                 ]);
                 $study->update(['estado' => $published ? 'completado' : 'en_proceso']);
-                $this->audit($study, $actor, $published ? 'PUBLICAR' : 'GUARDAR_BORRADOR');
+                $eventId = $this->audit($study, $actor, $published ? 'PUBLICAR' : 'GUARDAR_BORRADOR');
+                if ($published) {
+                    $patientId = $this->consultations()->where('cm.id', $study->consulta_id)->first()?->paciente_id;
+                    if ($patientId) {
+                        app(ResultNotificationManagement::class)->enqueue($study, $eventId, (int) $patientId);
+                    }
+                }
 
                 return $study;
             });
@@ -165,9 +171,9 @@ class StudyManagement
         }
     }
 
-    private function audit(SolicitudEstudio $study, User $actor, string $action, ?string $reason = null): void
+    private function audit(SolicitudEstudio $study, User $actor, string $action, ?string $reason = null): int
     {
-        DB::table('eventos_estudio')->insert([
+        return DB::table('eventos_estudio')->insertGetId([
             'solicitud_id' => $study->id, 'usuario_id' => $actor->id, 'accion' => $action,
             'motivo' => $reason, 'fecha' => now(),
         ]);

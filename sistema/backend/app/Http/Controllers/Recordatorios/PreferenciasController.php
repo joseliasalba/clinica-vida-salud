@@ -22,10 +22,12 @@ class PreferenciasController extends Controller
         $history = DB::table('recordatorios_cita as r')->join('citas_medicas as c', 'c.id', '=', 'r.cita_id')
             ->where('c.paciente_id', $patient->id)->select(['r.id', 'r.estado', 'r.fecha_programada', 'r.fecha_envio', 'r.inicio_cita', 'c.codigo'])
             ->orderByDesc('r.id')->paginate(10);
+        $resultHistory = DB::table('avisos_resultados')->where('paciente_id', $patient->id)
+            ->where('usuario_id', $request->user()->id)->orderByDesc('id')->limit(20)->get();
 
         return view('recordatorios.edit', [
             'preferences' => $preferences, 'version' => $this->reminders->version($preferences),
-            'details' => $this->reminders->details($preferences), 'history' => $history,
+            'details' => $this->reminders->details($preferences), 'history' => $history, 'resultHistory' => $resultHistory,
         ]);
     }
 

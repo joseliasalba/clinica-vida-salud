@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Estudios\EstudioController;
+use App\Http\Controllers\Estudios\ProcesarAvisosController;
 use App\Http\Middleware\ProtectSession;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/interno/avisos-resultados', ProcesarAvisosController::class)->name('estudios.avisos.procesar');
 
 Route::middleware([ProtectSession::class, 'auth'])->prefix('estudios')->name('estudios.')->group(function (): void {
     Route::get('/', [EstudioController::class, 'index'])->name('index');

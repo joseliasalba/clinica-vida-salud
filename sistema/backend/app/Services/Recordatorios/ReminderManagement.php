@@ -39,6 +39,7 @@ class ReminderManagement
         return hash_hmac('sha256', json_encode([
             $preferences?->paciente_id, (bool) ($preferences?->recordatorios_activos ?? false),
             $preferences?->canal_preferido, $preferences?->anticipacion_horas ?? 24,
+            (bool) ($preferences?->avisos_resultados_activos ?? false),
             $preferences?->preferencias_privacidad,
         ], JSON_THROW_ON_ERROR), (string) config('app.key'));
     }
@@ -63,6 +64,7 @@ class ReminderManagement
                 'recordatorios_activos' => (bool) $data['recordatorios_activos'],
                 'canal_preferido' => 'email', 'anticipacion_horas' => $data['anticipacion_horas'],
                 'preferencias_privacidad' => json_encode($privacy, JSON_THROW_ON_ERROR),
+                'avisos_resultados_activos' => (bool) ($data['avisos_resultados_activos'] ?? $preferences?->avisos_resultados_activos ?? false),
             ]);
         });
     }
