@@ -3,12 +3,15 @@
 use App\Http\Controllers\Citas\CitaController;
 use App\Http\Controllers\Citas\GestionCitaController;
 use App\Http\Controllers\Citas\ListaEsperaController;
+use App\Http\Controllers\Citas\TurnoController;
 use App\Http\Middleware\ProtectSession;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/reservar', [CitaController::class, 'entry'])->name('citas.entry');
 
 Route::middleware([ProtectSession::class, 'auth'])->group(function (): void {
+    Route::get('/turnos-atencion', [TurnoController::class, 'index'])->name('turnos.index');
+    Route::post('/citas/{cita}/llegada', [TurnoController::class, 'store'])->whereNumber('cita')->name('turnos.llegada');
     Route::get('/lista-espera', [ListaEsperaController::class, 'index'])->name('lista-espera.index');
     Route::post('/lista-espera', [ListaEsperaController::class, 'store'])->middleware('throttle:20,1')->name('lista-espera.store');
     Route::post('/lista-espera/{solicitud}', [ListaEsperaController::class, 'update'])->whereNumber('solicitud')->name('lista-espera.update');

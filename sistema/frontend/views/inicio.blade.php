@@ -29,7 +29,7 @@
                     @elseif($codigo === 'agenda.propia')
                         <p>Registra la atención o inasistencia de tus citas.</p><a class="button primary" href="{{ route('citas.gestion') }}">Registrar asistencia ↗</a>
                     @elseif($codigo === 'citas.propias')
-                        <p>Consulta las fechas y los estados de tus citas registradas.</p><a class="button primary" href="{{ route('historial.index') }}">Ver mi historial ↗</a><a class="button secondary" href="{{ route('citas.index') }}">Reservar cita</a>
+                        <p>Consulta las fechas y los estados de tus citas registradas.</p><a class="button primary" href="{{ route('historial.index') }}">Ver mi historial ↗</a><a class="button secondary" href="{{ route('turnos.index') }}">Mi turno de hoy</a><a class="button secondary" href="{{ route('citas.index') }}">Reservar cita</a>
                     @else
                         <p>Este servicio estará disponible próximamente.</p><span class="badge">Próximamente</span>
                     @endif

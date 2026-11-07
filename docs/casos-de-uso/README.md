@@ -29,7 +29,7 @@ Los códigos CU son propios del proyecto y no sustituyen los RF del enunciado. C
 | CU-19 | Gestionar reembolsos de consultas | Paciente / personal autorizado / pasarela | Ampliación acordada por el equipo | Publicado; prueba integral en nube pendiente |
 | CU-20 | Recibir aviso de resultados de laboratorio disponibles | Paciente / servicio de correo | Ampliación acordada por el equipo | Implementado; entrega real pendiente de verificación |
 | CU-21 | Inscribirse en una lista de espera para citas | Paciente / recepción | Ampliación acordada por el equipo | Implementado; verificación integral en nube pendiente |
-| CU-22 | Registrar llegada y consultar turno de atención | Paciente / recepción / médico | Ampliación acordada por el equipo | Por definir |
+| CU-22 | Registrar llegada y consultar turno de atención | Paciente / recepción / médico | Ampliación acordada por el equipo | Implementado; verificación integral en nube pendiente |
 
 La asignación por ciclo es propuesta, porque el plan detallado del ZIP no se ha podido leer. El bloqueo de citas duplicadas y la autorización son reglas transversales, no pasos opcionales de la interfaz.
 
@@ -141,6 +141,10 @@ Durante el desarrollo se probaron notificaciones simuladas y se ejecutó la simu
 ## CU-21: lista de espera
 
 El paciente o recepción puede registrar una solicitud para una especialidad, fecha y médico opcional desde la consulta de turnos sin resultados. No se reserva un cupo ni se genera un pago. Recepción consulta las solicitudes por orden de inscripción, revisa manualmente la disponibilidad, contacta al paciente y registra el estado; la reserva sigue el flujo habitual. El paciente solo consulta o cancela sus propias solicitudes. Se evita más de una solicitud activa por paciente, especialidad y fecha. Las solicitudes de fechas pasadas se consultan filtrando por estado. No hay avisos ni asignación automáticos y la reserva no cierra automáticamente la solicitud.
+
+## CU-22: llegada y turnos de atención
+
+Recepción registra la llegada para citas vigentes del día que no tengan pagos sin confirmar. Se guarda el responsable y un evento en el historial; un cambio de hora o de médico invalida la llegada anterior. El paciente ve solo su propia cita y el número orientativo de personas registradas antes para el mismo médico; cada médico ve solo su lista y recepción puede consultar todas. La lista se actualiza al recargar, se ordena por llegada y no garantiza el orden clínico definitivo. La atención sigue utilizando los estados de citas existentes.
 
 ## Convenciones de documentación
 

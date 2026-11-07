@@ -18,6 +18,9 @@
     <x-table-cell column="fecha">{{ $cita->inicio->format('d/m/Y H:i') }}–{{ $cita->fin->format('H:i') }}</x-table-cell>
     <x-table-cell column="estado"><span class="state cita-state-{{ $cita->estado }}">{{ $cita->estadoLabel() }}</span></x-table-cell>
     <x-table-cell column="acciones"><div class="citas-actions">
+        @if($canManage && in_array($cita->estado, ['programada','confirmada'], true) && $cita->inicio->isSameDay(now('America/La_Paz')))
+            <form method="POST" action="{{ route('turnos.llegada', $cita) }}">@csrf<input type="hidden" name="version" value="{{ $cita->editVersion() }}"><button class="button secondary" type="submit">Registrar llegada</button></form>
+        @endif
         @if($canManage)<a class="table-action" href="{{ route('pacientes.historial', $cita->paciente_id) }}">Historial</a>@endif
         @if($canManage && in_array($cita->estado, ['programada','confirmada'], true))
             <a class="table-action" href="{{ route('citas.reprogramar.edit', $cita) }}">Reprogramar</a><a class="table-action" href="{{ route('citas.cancelar.edit', $cita) }}">Cancelar</a>
