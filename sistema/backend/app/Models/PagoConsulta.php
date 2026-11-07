@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PagoConsulta extends Model
 {
@@ -26,6 +27,11 @@ class PagoConsulta extends Model
         return $this->belongsTo(CitaMedica::class, 'cita_id');
     }
 
+    public function reembolsos(): HasMany
+    {
+        return $this->hasMany(ReembolsoConsulta::class, 'pago_id');
+    }
+
     public function getRouteKeyName(): string
     {
         return 'codigo';
@@ -43,6 +49,9 @@ class PagoConsulta extends Model
             'pendiente' => 'Pendiente de pago', 'procesando' => 'Pago en proceso',
             'pagado' => 'Pagado', 'vencido' => 'Reserva liberada',
             'revision' => 'Pago recibido: requiere revisión',
+            'qr_pendiente' => 'Esperando reporte del pago QR',
+            'qr_revision' => 'Pago QR pendiente de revisión',
+            'qr_rechazado' => 'Reporte de pago QR rechazado',
             default => 'Revisar estado',
         };
     }

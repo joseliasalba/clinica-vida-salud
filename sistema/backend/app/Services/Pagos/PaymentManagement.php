@@ -40,6 +40,9 @@ class PaymentManagement
         $this->authorize($actor, $payment);
         $payment = DB::transaction(function () use ($payment): PagoConsulta {
             $payment = PagoConsulta::query()->lockForUpdate()->findOrFail($payment->id);
+            if ($payment->metodo === 'qr') {
+                throw ValidationException::withMessages(['pago' => 'Este pago ya utiliza QR.']);
+            }
             if ($payment->estado !== 'nuevo') {
                 return $payment;
             }
@@ -64,6 +67,7 @@ class PaymentManagement
                 'success_url' => route('pagos.show', $payment),
                 'cancel_url' => route('pagos.show', $payment),
             ];
+            $payment->metodo = 'stripe';
             $payment->estado = 'incierto';
             $payment->save();
 
@@ -83,6 +87,9 @@ class PaymentManagement
     public function refresh(PagoConsulta $payment): PagoConsulta
     {
         $payment->refresh();
+        if ($payment->metodo === 'qr') {
+            return app(ManualQrPayment::class)->expire($payment);
+        }
         if ($payment->stripe_session_id) {
             $session = $this->gateway->retrieve($payment->stripe_session_id);
             if (($session['status'] ?? '') === 'open' && $payment->vence_en->isPast()) {
@@ -115,6 +122,11 @@ class PaymentManagement
         if (($event['livemode'] ?? null) !== false || isset($event['account'])) {
             throw new RuntimeException('Evento fuera del sandbox directo.');
         }
+        if (in_array($event['type'] ?? '', ['refund.created', 'refund.updated', 'refund.failed'], true)) {
+            app(RefundManagement::class)->stripeEvent($event);
+
+            return;
+        }
         if (! in_array($event['type'] ?? '', ['checkout.session.completed', 'checkout.session.expired', 'checkout.session.async_payment_succeeded', 'checkout.session.async_payment_failed'], true)) {
             return;
         }
@@ -131,7 +143,7 @@ class PaymentManagement
 
     public function apply(PagoConsulta $original, array $session, ?string $eventId = null): PagoConsulta
     {
-        if (($session['livemode'] ?? null) !== false || ($session['mode'] ?? '') !== 'payment'
+        if ($original->metodo === 'qr' || ($session['livemode'] ?? null) !== false || ($session['mode'] ?? '') !== 'payment'
             || ! in_array($session['status'] ?? '', ['open', 'complete', 'expired'], true)
             || ($session['metadata']['pago_codigo'] ?? '') !== $original->codigo
             || ($session['client_reference_id'] ?? '') !== $original->codigo
@@ -147,6 +159,9 @@ class PaymentManagement
             Paciente::query()->lockForUpdate()->findOrFail($appointment->paciente_id);
             $appointment = CitaMedica::query()->lockForUpdate()->findOrFail($appointment->id);
             $payment = PagoConsulta::query()->lockForUpdate()->findOrFail($original->id);
+            if ($payment->metodo === 'qr') {
+                throw new RuntimeException('El pago utiliza otro método.');
+            }
             if ($payment->stripe_session_id && $payment->stripe_session_id !== $session['id']) {
                 throw new RuntimeException('Sesión de pago distinta de la registrada.');
             }

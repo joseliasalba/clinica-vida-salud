@@ -24,7 +24,7 @@ class ReconcilePayments extends Command
         }
         $processed = 0;
         $failed = 0;
-        $rows = PagoConsulta::query()->whereIn('estado', ['nuevo', 'incierto', 'pendiente', 'procesando'])
+        $rows = PagoConsulta::query()->whereIn('estado', ['nuevo', 'incierto', 'pendiente', 'procesando', 'qr_pendiente'])
             ->orderBy('updated_at')->limit($limit)->get();
         foreach ($rows as $payment) {
             try {

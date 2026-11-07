@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Pagos;
 
 use App\Http\Controllers\Controller;
 use App\Models\PagoConsulta;
+use App\Services\Pagos\ManualQrPayment;
 use App\Services\Pagos\PaymentManagement;
+use App\Services\Pagos\RefundManagement;
 use App\Services\Pagos\StripeGateway;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -27,11 +29,15 @@ class PagoController extends Controller
         return view('pagos.index', ['pagos' => $payments]);
     }
 
-    public function show(Request $request, PagoConsulta $pago, PaymentManagement $payments): View
+    public function show(Request $request, PagoConsulta $pago, PaymentManagement $payments, ManualQrPayment $manual, RefundManagement $refunds): View
     {
         $payments->authorize($request->user(), $pago);
 
-        return view('pagos.show', ['pago' => $pago->load('cita.especialidad')]);
+        $pago->load(['cita.especialidad', 'reembolsos']);
+
+        return view('pagos.show', ['pago' => $pago, 'qrDisponible' => (bool) $manual->activeQr(),
+            'puedeSolicitarReembolso' => $pago->metodo !== 'qr' && $refunds->canRequest($pago) && ! $pago->reembolsos->contains(fn ($r) => $r->estado !== 'rechazado'),
+            'solicitarQrEnRecepcion' => $pago->metodo === 'qr' && $refunds->canRequest($pago) && ! $pago->reembolsos->contains(fn ($r) => $r->estado !== 'rechazado')]);
     }
 
     public function start(Request $request, PagoConsulta $pago, PaymentManagement $payments): RedirectResponse

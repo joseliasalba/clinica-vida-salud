@@ -235,7 +235,7 @@ class PaymentManagementTest extends TestCase
     {
         $payment = $this->payment();
         $this->loginOwner($payment);
-        $list = $this->get(route('pagos.index'))->assertOk()->assertSee('150.00')->assertSee('no se realizan cobros reales');
+        $list = $this->get(route('pagos.index'))->assertOk()->assertSee('150.00')->assertSee('Stripe es de prueba');
         $detail = $this->get(route('pagos.show', $payment))->assertOk()->assertSee('tarjetas de prueba')->assertSee('150.00');
         if (getenv('PAYMENTS_PREVIEW') === '1') {
             File::ensureDirectoryExists(public_path('build/payments-preview'));

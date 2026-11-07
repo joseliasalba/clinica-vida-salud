@@ -45,6 +45,20 @@ class StripeGateway
         return $this->client()->invoices->retrieve($id, [])->toArray();
     }
 
+    public function createRefund(string $paymentIntent, int $amount, string $code): array
+    {
+        return $this->client()->refunds->create([
+            'payment_intent' => $paymentIntent,
+            'amount' => $amount,
+            'metadata' => ['reembolso_codigo' => $code],
+        ], ['idempotency_key' => 'cu19-'.$code])->toArray();
+    }
+
+    public function retrieveRefund(string $id): array
+    {
+        return $this->client()->refunds->retrieve($id, [])->toArray();
+    }
+
     public function event(string $body, string $signature): array
     {
         $secret = (string) config('pagos.webhook_secret');

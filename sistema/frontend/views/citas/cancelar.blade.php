@@ -26,7 +26,7 @@
             <div><dt>Fecha y hora</dt><dd>{{ $cita->inicio->format('d/m/Y H:i') }} a {{ $cita->fin->format('H:i') }}</dd></div>
             <div><dt>Estado actual</dt><dd>{{ $cita->estadoLabel() }}</dd></div>
         </dl>
-        <p class="panel-description">Al confirmar, la cita quedará cancelada y el horario estará disponible para una nueva reserva. Sus datos y el motivo quedarán registrados en el historial.</p>
+        <p class="panel-description">Al confirmar, la cita quedará cancelada y el horario estará disponible para una nueva reserva. Sus datos y el motivo quedarán registrados en el historial. La cancelación no devuelve el dinero automáticamente; si existe un pago, registra una solicitud de devolución para revisión.</p>
     </section>
     <section class="admin-panel">
         <h2>Motivo de la cancelación</h2>

@@ -6,7 +6,7 @@
 <section class="admin-panel booking-receipt">
     <h2>Datos de la cita</h2>
     @if($requierePago ?? false)
-    <div class="notice">Reserva con pago de prueba. Total: Bs {{ $especialidad->consultationFee() }} (BOB). Al reservar se retiene el cupo temporalmente; la cita solo se confirma después de verificar el pago en Stripe.</div>
+    <div class="notice">Total: Bs {{ $especialidad->consultationFee() }} (BOB). Al reservar se retiene el cupo temporalmente. Puedes pagar con Stripe de prueba o mediante QR si está disponible; la cita se confirma después de verificar el pago.</div>
     @endif
     <dl class="booking-details">
         <div><dt>Paciente</dt><dd>{{ $paciente->nombres }} {{ $paciente->apellidos }} · {{ $paciente->codigo }}</dd></div>

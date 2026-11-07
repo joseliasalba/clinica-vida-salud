@@ -99,9 +99,10 @@ class CitaController extends Controller
         $manager = $request->user()->tienePermiso('citas.gestionar');
         abort_unless($manager || ($request->user()->tienePermiso('citas.propias') && $cita->paciente()->where('usuario_id', $request->user()->id)->exists()), 403);
 
-        if ($cita->estado === 'pendiente_pago') {
-            $payment = PagoConsulta::query()->where('cita_id', $cita->id)->firstOrFail();
-            abort_if($manager, 409, 'Esta cita está pendiente de pago.');
+        $payment = PagoConsulta::query()->where('cita_id', $cita->id)->first();
+        if ($cita->estado === 'pendiente_pago' || ($payment && $payment->estado !== 'pagado')) {
+            abort_if($manager, 409, 'Esta cita no tiene un pago confirmado.');
+            abort_unless($payment, 409, 'No se encontró el pago de esta cita.');
 
             return redirect()->route('pagos.show', $payment);
         }

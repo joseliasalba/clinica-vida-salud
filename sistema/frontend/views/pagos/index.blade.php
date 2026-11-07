@@ -3,7 +3,7 @@
 @section('booking-title', 'Mis pagos.')
 @section('booking-description', 'Consulta el pago y la confirmación de tus citas.')
 @section('booking-content')
-<div class="notice">Entorno de pruebas: no se realizan cobros reales.</div>
+<div class="notice">Stripe es de prueba. Los pagos QR dependen de la cuenta receptora y requieren revisión en recepción.</div>
 <x-responsive-table label="Pagos de mis citas" :columns="['cita'=>'Cita', 'importe'=>'Importe', 'estado'=>'Estado', 'acciones'=>'Acciones']">
 @forelse($pagos as $pago)
 <tr role="row">
