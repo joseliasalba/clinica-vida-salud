@@ -3,6 +3,7 @@
 @section('booking-title', 'Encuentra tu próximo turno.')
 @section('booking-description', 'Elige una especialidad y consulta los horarios disponibles. Consultar un turno no lo aparta.')
 @section('booking-content')
+<p><a href="{{ route('lista-espera.index') }}">Ver lista de espera</a></p>
 <form method="GET" action="{{ route('citas.index') }}" class="admin-editor">
     @if($manager)
     <section class="admin-panel"><h2>Paciente de la reserva</h2><p class="panel-description">Busca una ficha activa por nombre, código o CI. Se muestran hasta 20 coincidencias; precisa la búsqueda si no aparece.</p>
@@ -31,6 +32,17 @@
         <article class="admin-panel booking-slot"><h3>{{ substr($turno['inicio'], 11, 5) }} – {{ substr($turno['fin'], 11, 5) }}</h3><p>{{ $turno['medico'] }}</p><p>{{ \Carbon\CarbonImmutable::parse($turno['inicio'])->format('d/m/Y') }}</p><a class="button secondary" href="{{ route('citas.review', ['especialidad_id' => $filters['especialidad_id'], 'paciente_id' => $paciente->id, 'medico_id' => $turno['medico_id'], 'horario_id' => $turno['horario_id'], 'fecha' => substr($turno['inicio'], 0, 10), 'inicio' => $turno['inicio']]) }}" aria-label="Revisar turno de {{ $turno['medico'] }} a las {{ substr($turno['inicio'], 11, 5) }}">Revisar turno</a></article>
     @empty
         <div class="notice">No hay turnos disponibles con estos filtros. Puede no haber atención programada, existir bloqueos o coincidir con citas del paciente. Prueba otra fecha o médico.</div>
+        @if($paciente)
+        <form method="POST" action="{{ route('lista-espera.store') }}" class="admin-panel">
+            @csrf
+            <input type="hidden" name="paciente_id" value="{{ $paciente->id }}">
+            <input type="hidden" name="especialidad_id" value="{{ $filters['especialidad_id'] }}">
+            <input type="hidden" name="medico_id" value="{{ $filters['medico_id'] ?? '' }}">
+            <input type="hidden" name="fecha" value="{{ $filters['fecha'] ?? now()->toDateString() }}">
+            <h3>Lista de espera</h3><p>Recepción podrá contactarte si hay una opción para la fecha seleccionada. La inscripción no reserva un turno.</p>
+            <button class="button secondary" type="submit">Inscribirse en la lista</button>
+        </form>
+        @endif
     @endforelse
     </div>
 </section>

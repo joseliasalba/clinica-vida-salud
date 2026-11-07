@@ -28,7 +28,7 @@ Los códigos CU son propios del proyecto y no sustituyen los RF del enunciado. C
 | CU-18 | Pagar una consulta en línea | Paciente / pasarela de pago | Ampliación acordada por el equipo | Por definir |
 | CU-19 | Gestionar reembolsos de consultas | Paciente / personal autorizado / pasarela | Ampliación acordada por el equipo | Publicado; prueba integral en nube pendiente |
 | CU-20 | Recibir aviso de resultados de laboratorio disponibles | Paciente / servicio de correo | Ampliación acordada por el equipo | Implementado; entrega real pendiente de verificación |
-| CU-21 | Inscribirse en una lista de espera para citas | Paciente / recepción | Ampliación acordada por el equipo | Por definir |
+| CU-21 | Inscribirse en una lista de espera para citas | Paciente / recepción | Ampliación acordada por el equipo | Implementado; verificación integral en nube pendiente |
 | CU-22 | Registrar llegada y consultar turno de atención | Paciente / recepción / médico | Ampliación acordada por el equipo | Por definir |
 
 La asignación por ciclo es propuesta, porque el plan detallado del ZIP no se ha podido leer. El bloqueo de citas duplicadas y la autorización son reglas transversales, no pasos opcionales de la interfaz.
@@ -137,6 +137,10 @@ Durante el desarrollo se probaron notificaciones simuladas y se ejecutó la simu
 **Implementación:** la publicación encola el aviso en la misma transacción. El procesamiento comprueba nuevamente la vinculación del paciente, correo verificado, permisos, consentimiento y vigencia de la publicación; omite avisos de resultados retirados o sustituidos. El correo es genérico y enlaza al acceso de la cuenta sin incluir datos clínicos. Una reserva atómica impide envíos duplicados; los fallos y resultados inciertos no se reintentan automáticamente. Log y array se identifican como simulación.
 
 **Operación:** la tarea de GitHub está preparada para una ejecución cada cinco minutos y procesa como máximo un aviso por ejecución; puede sufrir retrasos. La entrega real de CU-20 debe verificarse. CU-16 necesita almacenamiento persistente para archivos adjuntos en Vercel.
+
+## CU-21: lista de espera
+
+El paciente o recepción puede registrar una solicitud para una especialidad, fecha y médico opcional desde la consulta de turnos sin resultados. No se reserva un cupo ni se genera un pago. Recepción consulta las solicitudes por orden de inscripción, revisa manualmente la disponibilidad, contacta al paciente y registra el estado; la reserva sigue el flujo habitual. El paciente solo consulta o cancela sus propias solicitudes. Se evita más de una solicitud activa por paciente, especialidad y fecha. Las solicitudes de fechas pasadas se consultan filtrando por estado. No hay avisos ni asignación automáticos y la reserva no cierra automáticamente la solicitud.
 
 ## Convenciones de documentación
 
