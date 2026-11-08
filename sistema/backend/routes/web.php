@@ -16,6 +16,7 @@ Route::middleware('cache.headers:no_store;private;max_age=0')->group(function ()
     require __DIR__.'/asistencia.php';
     require __DIR__.'/historial.php';
     require __DIR__.'/estudios.php';
+    require __DIR__.'/atencion.php';
     require __DIR__.'/recordatorios.php';
     require __DIR__.'/pagos.php';
 
