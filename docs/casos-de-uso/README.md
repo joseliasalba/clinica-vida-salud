@@ -51,14 +51,19 @@ Orden sugerido para comenzar: CU-01, CU-03/CU-04, CU-05, CU-06 y CU-07. El caso 
 | CU-09 | Citas · Lucas | [Especificación](CU-09/especificacion.md) | [Trazabilidad](CU-09/dependencias.md) | [Pruebas](CU-09/pruebas.md) | Cancelación con motivo y auditoría implementada y probada |
 | CU-10 | Citas · Lucas | [Especificación](CU-10/especificacion.md) | [Trazabilidad](CU-10/dependencias.md) | [Pruebas](CU-10/pruebas.md) | Confirmación, atención e inasistencia implementadas y probadas |
 | CU-12 | Citas · Lucas | [Especificación](CU-12/especificacion.md) | [Trazabilidad](CU-12/dependencias.md) | [Pruebas](CU-12/pruebas.md) | Historial con propiedad, filtros y paginación implementado y probado |
-| CU-16 | Estudios | [Alcance e integración](#cu-16-estudios-y-resultados) | [Servicio](../../sistema/backend/app/Services/Estudios/StudyManagement.php) | [Pruebas](../../sistema/backend/tests/Feature/Estudios/StudyManagementTest.php) | Solicitudes, borradores, publicación, retiro y PDF privado implementados; integración con pantallas CU-15 pendiente |
+| CU-13 | Reportes · Lucas | [Especificación](CU-13/especificacion.md) | [Trazabilidad](CU-13/dependencias.md) | [Pruebas](CU-13/pruebas.md) | Reporte filtrado y totales implementados |
+| CU-14 | Pacientes · Lucas | [Especificación](CU-14/especificacion.md) | [Trazabilidad](CU-14/dependencias.md) | [Pruebas](CU-14/pruebas.md) | Perfil propio, salud declarada y contacto implementados |
+| CU-15 | Atención clínica · Lucas | [Especificación](CU-15/especificacion.md) | [Trazabilidad](CU-15/dependencias.md) | [Pruebas](CU-15/pruebas.md) | Consulta y tratamiento de citas propias implementados |
+| CU-16 | Estudios · Lucas | [Especificación](CU-16/especificacion.md) | [Trazabilidad](CU-16/dependencias.md) | [Pruebas](CU-16/pruebas.md) | Solicitudes y resultados integrados con el detalle del CU-15; PDF persistente en Vercel pendiente |
 | CU-17 | Recordatorios | [Alcance y ejecución](#cu-17-preferencias-y-recordatorios) | [Servicio](../../sistema/backend/app/Services/Recordatorios/ReminderManagement.php) | [Pruebas](../../sistema/backend/tests/Feature/Recordatorios/ReminderManagementTest.php) | Preferencias propias, programación y envío por correo implementados; activación del scheduler y entrega real pendientes |
 | CU-18 | Pagos | [Decisiones y Stripe sandbox](#cu-18-pagos-de-consulta-con-stripe-sandbox) | [Tarifas](../../sistema/backend/app/Services/Especialidades/SpecialtyManagement.php) | [Pruebas de tarifas](../../sistema/backend/tests/Feature/Especialidades/SpecialtyFeeTest.php) | Tarifas, retenciones y Checkout sandbox implementados; webhook público y prueba interactiva pendientes |
 
 Reparto vigente de la imagen del 23/10/2026: Elías CU-05/CU-06/CU-07/CU-11; Lucas CU-08/CU-09/CU-10/CU-12. Estos cuatro últimos operan sobre citas existentes y no crean reservas nuevas. Los resultados integrados están en [evidencias Lucas](../pruebas/Lucas/RESULTADOS.md). Se conservan diagramas editables de cuatro páginas por CU en `docs/diagramas/`; la revisión de su apariencia en draw.io y la exportación PNG siguen pendientes.
 
 
-La copia integra el autorregistro CU-03, la portada pública, el menú lateral, la adaptación móvil, CU-05, CU-06, el flujo de disponibilidad/reserva del CU-07, los CU-08/CU-09/CU-10/CU-12 de Lucas y CU-16/CU-17. CU-11 sigue pendiente. Los CU-12 a CU-15 están siendo trabajados por el compañero; estas implementaciones no modifican sus flujos. Los demás casos no incluidos están pendientes de especificación e implementación. Tener tablas o permisos iniciales no significa que esos casos estén terminados.
+En esta rama, Lucas documenta CU-13 a CU-16 sobre la implementación local de `c640f0a`. CU-12 corresponde al ciclo 1 y conserva su documentación existente. Para cada caso del ciclo 2 de esta entrega hay una especificación, trazabilidad, pruebas y seis diagramas editables: casos de uso, comunicación, clases de análisis, secuencia, actividad y navegación.
+
+[CU-13](../diagramas/CU-13.drawio) · [CU-14](../diagramas/CU-14.drawio) · [CU-15](../diagramas/CU-15.drawio) · [CU-16](../diagramas/CU-16.drawio)
 
 ## CU-16: estudios y resultados
 
@@ -72,7 +77,7 @@ La copia integra el autorregistro CU-03, la portada pública, el menú lateral, 
 - Cambios transaccionales con bloqueo de solicitud, comprobación de formulario vigente, un resultado por solicitud y registro en `eventos_estudio`. Si falla una carga, se revierte la operación y se elimina el archivo nuevo.
 - **CU-20:** los correos de resultados disponibles requieren consentimiento independiente y correo verificado.
 
-**Contrato con CU-15:** se conservan las tablas `consultas_medicas`, `historias_clinicas` y `citas_medicas`; este módulo no crea consultas ni modifica su flujo. CU-15 puede enlazar con `route('estudios.create', ['consulta_id' => $consulta->id])`. La autorización se verifica nuevamente al guardar. Sin consultas registradas, la pantalla muestra un estado vacío; no se crean atenciones ficticias en la base de desarrollo.
+**Contrato con CU-15:** se conservan las tablas `consultas_medicas`, `historias_clinicas` y `citas_medicas`. CU-15 registra la consulta y su detalle ofrece «Solicitar estudio» con `route('estudios.create', ['consulta_id' => $consulta->id])` al médico con permiso. CU-16 vuelve a verificar la autorización al guardar. Sin consultas registradas, la pantalla muestra un estado vacío.
 
 Para instalar el módulo en otra copia, ejecutar desde `sistema/backend`:
 
